@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "812983289303",
+    "project_id": "agvisely-5d0c2",
+    "storage_bucket": "agvisely-5d0c2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812983289303:android:5be3caa7cf8fdd4160b792",
+        "android_client_info": {
+          "package_name": "bd.gov.dae.agvisely"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBka_KAM_8cFrQp0he-eiB1qA9jQhog7q8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

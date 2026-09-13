@@ -1,0 +1,139 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../../core/services/localization_string.dart';
+import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/app_drawer.dart';
+import '../../../pest_advisory/presentation/pages/pest_advisory_page.dart';
+import '../../../profile/presentation/pages/profile_page.dart';
+import '../../domen/controllers/home_controller.dart';
+
+/// Root shell after splash. Bottom nav mirrors the Figma home frame:
+/// Home · Pest Advisory · Profile · Menu (Menu opens the drawer).
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final c = Get.put(HomeController(), permanent: true);
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+
+    final tabs = <Widget>[
+      const _HomeDashboard(),
+      const PestAdvisoryPage(),
+      const ProfilePage(),
+    ];
+
+    return Obx(
+      () => Scaffold(
+        key: scaffoldKey,
+        drawer: const AppDrawer(),
+        body: SafeArea(child: tabs[c.navIndex.value.clamp(0, tabs.length - 1)]),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: c.navIndex.value == 3 ? 0 : c.navIndex.value,
+          onTap: (i) {
+            if (i == 3) {
+              scaffoldKey.currentState?.openDrawer();
+            } else {
+              c.changeTab(i);
+            }
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home_outlined),
+              activeIcon: const Icon(Icons.home),
+              label: tr('nav.home'),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.bug_report_outlined),
+              label: tr('nav.pest'),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.person_outline),
+              label: tr('nav.profile'),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.menu),
+              label: tr('nav.menu'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Dashboard body — top bar + weather card + advisory grid + chart + my choice.
+/// Placeholder blocks; build each out from the Figma "home" frame.
+class _HomeDashboard extends StatelessWidget {
+  const _HomeDashboard();
+
+  @override
+  Widget build(BuildContext context) {
+    final c = Get.find<HomeController>();
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Row(
+          children: [
+            const CircleAvatar(radius: 22, child: Icon(Icons.person)),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('${tr('home.greeting')}, Ontor'),
+                  Obx(
+                    () => Text(
+                      c.locationName.value,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryDark,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(Icons.notifications_none, color: AppColors.navy),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        _placeholderCard('Weather card', 160),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(child: _placeholderCard(tr('advisory.crop'), 120)),
+            const SizedBox(width: 12),
+            Expanded(child: _placeholderCard(tr('advisory.livestock'), 120)),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(child: _placeholderCard(tr('advisory.aquaculture'), 120)),
+            const SizedBox(width: 12),
+            Expanded(child: _placeholderCard(tr('advisory.disease'), 120)),
+          ],
+        ),
+        const SizedBox(height: 16),
+        _placeholderCard('${tr('home.next_7_days')} (chart)', 220),
+        const SizedBox(height: 16),
+        _placeholderCard('${tr('home.my_choice')} (carousel)', 150),
+      ],
+    );
+  }
+
+  Widget _placeholderCard(String label, double height) => Container(
+        height: height,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: AppColors.cardLight,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Text(label, style: const TextStyle(color: AppColors.navy)),
+      );
+}

@@ -1,0 +1,313 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'database.dart';
+
+// **************************************************************************
+// FloorGenerator
+// **************************************************************************
+
+abstract class $AppDatabaseBuilderContract {
+  /// Adds migrations to the builder.
+  $AppDatabaseBuilderContract addMigrations(List<Migration> migrations);
+
+  /// Adds a database [Callback] to the builder.
+  $AppDatabaseBuilderContract addCallback(Callback callback);
+
+  /// Creates the database and initializes it.
+  Future<AppDatabase> build();
+}
+
+// ignore: avoid_classes_with_only_static_members
+class $FloorAppDatabase {
+  /// Creates a database builder for a persistent database.
+  /// Once a database is built, you should keep a reference to it and re-use it.
+  static $AppDatabaseBuilderContract databaseBuilder(String name) =>
+      _$AppDatabaseBuilder(name);
+
+  /// Creates a database builder for an in memory database.
+  /// Information stored in an in memory database disappears when the process is killed.
+  /// Once a database is built, you should keep a reference to it and re-use it.
+  static $AppDatabaseBuilderContract inMemoryDatabaseBuilder() =>
+      _$AppDatabaseBuilder(null);
+}
+
+class _$AppDatabaseBuilder implements $AppDatabaseBuilderContract {
+  _$AppDatabaseBuilder(this.name);
+
+  final String? name;
+
+  final List<Migration> _migrations = [];
+
+  Callback? _callback;
+
+  @override
+  $AppDatabaseBuilderContract addMigrations(List<Migration> migrations) {
+    _migrations.addAll(migrations);
+    return this;
+  }
+
+  @override
+  $AppDatabaseBuilderContract addCallback(Callback callback) {
+    _callback = callback;
+    return this;
+  }
+
+  @override
+  Future<AppDatabase> build() async {
+    final path = name != null
+        ? await sqfliteDatabaseFactory.getDatabasePath(name!)
+        : ':memory:';
+    final database = _$AppDatabase();
+    database.database = await database.open(
+      path,
+      _migrations,
+      _callback,
+    );
+    return database;
+  }
+}
+
+class _$AppDatabase extends AppDatabase {
+  _$AppDatabase([StreamController<String>? listener]) {
+    changeListener = listener ?? StreamController<String>.broadcast();
+  }
+
+  RecordDao? _recordDaoInstance;
+
+  CacheDao? _cacheDaoInstance;
+
+  Future<sqflite.Database> open(
+    String path,
+    List<Migration> migrations, [
+    Callback? callback,
+  ]) async {
+    final databaseOptions = sqflite.OpenDatabaseOptions(
+      version: 2,
+      onConfigure: (database) async {
+        await database.execute('PRAGMA foreign_keys = ON');
+        await callback?.onConfigure?.call(database);
+      },
+      onOpen: (database) async {
+        await callback?.onOpen?.call(database);
+      },
+      onUpgrade: (database, startVersion, endVersion) async {
+        await MigrationAdapter.runMigrations(
+            database, startVersion, endVersion, migrations);
+
+        await callback?.onUpgrade?.call(database, startVersion, endVersion);
+      },
+      onCreate: (database, version) async {
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `record_entity` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` TEXT NOT NULL, `time` TEXT NOT NULL, `locationId` TEXT NOT NULL, `locationName` TEXT NOT NULL, `parameterId` TEXT NOT NULL, `parameterName` TEXT NOT NULL, `measurement` TEXT NOT NULL, `image1Path` TEXT, `image2Path` TEXT, `image3Path` TEXT, `isSynced` INTEGER NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `cache_table` (`cacheKey` TEXT NOT NULL, `jsonData` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY (`cacheKey`))');
+
+        await callback?.onCreate?.call(database, version);
+      },
+    );
+    return sqfliteDatabaseFactory.openDatabase(path, options: databaseOptions);
+  }
+
+  @override
+  RecordDao get recordDao {
+    return _recordDaoInstance ??= _$RecordDao(database, changeListener);
+  }
+
+  @override
+  CacheDao get cacheDao {
+    return _cacheDaoInstance ??= _$CacheDao(database, changeListener);
+  }
+}
+
+class _$RecordDao extends RecordDao {
+  _$RecordDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _recordEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'record_entity',
+            (RecordEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'date': item.date,
+                  'time': item.time,
+                  'locationId': item.locationId,
+                  'locationName': item.locationName,
+                  'parameterId': item.parameterId,
+                  'parameterName': item.parameterName,
+                  'measurement': item.measurement,
+                  'image1Path': item.image1Path,
+                  'image2Path': item.image2Path,
+                  'image3Path': item.image3Path,
+                  'isSynced': item.isSynced ? 1 : 0
+                }),
+        _recordEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'record_entity',
+            ['id'],
+            (RecordEntity item) => <String, Object?>{
+                  'id': item.id,
+                  'date': item.date,
+                  'time': item.time,
+                  'locationId': item.locationId,
+                  'locationName': item.locationName,
+                  'parameterId': item.parameterId,
+                  'parameterName': item.parameterName,
+                  'measurement': item.measurement,
+                  'image1Path': item.image1Path,
+                  'image2Path': item.image2Path,
+                  'image3Path': item.image3Path,
+                  'isSynced': item.isSynced ? 1 : 0
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<RecordEntity> _recordEntityInsertionAdapter;
+
+  final DeletionAdapter<RecordEntity> _recordEntityDeletionAdapter;
+
+  @override
+  Future<List<RecordEntity>> getRecordsByDate(String date) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM record_entity WHERE date = ?1',
+        mapper: (Map<String, Object?> row) => RecordEntity(
+            id: row['id'] as int?,
+            date: row['date'] as String,
+            time: row['time'] as String,
+            locationId: row['locationId'] as String,
+            locationName: row['locationName'] as String,
+            parameterId: row['parameterId'] as String,
+            parameterName: row['parameterName'] as String,
+            measurement: row['measurement'] as String,
+            image1Path: row['image1Path'] as String?,
+            image2Path: row['image2Path'] as String?,
+            image3Path: row['image3Path'] as String?,
+            isSynced: (row['isSynced'] as int) != 0),
+        arguments: [date]);
+  }
+
+  @override
+  Future<List<RecordEntity>> getRecordsByYearAndParam(
+    String year,
+    String paramId,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM record_entity    WHERE strftime(\'%Y\', date) = ?1      AND parameterId = ?2   ORDER BY date DESC, time ASC',
+        mapper: (Map<String, Object?> row) => RecordEntity(id: row['id'] as int?, date: row['date'] as String, time: row['time'] as String, locationId: row['locationId'] as String, locationName: row['locationName'] as String, parameterId: row['parameterId'] as String, parameterName: row['parameterName'] as String, measurement: row['measurement'] as String, image1Path: row['image1Path'] as String?, image2Path: row['image2Path'] as String?, image3Path: row['image3Path'] as String?, isSynced: (row['isSynced'] as int) != 0),
+        arguments: [year, paramId]);
+  }
+
+  @override
+  Future<List<RecordEntity>> getAllRecords() async {
+    return _queryAdapter.queryList('SELECT * FROM record_entity',
+        mapper: (Map<String, Object?> row) => RecordEntity(
+            id: row['id'] as int?,
+            date: row['date'] as String,
+            time: row['time'] as String,
+            locationId: row['locationId'] as String,
+            locationName: row['locationName'] as String,
+            parameterId: row['parameterId'] as String,
+            parameterName: row['parameterName'] as String,
+            measurement: row['measurement'] as String,
+            image1Path: row['image1Path'] as String?,
+            image2Path: row['image2Path'] as String?,
+            image3Path: row['image3Path'] as String?,
+            isSynced: (row['isSynced'] as int) != 0));
+  }
+
+  @override
+  Future<List<RecordEntity>> getUnsyncedRecords() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM record_entity WHERE isSynced = 0',
+        mapper: (Map<String, Object?> row) => RecordEntity(
+            id: row['id'] as int?,
+            date: row['date'] as String,
+            time: row['time'] as String,
+            locationId: row['locationId'] as String,
+            locationName: row['locationName'] as String,
+            parameterId: row['parameterId'] as String,
+            parameterName: row['parameterName'] as String,
+            measurement: row['measurement'] as String,
+            image1Path: row['image1Path'] as String?,
+            image2Path: row['image2Path'] as String?,
+            image3Path: row['image3Path'] as String?,
+            isSynced: (row['isSynced'] as int) != 0));
+  }
+
+  @override
+  Future<void> markAsSynced(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'UPDATE record_entity SET isSynced = 1 WHERE id = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<RecordEntity>> getRecordsByStationAndParam(
+    String stationId,
+    String paramId,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM record_entity WHERE locationId = ?1 AND parameterId = ?2 ORDER BY date DESC, time ASC',
+        mapper: (Map<String, Object?> row) => RecordEntity(id: row['id'] as int?, date: row['date'] as String, time: row['time'] as String, locationId: row['locationId'] as String, locationName: row['locationName'] as String, parameterId: row['parameterId'] as String, parameterName: row['parameterName'] as String, measurement: row['measurement'] as String, image1Path: row['image1Path'] as String?, image2Path: row['image2Path'] as String?, image3Path: row['image3Path'] as String?, isSynced: (row['isSynced'] as int) != 0),
+        arguments: [stationId, paramId]);
+  }
+
+  @override
+  Future<void> insertRecord(RecordEntity record) async {
+    await _recordEntityInsertionAdapter.insert(
+        record, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteRecord(RecordEntity record) async {
+    await _recordEntityDeletionAdapter.delete(record);
+  }
+}
+
+class _$CacheDao extends CacheDao {
+  _$CacheDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _cacheEntityInsertionAdapter = InsertionAdapter(
+            database,
+            'cache_table',
+            (CacheEntity item) => <String, Object?>{
+                  'cacheKey': item.cacheKey,
+                  'jsonData': item.jsonData,
+                  'timestamp': item.timestamp
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<CacheEntity> _cacheEntityInsertionAdapter;
+
+  @override
+  Future<CacheEntity?> getCache(String key) async {
+    return _queryAdapter.query('SELECT * FROM cache_table WHERE cacheKey = ?1',
+        mapper: (Map<String, Object?> row) => CacheEntity(
+            row['cacheKey'] as String,
+            row['jsonData'] as String,
+            row['timestamp'] as int),
+        arguments: [key]);
+  }
+
+  @override
+  Future<void> clearAllCache() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM cache_table');
+  }
+
+  @override
+  Future<void> insertCache(CacheEntity cache) async {
+    await _cacheEntityInsertionAdapter.insert(
+        cache, OnConflictStrategy.replace);
+  }
+}
