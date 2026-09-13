@@ -15,6 +15,7 @@ import 'core/services/notification_service.dart';
 import 'core/services/user_pref_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_controller.dart';
+import 'core/utils/firebase_option.dart';
 import 'database_helper/db_service.dart';
 import 'features/settings/domen/controllers/settings_controller.dart';
 import 'features/settings/presentation/pages/splash_screen.dart';
@@ -29,7 +30,7 @@ void main() async {
   // ── CRITICAL PATH — first frame depends on these ──────────────────────────
   try {
     await Firebase.initializeApp(
-      // options: DefaultFirebaseOptions.currentPlatform, // enable after flutterfire configure
+      options: DefaultFirebaseOptions.currentPlatform,
     );
     await FirebaseAppCheck.instance.activate(
       providerAndroid: kReleaseMode
@@ -40,7 +41,7 @@ void main() async {
           : const AppleDebugProvider(),
     );
   } catch (e, stack) {
-    debugPrint('🔥 FIREBASE INIT ERROR: $e');
+    debugPrint('🔥 FATAL FIREBASE ERROR: $e');
     debugPrint(stack.toString());
   }
 
@@ -95,7 +96,7 @@ class AgviselyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeController = Get.find<ThemeController>();
     return ScreenUtilInit(
-      designSize: const Size(375, 812),
+      designSize: const Size(440, 956),
       minTextAdapt: true,
       builder: (context, child) => Obx(
         () => GetMaterialApp(
