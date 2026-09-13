@@ -62,6 +62,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/lottie/
+    - assets/json/
 
   # AnekBangla is the same bundled-font system as BMD (renders Bangla on
   # the first frame, fully offline). Drop the .ttf files into

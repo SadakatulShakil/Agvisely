@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../../../core/services/user_pref_service.dart';
 import '../../../../../core/utils/bd_locations.dart';
 import '../../../../../core/utils/phone_util.dart';
-import '../../../../home/presentation/pages/home_page.dart';
+import '../../../../location/presentation/pages/location_gate_page.dart';
 import '../../models/signup_request.dart';
 import '../../presentation/pages/otp_page.dart';
 
@@ -83,7 +83,7 @@ class AuthController extends GetxController {
     // then persist it in flutter_secure_storage.
     await UserPrefService().setLoggedIn(true);
     await UserPrefService().setLocationName(district.value ?? '');
-    Get.offAll(() => const HomePage());
+    Get.offAll(() => const LocationGatePage());
   }
 
   void _toast(String msg) => Get.snackbar(

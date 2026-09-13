@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../models/saved_location_model.dart';
 
 class UserPrefService {
   UserPrefService._internal();
@@ -49,6 +53,7 @@ class UserPrefService {
   static const String _keyLiveWeatherIcon = 'live_weather_icon';
 
   static const String _keySavedLocations = 'SAVED_LOCATIONS';
+  static const String _keySelectedLocation = 'SELECTED_LOCATION';
   static const int _surveyCooldownMinutes = 60;
 
   // ===== Utility =====
@@ -123,4 +128,32 @@ class UserPrefService {
   String? get locationDivision => _prefs?.getString(_keyLocationDivision);
   String? get locationDivisionBn => _prefs?.getString(_keyLocationDivisionBn);
   bool get isFollowingGPS => _prefs?.getBool(_keyFollowGPS) ?? true; // Default to true
+
+  // ── Location-flow (splash gate / SelectLocationPage / LocationService) ─────
+  String? getLat() => lat;
+  String? getLon() => lon;
+
+  Future<void> saveLatLonData(String lat, String lon) async {
+    await _prefs?.setString(_keyLat, lat);
+    await _prefs?.setString(_keyLon, lon);
+  }
+
+  /// Persists the user's chosen union as the active location: lat/lon,
+  /// the display name shown on Home (via the existing [locationName]
+  /// getter), and the full record for later district/upazila/pcode reads.
+  Future<void> saveSelectedLocation(SavedLocation loc, {required bool isBangla}) async {
+    await saveLatLonData(loc.lat.toString(), loc.lng.toString());
+    await setLocationName(loc.displayName(isBangla));
+    await _prefs?.setString(_keySelectedLocation, jsonEncode(loc.toJson()));
+  }
+
+  SavedLocation? getSelectedLocation() {
+    final raw = _prefs?.getString(_keySelectedLocation);
+    if (raw == null) return null;
+    try {
+      return SavedLocation.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+    } catch (_) {
+      return null;
+    }
+  }
 }

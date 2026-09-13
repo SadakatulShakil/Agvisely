@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../services/localization_string.dart';
 import '../theme/app_theme_colors.dart';
 import '../../features/crop_advisory/domen/binding/crop_advisory_binding.dart';
 import '../../features/crop_advisory/presentation/pages/crop_advisory_page.dart';
@@ -42,20 +41,20 @@ class AppDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            _item(Icons.cloud_outlined, tr('advisory.weather'),
+            _item(Icons.cloud_outlined, 'advisory.weather'.tr,
                 () => Get.to(() => const WeatherPage(), binding: WeatherBinding())),
-            _item(Icons.grass_outlined, tr('advisory.crop'),
+            _item(Icons.grass_outlined, 'advisory.crop'.tr,
                 () => Get.to(() => const CropAdvisoryPage(), binding: CropAdvisoryBinding())),
-            _item(Icons.coronavirus_outlined, tr('advisory.disease'),
+            _item(Icons.coronavirus_outlined, 'advisory.disease'.tr,
                 () => Get.to(() => const DiseaseAdvisoryPage(), binding: DiseaseAdvisoryBinding())),
-            _item(Icons.pets_outlined, tr('advisory.livestock'),
+            _item(Icons.pets_outlined, 'advisory.livestock'.tr,
                 () => Get.to(() => const LivestockAdvisoryPage(), binding: LivestockAdvisoryBinding())),
-            _item(Icons.set_meal_outlined, tr('advisory.aquaculture'),
+            _item(Icons.set_meal_outlined, 'advisory.aquaculture'.tr,
                 () => Get.to(() => const AquacultureAdvisoryPage(), binding: AquacultureAdvisoryBinding())),
             const Divider(),
-            _item(Icons.notifications_none, tr('common.notifications'),
+            _item(Icons.notifications_none, 'common.notifications'.tr,
                 () => Get.to(() => const NotificationPage())),
-            _item(Icons.settings_outlined, tr('common.settings'),
+            _item(Icons.settings_outlined, 'common.settings'.tr,
                 () => Get.to(() => const SettingsPage())),
           ],
         ),

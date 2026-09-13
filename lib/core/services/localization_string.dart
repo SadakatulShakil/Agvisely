@@ -1,67 +1,102 @@
-import 'user_pref_service.dart';
+import 'package:get/get.dart';
 
-/// Lightweight bilingual (English / Bangla) string system.
-///
-/// Same approach as BMD: a single in-memory map keyed by a stable
-/// string id, resolved against [UserPrefService.appLanguage]. No async
-/// load, works offline, renders correctly on the first frame.
-///
-/// Usage in a widget:  Text(tr('home.greeting'))
-/// Add a key once here and it's available app-wide in both languages.
-String tr(String key) {
-  final lang = UserPrefService().appLanguage; // 'en' | 'bn'
-  final entry = LocalizationString.map[key];
-  if (entry == null) return key; // surfaces missing keys during dev
-  return entry[lang] ?? entry['en'] ?? key;
-}
+/// GetX translations for Agvisely. Every entry has both an 'en' and a 'bn'
+/// value; the active language follows [UserPrefService.appLanguage] via
+/// GetMaterialApp's `locale`. Usage in a widget: `Text('home.greeting'.tr)`.
+class LocalizationString extends Translations {
+  @override
+  Map<String, Map<String, String>> get keys => {
+    'en': _en,
+    'bn': _bn,
+  };
 
-class LocalizationString {
-  LocalizationString._();
-
-  /// key : { 'en': ..., 'bn': ... }
-  static const Map<String, Map<String, String>> map = {
+  static const Map<String, String> _en = {
     // ── App / splash ─────────────────────────────────────────────────────
-    'app.name': {'en': 'Agvisely', 'bn': 'এগভাইজলি'},
-    'splash.tagline': {
-      'en': 'Localized weather forecasts and expert farming advice',
-      'bn': 'স্থানীয় আবহাওয়ার পূর্বাভাস ও কৃষি পরামর্শ',
-    },
+    'app.name': 'Agvisely',
+    'splash.tagline': 'Localized weather forecasts and expert farming advice',
+    'initializing_services': 'Initializing services...',
+    'ready_launching_app': 'Launching app...',
 
     // ── Bottom navigation ────────────────────────────────────────────────
-    'nav.home': {'en': 'Home', 'bn': 'হোম'},
-    'nav.pest': {'en': 'Pest Advisory', 'bn': 'পোকা পরামর্শ'},
-    'nav.profile': {'en': 'Profile', 'bn': 'প্রোফাইল'},
-    'nav.menu': {'en': 'Menu', 'bn': 'মেনু'},
+    'nav.home': 'Home',
+    'nav.pest': 'Pest Advisory',
+    'nav.profile': 'Profile',
+    'nav.menu': 'Menu',
 
     // ── Home ─────────────────────────────────────────────────────────────
-    'home.greeting': {'en': 'Hi', 'bn': 'হ্যালো'},
-    'home.feels_like': {'en': 'Feels Like', 'bn': 'অনুভূত'},
-    'home.precipitation': {'en': 'Precipitation', 'bn': 'বৃষ্টিপাত'},
-    'home.pressure': {'en': 'Pressure', 'bn': 'চাপ'},
-    'home.wind': {'en': 'Wind', 'bn': 'বাতাস'},
-    'home.next_7_days': {'en': 'Next 7 days', 'bn': 'আগামী ৭ দিন'},
-    'home.my_choice': {'en': 'My Choice', 'bn': 'আমার পছন্দ'},
-    'home.see_all': {'en': 'See all', 'bn': 'সব দেখুন'},
+    'home.greeting': 'Hi',
+    'home.feels_like': 'Feels Like',
+    'home.precipitation': 'Precipitation',
+    'home.pressure': 'Pressure',
+    'home.wind': 'Wind',
+    'home.next_7_days': 'Next 7 days',
+    'home.my_choice': 'My Choice',
+    'home.see_all': 'See all',
 
     // ── Advisory feature titles ──────────────────────────────────────────
-    'advisory.crop': {'en': 'Crop Advisory', 'bn': 'ফসল পরামর্শ'},
-    'advisory.disease': {'en': 'Disease Advisory', 'bn': 'রোগ পরামর্শ'},
-    'advisory.pest': {'en': 'Pest Advisory', 'bn': 'পোকা পরামর্শ'},
-    'advisory.livestock': {'en': 'Livestock Advisory', 'bn': 'গবাদি পশু পরামর্শ'},
-    'advisory.aquaculture': {'en': 'Aquaculture Advisory', 'bn': 'মৎস্য পরামর্শ'},
-    'advisory.weather': {'en': 'Weather Forecast', 'bn': 'আবহাওয়ার পূর্বাভাস'},
+    'advisory.crop': 'Crop Advisory',
+    'advisory.disease': 'Disease Advisory',
+    'advisory.pest': 'Pest Advisory',
+    'advisory.livestock': 'Livestock Advisory',
+    'advisory.aquaculture': 'Aquaculture Advisory',
+    'advisory.weather': 'Weather Forecast',
 
     // ── Auth ─────────────────────────────────────────────────────────────
-    'auth.login': {'en': 'Log In', 'bn': 'লগ ইন'},
-    'auth.signup': {'en': 'Sign Up', 'bn': 'নিবন্ধন'},
-    'auth.mobile': {'en': 'Mobile Number', 'bn': 'মোবাইল নম্বর'},
-    'auth.continue': {'en': 'Continue', 'bn': 'চালিয়ে যান'},
+    'auth.login': 'Log In',
+    'auth.signup': 'Sign Up',
+    'auth.mobile': 'Mobile Number',
+    'auth.continue': 'Continue',
 
     // ── Common ───────────────────────────────────────────────────────────
-    'common.notifications': {'en': 'Notifications', 'bn': 'বিজ্ঞপ্তি'},
-    'common.settings': {'en': 'Settings', 'bn': 'সেটিংস'},
-    'common.language': {'en': 'Language', 'bn': 'ভাষা'},
-    'common.retry': {'en': 'Retry', 'bn': 'আবার চেষ্টা করুন'},
-    'common.no_internet': {'en': 'No internet connection', 'bn': 'ইন্টারনেট সংযোগ নেই'},
+    'common.notifications': 'Notifications',
+    'common.settings': 'Settings',
+    'common.language': 'Language',
+    'common.retry': 'Retry',
+    'common.no_internet': 'No internet connection',
+  };
+
+  static const Map<String, String> _bn = {
+    // ── App / splash ─────────────────────────────────────────────────────
+    'app.name': 'এগভাইজলি',
+    'splash.tagline': 'স্থানীয় আবহাওয়ার পূর্বাভাস ও কৃষি পরামর্শ',
+    'initializing_services': 'সেবা প্রস্তুত করা হচ্ছে...',
+    'ready_launching_app': 'অ্যাপ চালু হচ্ছে...',
+
+    // ── Bottom navigation ────────────────────────────────────────────────
+    'nav.home': 'হোম',
+    'nav.pest': 'পোকা পরামর্শ',
+    'nav.profile': 'প্রোফাইল',
+    'nav.menu': 'মেনু',
+
+    // ── Home ─────────────────────────────────────────────────────────────
+    'home.greeting': 'হ্যালো',
+    'home.feels_like': 'অনুভূত',
+    'home.precipitation': 'বৃষ্টিপাত',
+    'home.pressure': 'চাপ',
+    'home.wind': 'বাতাস',
+    'home.next_7_days': 'আগামী ৭ দিন',
+    'home.my_choice': 'আমার পছন্দ',
+    'home.see_all': 'সব দেখুন',
+
+    // ── Advisory feature titles ──────────────────────────────────────────
+    'advisory.crop': 'ফসল পরামর্শ',
+    'advisory.disease': 'রোগ পরামর্শ',
+    'advisory.pest': 'পোকা পরামর্শ',
+    'advisory.livestock': 'গবাদি পশু পরামর্শ',
+    'advisory.aquaculture': 'মৎস্য পরামর্শ',
+    'advisory.weather': 'আবহাওয়ার পূর্বাভাস',
+
+    // ── Auth ─────────────────────────────────────────────────────────────
+    'auth.login': 'লগ ইন',
+    'auth.signup': 'নিবন্ধন',
+    'auth.mobile': 'মোবাইল নম্বর',
+    'auth.continue': 'চালিয়ে যান',
+
+    // ── Common ───────────────────────────────────────────────────────────
+    'common.notifications': 'বিজ্ঞপ্তি',
+    'common.settings': 'সেটিংস',
+    'common.language': 'ভাষা',
+    'common.retry': 'আবার চেষ্টা করুন',
+    'common.no_internet': 'ইন্টারনেট সংযোগ নেই',
   };
 }

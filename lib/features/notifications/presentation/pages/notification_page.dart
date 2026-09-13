@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../../core/services/localization_string.dart';
+import 'package:get/get.dart';
 
 /// Notification inbox. NotificationService routes here on tap-through.
 /// Build the list UI from the Figma "Notifications" frame.
@@ -10,7 +9,7 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr('common.notifications'))),
+      appBar: AppBar(title: Text('common.notifications'.tr)),
       body: const Center(child: Text('Notifications — TODO from Figma')),
     );
   }

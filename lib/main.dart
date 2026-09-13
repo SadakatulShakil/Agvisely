@@ -11,6 +11,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'core/services/localization_string.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/user_pref_service.dart';
 import 'core/theme/app_theme.dart';
@@ -105,6 +106,8 @@ class AgviselyApp extends StatelessWidget {
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           themeMode: themeController.themeMode.value,
+          translations: LocalizationString(),
+          locale: Locale(savedLang),
           home: const SplashScreen(),
         ),
       ),

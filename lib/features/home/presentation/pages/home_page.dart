@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/services/localization_string.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/app_drawer.dart';
 import '../../../pest_advisory/presentation/pages/pest_advisory_page.dart';
@@ -42,19 +41,19 @@ class HomePage extends StatelessWidget {
             BottomNavigationBarItem(
               icon: const Icon(Icons.home_outlined),
               activeIcon: const Icon(Icons.home),
-              label: tr('nav.home'),
+              label: 'nav.home'.tr,
             ),
             BottomNavigationBarItem(
               icon: const Icon(Icons.bug_report_outlined),
-              label: tr('nav.pest'),
+              label: 'nav.pest'.tr,
             ),
             BottomNavigationBarItem(
               icon: const Icon(Icons.person_outline),
-              label: tr('nav.profile'),
+              label: 'nav.profile'.tr,
             ),
             BottomNavigationBarItem(
               icon: const Icon(Icons.menu),
-              label: tr('nav.menu'),
+              label: 'nav.menu'.tr,
             ),
           ],
         ),
@@ -82,7 +81,7 @@ class _HomeDashboard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${tr('home.greeting')}, Ontor'),
+                  Text('${'home.greeting'.tr}, Sadakatul'),
                   Obx(
                     () => Text(
                       c.locationName.value,
@@ -106,23 +105,23 @@ class _HomeDashboard extends StatelessWidget {
         const SizedBox(height: 16),
         Row(
           children: [
-            Expanded(child: _placeholderCard(tr('advisory.crop'), 120)),
+            Expanded(child: _placeholderCard('advisory.crop'.tr, 120)),
             const SizedBox(width: 12),
-            Expanded(child: _placeholderCard(tr('advisory.livestock'), 120)),
+            Expanded(child: _placeholderCard('advisory.livestock'.tr, 120)),
           ],
         ),
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(child: _placeholderCard(tr('advisory.aquaculture'), 120)),
+            Expanded(child: _placeholderCard('advisory.aquaculture'.tr, 120)),
             const SizedBox(width: 12),
-            Expanded(child: _placeholderCard(tr('advisory.disease'), 120)),
+            Expanded(child: _placeholderCard('advisory.disease'.tr, 120)),
           ],
         ),
         const SizedBox(height: 16),
-        _placeholderCard('${tr('home.next_7_days')} (chart)', 220),
+        _placeholderCard('${'home.next_7_days'.tr} (chart)', 220),
         const SizedBox(height: 16),
-        _placeholderCard('${tr('home.my_choice')} (carousel)', 150),
+        _placeholderCard('${'home.my_choice'.tr} (carousel)', 150),
       ],
     );
   }
