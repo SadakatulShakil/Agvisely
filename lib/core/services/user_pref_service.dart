@@ -145,14 +145,13 @@ class UserPrefService {
     await _prefs?.setString(_keyLon, lon);
   }
 
-  /// Persists the user's chosen union as the active location: lat/lon,
-  /// the display name shown on Home (via the existing [locationName]
-  /// getter), and the full record for later district/upazila/pcode reads.
-  Future<void> saveSelectedLocation(SavedLocation loc, {required bool isBangla}) async {
-    await saveLatLonData(loc.lat.toString(), loc.lng.toString());
-    await setLocationName(loc.displayName(isBangla));
-    await _prefs?.setString(_keySelectedLocation, jsonEncode(loc.toJson()));
-  }
+  /// Persists the user's chosen union as the active location. Kept for
+  /// existing call sites — now implemented via the saved-locations list so
+  /// the entry also shows up in the saved-locations sheet. [isBangla] is
+  /// unused internally (the mirror sync reads [Get.locale] itself) but kept
+  /// in the signature for compatibility.
+  Future<void> saveSelectedLocation(SavedLocation loc, {required bool isBangla}) =>
+      addOrUpdateCustom(loc, makeCurrent: true);
 
   SavedLocation? getSelectedLocation() {
     final raw = _prefs?.getString(_keySelectedLocation);
@@ -162,16 +161,6 @@ class UserPrefService {
     } catch (_) {
       return null;
     }
-  }
-
-  /// GPS-driven update that must never clobber a location the user picked
-  /// manually. Mirrors BMD's isFollowingGPS / updateGPSLocationSilently
-  /// distinction — agvisely has a single active-location slot rather than
-  /// BMD's saved-locations list, so "silently update the GPS entry" collapses
-  /// to "only touch the active slot when the user is still following GPS".
-  Future<void> updateGPSLocationSilently(SavedLocation loc, {required bool isBangla}) async {
-    if (!isFollowingGPS) return;
-    await saveSelectedLocation(loc, isBangla: isBangla);
   }
 
   /// Resolves a lat/lon into a full location (district/upazila/division)
@@ -220,5 +209,128 @@ class UserPrefService {
       division: apiLoc?.division ?? '',
       divisionBn: apiLoc?.divisionBn ?? '',
     );
+  }
+
+  // ── Saved-locations list (GPS entry + custom entries) ──────────────────────
+
+  Future<List<SavedLocation>> _readSavedLocations() async {
+    final raw = _prefs?.getStringList(_keySavedLocations) ?? [];
+    return raw
+        .map((e) {
+          try {
+            return SavedLocation.fromJson(jsonDecode(e) as Map<String, dynamic>);
+          } catch (_) {
+            return null;
+          }
+        })
+        .whereType<SavedLocation>()
+        .toList();
+  }
+
+  Future<void> _writeSavedLocations(List<SavedLocation> list) async {
+    await _prefs?.setStringList(
+      _keySavedLocations,
+      list.map((e) => jsonEncode(e.toJson())).toList(),
+    );
+  }
+
+  /// Mirrors the isCurrent entry into the flat keys the rest of the app
+  /// reads (getLat/getLon/locationName/isFollowingGPS).
+  Future<void> _syncMirrorFromList(List<SavedLocation> list) async {
+    final current = list.firstWhereOrNull((l) => l.isCurrent);
+    if (current == null) return;
+    final isBangla = Get.locale?.languageCode == 'bn';
+    await saveLatLonData(current.lat.toString(), current.lng.toString());
+    await setLocationName(current.displayName(isBangla));
+    await setFollowGPS(current.isGps);
+  }
+
+  /// GPS first, then the rest alphabetically. isCurrent is preserved as data
+  /// on each entry, not used for ordering.
+  Future<List<SavedLocation>> getSavedLocations() async {
+    final list = await _readSavedLocations();
+    list.sort((a, b) {
+      if (a.isGps != b.isGps) return a.isGps ? -1 : 1;
+      return a.name.compareTo(b.name);
+    });
+    return list;
+  }
+
+  /// Replaces the single isGps=true entry (there is only ever one).
+  Future<void> upsertGpsLocation(SavedLocation gps, {bool makeCurrent = false}) async {
+    final list = await _readSavedLocations();
+    final idx = list.indexWhere((l) => l.isGps);
+    final wasCurrent = idx != -1 && list[idx].isCurrent;
+    final shouldBeCurrent = makeCurrent || wasCurrent;
+    final entry = gps.copyWith(isGps: true, isCurrent: shouldBeCurrent);
+
+    if (shouldBeCurrent) {
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].isCurrent) list[i] = list[i].copyWith(isCurrent: false);
+      }
+    }
+    if (idx != -1) {
+      list[idx] = entry;
+    } else {
+      list.add(entry);
+    }
+    await _writeSavedLocations(list);
+    await _syncMirrorFromList(list);
+  }
+
+  /// Adds or updates a custom (non-GPS) entry, matched by pcode.
+  Future<void> addOrUpdateCustom(SavedLocation loc, {bool makeCurrent = true}) async {
+    final list = await _readSavedLocations();
+    final entry = loc.copyWith(isGps: false, isCurrent: makeCurrent);
+    final idx = loc.pcode.isNotEmpty
+        ? list.indexWhere((l) => !l.isGps && l.pcode == loc.pcode)
+        : -1;
+
+    if (makeCurrent) {
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].isCurrent) list[i] = list[i].copyWith(isCurrent: false);
+      }
+    }
+    if (idx != -1) {
+      list[idx] = entry;
+    } else {
+      list.add(entry);
+    }
+    await _writeSavedLocations(list);
+    await _syncMirrorFromList(list);
+  }
+
+  /// Marks [loc] as the active entry (matched by isGps, or by pcode for
+  /// custom entries) and clears isCurrent on every other entry.
+  Future<void> setCurrent(SavedLocation loc) async {
+    final list = await _readSavedLocations();
+    for (var i = 0; i < list.length; i++) {
+      final isMatch =
+          loc.isGps ? list[i].isGps : (!list[i].isGps && list[i].pcode == loc.pcode);
+      list[i] = list[i].copyWith(isCurrent: isMatch);
+    }
+    await _writeSavedLocations(list);
+    await _syncMirrorFromList(list);
+  }
+
+  /// Removes a custom entry by pcode. Never removes the GPS entry. If the
+  /// removed entry was current, falls back to the GPS entry (or the first
+  /// remaining entry) as current.
+  Future<void> removeLocation(String pcode) async {
+    final list = await _readSavedLocations();
+    final removed = list.firstWhereOrNull((l) => !l.isGps && l.pcode == pcode);
+    if (removed == null) return;
+
+    list.removeWhere((l) => !l.isGps && l.pcode == pcode);
+    if (removed.isCurrent && list.isNotEmpty) {
+      final gpsIdx = list.indexWhere((l) => l.isGps);
+      if (gpsIdx != -1) {
+        list[gpsIdx] = list[gpsIdx].copyWith(isCurrent: true);
+      } else {
+        list[0] = list[0].copyWith(isCurrent: true);
+      }
+    }
+    await _writeSavedLocations(list);
+    await _syncMirrorFromList(list);
   }
 }

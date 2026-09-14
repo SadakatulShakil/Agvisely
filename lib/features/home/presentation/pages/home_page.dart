@@ -80,7 +80,7 @@ class _HomeDashboard extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: GestureDetector(
-                onTap: c.openLocationPicker,
+                onTap: c.openSavedLocationsSheet,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -96,7 +96,7 @@ class _HomeDashboard extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.primaryDark,
-                                fontSize: 14.sp
+                                fontSize: 14.sp,
                               ),
                             ),
                           ),

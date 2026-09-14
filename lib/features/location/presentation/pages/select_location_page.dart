@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/theme/app_fonts.dart';
-import '../../../../core/theme/app_theme_colors.dart';
 import '../../domen/controllers/location_pick_controller.dart';
 
 class SelectLocationPage extends StatelessWidget {
@@ -12,28 +11,6 @@ class SelectLocationPage extends StatelessWidget {
   SelectLocationPage({super.key, this.isFirstInstall = false});
   final controller = Get.find<SelectLocationController>();
   final isBangla = Get.locale?.languageCode == 'bn';
-
-  String _stepTitle(PickStep step) {
-    switch (step) {
-      case PickStep.district:
-        return isBangla ? 'জেলা নির্বাচন করুন' : 'Select District';
-      case PickStep.upazila:
-        return isBangla ? 'উপজেলা নির্বাচন করুন' : 'Select Upazila';
-      case PickStep.union:
-        return isBangla ? 'ইউনিয়ন নির্বাচন করুন' : 'Select Union';
-    }
-  }
-
-  String _searchHint(PickStep step) {
-    switch (step) {
-      case PickStep.district:
-        return isBangla ? 'জেলা খুঁজুন...' : 'Search district...';
-      case PickStep.upazila:
-        return isBangla ? 'উপজেলা খুঁজুন...' : 'Search upazila...';
-      case PickStep.union:
-        return isBangla ? 'ইউনিয়ন খুঁজুন...' : 'Search union...';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,79 +25,49 @@ class SelectLocationPage extends StatelessWidget {
           height: double.infinity,
           child: Stack(
             children: [
-              Obx(
-                () => Container(
-                  padding: EdgeInsets.fromLTRB(8.w, 50.h, 16.w, 16.h),
-                  height: 150.h,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [AppColors.primary, AppColors.primaryDark],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
+              Container(
+                padding: EdgeInsets.fromLTRB(8.w, 50.h, 16.w, 16.h),
+                height: 150.h,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF1B8CBE), Color(0xFF09228F)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
                   ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (!isFirstInstall || controller.step.value != PickStep.district)
-                        GestureDetector(
-                          onTap: () => controller.step.value == PickStep.district
-                              ? Get.back()
-                              : controller.back(),
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 15.w, top: 11.h, bottom: 12.h),
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
-                                size: 20.sp,
-                              ),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (!isFirstInstall)
+                      GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 15.w, top: 11.h, bottom: 12.h),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                              size: 20.sp,
                             ),
                           ),
                         ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 8.h),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _stepTitle(controller.step.value),
-                                style: AppFonts.style(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18.sp,
-                                  color: Colors.white,
-                                  letterSpacing: 0.3.sp,
-                                ),
-                              ),
-                              if (controller.selectedDistrict.value != null)
-                                Padding(
-                                  padding: EdgeInsets.only(top: 4.h),
-                                  child: Text(
-                                    [
-                                      if (controller.selectedDistrict.value != null)
-                                        isBangla
-                                            ? controller.selectedDistrict.value!.nameBn
-                                            : controller.selectedDistrict.value!.name,
-                                      if (controller.selectedUpazila.value != null)
-                                        isBangla
-                                            ? controller.selectedUpazila.value!.nameBn
-                                            : controller.selectedUpazila.value!.name,
-                                    ].join(' › '),
-                                    style: AppFonts.style(
-                                      fontSize: 12.sp,
-                                      color: Colors.white70,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
+                      ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.h),
+                      child: Text(
+                        isBangla ? 'লোকেশন নির্বাচন করুন' : 'Select Location',
+                        textAlign: TextAlign.center,
+                        style: AppFonts.style(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18.sp,
+                          color: Colors.white,
+                          letterSpacing: 0.3.sp,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
 
@@ -152,43 +99,42 @@ class SelectLocationPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Search bar
-                          Obx(
-                            () => Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12.r),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12.withValues(alpha: 0.05),
-                                    blurRadius: 4.r,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12.r),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12.withValues(alpha: 0.05),
+                                  blurRadius: 4.r,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: TextField(
+                              controller: controller.searchController,
+                              textInputAction: TextInputAction.search,
+                              onChanged: controller.search,
+                              style: AppFonts.style(
+                                color: Colors.black87,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
                               ),
-                              child: TextField(
-                                key: ValueKey(controller.step.value),
-                                controller: controller.searchController,
-                                textInputAction: TextInputAction.search,
-                                onChanged: controller.search,
-                                style: AppFonts.style(
-                                  color: Colors.black87,
+                              decoration: InputDecoration(
+                                hintText: isBangla
+                                    ? "উপজেলা বা জেলা খুঁজুন..."
+                                    : "Search upazila or district...",
+                                hintStyle: AppFonts.style(
+                                  color: Colors.grey,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400,
                                 ),
-                                decoration: InputDecoration(
-                                  hintText: _searchHint(controller.step.value),
-                                  hintStyle: AppFonts.style(
-                                    color: Colors.grey,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  suffixIcon: Icon(Icons.search, size: 22.sp),
-                                  suffixIconColor: AppColors.primary,
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12.r),
-                                  ),
+                                suffixIcon: Icon(Icons.search, size: 22.sp),
+                                suffixIconColor: const Color(0xFF1B8CBE),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12.r),
                                 ),
                               ),
                             ),
@@ -202,50 +148,82 @@ class SelectLocationPage extends StatelessWidget {
                                 return const Center(child: CircularProgressIndicator());
                               }
 
-                              switch (controller.step.value) {
-                                case PickStep.district:
-                                  return _list(
-                                    count: controller.filteredDistricts.length,
-                                    itemBuilder: (i) {
-                                      final d = controller.filteredDistricts[i];
-                                      return _tile(
-                                        title: isBangla ? d.nameBn : d.name,
-                                        subtitle: null,
-                                        trailing: Icons.chevron_right,
-                                        onTap: () => controller.selectDistrict(d),
-                                      );
-                                    },
-                                  );
-                                case PickStep.upazila:
-                                  return _list(
-                                    count: controller.filteredUpazilas.length,
-                                    itemBuilder: (i) {
-                                      final u = controller.filteredUpazilas[i];
-                                      return _tile(
-                                        title: isBangla ? u.nameBn : u.name,
-                                        subtitle: null,
-                                        trailing: Icons.chevron_right,
-                                        onTap: () => controller.selectUpazila(u),
-                                      );
-                                    },
-                                  );
-                                case PickStep.union:
-                                  return _list(
-                                    count: controller.filteredUnions.length,
-                                    itemBuilder: (i) {
-                                      final u = controller.filteredUnions[i];
-                                      return _tile(
-                                        title: isBangla ? u.nameBn : u.name,
-                                        subtitle:
-                                            '(${u.lat.toStringAsFixed(5)}, ${u.lng.toStringAsFixed(5)})',
-                                        trailing: Icons.location_on,
-                                        onTap: () => isFirstInstall
-                                            ? controller.handleLocationSelection(u)
-                                            : Get.back(result: u),
-                                      );
-                                    },
-                                  );
+                              if (controller.filtered.isEmpty) {
+                                return Center(
+                                  child: Text(
+                                    isBangla ? "কোন ফলাফল পাওয়া যায়নি" : "No results found",
+                                    style: AppFonts.style(
+                                      color: Colors.black54,
+                                      fontSize: 16.sp,
+                                    ),
+                                  ),
+                                );
                               }
+
+                              return ListView.builder(
+                                padding: EdgeInsets.only(top: 5.h),
+                                itemCount: controller.filtered.length,
+                                itemBuilder: (context, index) {
+                                  final item = controller.filtered[index];
+                                  return Container(
+                                    margin: EdgeInsets.only(bottom: 8.h),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black12.withValues(alpha: 0.05),
+                                          blurRadius: 4.r,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: ListTile(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                      ),
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 16.w, vertical: 6.h),
+                                      title: Text(
+                                        isBangla ? item.nameBn : item.name,
+                                        style: AppFonts.style(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16.sp,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                      subtitle: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            isBangla ? item.districtBn : item.district,
+                                            style: AppFonts.style(
+                                              fontSize: 14.sp,
+                                              color: Colors.black54,
+                                            ),
+                                          ),
+                                          Text(
+                                            '(${item.lat.toStringAsFixed(5)}, ${item.lng.toStringAsFixed(5)})',
+                                            style: AppFonts.style(
+                                              fontSize: 14.sp,
+                                              color: const Color(0xFF1B8CBE),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      trailing: Icon(
+                                        Icons.location_on,
+                                        color: const Color(0xFF1B8CBE),
+                                        size: 20.sp,
+                                      ),
+                                      onTap: () => isFirstInstall
+                                          ? controller.handleLocationSelection(item)
+                                          : Get.back(result: item),
+                                    ),
+                                  );
+                                },
+                              );
                             }),
                           ),
                         ],
@@ -266,64 +244,6 @@ class SelectLocationPage extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _list({required int count, required Widget Function(int) itemBuilder}) {
-    if (count == 0) {
-      return Center(
-        child: Text(
-          isBangla ? "কোন ফলাফল পাওয়া যায়নি" : "No results found",
-          style: AppFonts.style(color: Colors.black54, fontSize: 16.sp),
-        ),
-      );
-    }
-    return ListView.builder(
-      padding: EdgeInsets.only(top: 5.h),
-      itemCount: count,
-      itemBuilder: (context, i) => itemBuilder(i),
-    );
-  }
-
-  Widget _tile({
-    required String title,
-    required String? subtitle,
-    required IconData trailing,
-    required VoidCallback onTap,
-  }) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 8.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12.withValues(alpha: 0.05),
-            blurRadius: 4.r,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: ListTile(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
-        title: Text(
-          title,
-          style: AppFonts.style(
-            fontWeight: FontWeight.w600,
-            fontSize: 16.sp,
-            color: Colors.black87,
-          ),
-        ),
-        subtitle: subtitle == null
-            ? null
-            : Text(
-                subtitle,
-                style: AppFonts.style(fontSize: 14.sp, color: Colors.black54),
-              ),
-        trailing: Icon(trailing, color: AppColors.primary, size: 20.sp),
-        onTap: onTap,
       ),
     );
   }

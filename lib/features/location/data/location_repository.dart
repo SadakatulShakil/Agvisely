@@ -87,6 +87,9 @@ class LocationRepository {
     return _cache!;
   }
 
+  /// Flat, cached list of every union — backs the flat searchable picker.
+  Future<List<UnionRecord>> allUnions() => _loadAll();
+
   Future<List<NamedArea>> districts() async {
     final all = await _loadAll();
     final seen = <String, NamedArea>{};

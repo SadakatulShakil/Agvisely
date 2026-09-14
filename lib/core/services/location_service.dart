@@ -50,13 +50,13 @@ class LocationService {
       debugPrint(
           '🛰 Got position → Lat:${position.latitude}, Lon:${position.longitude}');
 
-      final isBangla = Get.locale?.languageCode == 'bn';
       final fetched = await UserPrefService()
           .fetchLocationDetailsFromApi(lat: position.latitude, lon: position.longitude)
           .timeout(Duration(seconds: timeoutSeconds), onTimeout: () => null);
 
       if (fetched != null) {
-        await UserPrefService().updateGPSLocationSilently(fetched, isBangla: isBangla);
+        await UserPrefService()
+            .upsertGpsLocation(fetched, makeCurrent: UserPrefService().isFollowingGPS);
       } else if (UserPrefService().isFollowingGPS) {
         // API failed — BMD's fallback: keep the raw coordinates only, so the
         // splash gate treats this as "location known" going forward.

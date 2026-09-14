@@ -6,52 +6,39 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../features/home/presentation/pages/home_page.dart';
 import '../../data/location_repository.dart';
 
-enum PickStep { district, upazila, union }
-
 class SelectLocationController extends GetxController {
   final LocationRepository _repository = LocationRepository();
 
-  final step = PickStep.district.obs;
+  // State
+  final all = <UnionRecord>[].obs;
+  final filtered = <UnionRecord>[].obs;
   final isLoading = true.obs;
   final isSaving = false.obs;
+  final UserPrefService userService = UserPrefService();
 
-  final districts = <NamedArea>[].obs;
-  final filteredDistricts = <NamedArea>[].obs;
-  final upazilas = <NamedArea>[].obs;
-  final filteredUpazilas = <NamedArea>[].obs;
-  final unions = <UnionRecord>[].obs;
-  final filteredUnions = <UnionRecord>[].obs;
-
-  final Rxn<NamedArea> selectedDistrict = Rxn<NamedArea>();
-  final Rxn<NamedArea> selectedUpazila = Rxn<NamedArea>();
-
+  // UI Controls
   final TextEditingController searchController = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
-    loadDistricts();
+    loadUnions();
   }
 
   @override
   void onReady() {
     super.onReady();
+
     if (UserPrefService().getLat() == null) {
       showExplainDialog();
     }
-  }
-
-  @override
-  void onClose() {
-    searchController.dispose();
-    super.onClose();
   }
 
   void showExplainDialog() {
     Future.delayed(const Duration(milliseconds: 100), () {
       final isBangla = Get.locale?.languageCode == 'bn';
       Get.dialog(
-        barrierDismissible: false,
+        barrierDismissible: false, // Prevents closing by clicking outside
         Dialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Container(
@@ -68,8 +55,8 @@ class SelectLocationController extends GetxController {
                 const SizedBox(height: 12),
                 Text(
                   isBangla
-                      ? "আপনার এলাকার আবহাওয়া দেখার জন্য দয়া করে তালিকা থেকে আপনার জেলা, উপজেলা ও ইউনিয়ন নির্বাচন করুন।"
-                      : "To see your area's weather, please select your district, upazila, and union from the list.",
+                      ? "আপনার এলাকার আবহাওয়া দেখার জন্য দয়া করে তালিকা থেকে আপনার উপজেলা বা জেলাটি খুঁজে নিন।"
+                      : "To see your area's weather, please select your Upazila or District from the list.",
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
@@ -92,100 +79,38 @@ class SelectLocationController extends GetxController {
     });
   }
 
-  Future<void> loadDistricts() async {
+  Future<void> loadUnions() async {
     isLoading.value = true;
     try {
-      final list = await _repository.districts();
-      districts.value = list;
-      filteredDistricts.value = list;
+      final list = await _repository.allUnions();
+      all.value = list;
+      filtered.value = list;
     } finally {
       isLoading.value = false;
-    }
-  }
-
-  Future<void> _loadUpazilas(String districtCode) async {
-    isLoading.value = true;
-    try {
-      final list = await _repository.upazilasOf(districtCode);
-      upazilas.value = list;
-      filteredUpazilas.value = list;
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  Future<void> _loadUnions(String districtCode, String upazilaCode) async {
-    isLoading.value = true;
-    try {
-      final list = await _repository.unionsOf(districtCode, upazilaCode);
-      unions.value = list;
-      filteredUnions.value = list;
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  void selectDistrict(NamedArea d) {
-    selectedDistrict.value = d;
-    searchController.clear();
-    step.value = PickStep.upazila;
-    _loadUpazilas(d.code);
-  }
-
-  void selectUpazila(NamedArea u) {
-    final district = selectedDistrict.value;
-    if (district == null) return;
-    selectedUpazila.value = u;
-    searchController.clear();
-    step.value = PickStep.union;
-    _loadUnions(district.code, u.code);
-  }
-
-  /// Steps back one level (union -> upazila -> district).
-  void back() {
-    searchController.clear();
-    if (step.value == PickStep.union) {
-      selectedUpazila.value = null;
-      filteredUnions.value = [];
-      step.value = PickStep.upazila;
-    } else if (step.value == PickStep.upazila) {
-      selectedDistrict.value = null;
-      filteredUpazilas.value = [];
-      step.value = PickStep.district;
     }
   }
 
   void search(String query) {
-    final lowerQuery = query.toLowerCase();
-    switch (step.value) {
-      case PickStep.district:
-        filteredDistricts.value = query.isEmpty
-            ? districts
-            : districts
-                .where((d) =>
-                    d.name.toLowerCase().contains(lowerQuery) ||
-                    d.nameBn.toLowerCase().contains(lowerQuery))
-                .toList();
-        break;
-      case PickStep.upazila:
-        filteredUpazilas.value = query.isEmpty
-            ? upazilas
-            : upazilas
-                .where((u) =>
-                    u.name.toLowerCase().contains(lowerQuery) ||
-                    u.nameBn.toLowerCase().contains(lowerQuery))
-                .toList();
-        break;
-      case PickStep.union:
-        filteredUnions.value = query.isEmpty
-            ? unions
-            : unions
-                .where((u) =>
-                    u.name.toLowerCase().contains(lowerQuery) ||
-                    u.nameBn.toLowerCase().contains(lowerQuery))
-                .toList();
-        break;
+    final q = query.trim().toLowerCase();
+    if (q.isEmpty) {
+      filtered.value = all;
+      return;
     }
+
+    filtered.value = all.where((u) {
+      return u.name.toLowerCase().contains(q) ||
+          u.nameBn.toLowerCase().contains(q) ||
+          u.upazila.toLowerCase().contains(q) ||
+          u.upazilaBn.toLowerCase().contains(q) ||
+          u.district.toLowerCase().contains(q) ||
+          u.districtBn.toLowerCase().contains(q);
+    }).toList();
+  }
+
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
   }
 
   /// Resolves the chosen union through the weather API (the JSON list only
@@ -196,15 +121,15 @@ class SelectLocationController extends GetxController {
     isSaving.value = true;
     try {
       final isBangla = Get.locale?.languageCode == 'bn';
-      final fetched = await UserPrefService().fetchLocationDetailsFromApi(
+      final fetched = await userService.fetchLocationDetailsFromApi(
         lat: item.lat,
         lon: item.lng,
         displayNameFallback: item.name,
         displayNameFallbackBn: item.nameBn,
       );
       if (fetched != null) {
-        await UserPrefService().setFollowGPS(false); // manual pick — stop auto-following GPS
-        await UserPrefService().saveSelectedLocation(fetched, isBangla: isBangla);
+        await userService.setFollowGPS(false); // manual pick — stop auto-following GPS
+        await userService.saveSelectedLocation(fetched, isBangla: isBangla);
         Get.offAll(() => const HomePage());
       } else {
         Get.snackbar('Error', 'Could not save location');

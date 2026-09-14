@@ -11,6 +11,12 @@ class SavedLocation {
   final String division;
   final String divisionBn;
 
+  /// True for the single device-GPS entry in the saved-locations list.
+  final bool isGps;
+
+  /// True for whichever entry is the active location.
+  final bool isCurrent;
+
   SavedLocation({
     required this.name,
     required this.nameBn,
@@ -23,7 +29,41 @@ class SavedLocation {
     required this.districtBn,
     required this.division,
     required this.divisionBn,
+    this.isGps = false,
+    this.isCurrent = false,
   });
+
+  SavedLocation copyWith({
+    String? name,
+    String? nameBn,
+    double? lat,
+    double? lng,
+    String? pcode,
+    String? upazila,
+    String? upazilaBn,
+    String? district,
+    String? districtBn,
+    String? division,
+    String? divisionBn,
+    bool? isGps,
+    bool? isCurrent,
+  }) {
+    return SavedLocation(
+      name: name ?? this.name,
+      nameBn: nameBn ?? this.nameBn,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
+      pcode: pcode ?? this.pcode,
+      upazila: upazila ?? this.upazila,
+      upazilaBn: upazilaBn ?? this.upazilaBn,
+      district: district ?? this.district,
+      districtBn: districtBn ?? this.districtBn,
+      division: division ?? this.division,
+      divisionBn: divisionBn ?? this.divisionBn,
+      isGps: isGps ?? this.isGps,
+      isCurrent: isCurrent ?? this.isCurrent,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     'name': name,
@@ -37,6 +77,8 @@ class SavedLocation {
     'districtBn': districtBn,
     'division': division,
     'divisionBn': divisionBn,
+    'isGps': isGps,
+    'isCurrent': isCurrent,
   };
 
   factory SavedLocation.fromJson(Map<String, dynamic> json) => SavedLocation(
@@ -51,6 +93,9 @@ class SavedLocation {
     districtBn: json['districtBn'] ?? '',
     division: json['division'] ?? '',
     divisionBn: json['divisionBn'] ?? '',
+    // Old stored entries predate these fields — default to false.
+    isGps: json['isGps'] == true,
+    isCurrent: json['isCurrent'] == true,
   );
 
   /// Display name combining union + district, matching the language.
