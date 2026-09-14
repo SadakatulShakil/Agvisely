@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../../../core/theme/app_theme_colors.dart';
 import '../../../../../core/utils/app_logo.dart';
 import '../../../../../core/utils/bd_locations.dart';
+import '../../../../location/data/location_repository.dart';
 import '../../domen/controllers/auth_controller.dart';
 import '../widgets/auth_widgets.dart';
 
@@ -14,6 +15,8 @@ class SignupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = Get.isRegistered<AuthController>() ? Get.find<AuthController>() : Get.put(AuthController(), permanent: true);
+    final isBn = Get.locale?.languageCode == 'bn';
+    String areaName(NamedArea a) => isBn ? a.nameBn : a.name;
     return Scaffold(
       body: SageBackground(
         child: SafeArea(
@@ -50,26 +53,24 @@ class SignupPage extends StatelessWidget {
 
                 const FieldLabel('District'),
                 Obx(() => DropdownButtonFormField<String>(
-                      value: c.district.value,
+                      value: c.selectedDistrict.value?.code,
                       isExpanded: true,
                       decoration: agFieldDecoration('Select district'),
-                      items: BdLocations.districts
-                          .map((d) => DropdownMenuItem(value: d, child: Text(d)))
+                      items: c.districtOptions
+                          .map((d) => DropdownMenuItem(value: d.code, child: Text(areaName(d))))
                           .toList(),
-                      onChanged: c.onDistrictChanged,
+                      onChanged: c.districtOptions.isEmpty ? null : c.onDistrictChanged,
                     )),
 
                 const FieldLabel('Upazila'),
                 Obx(() => DropdownButtonFormField<String>(
-                      value: c.upazila.value,
+                      value: c.selectedUpazila.value?.code,
                       isExpanded: true,
                       decoration: agFieldDecoration('Select upazila'),
                       items: c.upazilaOptions
-                          .map((u) => DropdownMenuItem(value: u, child: Text(u)))
+                          .map((u) => DropdownMenuItem(value: u.code, child: Text(areaName(u))))
                           .toList(),
-                      onChanged: c.upazilaOptions.isEmpty
-                          ? null
-                          : (v) => c.upazila.value = v,
+                      onChanged: c.upazilaOptions.isEmpty ? null : c.onUpazilaChanged,
                     )),
 
                 const FieldLabel('Contact No'),

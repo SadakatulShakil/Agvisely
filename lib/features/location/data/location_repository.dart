@@ -71,7 +71,7 @@ class NamedArea {
 }
 
 class LocationRepository {
-  List<UnionRecord>? _cache;
+  static List<UnionRecord>? _cache;
 
   Future<List<UnionRecord>> _loadAll() async {
     if (_cache != null) return _cache!;

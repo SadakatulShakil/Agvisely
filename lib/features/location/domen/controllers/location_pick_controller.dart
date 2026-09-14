@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../../../core/services/user_pref_service.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../features/home/presentation/pages/home_page.dart';
-import '../../../../models/saved_location_model.dart';
 import '../../data/location_repository.dart';
 
 enum PickStep { district, upazila, union }
@@ -189,26 +188,27 @@ class SelectLocationController extends GetxController {
     }
   }
 
-  /// Persists the chosen union as the active location and lands on Home.
+  /// Resolves the chosen union through the weather API (the JSON list only
+  /// supplies the lat/lon + a fallback name — district/upazila/division come
+  /// from the API, matching BMD), persists it as the active location, and
+  /// lands on Home.
   Future<void> handleLocationSelection(UnionRecord item) async {
     isSaving.value = true;
     try {
       final isBangla = Get.locale?.languageCode == 'bn';
-      final loc = SavedLocation(
-        name: item.name,
-        nameBn: item.nameBn,
+      final fetched = await UserPrefService().fetchLocationDetailsFromApi(
         lat: item.lat,
-        lng: item.lng,
-        pcode: item.pcode,
-        upazila: item.upazila,
-        upazilaBn: item.upazilaBn,
-        district: item.district,
-        districtBn: item.districtBn,
-        division: item.division,
-        divisionBn: '', // dataset has no Bangla division name
+        lon: item.lng,
+        displayNameFallback: item.name,
+        displayNameFallbackBn: item.nameBn,
       );
-      await UserPrefService().saveSelectedLocation(loc, isBangla: isBangla);
-      Get.offAll(() => const HomePage());
+      if (fetched != null) {
+        await UserPrefService().setFollowGPS(false); // manual pick — stop auto-following GPS
+        await UserPrefService().saveSelectedLocation(fetched, isBangla: isBangla);
+        Get.offAll(() => const HomePage());
+      } else {
+        Get.snackbar('Error', 'Could not save location');
+      }
     } catch (e) {
       Get.snackbar('Error', 'Could not save location');
     } finally {

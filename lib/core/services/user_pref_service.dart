@@ -1,8 +1,12 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/api_location_model.dart';
 import '../../models/saved_location_model.dart';
+import '../network/api_endpoints.dart';
 
 class UserPrefService {
   UserPrefService._internal();
@@ -128,6 +132,9 @@ class UserPrefService {
   String? get locationDivision => _prefs?.getString(_keyLocationDivision);
   String? get locationDivisionBn => _prefs?.getString(_keyLocationDivisionBn);
   bool get isFollowingGPS => _prefs?.getBool(_keyFollowGPS) ?? true; // Default to true
+  Future<void> setFollowGPS(bool follow) async {
+    await _prefs?.setBool(_keyFollowGPS, follow);
+  }
 
   // ── Location-flow (splash gate / SelectLocationPage / LocationService) ─────
   String? getLat() => lat;
@@ -155,5 +162,63 @@ class UserPrefService {
     } catch (_) {
       return null;
     }
+  }
+
+  /// GPS-driven update that must never clobber a location the user picked
+  /// manually. Mirrors BMD's isFollowingGPS / updateGPSLocationSilently
+  /// distinction — agvisely has a single active-location slot rather than
+  /// BMD's saved-locations list, so "silently update the GPS entry" collapses
+  /// to "only touch the active slot when the user is still following GPS".
+  Future<void> updateGPSLocationSilently(SavedLocation loc, {required bool isBangla}) async {
+    if (!isFollowingGPS) return;
+    await saveSelectedLocation(loc, isBangla: isBangla);
+  }
+
+  /// Resolves a lat/lon into a full location (district/upazila/division)
+  /// via BMD's weather API. [displayNameFallback]/[displayNameFallbackBn],
+  /// when given, are PREFERRED over the API's own location name (matches
+  /// BMD: a caller-supplied name — e.g. from the local union picker — is
+  /// more natural than the API's combined "city, upazila, district" string).
+  /// Returns null only when there's nothing usable at all: the API call
+  /// failed/returned no name AND no fallback name was given.
+  Future<SavedLocation?> fetchLocationDetailsFromApi({
+    required double lat,
+    required double lon,
+    String displayNameFallback = '',
+    String displayNameFallbackBn = '',
+  }) async {
+    ApiLocationModel? apiLoc;
+    try {
+      final resp = await http.get(
+        Uri.parse('${ApiEndpoints.locationLatlon}?type=point&lat=$lat&lon=$lon'),
+        headers: {'Accept-Language': Get.locale?.languageCode ?? 'bn'},
+      ).timeout(const Duration(seconds: 10));
+
+      if (resp.statusCode == 200) {
+        apiLoc = ApiLocationModel.fromJson(jsonDecode(resp.body) as Map<String, dynamic>);
+      }
+    } catch (e) {
+      apiLoc = null;
+    }
+
+    final apiName = apiLoc?.locationName ?? '';
+    final nameEn = displayNameFallback.isNotEmpty ? displayNameFallback : apiName;
+    final nameBn = displayNameFallbackBn.isNotEmpty ? displayNameFallbackBn : apiName;
+
+    if (nameEn.isEmpty && nameBn.isEmpty) return null;
+
+    return SavedLocation(
+      name: nameEn,
+      nameBn: nameBn,
+      lat: lat,
+      lng: lon,
+      pcode: apiLoc?.id ?? '',
+      upazila: apiLoc?.upazila ?? '',
+      upazilaBn: apiLoc?.upazilaBn ?? '',
+      district: apiLoc?.district ?? '',
+      districtBn: apiLoc?.districtBn ?? '',
+      division: apiLoc?.division ?? '',
+      divisionBn: apiLoc?.divisionBn ?? '',
+    );
   }
 }

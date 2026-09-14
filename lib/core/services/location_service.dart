@@ -5,14 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
-import '../../features/location/data/location_repository.dart';
-import '../../models/saved_location_model.dart';
 import '../theme/app_fonts.dart';
 import 'user_pref_service.dart';
 
 class LocationService {
-  final LocationRepository _repository = LocationRepository();
-
   // ─────────────────────────────────────────────────────────────────────────
   // PUBLIC: Check current permission + service status without requesting
   // ─────────────────────────────────────────────────────────────────────────
@@ -55,29 +51,14 @@ class LocationService {
           '🛰 Got position → Lat:${position.latitude}, Lon:${position.longitude}');
 
       final isBangla = Get.locale?.languageCode == 'bn';
-      final nearest = await _repository
-          .nearest(position.latitude, position.longitude)
+      final fetched = await UserPrefService()
+          .fetchLocationDetailsFromApi(lat: position.latitude, lon: position.longitude)
           .timeout(Duration(seconds: timeoutSeconds), onTimeout: () => null);
 
-      if (nearest != null) {
-        await UserPrefService().saveSelectedLocation(
-          SavedLocation(
-            name: nearest.name,
-            nameBn: nearest.nameBn,
-            lat: position.latitude,
-            lng: position.longitude,
-            pcode: nearest.pcode,
-            upazila: nearest.upazila,
-            upazilaBn: nearest.upazilaBn,
-            district: nearest.district,
-            districtBn: nearest.districtBn,
-            division: nearest.division,
-            divisionBn: '', // dataset has no Bangla division name
-          ),
-          isBangla: isBangla,
-        );
-      } else {
-        // Dataset lookup failed — still keep the raw coordinates so the
+      if (fetched != null) {
+        await UserPrefService().updateGPSLocationSilently(fetched, isBangla: isBangla);
+      } else if (UserPrefService().isFollowingGPS) {
+        // API failed — BMD's fallback: keep the raw coordinates only, so the
         // splash gate treats this as "location known" going forward.
         await UserPrefService().saveLatLonData(
           position.latitude.toStringAsFixed(5),

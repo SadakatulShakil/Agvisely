@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/theme/app_theme_colors.dart';
@@ -78,20 +79,38 @@ class _HomeDashboard extends StatelessWidget {
             const CircleAvatar(radius: 22, child: Icon(Icons.person)),
             const SizedBox(width: 12),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('${'home.greeting'.tr}, Sadakatul'),
-                  Obx(
-                    () => Text(
-                      c.locationName.value,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryDark,
+              child: GestureDetector(
+                onTap: c.openLocationPicker,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('${'home.greeting'.tr}, Sadakatul'),
+                    Obx(
+                      () => Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              c.locationName.value,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primaryDark,
+                                fontSize: 14.sp
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 2.w),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            size: 16.sp,
+                            color: AppColors.primaryDark,
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             const CircleAvatar(

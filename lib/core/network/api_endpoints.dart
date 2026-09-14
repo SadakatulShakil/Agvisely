@@ -11,6 +11,14 @@ class ApiEndpoints {
   static const String checkNetwork = 'https://clients3.google.com/generate_204';
 
   // ===================================
+  // Location resolution (BMD weather API — same host BMD-Abohawa uses to
+  // turn a lat/lon into a district/upazila/division; agvisely has no
+  // equivalent of its own yet, so location lookups go through this host).
+  // ===================================
+  static const String baseUrlWeather = 'https://usf.bmd.gov.bd/api/app';
+  static const String locationLatlon = '$baseUrlWeather/weather/forecast';
+
+  // ===================================
   // Auth & user
   // ===================================
   static const String sendOtp = '$baseApiUrl/auth/mobile';
