@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../../core/theme/app_theme_colors.dart';
@@ -21,30 +22,40 @@ class SignupPage extends StatelessWidget {
       body: SageBackground(
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 32),
                 const Center(child: AppLogo(height: 84)),
-                const SizedBox(height: 28),
+                SizedBox(height: 28.h),
                 Text(
                   'To create a quick and easy one-time sign-up, you only need some pieces of information',
-                  style: TextStyle(fontSize: 20, color: AppColors.navy, height: 1.3),
+                  style: TextStyle(fontSize: 18.sp, color: AppColors.primaryDark, height: 1.3),
                 ),
 
                 const FieldLabel('Your Name'),
                 TextField(
                   controller: c.name,
                   textCapitalization: TextCapitalization.words,
-                  decoration: agFieldDecoration('Write your name here'),
+                  decoration: agFieldDecoration('Write your name here').copyWith(
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                    hintStyle: TextStyle(fontSize: 16.sp,
+                        color: AppColors.textSecondaryLight),
+                  ),
                 ),
 
                 const FieldLabel('Your Profession'),
                 Obx(() => DropdownButtonFormField<String>(
                       value: c.profession.value,
                       isExpanded: true,
-                      decoration: agFieldDecoration(''),
+                      decoration: agFieldDecoration('').copyWith(
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                        hintStyle: TextStyle(fontSize: 16.sp,
+                            color: AppColors.textSecondaryLight),
+                      ),
                       items: BdLocations.professions
                           .map((p) => DropdownMenuItem(value: p, child: Text(p)))
                           .toList(),
@@ -55,7 +66,12 @@ class SignupPage extends StatelessWidget {
                 Obx(() => DropdownButtonFormField<String>(
                       value: c.selectedDistrict.value?.code,
                       isExpanded: true,
-                      decoration: agFieldDecoration('Select district'),
+                      decoration: agFieldDecoration('Select district').copyWith(
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                        hintStyle: TextStyle(fontSize: 16.sp,
+                            color: AppColors.textSecondaryLight),
+                      ),
                       items: c.districtOptions
                           .map((d) => DropdownMenuItem(value: d.code, child: Text(areaName(d))))
                           .toList(),
@@ -66,7 +82,12 @@ class SignupPage extends StatelessWidget {
                 Obx(() => DropdownButtonFormField<String>(
                       value: c.selectedUpazila.value?.code,
                       isExpanded: true,
-                      decoration: agFieldDecoration('Select upazila'),
+                      decoration: agFieldDecoration('Select upazila').copyWith(
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                        hintStyle: TextStyle(fontSize: 16.sp,
+                            color: AppColors.textSecondaryLight),
+                      ),
                       items: c.upazilaOptions
                           .map((u) => DropdownMenuItem(value: u.code, child: Text(areaName(u))))
                           .toList(),
@@ -80,7 +101,12 @@ class SignupPage extends StatelessWidget {
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
                   ],
-                  decoration: agFieldDecoration('+8801646923894'),
+                  decoration: agFieldDecoration('+8801646923894').copyWith(
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                    hintStyle: TextStyle(fontSize: 16.sp,
+                        color: AppColors.textSecondaryLight),
+                  ),
                 ),
 
                 const SizedBox(height: 32),
@@ -89,7 +115,7 @@ class SignupPage extends StatelessWidget {
                       loading: c.isSubmitting.value,
                       onPressed: c.requestOtpForSignup,
                     )),
-                const SizedBox(height: 16),
+                SizedBox(height: 8.h),
                 Center(
                   child: TextButton(
                     onPressed: () => Get.back(),

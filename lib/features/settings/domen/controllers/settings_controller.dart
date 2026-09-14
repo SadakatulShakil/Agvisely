@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/services/user_pref_service.dart';
@@ -15,6 +16,6 @@ class SettingsController extends GetxController {
   Future<void> setLanguage(String code) async {
     language.value = code;
     await UserPrefService().setAppLanguage(code);
-    Get.forceAppUpdate(); // rebuild strings across the app
+    Get.updateLocale(Locale(code));
   }
 }

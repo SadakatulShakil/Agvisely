@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -129,8 +130,8 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const AppLogo(height: 96),
-              const SizedBox(height: 20),
+              AppLogo(height: 96.h),
+              SizedBox(height: 20.h),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 48),
                 child: Text(
@@ -140,11 +141,11 @@ class _SplashScreenState extends State<SplashScreen> {
                       fontSize: 16, color: AppColors.textSecondaryLight, height: 1.4),
                 ),
               ),
-              const SizedBox(height: 28),
-              const Text(
+              SizedBox(height: 38.h),
+              Text(
                 'Technical Partner: RIMES',
                 style: TextStyle(
-                    fontSize: 28,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryDark),
               ),

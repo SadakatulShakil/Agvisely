@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/theme/app_theme_colors.dart';
 
@@ -9,15 +10,28 @@ class SageBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFFF2F4F1), Color(0xFFDDE6D6)],
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Positioned.fill(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  const Color(0xFF678042).withValues(alpha: 0.0),
+                  const Color(0xFF678042).withValues(alpha: 0.18),
+                  const Color(0xFF678042).withValues(alpha: 0.19),
+                  const Color(0xFF678042).withValues(alpha: 0.0),
+                ],
+                stops: const [0.0, 0.25, 0.73, 1.0],
+              ),
+            ),
+          ),
         ),
-      ),
-      child: child,
+        child,
+      ],
     );
   }
 }
@@ -41,11 +55,11 @@ class AgButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 62,
+      height: 62.h,
       child: ElevatedButton(
         onPressed: loading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.primaryDark,
           foregroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -61,11 +75,11 @@ class AgButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(label,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w600)),
+                      style: TextStyle(
+                          fontSize: 18.sp, fontWeight: FontWeight.w600)),
                   if (showArrow) ...[
                     const SizedBox(width: 10),
-                    const Icon(Icons.arrow_forward, size: 20),
+                    Icon(Icons.arrow_forward, size: 20.sp),
                   ],
                 ],
               ),
@@ -81,11 +95,11 @@ class FieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: 8, top: 18),
+        padding: const EdgeInsets.only(bottom: 8, top: 8),
         child: Text(text,
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.primaryDark,
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w500)),
       );
 }

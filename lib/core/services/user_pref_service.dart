@@ -48,7 +48,6 @@ class UserPrefService {
   static const String _keyLocationDistrictBn = 'LOCATION_DISTRICT_BN';
   static const String _keyLocationDivision = 'LOCATION_DIVISION';
   static const String _keyLocationDivisionBn = 'LOCATION_DIVISION_BN';
-  static const String _keyAppLanguage = 'APP_LANGUAGE';
   static const String _updatedDate = 'CONTENT_UPDATE';
   static const String _keyFollowGPS = 'FOLLOW_GPS';
   static const String _keySurveyLastSubmitted = 'SURVEY_LAST_SUBMITTED_AT';
@@ -175,6 +174,13 @@ class UserPrefService {
     required double lon,
     String displayNameFallback = '',
     String displayNameFallbackBn = '',
+    // The API's own location id is a weather-zone/station id, not a
+    // per-union id — nearby unions can resolve to the SAME id, which would
+    // make addOrUpdateCustom's pcode match collapse distinct picks into one
+    // entry. Callers that already have a stable per-location identity (e.g.
+    // a UnionRecord's own pcode from the local dataset) should pass it here
+    // so multiple different picks are never treated as the same entry.
+    String? pcodeOverride,
   }) async {
     ApiLocationModel? apiLoc;
     try {
@@ -201,7 +207,7 @@ class UserPrefService {
       nameBn: nameBn,
       lat: lat,
       lng: lon,
-      pcode: apiLoc?.id ?? '',
+      pcode: pcodeOverride ?? (apiLoc?.id ?? ''),
       upazila: apiLoc?.upazila ?? '',
       upazilaBn: apiLoc?.upazilaBn ?? '',
       district: apiLoc?.district ?? '',
@@ -313,23 +319,37 @@ class UserPrefService {
     await _syncMirrorFromList(list);
   }
 
-  /// Removes a custom entry by pcode. Never removes the GPS entry. If the
-  /// removed entry was current, falls back to the GPS entry (or the first
-  /// remaining entry) as current.
+  /// Removes a custom entry by pcode. Never removes the GPS entry, and
+  /// never removes the currently-active entry — the user must switch to a
+  /// different location first.
   Future<void> removeLocation(String pcode) async {
     final list = await _readSavedLocations();
     final removed = list.firstWhereOrNull((l) => !l.isGps && l.pcode == pcode);
-    if (removed == null) return;
+    if (removed == null || removed.isCurrent) return;
 
     list.removeWhere((l) => !l.isGps && l.pcode == pcode);
-    if (removed.isCurrent && list.isNotEmpty) {
-      final gpsIdx = list.indexWhere((l) => l.isGps);
-      if (gpsIdx != -1) {
-        list[gpsIdx] = list[gpsIdx].copyWith(isCurrent: true);
-      } else {
-        list[0] = list[0].copyWith(isCurrent: true);
-      }
-    }
+    await _writeSavedLocations(list);
+    await _syncMirrorFromList(list);
+  }
+
+  /// Renames a custom entry's locale-specific display name (matches BMD's
+  /// updateLocationDisplayName). GPS entries are never renamed — their label
+  /// always reflects the resolved place name.
+  Future<void> renameCustomLocation(
+    String pcode, {
+    required bool isBangla,
+    required String newName,
+  }) async {
+    final trimmed = newName.trim();
+    if (trimmed.isEmpty) return;
+
+    final list = await _readSavedLocations();
+    final idx = list.indexWhere((l) => !l.isGps && l.pcode == pcode);
+    if (idx == -1) return;
+
+    list[idx] = isBangla
+        ? list[idx].copyWith(nameBn: trimmed)
+        : list[idx].copyWith(name: trimmed);
     await _writeSavedLocations(list);
     await _syncMirrorFromList(list);
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -24,39 +25,46 @@ class HomePage extends StatelessWidget {
       const ProfilePage(),
     ];
 
-    return Obx(
-      () => Scaffold(
-        key: scaffoldKey,
-        drawer: const AppDrawer(),
-        body: SafeArea(child: tabs[c.navIndex.value.clamp(0, tabs.length - 1)]),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: c.navIndex.value == 3 ? 0 : c.navIndex.value,
-          onTap: (i) {
-            if (i == 3) {
-              scaffoldKey.currentState?.openDrawer();
-            } else {
-              c.changeTab(i);
-            }
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.home_outlined),
-              activeIcon: const Icon(Icons.home),
-              label: 'nav.home'.tr,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.bug_report_outlined),
-              label: 'nav.pest'.tr,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.person_outline),
-              label: 'nav.profile'.tr,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.menu),
-              label: 'nav.menu'.tr,
-            ),
-          ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark, // Android icons
+        statusBarBrightness: Brightness.light,    // iOS text
+      ),
+      child: Obx(
+        () => Scaffold(
+          key: scaffoldKey,
+          drawer: const AppDrawer(),
+          body: SafeArea(child: tabs[c.navIndex.value.clamp(0, tabs.length - 1)]),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: c.navIndex.value == 3 ? 0 : c.navIndex.value,
+            onTap: (i) {
+              if (i == 3) {
+                scaffoldKey.currentState?.openDrawer();
+              } else {
+                c.changeTab(i);
+              }
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.home_outlined),
+                activeIcon: const Icon(Icons.home),
+                label: 'nav.home'.tr,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.bug_report_outlined),
+                label: 'nav.pest'.tr,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.person_outline),
+                label: 'nav.profile'.tr,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.menu),
+                label: 'nav.menu'.tr,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -120,7 +128,22 @@ class _HomeDashboard extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        _placeholderCard('Weather card', 160),
+        Obx(
+          () => _placeholderCard(
+            'Weather card',
+            160,
+            topRight: c.isResolvingLocation.value
+                ? SizedBox(
+                    width: 16.w,
+                    height: 16.w,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.primary,
+                    ),
+                  )
+                : null,
+          ),
+        ),
         const SizedBox(height: 16),
         Row(
           children: [
@@ -145,13 +168,18 @@ class _HomeDashboard extends StatelessWidget {
     );
   }
 
-  Widget _placeholderCard(String label, double height) => Container(
+  Widget _placeholderCard(String label, double height, {Widget? topRight}) => Container(
         height: height,
-        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: AppColors.cardLight,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Text(label, style: const TextStyle(color: AppColors.navy)),
+        child: Stack(
+          children: [
+            Center(child: Text(label, style: const TextStyle(color: AppColors.navy))),
+            if (topRight != null)
+              Positioned(top: 8.h, right: 8.w, child: topRight),
+          ],
+        ),
       );
 }

@@ -126,6 +126,7 @@ class SelectLocationController extends GetxController {
         lon: item.lng,
         displayNameFallback: item.name,
         displayNameFallbackBn: item.nameBn,
+        pcodeOverride: item.pcode,
       );
       if (fetched != null) {
         await userService.setFollowGPS(false); // manual pick — stop auto-following GPS

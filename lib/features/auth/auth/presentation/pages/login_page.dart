@@ -15,6 +15,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = Get.isRegistered<AuthController>() ? Get.find<AuthController>() : Get.put(AuthController(), permanent: true);
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SageBackground(
         child: SafeArea(
           child: SingleChildScrollView(
@@ -72,7 +73,6 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 48),
               ],
             ),
           ),

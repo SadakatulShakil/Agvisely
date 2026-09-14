@@ -13,16 +13,16 @@ class AppColors {
   static const Color primary = Color(0xFF5F9E43);
 
   /// Deep green — logo "G", emphasis, pressed states.
-  static const Color primaryDark = Color(0xFF267933);
+  static const Color primaryDark = Color(0xFF678042);
 
   /// Bright accent green — highlights, small indicators.
-  static const Color accent = Color(0xFF6CC72B);
+  static const Color accent = Color(0xFF9BB673);
 
   /// Navy — the "visely" wordmark, headings on light surfaces.
   static const Color navy = Color(0xFF2E3F4F);
 
   /// Dark olive — large figures (e.g. temperature), strong headings.
-  static const Color heading = Color(0xFF435939);
+  static const Color heading = Color(0xFF98A894);
 
   // ── Surfaces (light) ───────────────────────────────────────────────────────
   static const Color scaffoldLight = Color(0xFFF2F4F1); // sage off-white
