@@ -8,6 +8,7 @@ import '../../../../core/utils/app_drawer.dart';
 import '../../../pest_advisory/presentation/pages/pest_advisory_page.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
 import '../../domen/controllers/home_controller.dart';
+import '../widgets/weather_card.dart';
 
 /// Root shell after splash. Bottom nav mirrors the Figma home frame:
 /// Home · Pest Advisory · Profile · Menu (Menu opens the drawer).
@@ -129,10 +130,11 @@ class _HomeDashboard extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Obx(
-          () => _placeholderCard(
-            'Weather card',
-            160,
-            topRight: c.isResolvingLocation.value
+          () => WeatherCard(
+            weather: c.currentWeather.value,
+            isLoading: c.isLoadingWeather.value,
+            onRetry: c.loadWeather,
+            topRight: (c.isResolvingLocation.value || c.isLoadingWeather.value)
                 ? SizedBox(
                     width: 16.w,
                     height: 16.w,

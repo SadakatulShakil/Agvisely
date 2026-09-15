@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 
 import '../../../../core/services/user_pref_service.dart';
+import '../../../../models/current_weather_model.dart';
 import '../../../location/data/location_repository.dart';
+import '../../../weather/data/weather_repository.dart';
 import '../../presentation/widgets/saved_locations_sheet.dart';
 
 /// Drives the home shell: bottom-nav selection + top-bar identity.
@@ -13,18 +15,39 @@ class HomeController extends GetxController {
   /// API in the background — drives the small loader on the weather card.
   final isResolvingLocation = false.obs;
 
+  final currentWeather = Rxn<CurrentWeatherModel>();
+  final isLoadingWeather = false.obs;
+  final _weatherRepository = WeatherRepository();
+
   void changeTab(int i) => navIndex.value = i;
 
   @override
   void onInit() {
     super.onInit();
     refreshLocationName();
-    // TODO: fetch dashboard payload (weather + advisory summaries + my choice)
+    loadWeather();
+    // TODO: fetch dashboard payload (advisory summaries + my choice)
   }
 
   void refreshLocationName() {
     final saved = UserPrefService().locationName;
     if (saved != null && saved.isNotEmpty) locationName.value = saved;
+  }
+
+  /// Fetches current-weather for the active saved location's lat/lon.
+  /// No-ops silently if no location has been resolved yet.
+  Future<void> loadWeather() async {
+    final lat = double.tryParse(UserPrefService().getLat() ?? '');
+    final lon = double.tryParse(UserPrefService().getLon() ?? '');
+    if (lat == null || lon == null) return;
+
+    isLoadingWeather.value = true;
+    try {
+      currentWeather.value =
+          await _weatherRepository.fetchCurrentWeather(lat: lat, lon: lon);
+    } finally {
+      isLoadingWeather.value = false;
+    }
   }
 
   /// Opens the saved-locations sheet — switch, delete, or add a location.
@@ -54,6 +77,7 @@ class HomeController extends GetxController {
       if (loc != null) {
         await UserPrefService().addOrUpdateCustom(loc, makeCurrent: true);
         refreshLocationName();
+        loadWeather();
       }
     } finally {
       isResolvingLocation.value = false;
