@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/services/user_pref_service.dart';
-import '../../../auth/auth/presentation/pages/login_page.dart';
+import '../../../location/models/location_gate_destination.dart';
+import '../../../location/presentation/pages/location_gate_page.dart';
 import '../../models/onboarding_slide.dart';
 
 class OnboardingController extends GetxController {
@@ -45,7 +46,11 @@ class OnboardingController extends GetxController {
 
   Future<void> finish() async {
     await UserPrefService().setOnboarded(true);
-    Get.off(() => const LoginPage());
+    // Resolve location (GPS permission, falling back to manual search)
+    // right after onboarding — before Login/Signup — so district/upazila
+    // are already known by the time the user signs up.
+    Get.off(() =>
+        const LocationGatePage(destination: LocationGateDestination.login));
   }
 
   @override

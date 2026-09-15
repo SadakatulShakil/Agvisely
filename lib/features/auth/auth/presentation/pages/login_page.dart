@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../../core/theme/app_theme_colors.dart';
@@ -29,14 +30,14 @@ class LoginPage extends StatelessWidget {
                 Text(
                   'Welcome back',
                   style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 28.sp,
                       fontWeight: FontWeight.bold,
                       color: AppColors.navy),
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   'Enter your mobile number to receive a one-time code',
-                  style: TextStyle(fontSize: 16, color: AppColors.textSecondaryLight),
+                  style: TextStyle(fontSize: 18.sp, color: AppColors.textSecondaryLight),
                 ),
                 const FieldLabel('Contact No'),
                 TextField(

@@ -11,7 +11,7 @@ import '../../../../core/services/user_pref_service.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/app_logo.dart';
 import '../../../../core/utils/force_update_dialog.dart';
-import '../../../auth/auth/presentation/pages/login_page.dart';
+import '../../../location/models/location_gate_destination.dart';
 import '../../../location/presentation/pages/location_gate_page.dart';
 import '../../../onboarding/presentation/pages/onboarding_page.dart';
 
@@ -109,7 +109,10 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!prefs.hasOnboarded) {
       Get.off(() => const OnboardingPage());
     } else if (!prefs.isLoggedIn) {
-      Get.off(() => const LoginPage());
+      // Not logged in yet — resolve location (if not already known) before
+      // Login/Signup, so the signup form can auto-fill district/upazila.
+      Get.off(() => const LocationGatePage(
+          destination: LocationGateDestination.login));
     } else {
       Get.off(() => const LocationGatePage());
     }

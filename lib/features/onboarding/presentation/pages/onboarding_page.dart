@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/theme/app_theme_colors.dart';
@@ -51,8 +52,8 @@ class OnboardingPage extends StatelessWidget {
                           Text(
                             s.title,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 24,
+                            style: TextStyle(
+                                fontSize: 26.sp,
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.navy),
                           ),
@@ -60,8 +61,8 @@ class OnboardingPage extends StatelessWidget {
                           Text(
                             s.subtitle,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 16,
+                            style: TextStyle(
+                                fontSize: 18.sp,
                                 height: 1.4,
                                 color: AppColors.textSecondaryLight),
                           ),
@@ -83,7 +84,7 @@ class OnboardingPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: c.index.value == i
                               ? AppColors.primary
-                              : AppColors.dividerLight,
+                              : AppColors.heading,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),

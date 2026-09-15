@@ -10,18 +10,26 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/app_logo.dart';
 import '../../../../main.dart' show dbServiceReady;
+import '../../../auth/auth/presentation/pages/login_page.dart';
 import '../../../home/presentation/pages/home_page.dart';
 import '../../domen/binding/select_location_binding.dart';
+import '../../models/location_gate_destination.dart';
 import 'select_location_page.dart';
 
-/// Reusable location gate — decides whether the user lands straight on
-/// Home (already has a saved location) or has to go through the GPS
-/// permission flow first, falling back to manual search on any dead end.
+/// Reusable location gate — decides whether the user lands on Home/Login
+/// straight away (already has a saved location) or has to go through the
+/// GPS permission flow first, falling back to manual search on any dead end.
 ///
-/// Entry points: SplashScreen (app launch, once onboarded + logged in) and
-/// AuthController.verifyOtp() (fresh login).
+/// Entry points: SplashScreen (app launch) and OnboardingController.finish()
+/// (fresh install, before Login/Signup — so district/upazila are already
+/// known by the time the user reaches the signup form).
 class LocationGatePage extends StatefulWidget {
-  const LocationGatePage({super.key});
+  final LocationGateDestination destination;
+
+  const LocationGatePage({
+    super.key,
+    this.destination = LocationGateDestination.home,
+  });
 
   @override
   State<LocationGatePage> createState() => _LocationGatePageState();
@@ -78,10 +86,10 @@ class _LocationGatePageState extends State<LocationGatePage>
     if (_initialized || _shouldNavigate) return;
     _initialized = true;
 
-    // Already has a saved location — go straight to home
+    // Already has a saved location — go straight to the destination
     if (UserPrefService().getLat() != null &&
         UserPrefService().getLat()!.isNotEmpty) {
-      _navigateToHome();
+      _navigateToNext();
       return;
     }
 
@@ -153,7 +161,7 @@ class _LocationGatePageState extends State<LocationGatePage>
         .timeout(const Duration(seconds: 15), onTimeout: () => false);
 
     if (success) {
-      _navigateToHome();
+      _navigateToNext();
     } else {
       _goToLocationSearch();
     }
@@ -318,9 +326,19 @@ class _LocationGatePageState extends State<LocationGatePage>
   // NAVIGATION
   // ─────────────────────────────────────────────────────────────────────────
 
-  Future<void> _navigateToHome() async {
+  Future<void> _navigateToNext() async {
     if (_shouldNavigate) return;
     _shouldNavigate = true;
+
+    if (widget.destination == LocationGateDestination.login) {
+      Get.offAll(
+        () => const LoginPage(),
+        transition: Transition.fade,
+        duration: const Duration(milliseconds: 400),
+      );
+      return;
+    }
+
     // DBService is registered post-first-frame (see main.dart's
     // _deferredInit) — wait for registration so HomePage/HomeController
     // can't race a cold start.
@@ -336,7 +354,10 @@ class _LocationGatePageState extends State<LocationGatePage>
     if (_shouldNavigate) return;
     _shouldNavigate = true;
     Get.offAll(
-      () => SelectLocationPage(isFirstInstall: true),
+      () => SelectLocationPage(
+        isFirstInstall: true,
+        destination: widget.destination,
+      ),
       transition: Transition.fade,
       duration: const Duration(milliseconds: 400),
       binding: SelectLocationBinding(),

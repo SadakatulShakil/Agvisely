@@ -5,15 +5,22 @@ import 'package:get/get.dart';
 
 import '../../../../core/theme/app_fonts.dart';
 import '../../domen/controllers/location_pick_controller.dart';
+import '../../models/location_gate_destination.dart';
 
 class SelectLocationPage extends StatelessWidget {
   final bool isFirstInstall;
-  SelectLocationPage({super.key, this.isFirstInstall = false});
+  final LocationGateDestination destination;
+  SelectLocationPage({
+    super.key,
+    this.isFirstInstall = false,
+    this.destination = LocationGateDestination.home,
+  });
   final controller = Get.find<SelectLocationController>();
   final isBangla = Get.locale?.languageCode == 'bn';
 
   @override
   Widget build(BuildContext context) {
+    controller.destination = destination;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,

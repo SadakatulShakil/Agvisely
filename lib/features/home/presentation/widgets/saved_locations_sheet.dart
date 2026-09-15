@@ -220,12 +220,19 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
   }
 
   Widget _row(SavedLocation loc, bool isBangla) {
+    // Custom entries already carry "Union, Upazila" as their name (set at
+    // pick time in SelectLocationController/HomeController), so the
+    // district alone is enough for their subtitle without repeating upazila.
+    // The GPS row's title is the fixed "Current Location" label instead, so
+    // its subtitle keeps showing upazila+district for full context.
     final title = loc.isGps
         ? (isBangla ? 'বর্তমান অবস্থান' : 'Current Location')
         : (isBangla ? loc.nameBn : loc.name);
-    final subtitle = isBangla
-        ? '${loc.upazilaBn}, ${loc.districtBn}'
-        : '${loc.upazila}, ${loc.district}';
+    final subtitle = loc.isGps
+        ? (isBangla
+            ? '${loc.upazilaBn}, ${loc.districtBn}'
+            : '${loc.upazila}, ${loc.district}')
+        : (isBangla ? loc.districtBn : loc.district);
 
     return Container(
       decoration: BoxDecoration(

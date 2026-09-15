@@ -44,8 +44,11 @@ class HomeController extends GetxController {
       final loc = await UserPrefService().fetchLocationDetailsFromApi(
         lat: item.lat,
         lon: item.lng,
-        displayNameFallback: item.name,
-        displayNameFallbackBn: item.nameBn,
+        displayNameFallback:
+            item.upazila.isEmpty ? item.name : '${item.name}, ${item.upazila}',
+        displayNameFallbackBn: item.upazilaBn.isEmpty
+            ? item.nameBn
+            : '${item.nameBn}, ${item.upazilaBn}',
         pcodeOverride: item.pcode,
       );
       if (loc != null) {

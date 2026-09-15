@@ -241,7 +241,9 @@ class UserPrefService {
   }
 
   /// Mirrors the isCurrent entry into the flat keys the rest of the app
-  /// reads (getLat/getLon/locationName/isFollowingGPS).
+  /// reads (getLat/getLon/locationName/isFollowingGPS/locationDistrict/
+  /// locationUpazila) — e.g. so signup can auto-fill district/upazila from
+  /// whatever location was resolved before the user got there.
   Future<void> _syncMirrorFromList(List<SavedLocation> list) async {
     final current = list.firstWhereOrNull((l) => l.isCurrent);
     if (current == null) return;
@@ -249,6 +251,10 @@ class UserPrefService {
     await saveLatLonData(current.lat.toString(), current.lng.toString());
     await setLocationName(current.displayName(isBangla));
     await setFollowGPS(current.isGps);
+    await _setStringIfChanged(_keyLocationDistrict, current.district);
+    await _setStringIfChanged(_keyLocationDistrictBn, current.districtBn);
+    await _setStringIfChanged(_keyLocationUpazila, current.upazila);
+    await _setStringIfChanged(_keyLocationUpazilaBn, current.upazilaBn);
   }
 
   /// GPS first, then the rest alphabetically. isCurrent is preserved as data

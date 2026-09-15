@@ -3,11 +3,19 @@ import 'package:get/get.dart';
 
 import '../../../../core/services/user_pref_service.dart';
 import '../../../../core/theme/app_fonts.dart';
+import '../../../../features/auth/auth/presentation/pages/login_page.dart';
 import '../../../../features/home/presentation/pages/home_page.dart';
 import '../../data/location_repository.dart';
+import '../../models/location_gate_destination.dart';
 
 class SelectLocationController extends GetxController {
   final LocationRepository _repository = LocationRepository();
+
+  // Where to land after a location is picked — set by SelectLocationPage
+  // right before build(). Only meaningful when reached via the first-install
+  // location gate; the settings-triggered picker (isFirstInstall: false)
+  // never touches it.
+  LocationGateDestination destination = LocationGateDestination.home;
 
   // State
   final all = <UnionRecord>[].obs;
@@ -124,14 +132,19 @@ class SelectLocationController extends GetxController {
       final fetched = await userService.fetchLocationDetailsFromApi(
         lat: item.lat,
         lon: item.lng,
-        displayNameFallback: item.name,
-        displayNameFallbackBn: item.nameBn,
+        displayNameFallback:
+            item.upazila.isEmpty ? item.name : '${item.name}, ${item.upazila}',
+        displayNameFallbackBn: item.upazilaBn.isEmpty
+            ? item.nameBn
+            : '${item.nameBn}, ${item.upazilaBn}',
         pcodeOverride: item.pcode,
       );
       if (fetched != null) {
         await userService.setFollowGPS(false); // manual pick — stop auto-following GPS
         await userService.saveSelectedLocation(fetched, isBangla: isBangla);
-        Get.offAll(() => const HomePage());
+        Get.offAll(() => destination == LocationGateDestination.login
+            ? const LoginPage()
+            : const HomePage());
       } else {
         Get.snackbar('Error', 'Could not save location');
       }

@@ -98,7 +98,17 @@ class SavedLocation {
     isCurrent: json['isCurrent'] == true,
   );
 
-  /// Display name combining union + district, matching the language.
-  String displayName(bool isBangla) =>
-      isBangla ? '$nameBn, $districtBn' : '$name, $district';
+  /// Display name, matching the language.
+  ///
+  /// GPS entries: [name]/[nameBn] already come straight from BMD's API as a
+  /// pre-combined "place, upazila, district" string — appending district
+  /// again here would duplicate it (e.g. "...তুরাগ, ঢাকা, ঢাকা").
+  /// Custom (union-picked) entries: [name]/[nameBn] are just "Union,
+  /// Upazila" — district is appended to complete the picture.
+  String displayName(bool isBangla) {
+    final n = isBangla ? nameBn : name;
+    if (isGps) return n;
+    final d = isBangla ? districtBn : district;
+    return d.isEmpty ? n : '$n, $d';
+  }
 }
