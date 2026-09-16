@@ -1,28 +1,5 @@
-/// Parses the `result.current` (+ `result.daily[0]` for today's high/low)
-/// objects from BMD's forecast endpoint (ApiEndpoints.locationLatlon) — the
-/// same host/endpoint already used for location resolution.
-///
-/// Real response shape (confirmed live), trimmed to the fields this model
-/// reads:
-/// { "result": {
-///     "current": {
-///       "temp": {"val_min":"33.4","val_avg":"34.4","val_max":"35.4"},
-///       "feels": "38.6", "pressure": 1006,
-///       "rf": {"val_min":"0","val_avg":"0","val_max":"1"}, "rf_unit": "mm",
-///       "windspd": {"val_avg":"7.8"}, "windspd_unit": "km/h",
-///       "winddir": {"val_avg":"267.2"},
-///       "type": "Mostly Cloudy With Light Rain", "capabbr": "Partly sunny",
-///       "temp_unit": "°C" },
-///     "daily": [ { "temp": {"val_min":"26.9","val_max":"35.4"} }, ... ] } }
-///
-/// `current.temp` is only the average over the current 3-hour step, so H/L
-/// come from today's entry in `daily` (the day's actual min/max) instead.
-///
-/// With `Accept-Language: bn` every number in the payload comes back as a
-/// Bengali-numeral STRING (e.g. pressure `"১০০৭"` instead of `1006`) — even
-/// fields that are a raw JSON number in the English response. `double.parse`
-/// can't read Bengali digits, so they must be transliterated to ASCII first
-/// or every field silently parses to 0.
+import 'package:get/get.dart';
+
 class CurrentWeatherModel {
   final double tempNow;
   final double tempHigh;
@@ -38,6 +15,11 @@ class CurrentWeatherModel {
   final String rfUnit;
   final String windspdUnit;
 
+  /// Raw filename from the API, e.g. "ic_mostly_cloudy_d.png" — combine with
+  /// ApiEndpoints.baseUrlWeatherIcon for the full icon URL. Empty when the
+  /// API didn't send one; callers should fall back to a local icon.
+  final String icon;
+
   CurrentWeatherModel({
     required this.tempNow,
     required this.tempHigh,
@@ -52,6 +34,7 @@ class CurrentWeatherModel {
     required this.tempUnit,
     required this.rfUnit,
     required this.windspdUnit,
+    required this.icon,
   });
 
   static const _bengaliDigits = '০১২৩৪৫৬৭৮৯';
@@ -70,6 +53,46 @@ class CurrentWeatherModel {
     return double.tryParse(_toAsciiDigits(v?.toString() ?? '')) ?? 0;
   }
 
+  /// Reverse of [_toAsciiDigits] — ASCII 0-9 to Bengali numerals, for display.
+  static String toBanglaDigits(String s) {
+    final buffer = StringBuffer();
+    for (final ch in s.split('')) {
+      final idx = '0123456789'.indexOf(ch);
+      buffer.write(idx == -1 ? ch : _bengaliDigits[idx]);
+    }
+    return buffer.toString();
+  }
+
+  bool get _bn => Get.locale?.languageCode == 'bn';
+
+  String _num(num v, {int dp = 0}) {
+    final ascii = v.toStringAsFixed(dp);
+    return _bn ? toBanglaDigits(ascii) : ascii;
+  }
+
+  String get tempNowText => '${_num(tempNow)}$tempUnit';
+  String get tempNowUnit => _bn?'সে':'C';
+
+  /// Just the localized number, no unit — lets callers style the unit
+  /// (e.g. tempUnit) at a different size than the number.
+  String get tempNowValue => _num(tempNow);
+  String get tempHighText => '${_num(tempHigh)}$tempUnit';
+  String get tempLowText => '${_num(tempLow)}$tempUnit';
+  String get feelsLikeText => '${_num(feelsLike)}$tempUnit';
+
+  /// Zero-padded to 2 digits (matches the Figma "00 mm" convention) before
+  /// Bangla-digit transliteration.
+  String get precipText {
+    final ascii = precipitationMm.round().toString().padLeft(1, '0');
+    return '${_bn ? toBanglaDigits(ascii) : ascii} $rfUnit';
+  }
+
+  /// No pressure-unit field exists in the API in either language — "hPa" is
+  /// hardcoded, matching BMD's own app (only the digits are localized).
+  String get pressureText => '${_num(pressureHpa)} hPa';
+
+  String get windText => '${_num(windSpeedKmh)} $windspdUnit';
+
   static Map<String, dynamic>? _range(Map<String, dynamic>? obj, String key) =>
       obj?[key] as Map<String, dynamic>?;
 
@@ -81,9 +104,10 @@ class CurrentWeatherModel {
     if (current == null || current.isEmpty) return null;
 
     final dailyList = result?['daily'] as List<dynamic>?;
-    final today = (dailyList != null && dailyList.isNotEmpty)
-        ? dailyList.first as Map<String, dynamic>?
-        : null;
+    final today =
+        (dailyList != null && dailyList.isNotEmpty)
+            ? dailyList.first as Map<String, dynamic>?
+            : null;
 
     final currentTemp = _range(current, 'temp');
     final dailyTemp = _range(today, 'temp') ?? currentTemp;
@@ -105,6 +129,7 @@ class CurrentWeatherModel {
       tempUnit: (current['temp_unit'] as String?) ?? '°C',
       rfUnit: (current['rf_unit'] as String?) ?? 'mm',
       windspdUnit: (current['windspd_unit'] as String?) ?? 'km/h',
+      icon: (current['icon'] as String?) ?? '',
     );
   }
 }

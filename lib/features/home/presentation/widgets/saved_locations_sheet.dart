@@ -55,7 +55,7 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
     if (loc.isCurrent) return;
     setState(() => _busy = true);
     await UserPrefService().setCurrent(loc);
-    Get.find<HomeController>().refreshLocationName();
+    Get.find<HomeController>().onLocationChanged();
     // Navigator.pop (not Get.back) — this closes the specific route this
     // sheet was pushed as, reliably, regardless of GetX's own routing state.
     if (mounted) Navigator.of(context).pop();
@@ -71,10 +71,14 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
   }
 
   Future<void> _editLocation(SavedLocation loc, bool isBangla) async {
-    final controller = TextEditingController(text: isBangla ? loc.nameBn : loc.name);
+    final controller = TextEditingController(
+      text: isBangla ? loc.nameBn : loc.name,
+    );
     final newName = await Get.dialog<String>(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
         title: Text(
           isBangla ? 'নাম পরিবর্তন করুন' : 'Rename location',
           style: AppFonts.style(fontWeight: FontWeight.bold, fontSize: 16.sp),
@@ -84,7 +88,9 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
           autofocus: true,
           decoration: InputDecoration(
             hintText: isBangla ? 'নতুন নাম লিখুন' : 'Enter new name',
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+            ),
           ),
         ),
         actions: [
@@ -158,7 +164,10 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
                 Expanded(
                   child: Text(
                     isBangla ? 'লোকেশন সমূহ' : 'Locations',
-                    style: AppFonts.style(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                    style: AppFonts.style(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Padding(
@@ -225,25 +234,32 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
     // district alone is enough for their subtitle without repeating upazila.
     // The GPS row's title is the fixed "Current Location" label instead, so
     // its subtitle keeps showing upazila+district for full context.
-    final title = loc.isGps
-        ? (isBangla ? 'বর্তমান অবস্থান' : 'Current Location')
-        : (isBangla ? loc.nameBn : loc.name);
-    final subtitle = loc.isGps
-        ? (isBangla
-            ? '${loc.upazilaBn}, ${loc.districtBn}'
-            : '${loc.upazila}, ${loc.district}')
-        : (isBangla ? loc.districtBn : loc.district);
+    final title =
+        loc.isGps
+            ? (isBangla ? 'বর্তমান অবস্থান' : 'Current Location')
+            : (isBangla ? loc.nameBn : loc.name);
+    final subtitle =
+        loc.isGps
+            ? (isBangla
+                ? '${loc.upazilaBn}, ${loc.districtBn}'
+                : '${loc.upazila}, ${loc.district}')
+            : (isBangla ? loc.districtBn : loc.district);
 
     return Container(
       decoration: BoxDecoration(
-        color: loc.isCurrent ? Colors.green.withValues(alpha: 0.06) : Colors.grey.shade50,
+        color:
+            loc.isCurrent
+                ? Colors.green.withValues(alpha: 0.06)
+                : Colors.grey.shade50,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
           color: loc.isCurrent ? Colors.green.shade200 : Colors.grey.shade200,
         ),
       ),
       child: ListTile(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.r),
+        ),
         onTap: _busy ? null : () => _selectLocation(loc),
         leading: Icon(
           loc.isGps ? Icons.gps_fixed : Icons.location_on,
@@ -265,39 +281,49 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
           children: [
             SizedBox(
               width: 24.w,
-              child: loc.isCurrent
-                  ? Center(
-                      child: Icon(Icons.check_circle, color: Colors.green.shade600, size: 20.sp),
-                    )
-                  : null,
+              child:
+                  loc.isCurrent
+                      ? Center(
+                        child: Icon(
+                          Icons.check_circle,
+                          color: Colors.green.shade600,
+                          size: 20.sp,
+                        ),
+                      )
+                      : null,
             ),
             loc.isGps
-                ?SizedBox.shrink()
-                :SizedBox(
-              width: 32.w,
-              child: Center(
-                child: PopupMenuButton<String>(
-                  padding: EdgeInsets.zero,
-                  icon: Icon(Icons.more_vert, size: 20.sp, color: Colors.black45),
-                  onSelected: (value) {
-                    if (value == 'edit') _editLocation(loc, isBangla);
-                    if (value == 'delete') _removeLocation(loc);
-                  },
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: 'edit',
-                      child: Text(isBangla ? 'সম্পাদনা করুন' : 'Edit'),
-                    ),
-                    // Never offer to delete the active location.
-                    if (!loc.isCurrent)
-                      PopupMenuItem(
-                        value: 'delete',
-                        child: Text(isBangla ? 'ডিলিট করুন' : 'Delete'),
+                ? SizedBox.shrink()
+                : SizedBox(
+                  width: 32.w,
+                  child: Center(
+                    child: PopupMenuButton<String>(
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        Icons.more_vert,
+                        size: 20.sp,
+                        color: Colors.black45,
                       ),
-                  ],
+                      onSelected: (value) {
+                        if (value == 'edit') _editLocation(loc, isBangla);
+                        if (value == 'delete') _removeLocation(loc);
+                      },
+                      itemBuilder:
+                          (context) => [
+                            PopupMenuItem(
+                              value: 'edit',
+                              child: Text(isBangla ? 'সম্পাদনা করুন' : 'Edit'),
+                            ),
+                            // Never offer to delete the active location.
+                            if (!loc.isCurrent)
+                              PopupMenuItem(
+                                value: 'delete',
+                                child: Text(isBangla ? 'ডিলিট করুন' : 'Delete'),
+                              ),
+                          ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
           ],
         ),
       ),

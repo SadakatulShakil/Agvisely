@@ -18,6 +18,10 @@ class ApiEndpoints {
   static const String baseUrlWeather = 'https://usf.bmd.gov.bd/api/app';
   static const String locationLatlon = '$baseUrlWeather/weather/forecast';
 
+  // Condition icons for the `icon` field on current/daily/steps entries
+  // (e.g. "ic_mostly_cloudy_d.png") — same host, confirmed live.
+  static const String baseUrlWeatherIcon = 'https://usf.bmd.gov.bd/src/weather_icon';
+
   // ===================================
   // Auth & user
   // ===================================

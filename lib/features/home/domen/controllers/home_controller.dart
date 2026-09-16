@@ -43,11 +43,28 @@ class HomeController extends GetxController {
 
     isLoadingWeather.value = true;
     try {
-      currentWeather.value =
-          await _weatherRepository.fetchCurrentWeather(lat: lat, lon: lon);
+      currentWeather.value = await _weatherRepository.fetchCurrentWeather(
+        lat: lat,
+        lon: lon,
+      );
     } finally {
       isLoadingWeather.value = false;
     }
+  }
+
+  /// Called after the active location changes (switched in the saved-
+  /// locations sheet) — refreshes both the displayed name and the weather
+  /// for the newly-active lat/lon.
+  Future<void> onLocationChanged() async {
+    refreshLocationName();
+    await loadWeather();
+  }
+
+  /// Pull-to-refresh entry point for the home dashboard.
+  Future<void> refreshAll() async {
+    refreshLocationName();
+    await loadWeather();
+    // TODO: advisory summaries once that endpoint exists
   }
 
   /// Opens the saved-locations sheet — switch, delete, or add a location.
@@ -69,9 +86,10 @@ class HomeController extends GetxController {
         lon: item.lng,
         displayNameFallback:
             item.upazila.isEmpty ? item.name : '${item.name}, ${item.upazila}',
-        displayNameFallbackBn: item.upazilaBn.isEmpty
-            ? item.nameBn
-            : '${item.nameBn}, ${item.upazilaBn}',
+        displayNameFallbackBn:
+            item.upazilaBn.isEmpty
+                ? item.nameBn
+                : '${item.nameBn}, ${item.upazilaBn}',
         pcodeOverride: item.pcode,
       );
       if (loc != null) {
