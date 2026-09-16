@@ -169,6 +169,15 @@ class UserPrefService {
   /// more natural than the API's combined "city, upazila, district" string).
   /// Returns null only when there's nothing usable at all: the API call
   /// failed/returned no name AND no fallback name was given.
+  ///
+  /// Fetches BOTH `Accept-Language: en` and `bn` (confirmed live): the
+  /// district/upazila/division fields and their `_bn` counterparts are
+  /// always present together in a single response regardless of header,
+  /// but the composed place name (`city`/`location`, i.e. `locationName`)
+  /// only comes back in whichever language the header asked for. A single
+  /// request can't give us both — using it for name AND nameBn made them
+  /// identical, so switching the app language never changed the GPS
+  /// location's displayed name.
   Future<SavedLocation?> fetchLocationDetailsFromApi({
     required double lat,
     required double lon,
@@ -182,23 +191,37 @@ class UserPrefService {
     // so multiple different picks are never treated as the same entry.
     String? pcodeOverride,
   }) async {
-    ApiLocationModel? apiLoc;
+    ApiLocationModel? apiLocEn;
+    ApiLocationModel? apiLocBn;
     try {
-      final resp = await http.get(
-        Uri.parse('${ApiEndpoints.locationLatlon}?type=point&lat=$lat&lon=$lon'),
-        headers: {'Accept-Language': Get.locale?.languageCode ?? 'bn'},
-      ).timeout(const Duration(seconds: 10));
+      final uri = Uri.parse('${ApiEndpoints.locationLatlon}?type=point&lat=$lat&lon=$lon');
+      final responses = await Future.wait([
+        http.get(uri, headers: {'Accept-Language': 'en'}),
+        http.get(uri, headers: {'Accept-Language': 'bn'}),
+      ]).timeout(const Duration(seconds: 10));
 
-      if (resp.statusCode == 200) {
-        apiLoc = ApiLocationModel.fromJson(jsonDecode(resp.body) as Map<String, dynamic>);
+      if (responses[0].statusCode == 200) {
+        apiLocEn = ApiLocationModel.fromJson(jsonDecode(responses[0].body) as Map<String, dynamic>);
+      }
+      if (responses[1].statusCode == 200) {
+        apiLocBn = ApiLocationModel.fromJson(jsonDecode(responses[1].body) as Map<String, dynamic>);
       }
     } catch (e) {
-      apiLoc = null;
+      apiLocEn = null;
+      apiLocBn = null;
     }
 
-    final apiName = apiLoc?.locationName ?? '';
-    final nameEn = displayNameFallback.isNotEmpty ? displayNameFallback : apiName;
-    final nameBn = displayNameFallbackBn.isNotEmpty ? displayNameFallbackBn : apiName;
+    // district/upazila/division (+ _bn) are identical either way — either
+    // response works for those. Only the composed name differs per-request.
+    final apiLoc = apiLocEn ?? apiLocBn;
+    final apiNameEn = apiLocEn?.locationName ?? '';
+    final apiNameBn = apiLocBn?.locationName ?? '';
+    final nameEn = displayNameFallback.isNotEmpty
+        ? displayNameFallback
+        : (apiNameEn.isNotEmpty ? apiNameEn : apiNameBn);
+    final nameBn = displayNameFallbackBn.isNotEmpty
+        ? displayNameFallbackBn
+        : (apiNameBn.isNotEmpty ? apiNameBn : apiNameEn);
 
     if (nameEn.isEmpty && nameBn.isEmpty) return null;
 

@@ -18,10 +18,14 @@ class SettingsController extends GetxController {
     language.value = code;
     await UserPrefService().setAppLanguage(code);
     Get.updateLocale(Locale(code));
-    // Condition text/units are server-localized, not client-convertible —
-    // refetch so they match the new Accept-Language.
     if (Get.isRegistered<HomeController>()) {
-      Get.find<HomeController>().loadWeather();
+      final home = Get.find<HomeController>();
+      // Condition text/units are server-localized, not client-convertible —
+      // refetch so they match the new Accept-Language.
+      home.loadWeather();
+      // The displayed location name is derived from the SavedLocation's
+      // name/nameBn, not re-read automatically — recompute for the new locale.
+      home.refreshLocationName();
     }
   }
 }

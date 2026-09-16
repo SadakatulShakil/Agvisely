@@ -29,7 +29,17 @@ class HomeController extends GetxController {
     // TODO: fetch dashboard payload (advisory summaries + my choice)
   }
 
-  void refreshLocationName() {
+  /// Recomputes the displayed name from the actual current [SavedLocation]
+  /// (not the flat cached pref string, which is baked in whatever language
+  /// was active when it was written) so it reflects the language that's
+  /// active right now — including right after a language toggle.
+  Future<void> refreshLocationName() async {
+    final list = await UserPrefService().getSavedLocations();
+    final current = list.firstWhereOrNull((l) => l.isCurrent);
+    if (current != null) {
+      locationName.value = current.displayName(Get.locale?.languageCode == 'bn');
+      return;
+    }
     final saved = UserPrefService().locationName;
     if (saved != null && saved.isNotEmpty) locationName.value = saved;
   }

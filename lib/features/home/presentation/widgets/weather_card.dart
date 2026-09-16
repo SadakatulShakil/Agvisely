@@ -97,7 +97,7 @@ class WeatherCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 56.sp,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.heading,
+                              color: AppColors.primaryDark,
                             ),
                           ),
                           TextSpan(
@@ -105,7 +105,7 @@ class WeatherCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 40.sp,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.heading,
+                              color: AppColors.primaryDark,
                             ),
                           ),
                           TextSpan(
@@ -113,7 +113,7 @@ class WeatherCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 32.sp,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.heading,
+                              color: AppColors.primaryDark,
                             ),
                           ),
                         ],
@@ -216,7 +216,7 @@ class WeatherCard extends StatelessWidget {
   }
 
   static TextStyle get _labelStyle =>
-      TextStyle(fontSize: 14.sp, color: AppColors.textSecondaryLight);
+      TextStyle(fontSize: 14.sp, color: AppColors.textPrimaryLight);
 
   /// BMD's own condition icon when available, falling back to the local
   /// Material-icon mapping if the API sent no icon or the image fails to load.
@@ -263,7 +263,7 @@ class _Stat extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: 12.sp,
-            color: AppColors.textSecondaryLight,
+            color: AppColors.textPrimaryLight,
           ),
         ),
         SizedBox(height: 4.h),
@@ -275,7 +275,7 @@ class _Stat extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColors.navy,
+                color: AppColors.primaryDark,
               ),
             ),
             if (trailing != null) ...[SizedBox(width: 2.w), trailing!],

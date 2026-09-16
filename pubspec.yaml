@@ -61,6 +61,8 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/icons/advisory/
+    - assets/icons/my_choice/
     - assets/lottie/
     - assets/json/
 
