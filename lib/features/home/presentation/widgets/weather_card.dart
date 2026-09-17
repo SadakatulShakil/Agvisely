@@ -11,12 +11,21 @@ class WeatherCard extends StatelessWidget {
     super.key,
     required this.weather,
     required this.isLoading,
+    this.liveType = '',
+    this.liveIcon = '',
     this.topRight,
     this.onRetry,
   });
 
   final CurrentWeatherModel? weather;
   final bool isLoading;
+
+  /// Nearest-station condition text — overrides [weather]'s condition when
+  /// non-empty. '' means "no live override, show the forecast's".
+  final String liveType;
+
+  /// Nearest-station icon key — overrides [weather]'s icon when non-empty.
+  final String liveIcon;
   final Widget? topRight;
   final VoidCallback? onRetry;
 
@@ -126,7 +135,7 @@ class WeatherCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 16..w),
+                            padding: EdgeInsets.only(left: 16.w),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -144,19 +153,21 @@ class WeatherCard extends StatelessWidget {
                                   ),
                                 ),
                                 const Spacer(),
-                                // icon
+                                // icon — live overrides forecast, forecast overrides placeholder
                                 _conditionImage(w),
                               ],
                             ),
                           ),
                           SizedBox(height: 8.h),
-                          // condition / type
+                          // condition / type — live overrides forecast
                           Align(
                             alignment: Alignment.bottomRight,
                             child: Text(
-                              w.condition.isNotEmpty
-                                  ? w.condition.replaceAll('\n', ' ')
-                                  : w.conditionShort.replaceAll('\n', ' '),
+                              liveType.isNotEmpty
+                                  ? liveType
+                                  : (w.condition.isNotEmpty
+                                      ? w.condition.replaceAll('\n', ' ')
+                                      : w.conditionShort.replaceAll('\n', ' ')),
                               style: _labelStyle,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -218,16 +229,35 @@ class WeatherCard extends StatelessWidget {
   static TextStyle get _labelStyle =>
       TextStyle(fontSize: 14.sp, color: AppColors.textPrimaryLight);
 
-  /// BMD's own condition icon when available, falling back to the local
-  /// Material-icon mapping if the API sent no icon or the image fails to load.
+  /// Live icon overrides the forecast's; BMD's own condition icon when
+  /// available, falling back to a keyword-based local icon if neither the
+  /// API sent one nor the image fails to load.
   Widget _conditionImage(CurrentWeatherModel w) {
-    final fallback = Icon(_conditionIcon(w.condition), color: AppColors.primary, size: 26.sp);
-    if (w.icon.isEmpty) return fallback;
+    final resolvedCondition = liveType.isNotEmpty ? liveType : w.condition;
+    final fallback = Icon(_conditionIcon(resolvedCondition), color: AppColors.primary, size: 26.sp);
+
+    final key = liveIcon.isNotEmpty ? liveIcon : w.icon;
+    if (key.isEmpty) return fallback;
 
     return Image.network(
-      '${ApiEndpoints.baseUrlWeatherIcon}/${w.icon}',
-      width: 48.sp,
-      height: 48.sp,
+      '${ApiEndpoints.baseUrlWeatherIcon}/$key',
+      width: 56.w,
+      height: 56.w,
+      fit: BoxFit.contain,
+      loadingBuilder: (context, child, progress) {
+        if (progress == null) return child;
+        return SizedBox(
+          width: 56.w,
+          height: 56.w,
+          child: Center(
+            child: SizedBox(
+              width: 18.w,
+              height: 18.w,
+              child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+            ),
+          ),
+        );
+      },
       errorBuilder: (context, error, stackTrace) => fallback,
     );
   }

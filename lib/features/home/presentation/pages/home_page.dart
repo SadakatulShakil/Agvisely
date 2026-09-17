@@ -152,6 +152,8 @@ class _HomeDashboard extends StatelessWidget {
             () => WeatherCard(
               weather: c.currentWeather.value,
               isLoading: c.isLoadingWeather.value,
+              liveType: c.liveType.value,
+              liveIcon: c.liveIcon.value,
               onRetry: c.loadWeather,
               topRight:
                   (c.isResolvingLocation.value || c.isLoadingWeather.value)

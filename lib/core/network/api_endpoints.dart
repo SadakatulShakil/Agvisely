@@ -22,6 +22,12 @@ class ApiEndpoints {
   // (e.g. "ic_mostly_cloudy_d.png") — same host, confirmed live.
   static const String baseUrlWeatherIcon = 'https://usf.bmd.gov.bd/src/weather_icon';
 
+  // Live weather (nearest station) — confirmed live: `type`/`icon` are
+  // top-level, no `result` wrapper. `type` is server-localized per
+  // Accept-Language; `icon` is a constant filename key either way.
+  static String liveWeather(String lat, String lon) =>
+      '$baseUrlWeather/weather/liveweather?lat=$lat&lon=$lon';
+
   // ===================================
   // Auth & user
   // ===================================
