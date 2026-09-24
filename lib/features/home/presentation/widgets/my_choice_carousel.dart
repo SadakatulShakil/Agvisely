@@ -41,7 +41,7 @@ class MyChoiceCarousel extends StatelessWidget {
               Text(
                 'home.my_choice'.tr,
                 style: TextStyle(
-                  fontSize: 18.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.textSecondaryLight,
                 ),
@@ -59,10 +59,10 @@ class MyChoiceCarousel extends StatelessWidget {
                     children: [
                       Text(
                         'home.see_all'.tr,
-                        style: TextStyle(fontSize: 13.sp, color: AppColors.primaryDark),
+                        style: TextStyle(fontSize: 12.sp, color: AppColors.primaryDark),
                       ),
                       SizedBox(width: 4.w),
-                      Icon(Icons.double_arrow, size: 13.sp, color: AppColors.primaryDark),
+                      Icon(Icons.double_arrow, size: 14.sp, color: AppColors.primaryDark),
                     ],
                   ),
                 ),

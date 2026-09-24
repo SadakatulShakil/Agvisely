@@ -57,13 +57,9 @@ class _PestAdvisoryPageState extends State<PestAdvisoryPage> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
+              padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 8.h),
               child: Row(
                 children: [
-                  GestureDetector(
-                    onTap: () => Get.find<HomeController>().changeTab(0),
-                    child: Icon(Icons.arrow_back, color: AppColors.primaryDark, size: 22.sp),
-                  ),
                   SizedBox(width: 12.w),
                   Expanded(
                     child: Text(

@@ -63,6 +63,7 @@ flutter:
     - assets/icons/
     - assets/icons/advisory/
     - assets/icons/my_choice/
+    - assets/icons/weather_icons/
     - assets/lottie/
     - assets/json/
 

@@ -11,20 +11,13 @@ class ApiEndpoints {
   static const String checkNetwork = 'https://clients3.google.com/generate_204';
 
   // ===================================
-  // Location resolution (BMD weather API — same host BMD-Abohawa uses to
-  // turn a lat/lon into a district/upazila/division; agvisely has no
-  // equivalent of its own yet, so location lookups go through this host).
+  // Location resolution (BMD weather API — same host BMD-Abohawa uses to fetch weather data)
   // ===================================
   static const String baseUrlWeather = 'https://usf.bmd.gov.bd/api/app';
   static const String locationLatlon = '$baseUrlWeather/weather/forecast';
 
-  // Condition icons for the `icon` field on current/daily/steps entries
-  // (e.g. "ic_mostly_cloudy_d.png") — same host, confirmed live.
   static const String baseUrlWeatherIcon = 'https://usf.bmd.gov.bd/src/weather_icon';
 
-  // Live weather (nearest station) — confirmed live: `type`/`icon` are
-  // top-level, no `result` wrapper. `type` is server-localized per
-  // Accept-Language; `icon` is a constant filename key either way.
   static String liveWeather(String lat, String lon) =>
       '$baseUrlWeather/weather/liveweather?lat=$lat&lon=$lon';
 

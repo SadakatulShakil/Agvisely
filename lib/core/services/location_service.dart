@@ -54,17 +54,10 @@ class LocationService {
           .fetchLocationDetailsFromApi(lat: position.latitude, lon: position.longitude)
           .timeout(Duration(seconds: timeoutSeconds), onTimeout: () => null);
 
-      if (fetched != null) {
-        await UserPrefService()
-            .upsertGpsLocation(fetched, makeCurrent: UserPrefService().isFollowingGPS);
-      } else if (UserPrefService().isFollowingGPS) {
-        // API failed — BMD's fallback: keep the raw coordinates only, so the
-        // splash gate treats this as "location known" going forward.
-        await UserPrefService().saveLatLonData(
-          position.latitude.toStringAsFixed(5),
-          position.longitude.toStringAsFixed(5),
-        );
-      }
+      if (fetched == null) return false;
+
+      await UserPrefService()
+          .upsertGpsLocation(fetched, makeCurrent: UserPrefService().isFollowingGPS);
       return true;
     } catch (e) {
       debugPrint('❌ Location fetch failed: $e');

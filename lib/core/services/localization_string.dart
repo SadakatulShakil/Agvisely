@@ -32,7 +32,9 @@ class LocalizationString extends Translations {
     'home.weather_unavailable': 'Weather unavailable',
     'home.next_7_days': 'Next 7 days',
     'home.my_choice': 'My Choice',
+    'home.weather_forecast': 'Today\'s Weather Forecast',
     'home.see_all': 'See all',
+    'home.view7days': 'View 7 Days',
 
     // ── Advisory feature titles ──────────────────────────────────────────
     'advisory.crop': 'Crop Advisory',
@@ -45,6 +47,17 @@ class LocalizationString extends Translations {
     'advisory.aquaculture': 'Aquaculture Advisory',
     'advisory.aquaculture_subtitle': 'Protect your fish from heat and rain',
     'advisory.weather': 'Weather Forecast',
+
+    // ── Weather forecast (7-day detail) ────────────────────────────────────
+    'weather.title': '7 Days Weather Forecast',
+    'weather.rainfall': 'Rainfall',
+    'weather.cloud_coverage': 'Cloud coverage',
+    'weather.humidity': 'Humidity',
+    'weather.soil_moisture': 'Soil Moisture',
+    'weather.sunshine': 'Sunshine',
+    'weather.thi': 'THI',
+    'weather.view_graph': 'View Rainfall, temperature, humidity graph',
+    'weather.hide_graph': 'Hide graph',
 
     // ── My choice feature titles ──────────────────────────────────────────
     'my_choice.boro_rice': 'Boro Rice',
@@ -119,7 +132,9 @@ class LocalizationString extends Translations {
     'home.weather_unavailable': 'আবহাওয়ার তথ্য পাওয়া যায়নি',
     'home.next_7_days': 'আগামী ৭ দিন',
     'home.my_choice': 'আমার পছন্দ',
+    'home.weather_forecast': 'আজকের আবহাওয়ার পূর্বাভাস',
     'home.see_all': 'সব দেখুন',
+    'home.view7days': '৭ দিনের',
 
     // ── Advisory feature titles ──────────────────────────────────────────
     'advisory.crop': 'ফসল পরামর্শ',
@@ -132,6 +147,17 @@ class LocalizationString extends Translations {
     'advisory.aquaculture': 'মৎস্য পরামর্শ',
     'advisory.aquaculture_subtitle': 'তাপ ও বৃষ্টি থেকে আপনার মাছ রক্ষা করুন',
     'advisory.weather': 'আবহাওয়ার পূর্বাভাস',
+
+    // ── Weather forecast (7-day detail) ────────────────────────────────────
+    'weather.title': '৭ দিনের আবহাওয়ার পূর্বাভাস',
+    'weather.rainfall': 'বৃষ্টিপাত',
+    'weather.cloud_coverage': 'মেঘের আচ্ছাদন',
+    'weather.humidity': 'আর্দ্রতা',
+    'weather.soil_moisture': 'মাটির আর্দ্রতা',
+    'weather.sunshine': 'সূর্যালোক',
+    'weather.thi': 'THI',
+    'weather.view_graph': 'বৃষ্টিপাত, তাপমাত্রা, আর্দ্রতার গ্রাফ দেখুন',
+    'weather.hide_graph': 'গ্রাফ লুকান',
 
     // ── My choice feature titles ──────────────────────────────────────────
     'my_choice.boro_rice': 'বোরো ধান',

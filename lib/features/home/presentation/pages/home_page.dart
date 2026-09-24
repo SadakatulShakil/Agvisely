@@ -17,6 +17,8 @@ import '../../../livestock_advisory/presentation/pages/livestock_advisory_page.d
 import '../../../menu/presentation/pages/menu_page.dart';
 import '../../../pest_advisory/presentation/pages/pest_advisory_page.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
+import '../../../weather/domen/binding/weather_binding.dart';
+import '../../../weather/presentation/pages/weather_page.dart';
 import '../../domen/controllers/home_controller.dart';
 import '../widgets/advisory_card.dart';
 import '../widgets/my_choice_carousel.dart';
@@ -236,18 +238,70 @@ class _HomeDashboard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 12.h),
-          // Next 7 days chart — demo image for now; swap for a real chart
-          // once the forecast series is wired up.
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16.r),
-            child: Image.asset(
-              'assets/images/weather_forecast_chart_demo.png',
-              width: double.infinity,
-              fit: BoxFit.fitWidth,
+          // Weather chart: placeholder image for now, tap to go to full weather page
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.cardLight,
+              borderRadius: BorderRadius.circular(16.r),
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
+                  child: GestureDetector(
+                    onTap: () => Get.to(() => const WeatherPage(), binding: WeatherBinding()),
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'home.weather_forecast'.tr,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textSecondaryLight,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.primaryDark),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'home.view7days'.tr,
+                                  style: TextStyle(fontSize: 12.sp, color: AppColors.primaryDark),
+                                ),
+                                SizedBox(width: 4.w),
+                                Icon(Icons.double_arrow, size: 14.sp, color: AppColors.primaryDark),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                ClipRect(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    heightFactor: 225 / 283,
+                    child: Image.asset(
+                      'assets/images/weather_forecast_chart_demo.png',
+                      width: double.infinity,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(height: 12.h),
-          // My Choice carousel — demo items for now; swap for the real
           // "My Choice" payload once that endpoint exists.
           MyChoiceCarousel(
             items: [

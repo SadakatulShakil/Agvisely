@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/weather_icon_assets.dart';
 import '../../../../models/current_weather_model.dart';
 
 class WeatherCard extends StatelessWidget {
@@ -231,13 +232,26 @@ class WeatherCard extends StatelessWidget {
 
   /// Live icon overrides the forecast's; BMD's own condition icon when
   /// available, falling back to a keyword-based local icon if neither the
-  /// API sent one nor the image fails to load.
+  /// API sent one nor the image fails to load. Icons BMD ships that we've
+  /// bundled locally (assets/icons/weather_icons) render from assets;
+  /// anything else falls back to the network URL.
   Widget _conditionImage(CurrentWeatherModel w) {
     final resolvedCondition = liveType.isNotEmpty ? liveType : w.condition;
     final fallback = Icon(_conditionIcon(resolvedCondition), color: AppColors.primary, size: 26.sp);
 
     final key = liveIcon.isNotEmpty ? liveIcon : w.icon;
     if (key.isEmpty) return fallback;
+
+    final assetPath = WeatherIconAssets.assetPath(key);
+    if (assetPath != null) {
+      return Image.asset(
+        assetPath,
+        width: 56.w,
+        height: 56.w,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) => fallback,
+      );
+    }
 
     return Image.network(
       '${ApiEndpoints.baseUrlWeatherIcon}/$key',
