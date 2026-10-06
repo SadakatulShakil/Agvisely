@@ -95,11 +95,11 @@ class _PestAdvisoryPageState extends State<PestAdvisoryPage> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            const Color(0xFF678042).withValues(alpha: 0.0),
-                            const Color(0xFF678042).withValues(alpha: 0.06),
-                            const Color(0xFF678042).withValues(alpha: 0.40),
+                            AppColors.primaryDark.withValues(alpha: 0.0),
+                            AppColors.primaryDark.withValues(alpha: 0.06),
+                            AppColors.primaryDark.withValues(alpha: 0.30),
                           ],
-                          stops: const [0.0, 0.50, 1.5],
+                          stops: const [0.0, 0.46, 1.0],
                         ),
                         borderRadius: !isSelected
                             ?BorderRadius.only(
