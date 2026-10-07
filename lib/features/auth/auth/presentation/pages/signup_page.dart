@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../../../../../core/theme/app_theme_colors.dart';
 import '../../../../../core/utils/app_logo.dart';
-import '../../../../../core/utils/bd_locations.dart';
 import '../../domen/controllers/auth_controller.dart';
 import '../widgets/auth_widgets.dart';
 
@@ -27,11 +26,11 @@ class SignupPage extends StatelessWidget {
                 const Center(child: AppLogo(height: 84)),
                 SizedBox(height: 28.h),
                 Text(
-                  'To create a quick and easy one-time sign-up, you only need some pieces of information',
+                  'signup.intro'.tr,
                   style: TextStyle(fontSize: 18.sp, color: AppColors.primaryDark, height: 1.3),
                 ),
                 const SizedBox(height: 32),
-                const FieldLabel('Your Name'),
+                FieldLabel('signup.your_name'.tr),
                 TextField(
                   controller: c.name,
                   textCapitalization: TextCapitalization.words,
@@ -43,25 +42,51 @@ class SignupPage extends StatelessWidget {
                   ),
                 ),
 
-                const FieldLabel('Your Profession'),
-                Obx(() => DropdownButtonFormField<String>(
-                      value: c.profession.value,
-                      isExpanded: true,
-                      decoration: agFieldDecoration('').copyWith(
-                        isDense: true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                FieldLabel('signup.your_profession'.tr),
+                Obx(() {
+                  if (c.professionsLoading.value) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
                       ),
-                      items: BdLocations.professions
-                          .map((p) => DropdownMenuItem(value: p, child: Text(p, style: TextStyle(fontSize: 18.sp,
-                          color: AppColors.textSecondaryLight)
-                        )
-                          )
-                            )
-                          .toList(),
-                      onChanged: (v) => c.profession.value = v!,
-                    )),
+                    );
+                  }
+                  final isBn = Get.locale?.languageCode == 'bn';
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DropdownButtonFormField<int>(
+                        value: c.selectedProfession.value?.id,
+                        isExpanded: true,
+                        decoration: agFieldDecoration('').copyWith(
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                        ),
+                        items: c.professions
+                            .map((p) => DropdownMenuItem(
+                                  value: p.id,
+                                  child: Text(p.label(isBn),
+                                      style: TextStyle(
+                                          fontSize: 18.sp,
+                                          color: AppColors.textSecondaryLight)),
+                                ))
+                            .toList(),
+                        onChanged: (id) => c.selectedProfession.value =
+                            c.professions.firstWhereOrNull((p) => p.id == id),
+                      ),
+                      if (c.professionsLoadFailed.value)
+                        TextButton(
+                          onPressed: c.loadProfessions,
+                          child: const Text('Retry'),
+                        ),
+                    ],
+                  );
+                }),
 
-                const FieldLabel('Contact No'),
+                FieldLabel('auth.contact_no'.tr),
                 TextField(
                   controller: c.signupPhone,
                   keyboardType: TextInputType.phone,
@@ -78,22 +103,22 @@ class SignupPage extends StatelessWidget {
 
                 const SizedBox(height: 32),
                 Obx(() => AgButton(
-                      label: 'Request OTP',
+                      label: 'auth.request_otp'.tr,
                       loading: c.isSubmitting.value,
-                      onPressed: c.requestOtpForSignup,
+                      onPressed: c.submitSignup,
                     )),
                 SizedBox(height: 8.h),
                 Center(
                   child: TextButton(
                     onPressed: () => Get.back(),
-                    child: const Text.rich(
+                    child: Text.rich(
                       TextSpan(
-                        text: 'Already have an account?  ',
-                        style: TextStyle(color: AppColors.textSecondaryLight),
+                        text: '${'signup.already_have_account'.tr}  ',
+                        style: const TextStyle(color: AppColors.textSecondaryLight),
                         children: [
                           TextSpan(
-                            text: 'Log in',
-                            style: TextStyle(
+                            text: 'auth.login'.tr,
+                            style: const TextStyle(
                                 color: AppColors.primaryDark,
                                 fontWeight: FontWeight.w600),
                           ),

@@ -31,6 +31,18 @@ class ApiEndpoints {
   static const String fcmTokenUpdate = '$baseApiUrl/notification/token';
 
   // ===================================
+  // User/auth backend (signup, login, OTP, professions)
+  // localhost works ONLY on the host machine. For testing:
+  //   Android emulator → http://10.0.2.2:3000/api/v1
+  //   physical device  → http://<machine-LAN-IP>:3000/api/v1
+  // ===================================
+  static const String baseUrlUser = 'http://192.168.68.55:3000/api/v1';
+  static const String professions = '$baseUrlUser/professions';
+  static const String signupUrl = '$baseUrlUser/users/signup';
+  static const String loginUrl = '$baseUrlUser/users/login';
+  static const String verifyOtpUrl = '$baseUrlUser/users/verify-otp';
+
+  // ===================================
   // Notifications
   // ===================================
   static const String notificationList = '$baseApiUrl/notification/list';

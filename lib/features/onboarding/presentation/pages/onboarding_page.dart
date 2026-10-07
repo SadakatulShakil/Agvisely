@@ -23,8 +23,8 @@ class OnboardingPage extends StatelessWidget {
                     ? const SizedBox(height: 48)
                     : TextButton(
                         onPressed: c.finish,
-                        child: const Text('Skip',
-                            style: TextStyle(color: AppColors.primaryDark)),
+                        child: Text('onboarding.skip'.tr,
+                            style: const TextStyle(color: AppColors.primaryDark)),
                       )),
               ),
               Expanded(
@@ -50,7 +50,7 @@ class OnboardingPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 40),
                           Text(
-                            s.title,
+                            s.title.tr,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 26.sp,
@@ -59,7 +59,7 @@ class OnboardingPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            s.subtitle,
+                            s.subtitle.tr,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 18.sp,
@@ -93,7 +93,9 @@ class OnboardingPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(24),
                 child: Obx(() => AgButton(
-                      label: c.isLast ? 'Get Started' : 'Next',
+                      label: c.isLast
+                          ? 'onboarding.get_started'.tr
+                          : 'onboarding.next'.tr,
                       onPressed: c.next,
                     )),
               ),

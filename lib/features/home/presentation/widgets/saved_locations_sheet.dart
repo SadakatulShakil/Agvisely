@@ -163,7 +163,7 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
               children: [
                 Expanded(
                   child: Text(
-                    isBangla ? 'লোকেশন সমূহ' : 'Locations',
+                    'locations.title'.tr,
                     style: AppFonts.style(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
@@ -211,7 +211,7 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
                     Icon(Icons.add_location_alt, color: _blue, size: 20.sp),
                     SizedBox(width: 8.w),
                     Text(
-                      isBangla ? 'লোকেশন যোগ করুন' : 'Add location',
+                      'locations.add_location'.tr,
                       style: AppFonts.style(
                         color: _blue,
                         fontWeight: FontWeight.w600,
@@ -236,7 +236,7 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
     // its subtitle keeps showing upazila+district for full context.
     final title =
         loc.isGps
-            ? (isBangla ? 'বর্তমান অবস্থান' : 'Current Location')
+            ? 'locations.current_location'.tr
             : (isBangla ? loc.nameBn : loc.name);
     final subtitle =
         loc.isGps

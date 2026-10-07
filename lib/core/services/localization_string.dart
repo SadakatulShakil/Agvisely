@@ -101,6 +101,49 @@ class LocalizationString extends Translations {
     'auth.signup': 'Sign Up',
     'auth.mobile': 'Mobile Number',
     'auth.continue': 'Continue',
+    'auth.contact_no': 'Contact No',
+    'auth.request_otp': 'Request OTP',
+
+    // ── Onboarding ───────────────────────────────────────────────────────
+    'onboarding.slide1_title': 'Localized weather forecasts',
+    'onboarding.slide1_subtitle':
+        'Accurate, area-specific forecasts for your district and upazila — every day.',
+    'onboarding.slide2_title': 'Expert farming advice',
+    'onboarding.slide2_subtitle':
+        'Crop, pest, disease and livestock guidance tailored to your season and location.',
+    'onboarding.slide3_title': 'Timely alerts, even offline',
+    'onboarding.slide3_subtitle':
+        'Get warnings before bad weather hits and browse advice without a connection.',
+    'onboarding.skip': 'Skip',
+    'onboarding.next': 'Next',
+    'onboarding.get_started': 'Get Started',
+
+    // ── Login ────────────────────────────────────────────────────────────
+    'login.welcome_back': 'Welcome back',
+    'login.subtitle': 'Enter your mobile number to receive a one-time code',
+    'login.new_here': 'New here?',
+    'login.create_account': 'Create an account',
+
+    // ── Sign up ──────────────────────────────────────────────────────────
+    'signup.intro':
+        'To create a quick and easy one-time sign-up, you only need some pieces of information',
+    'signup.your_name': 'Your Name',
+    'signup.your_profession': 'Your Profession',
+    'signup.already_have_account': 'Already have an account?',
+
+    // ── OTP ──────────────────────────────────────────────────────────────
+    'otp.title': 'OTP Verification Code',
+    'otp.sent_to': 'We have sent the verification code to',
+    'otp.verify': 'Verify OTP',
+    'otp.resend': 'Resend code',
+
+    // ── Locations ────────────────────────────────────────────────────────
+    'locations.title': 'Locations',
+    'locations.current_location': 'Current Location',
+    'locations.add_location': 'Add location',
+    'select_location.title': 'Select Location',
+    'select_location.search_hint': 'Search upazila or district...',
+    'select_location.no_results': 'No results found',
 
     // ── Common ───────────────────────────────────────────────────────────
     'common.notifications': 'Notifications',
@@ -201,6 +244,49 @@ class LocalizationString extends Translations {
     'auth.signup': 'নিবন্ধন',
     'auth.mobile': 'মোবাইল নম্বর',
     'auth.continue': 'চালিয়ে যান',
+    'auth.contact_no': 'যোগাযোগ নম্বর',
+    'auth.request_otp': 'ওটিপি পাঠান',
+
+    // ── Onboarding ───────────────────────────────────────────────────────
+    'onboarding.slide1_title': 'স্থানীয় আবহাওয়ার পূর্বাভাস',
+    'onboarding.slide1_subtitle':
+        'প্রতিদিন আপনার জেলা ও উপজেলার জন্য নির্ভুল, এলাকাভিত্তিক পূর্বাভাস।',
+    'onboarding.slide2_title': 'বিশেষজ্ঞ কৃষি পরামর্শ',
+    'onboarding.slide2_subtitle':
+        'আপনার মৌসুম ও এলাকা অনুযায়ী ফসল, পোকামাকড়, রোগ ও গবাদি পশুর পরামর্শ।',
+    'onboarding.slide3_title': 'সময়মতো সতর্কতা, অফলাইনেও',
+    'onboarding.slide3_subtitle':
+        'খারাপ আবহাওয়ার আগেই সতর্কবার্তা পান এবং ইন্টারনেট ছাড়াই পরামর্শ দেখুন।',
+    'onboarding.skip': 'এড়িয়ে যান',
+    'onboarding.next': 'পরবর্তী',
+    'onboarding.get_started': 'শুরু করুন',
+
+    // ── Login ────────────────────────────────────────────────────────────
+    'login.welcome_back': 'ফিরে আসার জন্য স্বাগতম',
+    'login.subtitle': 'ওয়ান-টাইম কোড পেতে আপনার মোবাইল নম্বর দিন',
+    'login.new_here': 'নতুন এসেছেন?',
+    'login.create_account': 'অ্যাকাউন্ট তৈরি করুন',
+
+    // ── Sign up ──────────────────────────────────────────────────────────
+    'signup.intro':
+        'দ্রুত ও সহজ এক-ধাপের নিবন্ধনের জন্য আপনাকে শুধু কয়েকটি তথ্য দিতে হবে',
+    'signup.your_name': 'আপনার নাম',
+    'signup.your_profession': 'আপনার পেশা',
+    'signup.already_have_account': 'ইতিমধ্যে একটি অ্যাকাউন্ট আছে?',
+
+    // ── OTP ──────────────────────────────────────────────────────────────
+    'otp.title': 'ওটিপি যাচাইকরণ কোড',
+    'otp.sent_to': 'যাচাইকরণ কোড পাঠানো হয়েছে',
+    'otp.verify': 'ওটিপি যাচাই করুন',
+    'otp.resend': 'আবার কোড পাঠান',
+
+    // ── Locations ────────────────────────────────────────────────────────
+    'locations.title': 'লোকেশন সমূহ',
+    'locations.current_location': 'বর্তমান অবস্থান',
+    'locations.add_location': 'লোকেশন যোগ করুন',
+    'select_location.title': 'লোকেশন নির্বাচন করুন',
+    'select_location.search_hint': 'উপজেলা বা জেলা খুঁজুন...',
+    'select_location.no_results': 'কোন ফলাফল পাওয়া যায়নি',
 
     // ── Common ───────────────────────────────────────────────────────────
     'common.notifications': 'বিজ্ঞপ্তি',

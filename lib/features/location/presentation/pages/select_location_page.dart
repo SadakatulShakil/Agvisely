@@ -64,7 +64,7 @@ class SelectLocationPage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 8.h),
                       child: Text(
-                        isBangla ? 'লোকেশন নির্বাচন করুন' : 'Select Location',
+                        'select_location.title'.tr,
                         textAlign: TextAlign.center,
                         style: AppFonts.style(
                           fontWeight: FontWeight.w600,
@@ -128,9 +128,7 @@ class SelectLocationPage extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                               ),
                               decoration: InputDecoration(
-                                hintText: isBangla
-                                    ? "উপজেলা বা জেলা খুঁজুন..."
-                                    : "Search upazila or district...",
+                                hintText: 'select_location.search_hint'.tr,
                                 hintStyle: AppFonts.style(
                                   color: Colors.grey,
                                   fontSize: 16.sp,
@@ -158,7 +156,7 @@ class SelectLocationPage extends StatelessWidget {
                               if (controller.filtered.isEmpty) {
                                 return Center(
                                   child: Text(
-                                    isBangla ? "কোন ফলাফল পাওয়া যায়নি" : "No results found",
+                                    'select_location.no_results'.tr,
                                     style: AppFonts.style(
                                       color: Colors.black54,
                                       fontSize: 16.sp,

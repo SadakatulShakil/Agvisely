@@ -28,7 +28,7 @@ class LoginPage extends StatelessWidget {
                 const Center(child: AppLogo(height: 84)),
                 const SizedBox(height: 40),
                 Text(
-                  'Welcome back',
+                  'login.welcome_back'.tr,
                   style: TextStyle(
                       fontSize: 28.sp,
                       fontWeight: FontWeight.bold,
@@ -36,10 +36,10 @@ class LoginPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Enter your mobile number to receive a one-time code',
+                  'login.subtitle'.tr,
                   style: TextStyle(fontSize: 18.sp, color: AppColors.textSecondaryLight),
                 ),
-                const FieldLabel('Contact No'),
+                FieldLabel('auth.contact_no'.tr),
                 TextField(
                   controller: c.loginPhone,
                   keyboardType: TextInputType.phone,
@@ -50,22 +50,22 @@ class LoginPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
                 Obx(() => AgButton(
-                      label: 'Request OTP',
+                      label: 'auth.request_otp'.tr,
                       loading: c.isSubmitting.value,
-                      onPressed: c.requestOtpForLogin,
+                      onPressed: c.submitLogin,
                     )),
                 const SizedBox(height: 20),
                 Center(
                   child: TextButton(
                     onPressed: () => Get.to(() => const SignupPage()),
-                    child: const Text.rich(
+                    child: Text.rich(
                       TextSpan(
-                        text: "New here?  ",
-                        style: TextStyle(color: AppColors.textSecondaryLight),
+                        text: '${'login.new_here'.tr}  ',
+                        style: const TextStyle(color: AppColors.textSecondaryLight),
                         children: [
                           TextSpan(
-                            text: 'Create an account',
-                            style: TextStyle(
+                            text: 'login.create_account'.tr,
+                            style: const TextStyle(
                                 color: AppColors.primaryDark,
                                 fontWeight: FontWeight.w600),
                           ),

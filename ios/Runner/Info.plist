@@ -51,5 +51,12 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<!-- DEV ONLY — allows http:// calls to the local backend on a physical
+	     device's LAN IP. Remove before an App Store release. -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

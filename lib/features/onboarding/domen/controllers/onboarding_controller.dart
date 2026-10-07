@@ -13,21 +13,18 @@ class OnboardingController extends GetxController {
   final slides = const <OnboardingSlide>[
     OnboardingSlide(
       icon: Icons.wb_sunny_outlined,
-      title: 'Localized weather forecasts',
-      subtitle:
-          'Accurate, area-specific forecasts for your district and upazila — every day.',
+      title: 'onboarding.slide1_title',
+      subtitle: 'onboarding.slide1_subtitle',
     ),
     OnboardingSlide(
       icon: Icons.eco_outlined,
-      title: 'Expert farming advice',
-      subtitle:
-          'Crop, pest, disease and livestock guidance tailored to your season and location.',
+      title: 'onboarding.slide2_title',
+      subtitle: 'onboarding.slide2_subtitle',
     ),
     OnboardingSlide(
       icon: Icons.notifications_active_outlined,
-      title: 'Timely alerts, even offline',
-      subtitle:
-          'Get warnings before bad weather hits and browse advice without a connection.',
+      title: 'onboarding.slide3_title',
+      subtitle: 'onboarding.slide3_subtitle',
     ),
   ];
 

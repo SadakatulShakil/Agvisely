@@ -96,12 +96,21 @@ class ApiClient {
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return await _decodeJson(body);
-    } else {
-      try {
-        return await _decodeJson(body);
-      } catch (_) {
-        return {'statusCode': response.statusCode, 'error': response.reasonPhrase};
-      }
+    }
+
+    // Non-2xx: surface the server's own message where possible so callers
+    // can show it straight in a snackbar via NetworkExceptions (it already
+    // passes Strings through untouched).
+    try {
+      final decoded = await _decodeJson(body);
+      final message = decoded is Map
+          ? (decoded['message'] ?? decoded['error'])?.toString()
+          : null;
+      throw (message != null && message.isNotEmpty)
+          ? message
+          : 'Request failed (${response.statusCode})';
+    } on FormatException {
+      throw 'Request failed (${response.statusCode})';
     }
   }
 

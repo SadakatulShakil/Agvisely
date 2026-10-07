@@ -11,12 +11,12 @@ import '../widgets/otp_boxes.dart';
 
 class OtpPage extends StatefulWidget {
   final String phone;
-  final bool isSignup;
+  final String purpose; // 'signup' | 'login'
 
   const OtpPage({
     super.key,
     required this.phone,
-    required this.isSignup,
+    required this.purpose,
   });
 
   @override
@@ -66,7 +66,7 @@ class _OtpPageState extends State<OtpPage> {
                 SizedBox(height: 35.h),
 
                 Text(
-                  'OTP Verification Code',
+                  'otp.title'.tr,
                   style: TextStyle(
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w400,
@@ -77,7 +77,7 @@ class _OtpPageState extends State<OtpPage> {
                 SizedBox(height: 8.h),
 
                 Text(
-                  'We have sent the verification code to\n${widget.phone}',
+                  '${'otp.sent_to'.tr}\n${widget.phone}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18.sp,
@@ -96,6 +96,7 @@ class _OtpPageState extends State<OtpPage> {
                     c.verifyOtp(
                       v,
                       phone: widget.phone,
+                      purpose: widget.purpose,
                     );
                   },
                 ),
@@ -104,29 +105,31 @@ class _OtpPageState extends State<OtpPage> {
 
                 Obx(
                       () => AgButton(
-                    label: 'Verify OTP',
+                    label: 'otp.verify'.tr,
                     loading: c.isSubmitting.value,
                     onPressed: () {
                       c.verifyOtp(
                         _code,
                         phone: widget.phone,
+                        purpose: widget.purpose,
                       );
                     },
                   ),
                 ),
 
-                TextButton(
-                  onPressed: () {
-                    Get.snackbar(
-                      'Agvisely',
-                      'Demo code: 1234',
-                      snackPosition: SnackPosition.BOTTOM,
-                    );
-                  },
-                  child: const Text(
-                    'Resend code',
-                    style: TextStyle(
-                      color: AppColors.primaryDark,
+                Obx(
+                  () => TextButton(
+                    onPressed: c.isSubmitting.value
+                        ? null
+                        : () => c.resendOtp(
+                              phone: widget.phone,
+                              purpose: widget.purpose,
+                            ),
+                    child: Text(
+                      'otp.resend'.tr,
+                      style: const TextStyle(
+                        color: AppColors.primaryDark,
+                      ),
                     ),
                   ),
                 ),

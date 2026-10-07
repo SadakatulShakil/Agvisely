@@ -23,7 +23,11 @@
     <application
         android:label="Agvisely"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
+        <!-- usesCleartextTraffic: DEV ONLY — allows http:// calls to the local
+             backend (10.0.2.2 emulator / LAN IP physical device). Remove or
+             scope via a networkSecurityConfig before a production release. -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
