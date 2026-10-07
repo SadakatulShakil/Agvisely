@@ -1,11 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/api_location_model.dart';
+import '../../models/profession_model.dart';
 import '../../models/saved_location_model.dart';
+import '../../models/user_model.dart';
+import '../network/api_client.dart';
 import '../network/api_endpoints.dart';
 
 class UserPrefService {
@@ -59,6 +63,12 @@ class UserPrefService {
   static const String _keySelectedLocation = 'SELECTED_LOCATION';
   static const int _surveyCooldownMinutes = 60;
 
+  // ── Session (secure storage) ───────────────────────────────────────────
+  static const _secureStorage = FlutterSecureStorage();
+  static const String _keyAccessToken = 'ACCESS_TOKEN';
+  static const String _keyCachedUser = 'CACHED_USER';
+  static const String _keyCachedProfessions = 'CACHED_PROFESSIONS';
+
   // ===== Utility =====
   Future<void> _setStringIfChanged(String key, String value) async {
     if (_prefs?.getString(key) != value) {
@@ -104,6 +114,82 @@ class UserPrefService {
 
   bool get isLoggedIn => _prefs?.getBool(_kLoggedIn) ?? false;
   Future<bool>? setLoggedIn(bool v) => _prefs?.setBool(_kLoggedIn, v);
+
+  // ── Session (access token + cached profile) ─────────────────────────────
+
+  Future<void> saveAccessToken(String token) =>
+      _secureStorage.write(key: _keyAccessToken, value: token);
+
+  Future<String?> getAccessToken() => _secureStorage.read(key: _keyAccessToken);
+
+  /// The last-known profile, read synchronously so Profile can render
+  /// instantly instead of showing a loading state. Seeded at verify-otp
+  /// time and kept fresh by [refreshCurrentUser].
+  UserModel? get cachedUser {
+    final raw = _prefs?.getString(_keyCachedUser);
+    if (raw == null) return null;
+    try {
+      return UserModel.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> setCachedUser(UserModel user) async {
+    await _prefs?.setString(_keyCachedUser, jsonEncode(user.toJson()));
+  }
+
+  /// Background refresh from `GET /users/me`. Fails silently (returns null,
+  /// leaves the cache untouched) so a flaky network never blocks or errors
+  /// the Profile screen — it just keeps showing the last-known-good data.
+  Future<UserModel?> refreshCurrentUser() async {
+    final token = await getAccessToken();
+    if (token == null || token.isEmpty) return null;
+    try {
+      final resp = await ApiClient().get(
+        ApiEndpoints.userMeUrl,
+        headers: {'Authorization': 'Bearer $token'},
+      );
+      final data = resp is Map ? resp['data'] : null;
+      if (data is! Map) return null;
+      final user = UserModel.fromJson(data.cast<String, dynamic>());
+      await setCachedUser(user);
+      return user;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Clears everything session-related on logout.
+  Future<void> clearSession() async {
+    await setLoggedIn(false);
+    await _prefs?.remove(_keyCachedUser);
+    await _secureStorage.delete(key: _keyAccessToken);
+  }
+
+  // ── Professions catalog cache ───────────────────────────────────────────
+  // Persisted so the Profile subtitle can resolve a professionId to a name
+  // on a cold start, before ProfessionsService's live fetch finishes.
+
+  List<ProfessionModel>? get cachedProfessions {
+    final raw = _prefs?.getString(_keyCachedProfessions);
+    if (raw == null) return null;
+    try {
+      final list = jsonDecode(raw) as List;
+      return list
+          .map((e) => ProfessionModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> setCachedProfessions(List<ProfessionModel> list) async {
+    await _prefs?.setString(
+      _keyCachedProfessions,
+      jsonEncode(list.map((p) => p.toJson()).toList()),
+    );
+  }
 
   String? get locationName => _prefs?.getString(_kLocationName);
   Future<bool>? setLocationName(String v) =>

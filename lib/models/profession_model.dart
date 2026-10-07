@@ -18,6 +18,13 @@ class ProfessionModel {
         isDefault: j['isDefault'] == true,
       );
 
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'nameBn': nameBn,
+        'isDefault': isDefault,
+      };
+
   String label(bool isBn) =>
       isBn && (nameBn != null && nameBn!.isNotEmpty) ? nameBn! : name;
 }

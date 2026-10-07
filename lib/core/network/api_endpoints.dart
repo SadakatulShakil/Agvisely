@@ -41,6 +41,7 @@ class ApiEndpoints {
   static const String signupUrl = '$baseUrlUser/users/signup';
   static const String loginUrl = '$baseUrlUser/users/login';
   static const String verifyOtpUrl = '$baseUrlUser/users/verify-otp';
+  static const String userMeUrl = '$baseUrlUser/users/me';
 
   // ===================================
   // Notifications

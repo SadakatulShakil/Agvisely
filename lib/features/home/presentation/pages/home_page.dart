@@ -16,6 +16,7 @@ import '../../../livestock_advisory/domen/binding/livestock_advisory_binding.dar
 import '../../../livestock_advisory/presentation/pages/livestock_advisory_page.dart';
 import '../../../menu/presentation/pages/menu_page.dart';
 import '../../../pest_advisory/presentation/pages/pest_advisory_page.dart';
+import '../../../profile/domen/controllers/profile_controller.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
 import '../../../weather/domen/binding/weather_binding.dart';
 import '../../../weather/presentation/pages/weather_page.dart';
@@ -89,6 +90,9 @@ class _HomeDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = Get.find<HomeController>();
+    final profileC = Get.isRegistered<ProfileController>()
+        ? Get.find<ProfileController>()
+        : Get.put(ProfileController(), permanent: true);
     return RefreshIndicator(
       onRefresh: c.refreshAll,
       child: ListView(
@@ -112,7 +116,12 @@ class _HomeDashboard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${'home.greeting'.tr}, Sadakatul', style: TextStyle(fontSize: 14.sp),),
+                      Obx(
+                        () => Text(
+                          '${'home.greeting'.tr}, ${profileC.user.value?.name ?? ''}',
+                          style: TextStyle(fontSize: 14.sp),
+                        ),
+                      ),
                       Obx(
                         () => Row(
                           mainAxisSize: MainAxisSize.min,

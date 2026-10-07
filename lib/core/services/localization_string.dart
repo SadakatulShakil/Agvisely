@@ -65,7 +65,6 @@ class LocalizationString extends Translations {
     'my_choice.wheat': 'Wheat',
 
     // ── Profile ──────────────────────────────────────────────────────────
-    'profile.role_farmer': 'Farmer',
     'profile.favorite_locations': 'Favorite Locations',
     'profile.add_new_location': 'Add New Location',
     'profile.edit_profile': 'Edit profile',
@@ -211,7 +210,6 @@ class LocalizationString extends Translations {
     'my_choice.wheat': 'গম',
 
     // ── Profile ──────────────────────────────────────────────────────────
-    'profile.role_farmer': 'কৃষক',
     'profile.favorite_locations': 'পছন্দের অবস্থান',
     'profile.add_new_location': 'নতুন অবস্থান যোগ করুন',
     'profile.edit_profile': 'প্রোফাইল সম্পাদনা করুন',

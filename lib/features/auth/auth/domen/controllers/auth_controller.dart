@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 import '../../../../../core/network/api_client.dart';
 import '../../../../../core/network/api_endpoints.dart';
+import '../../../../../core/services/professions_service.dart';
 import '../../../../../core/services/user_pref_service.dart';
 import '../../../../../core/utils/phone_util.dart';
 import '../../../../../models/profession_model.dart';
+import '../../../../../models/user_model.dart';
 import '../../../../location/presentation/pages/location_gate_page.dart';
+import '../../../../profile/domen/controllers/profile_controller.dart';
 import '../../models/signup_request.dart';
 import '../../presentation/pages/otp_page.dart';
 
 class AuthController extends GetxController {
   static const int otpLength = 4; // NOTE: Figma shows 6 boxes; spec says 4.
-
-  static const _secureStorage = FlutterSecureStorage();
-  static const _tokenKey = 'ACCESS_TOKEN';
 
   // Used only when the professions API is unreachable, so signup never
   // dead-ends on a broken dropdown.
@@ -58,26 +57,22 @@ class AuthController extends GetxController {
   Future<void> loadProfessions() async {
     professionsLoading.value = true;
     professionsLoadFailed.value = false;
-    try {
-      final resp = await ApiClient().get(ApiEndpoints.professions);
-      final data = resp is Map ? resp['data'] : null;
-      final list = data is List
-          ? data
-              .whereType<Map>()
-              .map((e) => ProfessionModel.fromJson(e.cast<String, dynamic>()))
-              .toList()
-          : <ProfessionModel>[];
 
-      if (list.isEmpty) throw Exception('No professions returned');
+    final cached = ProfessionsService().cached;
+    if (cached != null) professions.assignAll(cached); // instant, if we have it
 
+    final fresh = await ProfessionsService().fetch();
+    if (fresh != null) {
       // No pre-selection — the user must explicitly pick one.
-      professions.assignAll(list);
-    } catch (_) {
+      professions.assignAll(fresh);
+    } else if (cached == null) {
+      // No cache and the live fetch failed — fall back so the dropdown
+      // isn't empty. Not pushed into ProfessionsService: these ids are
+      // placeholders, not guaranteed to match the real catalog.
       professionsLoadFailed.value = true;
       professions.assignAll(_fallbackProfessions);
-    } finally {
-      professionsLoading.value = false;
     }
+    professionsLoading.value = false;
   }
 
   // ── Actions ────────────────────────────────────────────────────────────────
@@ -147,7 +142,19 @@ class AuthController extends GetxController {
       final data = resp is Map ? resp['data'] : null;
       final token = data is Map ? (data['token'] ?? data['accessToken']) : null;
       if (token is String && token.isNotEmpty) {
-        await _secureStorage.write(key: _tokenKey, value: token);
+        await UserPrefService().saveAccessToken(token);
+      }
+
+      final userJson = data is Map ? data['user'] : null;
+      if (userJson is Map) {
+        final user = UserModel.fromJson(userJson.cast<String, dynamic>());
+        await UserPrefService().setCachedUser(user);
+        // ProfileController is a permanent singleton — if it's already
+        // registered from a previous session, push the fresh user into it
+        // directly so re-login doesn't keep showing the old one.
+        if (Get.isRegistered<ProfileController>()) {
+          Get.find<ProfileController>().applyUser(user);
+        }
       }
 
       await UserPrefService().setLoggedIn(true);

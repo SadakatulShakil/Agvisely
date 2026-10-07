@@ -8,19 +8,23 @@ import '../../../auth/auth/presentation/pages/login_page.dart';
 import '../../../auth/auth/presentation/widgets/auth_widgets.dart';
 import '../../../settings/domen/controllers/settings_controller.dart';
 import '../../../home/domen/controllers/home_controller.dart';
+import '../../domen/controllers/profile_controller.dart';
 import '../widgets/favorite_locations_card.dart';
 
-/// Profile screen — matches the Figma "Profile" frame. Demo-only for now:
-/// name/role/avatar are static; Favorite Locations is real (same saved-
-/// locations list as the home page); Language is wired to
-/// [SettingsController]; Edit profile / My Choice have no destination page
-/// yet, so their taps are no-ops.
+/// Profile screen — matches the Figma "Profile" frame. Name comes from the
+/// cached/live user profile ([ProfileController]); avatar/role are still
+/// static. Favorite Locations is real (same saved-locations list as the
+/// home page); Language is wired to [SettingsController]; Edit profile /
+/// My Choice have no destination page yet, so their taps are no-ops.
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final settings = Get.find<SettingsController>();
+    final c = Get.isRegistered<ProfileController>()
+        ? Get.find<ProfileController>()
+        : Get.put(ProfileController(), permanent: true);
 
     return SageBackground(
       child: SafeArea(
@@ -40,21 +44,25 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 14.h),
-            Center(
-              child: Text(
-                'Sadakatul Shakil',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryDark,
+            Obx(
+              () => Center(
+                child: Text(
+                  c.user.value?.name ?? '',
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryDark,
+                  ),
                 ),
               ),
             ),
             SizedBox(height: 4.h),
-            Center(
-              child: Text(
-                'profile.role_farmer'.tr,
-                style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondaryLight),
+            Obx(
+              () => Center(
+                child: Text(
+                  c.profession.value?.label(Get.locale?.languageCode == 'bn') ?? '',
+                  style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondaryLight),
+                ),
               ),
             ),
             SizedBox(height: 24.h),
@@ -127,13 +135,18 @@ class ProfilePage extends StatelessWidget {
     );
     if (confirmed != true) return;
 
-    await UserPrefService().setLoggedIn(false);
-    // HomeController is a permanent singleton — its bottom-nav tab index
-    // survives this logout, so without resetting it a login right after
-    // logging out from the Profile tab would land back on Profile instead
-    // of Home.
+    await UserPrefService().clearSession();
+    // HomeController/ProfileController are permanent singletons — their
+    // state survives this logout, so without resetting them a login right
+    // after logging out from the Profile tab would land back on Profile
+    // instead of Home, and would briefly flash the previous user's name.
     if (Get.isRegistered<HomeController>()) {
       Get.find<HomeController>().navIndex.value = 0;
+    }
+    if (Get.isRegistered<ProfileController>()) {
+      final profileC = Get.find<ProfileController>();
+      profileC.user.value = null;
+      profileC.profession.value = null;
     }
     Get.offAll(() => const LoginPage());
   }
