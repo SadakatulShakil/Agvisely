@@ -34,7 +34,7 @@ class SignupPage extends StatelessWidget {
                 TextField(
                   controller: c.name,
                   textCapitalization: TextCapitalization.words,
-                  decoration: agFieldDecoration('Write your name here').copyWith(
+                  decoration: agFieldDecoration('signup.name_hint'.tr).copyWith(
                     isDense: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                     hintStyle: TextStyle(fontSize: 18.sp,
@@ -61,6 +61,10 @@ class SignupPage extends StatelessWidget {
                       DropdownButtonFormField<int>(
                         value: c.selectedProfession.value?.id,
                         isExpanded: true,
+                        hint: Text('signup.select_profession'.tr,
+                            style: TextStyle(
+                                fontSize: 18.sp,
+                                color: AppColors.textSecondaryLight)),
                         decoration: agFieldDecoration('').copyWith(
                           isDense: true,
                           contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
@@ -80,7 +84,7 @@ class SignupPage extends StatelessWidget {
                       if (c.professionsLoadFailed.value)
                         TextButton(
                           onPressed: c.loadProfessions,
-                          child: const Text('Retry'),
+                          child: Text('common.retry'.tr),
                         ),
                     ],
                   );

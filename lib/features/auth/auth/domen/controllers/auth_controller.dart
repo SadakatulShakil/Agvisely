@@ -70,15 +70,11 @@ class AuthController extends GetxController {
 
       if (list.isEmpty) throw Exception('No professions returned');
 
+      // No pre-selection — the user must explicitly pick one.
       professions.assignAll(list);
-      selectedProfession.value =
-          list.firstWhereOrNull((p) => p.isDefault) ?? list.first;
     } catch (_) {
       professionsLoadFailed.value = true;
       professions.assignAll(_fallbackProfessions);
-      selectedProfession.value = _fallbackProfessions
-              .firstWhereOrNull((p) => p.isDefault) ??
-          _fallbackProfessions.first;
     } finally {
       professionsLoading.value = false;
     }
@@ -111,7 +107,7 @@ class AuthController extends GetxController {
     if (err != null) return _toast(err);
 
     final profession = selectedProfession.value;
-    if (profession == null) return _toast('Please select your profession');
+    if (profession == null) return _toast('signup.select_profession_error'.tr);
 
     final phone = PhoneUtil.normalize(signupPhone.text)!;
     final req = SignupRequest(
@@ -171,7 +167,7 @@ class AuthController extends GetxController {
     try {
       if (purpose == 'signup') {
         final profession = selectedProfession.value;
-        if (profession == null) return _toast('Please select your profession');
+        if (profession == null) return _toast('signup.select_profession_error'.tr);
         await _postSignup(SignupRequest(
           name: name.text.trim(),
           professionId: profession.id,

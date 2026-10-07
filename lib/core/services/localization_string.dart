@@ -128,7 +128,10 @@ class LocalizationString extends Translations {
     'signup.intro':
         'To create a quick and easy one-time sign-up, you only need some pieces of information',
     'signup.your_name': 'Your Name',
+    'signup.name_hint': 'Write your name here',
     'signup.your_profession': 'Your Profession',
+    'signup.select_profession': 'Select a profession',
+    'signup.select_profession_error': 'Please select a profession',
     'signup.already_have_account': 'Already have an account?',
 
     // ── OTP ──────────────────────────────────────────────────────────────
@@ -271,7 +274,10 @@ class LocalizationString extends Translations {
     'signup.intro':
         'দ্রুত ও সহজ এক-ধাপের নিবন্ধনের জন্য আপনাকে শুধু কয়েকটি তথ্য দিতে হবে',
     'signup.your_name': 'আপনার নাম',
+    'signup.name_hint': 'আপনার নাম লিখুন',
     'signup.your_profession': 'আপনার পেশা',
+    'signup.select_profession': 'একটি পেশা নির্বাচন করুন',
+    'signup.select_profession_error': 'অনুগ্রহ করে একটি পেশা নির্বাচন করুন',
     'signup.already_have_account': 'ইতিমধ্যে একটি অ্যাকাউন্ট আছে?',
 
     // ── OTP ──────────────────────────────────────────────────────────────

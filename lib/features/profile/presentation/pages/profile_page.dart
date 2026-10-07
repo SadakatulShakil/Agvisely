@@ -7,6 +7,7 @@ import '../../../../core/theme/app_theme_colors.dart';
 import '../../../auth/auth/presentation/pages/login_page.dart';
 import '../../../auth/auth/presentation/widgets/auth_widgets.dart';
 import '../../../settings/domen/controllers/settings_controller.dart';
+import '../../../home/domen/controllers/home_controller.dart';
 import '../widgets/favorite_locations_card.dart';
 
 /// Profile screen — matches the Figma "Profile" frame. Demo-only for now:
@@ -127,6 +128,13 @@ class ProfilePage extends StatelessWidget {
     if (confirmed != true) return;
 
     await UserPrefService().setLoggedIn(false);
+    // HomeController is a permanent singleton — its bottom-nav tab index
+    // survives this logout, so without resetting it a login right after
+    // logging out from the Profile tab would land back on Profile instead
+    // of Home.
+    if (Get.isRegistered<HomeController>()) {
+      Get.find<HomeController>().navIndex.value = 0;
+    }
     Get.offAll(() => const LoginPage());
   }
 }
