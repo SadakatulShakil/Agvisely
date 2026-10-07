@@ -42,6 +42,8 @@ class ApiEndpoints {
   static const String loginUrl = '$baseUrlUser/users/login';
   static const String verifyOtpUrl = '$baseUrlUser/users/verify-otp';
   static const String userMeUrl = '$baseUrlUser/users/me';
+  static const String refreshTokenUrl = '$baseUrlUser/users/refresh-token';
+  static const String logoutUrl = '$baseUrlUser/users/logout';
 
   // ===================================
   // Notifications

@@ -11,6 +11,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'core/network/api_client.dart';
 import 'core/services/localization_string.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/user_pref_service.dart';
@@ -48,6 +49,7 @@ void main() async {
 
   await UserPrefService().init();
   final savedLang = UserPrefService().appLanguage;
+  unawaited(ApiClient().ensureValidToken()); // proactive refresh, never blocks first frame
 
   // Lightweight synchronous registrations — no I/O.
   Get.put(SettingsController());

@@ -66,8 +66,10 @@ class UserPrefService {
   // ── Session (secure storage) ───────────────────────────────────────────
   static const _secureStorage = FlutterSecureStorage();
   static const String _keyAccessToken = 'ACCESS_TOKEN';
+  static const String _keyRefreshToken = 'REFRESH_TOKEN';
   static const String _keyCachedUser = 'CACHED_USER';
   static const String _keyCachedProfessions = 'CACHED_PROFESSIONS';
+  static const String _kAccessTokenExpiresAt = 'ACCESS_TOKEN_EXPIRES_AT';
 
   // ===== Utility =====
   Future<void> _setStringIfChanged(String key, String value) async {
@@ -122,6 +124,23 @@ class UserPrefService {
 
   Future<String?> getAccessToken() => _secureStorage.read(key: _keyAccessToken);
 
+  Future<void> saveRefreshToken(String token) =>
+      _secureStorage.write(key: _keyRefreshToken, value: token);
+
+  Future<String?> getRefreshToken() =>
+      _secureStorage.read(key: _keyRefreshToken);
+
+  /// Not sensitive — plain prefs is fine. Lets [ApiClient.ensureValidToken]
+  /// refresh proactively instead of always waiting for a reactive 401.
+  Future<void> saveAccessTokenExpiry(DateTime expiry) async {
+    await _prefs?.setInt(_kAccessTokenExpiresAt, expiry.millisecondsSinceEpoch);
+  }
+
+  DateTime? get accessTokenExpiry {
+    final ms = _prefs?.getInt(_kAccessTokenExpiresAt);
+    return ms == null ? null : DateTime.fromMillisecondsSinceEpoch(ms);
+  }
+
   /// The last-known profile, read synchronously so Profile can render
   /// instantly instead of showing a loading state. Seeded at verify-otp
   /// time and kept fresh by [refreshCurrentUser].
@@ -160,11 +179,28 @@ class UserPrefService {
     }
   }
 
-  /// Clears everything session-related on logout.
+  /// Clears everything session-related on logout. Best-effort tells the
+  /// server to revoke the refresh token first — if that call fails (no
+  /// network, token already dead, etc.) the local session is still cleared
+  /// regardless, since that's what actually signs the user out on-device.
   Future<void> clearSession() async {
+    final refreshToken = await getRefreshToken();
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      try {
+        await ApiClient().post(
+          ApiEndpoints.logoutUrl,
+          body: {'refreshToken': refreshToken},
+        );
+      } catch (_) {
+        // best-effort — proceed with local logout regardless
+      }
+    }
+
     await setLoggedIn(false);
     await _prefs?.remove(_keyCachedUser);
+    await _prefs?.remove(_kAccessTokenExpiresAt);
     await _secureStorage.delete(key: _keyAccessToken);
+    await _secureStorage.delete(key: _keyRefreshToken);
   }
 
   // ── Professions catalog cache ───────────────────────────────────────────

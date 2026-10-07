@@ -143,6 +143,15 @@ class AuthController extends GetxController {
       final token = data is Map ? (data['token'] ?? data['accessToken']) : null;
       if (token is String && token.isNotEmpty) {
         await UserPrefService().saveAccessToken(token);
+        final expiresIn = data is Map ? data['accessTokenExpiresIn'] : null;
+        if (expiresIn is int) {
+          await UserPrefService()
+              .saveAccessTokenExpiry(DateTime.now().add(Duration(seconds: expiresIn)));
+        }
+      }
+      final refreshToken = data is Map ? data['refreshToken'] : null;
+      if (refreshToken is String && refreshToken.isNotEmpty) {
+        await UserPrefService().saveRefreshToken(refreshToken);
       }
 
       final userJson = data is Map ? data['user'] : null;

@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/network/api_client.dart';
 import '../../../../core/services/location_service.dart';
 import '../../../../core/services/user_pref_service.dart';
 import '../../../../models/current_weather_model.dart';
@@ -209,6 +212,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   /// location active → silently refresh just the GPS list entry so it's
   /// current if the user switches back, without touching the active weather.
   Future<void> _onResume() async {
+    unawaited(ApiClient().ensureValidToken()); // proactive session refresh
     if (UserPrefService().isFollowingGPS) {
       await _refreshIfNeeded();
     } else {
