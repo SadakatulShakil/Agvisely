@@ -1,0 +1,3825 @@
+{
+  "status": true,
+  "message": "Forecast fetched (DEMO EN)",
+  "result": {
+    "location": {
+      "id": "201",
+      "division": "Chittagong",
+      "district": "Cox's Bazar",
+      "upazila": "Ramu",
+      "division_bn": "চট্টগ্রাম",
+      "district_bn": "কক্সবাজার",
+      "upazila_bn": "রামু",
+      "forecast_date": "2026-10-08",
+      "updated_at": "2026-10-08 12:26:33",
+      "city": "Naikhongchhari",
+      "location": "Naikhongchhari, Ramu, Cox's Bazar"
+    },
+    "current": {
+      "step_start": "2026-10-08 12:00:00",
+      "step_end": "2026-10-08 15:00:00",
+      "start": "2026-10-08 12:00:00",
+      "end": "2026-10-08 15:00:00",
+      "date": "08 Oct, 2026",
+      "weekday": "Thursday",
+      "rf_unit": "mm",
+      "temp_unit": "°C",
+      "rh_unit": "%",
+      "windspd_unit": "km/h",
+      "winddir_unit": "deg",
+      "cldcvr_unit": "okta",
+      "windgust_unit": "km/h",
+      "soilmoist_unit": "%",
+      "sunshine_unit": "hrs",
+      "icon": "ic_partly_cloudy_d.png",
+      "type": "Partly Cloudy",
+      "typen": "Partly Cloudy",
+      "rf": {
+        "val_min": "0",
+        "val_avg": "0",
+        "val_max": "0"
+      },
+      "temp": {
+        "val_min": "27.2",
+        "val_avg": "29.7",
+        "val_max": "31"
+      },
+      "rh": {
+        "val_min": "61.3",
+        "val_avg": "71",
+        "val_max": "85.5"
+      },
+      "windspd": {
+        "val_min": "2.2",
+        "val_avg": "9.8",
+        "val_max": "16.5"
+      },
+      "winddir": {
+        "val_min": "257.5",
+        "val_avg": "278.1",
+        "val_max": "304.4"
+      },
+      "cldcvr": {
+        "val_min": "0",
+        "val_avg": "49",
+        "val_max": "80"
+      },
+      "windgust": {
+        "val_min": "3.7",
+        "val_avg": "8.2",
+        "val_max": "13"
+      },
+      "feels": "34.5",
+      "pressure": "1013",
+      "uv": "7",
+      "uvDesc": "High",
+      "vis": "3",
+      "soil_moisture": {
+        "val_min": "30",
+        "val_avg": "33.3",
+        "val_max": "36"
+      },
+      "sunshine_hours": "8",
+      "thi": "73.8",
+      "sunrise": "2026-10-08 05:45",
+      "sunset": "2026-10-08 17:34"
+    },
+    "daily": [
+      {
+        "step_start": "2026-10-08 00:00:00",
+        "step_end": "2026-10-09 00:00:00",
+        "start": "2026-10-08 00:00:00",
+        "end": "2026-10-09 00:00:00",
+        "date": "08 Oct, 2026",
+        "weekday": "Thursday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "typenew": {
+          "icon": "ic_partly_cloudy_light_rain.png",
+          "type": "Partly Cloudy With Light Rain",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "5",
+          "val_avg": "9",
+          "val_max": "15"
+        },
+        "temp": {
+          "val_min": "21.1",
+          "val_avg": "25.4",
+          "val_max": "31"
+        },
+        "rh": {
+          "val_min": "61.3",
+          "val_avg": "87.1",
+          "val_max": "100"
+        },
+        "windspd": {
+          "val_min": "2.2",
+          "val_avg": "7.7",
+          "val_max": "16.5"
+        },
+        "winddir": {
+          "val_min": "10.8",
+          "val_avg": "160.8",
+          "val_max": "310.8"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "50",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "1.8",
+          "val_avg": "6.2",
+          "val_max": "18.2"
+        },
+        "feels": "34",
+        "soil_moisture": {
+          "val_min": "30",
+          "val_avg": "33.3",
+          "val_max": "36"
+        },
+        "sunshine_hours": "8",
+        "thi": "73.8"
+      },
+      {
+        "step_start": "2026-10-09 00:00:00",
+        "step_end": "2026-10-10 00:00:00",
+        "start": "2026-10-09 00:00:00",
+        "end": "2026-10-10 00:00:00",
+        "date": "09 Oct, 2026",
+        "weekday": "Friday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "typenew": {
+          "icon": "ic_partly_cloudy.png",
+          "type": "Partly Cloudy",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "5",
+          "val_avg": "9",
+          "val_max": "14"
+        },
+        "temp": {
+          "val_min": "20.8",
+          "val_avg": "25.2",
+          "val_max": "31.1"
+        },
+        "rh": {
+          "val_min": "61.7",
+          "val_avg": "85.8",
+          "val_max": "97.3"
+        },
+        "windspd": {
+          "val_min": "2.8",
+          "val_avg": "8.4",
+          "val_max": "17.6"
+        },
+        "winddir": {
+          "val_min": "7.3",
+          "val_avg": "157.3",
+          "val_max": "307.3"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "50",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "1.8",
+          "val_avg": "6.7",
+          "val_max": "19.4"
+        },
+        "feels": "33",
+        "soil_moisture": {
+          "val_min": "29",
+          "val_avg": "31.0",
+          "val_max": "34"
+        },
+        "sunshine_hours": "7",
+        "thi": "72.1"
+      },
+      {
+        "step_start": "2026-10-10 00:00:00",
+        "step_end": "2026-10-11 00:00:00",
+        "start": "2026-10-10 00:00:00",
+        "end": "2026-10-11 00:00:00",
+        "date": "10 Oct, 2026",
+        "weekday": "Saturday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_mostly_sunny.png",
+        "type": "Mostly Sunny",
+        "typen": "Mostly Sunny",
+        "typenew": {
+          "icon": "ic_mostly_sunny.png",
+          "type": "Mostly Sunny",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "5",
+          "val_avg": "9",
+          "val_max": "14"
+        },
+        "temp": {
+          "val_min": "20.8",
+          "val_avg": "25.5",
+          "val_max": "32.2"
+        },
+        "rh": {
+          "val_min": "55.8",
+          "val_avg": "84.5",
+          "val_max": "96.8"
+        },
+        "windspd": {
+          "val_min": "3.5",
+          "val_avg": "8.9",
+          "val_max": "19.2"
+        },
+        "winddir": {
+          "val_min": "-2.4",
+          "val_avg": "147.6",
+          "val_max": "297.6"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "25",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "1.8",
+          "val_avg": "7.1",
+          "val_max": "21.1"
+        },
+        "feels": "33",
+        "soil_moisture": {
+          "val_min": "28",
+          "val_avg": "30.2",
+          "val_max": "33"
+        },
+        "sunshine_hours": "9",
+        "thi": "71.5"
+      },
+      {
+        "step_start": "2026-10-11 00:00:00",
+        "step_end": "2026-10-12 00:00:00",
+        "start": "2026-10-11 00:00:00",
+        "end": "2026-10-12 00:00:00",
+        "date": "11 Oct, 2026",
+        "weekday": "Sunday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_sunny.png",
+        "type": "Sunny",
+        "typen": "Sunny",
+        "typenew": {
+          "icon": "ic_sunny.png",
+          "type": "Clear",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "5",
+          "val_avg": "11",
+          "val_max": "15"
+        },
+        "temp": {
+          "val_min": "20.8",
+          "val_avg": "26.1",
+          "val_max": "33.1"
+        },
+        "rh": {
+          "val_min": "52.9",
+          "val_avg": "80.9",
+          "val_max": "93.9"
+        },
+        "windspd": {
+          "val_min": "6.6",
+          "val_avg": "10.3",
+          "val_max": "25.1"
+        },
+        "winddir": {
+          "val_min": "21.1",
+          "val_avg": "171.1",
+          "val_max": "321.1"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "0",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "1.8",
+          "val_avg": "8.2",
+          "val_max": "27.6"
+        },
+        "feels": "35",
+        "soil_moisture": {
+          "val_min": "26",
+          "val_avg": "28.4",
+          "val_max": "31"
+        },
+        "sunshine_hours": "9",
+        "thi": "74.2"
+      },
+      {
+        "step_start": "2026-10-12 00:00:00",
+        "step_end": "2026-10-13 00:00:00",
+        "start": "2026-10-12 00:00:00",
+        "end": "2026-10-13 00:00:00",
+        "date": "12 Oct, 2026",
+        "weekday": "Monday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_sunny.png",
+        "type": "Sunny",
+        "typen": "Sunny",
+        "typenew": {
+          "icon": "ic_sunny.png",
+          "type": "Clear",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "5",
+          "val_avg": "9",
+          "val_max": "13"
+        },
+        "temp": {
+          "val_min": "21",
+          "val_avg": "26.6",
+          "val_max": "33.9"
+        },
+        "rh": {
+          "val_min": "49",
+          "val_avg": "79.1",
+          "val_max": "95.4"
+        },
+        "windspd": {
+          "val_min": "5.8",
+          "val_avg": "9.6",
+          "val_max": "24.4"
+        },
+        "winddir": {
+          "val_min": "28.2",
+          "val_avg": "178.2",
+          "val_max": "328.2"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "0",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "1.8",
+          "val_avg": "7.7",
+          "val_max": "26.8"
+        },
+        "feels": "35",
+        "soil_moisture": {
+          "val_min": "27",
+          "val_avg": "29.0",
+          "val_max": "32"
+        },
+        "sunshine_hours": "8",
+        "thi": "74.6"
+      },
+      {
+        "step_start": "2026-10-13 00:00:00",
+        "step_end": "2026-10-14 00:00:00",
+        "start": "2026-10-13 00:00:00",
+        "end": "2026-10-14 00:00:00",
+        "date": "13 Oct, 2026",
+        "weekday": "Tuesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_mostly_sunny_chance_of_rain.png",
+        "type": "Sunny With Chances of Rain",
+        "typen": "Sunny With Chances of Rain",
+        "typenew": {
+          "icon": "ic_mostly_sunny_light_rain.png",
+          "type": "Mostly Sunny With Light Rain",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "6",
+          "val_avg": "10",
+          "val_max": "15"
+        },
+        "temp": {
+          "val_min": "22.4",
+          "val_avg": "27.4",
+          "val_max": "33.7"
+        },
+        "rh": {
+          "val_min": "52.3",
+          "val_avg": "78.8",
+          "val_max": "96.5"
+        },
+        "windspd": {
+          "val_min": "2.1",
+          "val_avg": "8.2",
+          "val_max": "23"
+        },
+        "winddir": {
+          "val_min": "16.9",
+          "val_avg": "166.9",
+          "val_max": "316.9"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "25",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "1.8",
+          "val_avg": "6.6",
+          "val_max": "25.3"
+        },
+        "feels": "34",
+        "soil_moisture": {
+          "val_min": "28",
+          "val_avg": "30.0",
+          "val_max": "33"
+        },
+        "sunshine_hours": "7",
+        "thi": "73.0"
+      },
+      {
+        "step_start": "2026-10-14 00:00:00",
+        "step_end": "2026-10-15 00:00:00",
+        "start": "2026-10-14 00:00:00",
+        "end": "2026-10-15 00:00:00",
+        "date": "14 Oct, 2026",
+        "weekday": "Wednesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_with_light_rain_d.png",
+        "type": "Partly Cloudy With Light Rain",
+        "typen": "Partly Cloudy With Light Rain",
+        "typenew": {
+          "icon": "ic_partly_cloudy_light_rain.png",
+          "type": "Partly Cloudy With Light Rain",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "6",
+          "val_avg": "11",
+          "val_max": "15"
+        },
+        "temp": {
+          "val_min": "22.6",
+          "val_avg": "26.9",
+          "val_max": "33"
+        },
+        "rh": {
+          "val_min": "53.2",
+          "val_avg": "82.8",
+          "val_max": "96.5"
+        },
+        "windspd": {
+          "val_min": "0.4",
+          "val_avg": "7.6",
+          "val_max": "19.3"
+        },
+        "winddir": {
+          "val_min": "44.4",
+          "val_avg": "194.4",
+          "val_max": "344.4"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "25",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "1.8",
+          "val_avg": "6.1",
+          "val_max": "21.2"
+        },
+        "feels": "33",
+        "soil_moisture": {
+          "val_min": "30",
+          "val_avg": "32.0",
+          "val_max": "35"
+        },
+        "sunshine_hours": "6",
+        "thi": "72.6"
+      }
+    ],
+    "steps": [
+      {
+        "step_start": "2026-10-08 00:00:00",
+        "step_end": "2026-10-08 03:00:00",
+        "start": "2026-10-08 00:00:00",
+        "end": "2026-10-08 03:00:00",
+        "date": "08 Oct, 2026",
+        "weekday": "Thursday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "5",
+          "val_avg": "7",
+          "val_max": "10"
+        },
+        "temp": {
+          "val_min": "19.9",
+          "val_avg": "21.9",
+          "val_max": "23.9"
+        },
+        "rh": {
+          "val_min": "85.1",
+          "val_avg": "93.1",
+          "val_max": "100"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.0",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-08 03:00:00",
+        "step_end": "2026-10-08 06:00:00",
+        "start": "2026-10-08 03:00:00",
+        "end": "2026-10-08 06:00:00",
+        "date": "08 Oct, 2026",
+        "weekday": "Thursday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "2",
+          "val_avg": "4",
+          "val_max": "7"
+        },
+        "temp": {
+          "val_min": "19.1",
+          "val_avg": "21.1",
+          "val_max": "23.1"
+        },
+        "rh": {
+          "val_min": "87.1",
+          "val_avg": "95.1",
+          "val_max": "100"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.3",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-08 06:00:00",
+        "step_end": "2026-10-08 09:00:00",
+        "start": "2026-10-08 06:00:00",
+        "end": "2026-10-08 09:00:00",
+        "date": "08 Oct, 2026",
+        "weekday": "Thursday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "6",
+          "val_avg": "8",
+          "val_max": "11"
+        },
+        "temp": {
+          "val_min": "22.1",
+          "val_avg": "24.1",
+          "val_max": "26.1"
+        },
+        "rh": {
+          "val_min": "80.1",
+          "val_avg": "88.1",
+          "val_max": "95.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.6",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-08 09:00:00",
+        "step_end": "2026-10-08 12:00:00",
+        "start": "2026-10-08 09:00:00",
+        "end": "2026-10-08 12:00:00",
+        "date": "08 Oct, 2026",
+        "weekday": "Thursday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "10",
+          "val_avg": "12",
+          "val_max": "15"
+        },
+        "temp": {
+          "val_min": "27",
+          "val_avg": "29",
+          "val_max": "31"
+        },
+        "rh": {
+          "val_min": "70.1",
+          "val_avg": "78.1",
+          "val_max": "85.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.9",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-08 12:00:00",
+        "step_end": "2026-10-08 15:00:00",
+        "start": "2026-10-08 12:00:00",
+        "end": "2026-10-08 15:00:00",
+        "date": "08 Oct, 2026",
+        "weekday": "Thursday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "0",
+          "val_avg": "2",
+          "val_max": "5"
+        },
+        "temp": {
+          "val_min": "29",
+          "val_avg": "31",
+          "val_max": "33"
+        },
+        "rh": {
+          "val_min": "65.1",
+          "val_avg": "73.1",
+          "val_max": "80.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.2",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-08 15:00:00",
+        "step_end": "2026-10-08 18:00:00",
+        "start": "2026-10-08 15:00:00",
+        "end": "2026-10-08 18:00:00",
+        "date": "08 Oct, 2026",
+        "weekday": "Thursday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "1",
+          "val_avg": "3",
+          "val_max": "6"
+        },
+        "temp": {
+          "val_min": "27.5",
+          "val_avg": "29.5",
+          "val_max": "31.5"
+        },
+        "rh": {
+          "val_min": "72.1",
+          "val_avg": "80.1",
+          "val_max": "87.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.5",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-08 18:00:00",
+        "step_end": "2026-10-08 21:00:00",
+        "start": "2026-10-08 18:00:00",
+        "end": "2026-10-08 21:00:00",
+        "date": "08 Oct, 2026",
+        "weekday": "Thursday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "8",
+          "val_avg": "10",
+          "val_max": "13"
+        },
+        "temp": {
+          "val_min": "23.1",
+          "val_avg": "25.1",
+          "val_max": "27.1"
+        },
+        "rh": {
+          "val_min": "81.1",
+          "val_avg": "89.1",
+          "val_max": "96.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.8",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-08 21:00:00",
+        "step_end": "2026-10-09 00:00:00",
+        "start": "2026-10-08 21:00:00",
+        "end": "2026-10-09 00:00:00",
+        "date": "08 Oct, 2026",
+        "weekday": "Thursday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "1",
+          "val_avg": "3",
+          "val_max": "6"
+        },
+        "temp": {
+          "val_min": "20.6",
+          "val_avg": "22.6",
+          "val_max": "24.6"
+        },
+        "rh": {
+          "val_min": "84.1",
+          "val_avg": "92.1",
+          "val_max": "99.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "10.1",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-09 00:00:00",
+        "step_end": "2026-10-09 03:00:00",
+        "start": "2026-10-09 00:00:00",
+        "end": "2026-10-09 03:00:00",
+        "date": "09 Oct, 2026",
+        "weekday": "Friday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "5",
+          "val_avg": "7",
+          "val_max": "10"
+        },
+        "temp": {
+          "val_min": "19.6",
+          "val_avg": "21.6",
+          "val_max": "23.6"
+        },
+        "rh": {
+          "val_min": "83.8",
+          "val_avg": "91.8",
+          "val_max": "98.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.0",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-09 03:00:00",
+        "step_end": "2026-10-09 06:00:00",
+        "start": "2026-10-09 03:00:00",
+        "end": "2026-10-09 06:00:00",
+        "date": "09 Oct, 2026",
+        "weekday": "Friday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "9",
+          "val_avg": "11",
+          "val_max": "14"
+        },
+        "temp": {
+          "val_min": "18.8",
+          "val_avg": "20.8",
+          "val_max": "22.8"
+        },
+        "rh": {
+          "val_min": "85.8",
+          "val_avg": "93.8",
+          "val_max": "100"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.3",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-09 06:00:00",
+        "step_end": "2026-10-09 09:00:00",
+        "start": "2026-10-09 06:00:00",
+        "end": "2026-10-09 09:00:00",
+        "date": "09 Oct, 2026",
+        "weekday": "Friday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "0",
+          "val_avg": "2",
+          "val_max": "5"
+        },
+        "temp": {
+          "val_min": "21.8",
+          "val_avg": "23.8",
+          "val_max": "25.8"
+        },
+        "rh": {
+          "val_min": "78.8",
+          "val_avg": "86.8",
+          "val_max": "93.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.6",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-09 09:00:00",
+        "step_end": "2026-10-09 12:00:00",
+        "start": "2026-10-09 09:00:00",
+        "end": "2026-10-09 12:00:00",
+        "date": "09 Oct, 2026",
+        "weekday": "Friday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "8",
+          "val_avg": "10",
+          "val_max": "13"
+        },
+        "temp": {
+          "val_min": "27.1",
+          "val_avg": "29.1",
+          "val_max": "31.1"
+        },
+        "rh": {
+          "val_min": "68.8",
+          "val_avg": "76.8",
+          "val_max": "83.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.9",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-09 12:00:00",
+        "step_end": "2026-10-09 15:00:00",
+        "start": "2026-10-09 12:00:00",
+        "end": "2026-10-09 15:00:00",
+        "date": "09 Oct, 2026",
+        "weekday": "Friday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "3",
+          "val_avg": "5",
+          "val_max": "8"
+        },
+        "temp": {
+          "val_min": "29.1",
+          "val_avg": "31.1",
+          "val_max": "33.1"
+        },
+        "rh": {
+          "val_min": "63.8",
+          "val_avg": "71.8",
+          "val_max": "78.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.2",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-09 15:00:00",
+        "step_end": "2026-10-09 18:00:00",
+        "start": "2026-10-09 15:00:00",
+        "end": "2026-10-09 18:00:00",
+        "date": "09 Oct, 2026",
+        "weekday": "Friday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "0",
+          "val_avg": "2",
+          "val_max": "5"
+        },
+        "temp": {
+          "val_min": "27.6",
+          "val_avg": "29.6",
+          "val_max": "31.6"
+        },
+        "rh": {
+          "val_min": "70.8",
+          "val_avg": "78.8",
+          "val_max": "85.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.5",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-09 18:00:00",
+        "step_end": "2026-10-09 21:00:00",
+        "start": "2026-10-09 18:00:00",
+        "end": "2026-10-09 21:00:00",
+        "date": "09 Oct, 2026",
+        "weekday": "Friday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "1",
+          "val_avg": "3",
+          "val_max": "6"
+        },
+        "temp": {
+          "val_min": "22.8",
+          "val_avg": "24.8",
+          "val_max": "26.8"
+        },
+        "rh": {
+          "val_min": "79.8",
+          "val_avg": "87.8",
+          "val_max": "94.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.8",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-09 21:00:00",
+        "step_end": "2026-10-10 00:00:00",
+        "start": "2026-10-09 21:00:00",
+        "end": "2026-10-10 00:00:00",
+        "date": "09 Oct, 2026",
+        "weekday": "Friday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "6",
+          "val_avg": "8",
+          "val_max": "11"
+        },
+        "temp": {
+          "val_min": "20.3",
+          "val_avg": "22.3",
+          "val_max": "24.3"
+        },
+        "rh": {
+          "val_min": "82.8",
+          "val_avg": "90.8",
+          "val_max": "97.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "10.1",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-10 00:00:00",
+        "step_end": "2026-10-10 03:00:00",
+        "start": "2026-10-10 00:00:00",
+        "end": "2026-10-10 03:00:00",
+        "date": "10 Oct, 2026",
+        "weekday": "Saturday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "6",
+          "val_avg": "8",
+          "val_max": "11"
+        },
+        "temp": {
+          "val_min": "19.6",
+          "val_avg": "21.6",
+          "val_max": "23.6"
+        },
+        "rh": {
+          "val_min": "82.5",
+          "val_avg": "90.5",
+          "val_max": "97.5"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.0",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-10 03:00:00",
+        "step_end": "2026-10-10 06:00:00",
+        "start": "2026-10-10 03:00:00",
+        "end": "2026-10-10 06:00:00",
+        "date": "10 Oct, 2026",
+        "weekday": "Saturday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "1",
+          "val_avg": "3",
+          "val_max": "6"
+        },
+        "temp": {
+          "val_min": "18.8",
+          "val_avg": "20.8",
+          "val_max": "22.8"
+        },
+        "rh": {
+          "val_min": "84.5",
+          "val_avg": "92.5",
+          "val_max": "99.5"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.3",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-10 06:00:00",
+        "step_end": "2026-10-10 09:00:00",
+        "start": "2026-10-10 06:00:00",
+        "end": "2026-10-10 09:00:00",
+        "date": "10 Oct, 2026",
+        "weekday": "Saturday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "3",
+          "val_avg": "5",
+          "val_max": "8"
+        },
+        "temp": {
+          "val_min": "21.8",
+          "val_avg": "23.8",
+          "val_max": "25.8"
+        },
+        "rh": {
+          "val_min": "77.5",
+          "val_avg": "85.5",
+          "val_max": "92.5"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.6",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-10 09:00:00",
+        "step_end": "2026-10-10 12:00:00",
+        "start": "2026-10-10 09:00:00",
+        "end": "2026-10-10 12:00:00",
+        "date": "10 Oct, 2026",
+        "weekday": "Saturday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "1",
+          "val_avg": "3",
+          "val_max": "6"
+        },
+        "temp": {
+          "val_min": "28.2",
+          "val_avg": "30.2",
+          "val_max": "32.2"
+        },
+        "rh": {
+          "val_min": "67.5",
+          "val_avg": "75.5",
+          "val_max": "82.5"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.9",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-10 12:00:00",
+        "step_end": "2026-10-10 15:00:00",
+        "start": "2026-10-10 12:00:00",
+        "end": "2026-10-10 15:00:00",
+        "date": "10 Oct, 2026",
+        "weekday": "Saturday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "8",
+          "val_avg": "10",
+          "val_max": "13"
+        },
+        "temp": {
+          "val_min": "30.2",
+          "val_avg": "32.2",
+          "val_max": "34.2"
+        },
+        "rh": {
+          "val_min": "62.5",
+          "val_avg": "70.5",
+          "val_max": "77.5"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.2",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-10 15:00:00",
+        "step_end": "2026-10-10 18:00:00",
+        "start": "2026-10-10 15:00:00",
+        "end": "2026-10-10 18:00:00",
+        "date": "10 Oct, 2026",
+        "weekday": "Saturday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "6",
+          "val_avg": "8",
+          "val_max": "11"
+        },
+        "temp": {
+          "val_min": "28.7",
+          "val_avg": "30.7",
+          "val_max": "32.7"
+        },
+        "rh": {
+          "val_min": "69.5",
+          "val_avg": "77.5",
+          "val_max": "84.5"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.5",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-10 18:00:00",
+        "step_end": "2026-10-10 21:00:00",
+        "start": "2026-10-10 18:00:00",
+        "end": "2026-10-10 21:00:00",
+        "date": "10 Oct, 2026",
+        "weekday": "Saturday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "0",
+          "val_avg": "2",
+          "val_max": "5"
+        },
+        "temp": {
+          "val_min": "22.8",
+          "val_avg": "24.8",
+          "val_max": "26.8"
+        },
+        "rh": {
+          "val_min": "78.5",
+          "val_avg": "86.5",
+          "val_max": "93.5"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.8",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-10 21:00:00",
+        "step_end": "2026-10-11 00:00:00",
+        "start": "2026-10-10 21:00:00",
+        "end": "2026-10-11 00:00:00",
+        "date": "10 Oct, 2026",
+        "weekday": "Saturday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "9",
+          "val_avg": "11",
+          "val_max": "14"
+        },
+        "temp": {
+          "val_min": "20.3",
+          "val_avg": "22.3",
+          "val_max": "24.3"
+        },
+        "rh": {
+          "val_min": "81.5",
+          "val_avg": "89.5",
+          "val_max": "96.5"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "10.1",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-11 00:00:00",
+        "step_end": "2026-10-11 03:00:00",
+        "start": "2026-10-11 00:00:00",
+        "end": "2026-10-11 03:00:00",
+        "date": "11 Oct, 2026",
+        "weekday": "Sunday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "1",
+          "val_avg": "3",
+          "val_max": "6"
+        },
+        "temp": {
+          "val_min": "19.6",
+          "val_avg": "21.6",
+          "val_max": "23.6"
+        },
+        "rh": {
+          "val_min": "78.9",
+          "val_avg": "86.9",
+          "val_max": "93.9"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.0",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-11 03:00:00",
+        "step_end": "2026-10-11 06:00:00",
+        "start": "2026-10-11 03:00:00",
+        "end": "2026-10-11 06:00:00",
+        "date": "11 Oct, 2026",
+        "weekday": "Sunday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "3",
+          "val_avg": "5",
+          "val_max": "8"
+        },
+        "temp": {
+          "val_min": "18.8",
+          "val_avg": "20.8",
+          "val_max": "22.8"
+        },
+        "rh": {
+          "val_min": "80.9",
+          "val_avg": "88.9",
+          "val_max": "95.9"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.3",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-11 06:00:00",
+        "step_end": "2026-10-11 09:00:00",
+        "start": "2026-10-11 06:00:00",
+        "end": "2026-10-11 09:00:00",
+        "date": "11 Oct, 2026",
+        "weekday": "Sunday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "10",
+          "val_avg": "12",
+          "val_max": "15"
+        },
+        "temp": {
+          "val_min": "21.8",
+          "val_avg": "23.8",
+          "val_max": "25.8"
+        },
+        "rh": {
+          "val_min": "73.9",
+          "val_avg": "81.9",
+          "val_max": "88.9"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.6",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-11 09:00:00",
+        "step_end": "2026-10-11 12:00:00",
+        "start": "2026-10-11 09:00:00",
+        "end": "2026-10-11 12:00:00",
+        "date": "11 Oct, 2026",
+        "weekday": "Sunday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "10",
+          "val_avg": "12",
+          "val_max": "15"
+        },
+        "temp": {
+          "val_min": "29.1",
+          "val_avg": "31.1",
+          "val_max": "33.1"
+        },
+        "rh": {
+          "val_min": "63.9",
+          "val_avg": "71.9",
+          "val_max": "78.9"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.9",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-11 12:00:00",
+        "step_end": "2026-10-11 15:00:00",
+        "start": "2026-10-11 12:00:00",
+        "end": "2026-10-11 15:00:00",
+        "date": "11 Oct, 2026",
+        "weekday": "Sunday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "9",
+          "val_avg": "11",
+          "val_max": "14"
+        },
+        "temp": {
+          "val_min": "31.1",
+          "val_avg": "33.1",
+          "val_max": "35.1"
+        },
+        "rh": {
+          "val_min": "58.9",
+          "val_avg": "66.9",
+          "val_max": "73.9"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.2",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-11 15:00:00",
+        "step_end": "2026-10-11 18:00:00",
+        "start": "2026-10-11 15:00:00",
+        "end": "2026-10-11 18:00:00",
+        "date": "11 Oct, 2026",
+        "weekday": "Sunday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "0",
+          "val_avg": "2",
+          "val_max": "5"
+        },
+        "temp": {
+          "val_min": "29.6",
+          "val_avg": "31.6",
+          "val_max": "33.6"
+        },
+        "rh": {
+          "val_min": "65.9",
+          "val_avg": "73.9",
+          "val_max": "80.9"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.5",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-11 18:00:00",
+        "step_end": "2026-10-11 21:00:00",
+        "start": "2026-10-11 18:00:00",
+        "end": "2026-10-11 21:00:00",
+        "date": "11 Oct, 2026",
+        "weekday": "Sunday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "9",
+          "val_avg": "11",
+          "val_max": "14"
+        },
+        "temp": {
+          "val_min": "22.8",
+          "val_avg": "24.8",
+          "val_max": "26.8"
+        },
+        "rh": {
+          "val_min": "74.9",
+          "val_avg": "82.9",
+          "val_max": "89.9"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.8",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-11 21:00:00",
+        "step_end": "2026-10-12 00:00:00",
+        "start": "2026-10-11 21:00:00",
+        "end": "2026-10-12 00:00:00",
+        "date": "11 Oct, 2026",
+        "weekday": "Sunday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "9",
+          "val_avg": "11",
+          "val_max": "14"
+        },
+        "temp": {
+          "val_min": "20.3",
+          "val_avg": "22.3",
+          "val_max": "24.3"
+        },
+        "rh": {
+          "val_min": "77.9",
+          "val_avg": "85.9",
+          "val_max": "92.9"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "10.1",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-12 00:00:00",
+        "step_end": "2026-10-12 03:00:00",
+        "start": "2026-10-12 00:00:00",
+        "end": "2026-10-12 03:00:00",
+        "date": "12 Oct, 2026",
+        "weekday": "Monday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "6",
+          "val_avg": "8",
+          "val_max": "11"
+        },
+        "temp": {
+          "val_min": "19.8",
+          "val_avg": "21.8",
+          "val_max": "23.8"
+        },
+        "rh": {
+          "val_min": "77.1",
+          "val_avg": "85.1",
+          "val_max": "92.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.0",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-12 03:00:00",
+        "step_end": "2026-10-12 06:00:00",
+        "start": "2026-10-12 03:00:00",
+        "end": "2026-10-12 06:00:00",
+        "date": "12 Oct, 2026",
+        "weekday": "Monday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "0",
+          "val_avg": "2",
+          "val_max": "5"
+        },
+        "temp": {
+          "val_min": "19",
+          "val_avg": "21",
+          "val_max": "23"
+        },
+        "rh": {
+          "val_min": "79.1",
+          "val_avg": "87.1",
+          "val_max": "94.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.3",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-12 06:00:00",
+        "step_end": "2026-10-12 09:00:00",
+        "start": "2026-10-12 06:00:00",
+        "end": "2026-10-12 09:00:00",
+        "date": "12 Oct, 2026",
+        "weekday": "Monday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "3",
+          "val_avg": "5",
+          "val_max": "8"
+        },
+        "temp": {
+          "val_min": "22",
+          "val_avg": "24",
+          "val_max": "26"
+        },
+        "rh": {
+          "val_min": "72.1",
+          "val_avg": "80.1",
+          "val_max": "87.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.6",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-12 09:00:00",
+        "step_end": "2026-10-12 12:00:00",
+        "start": "2026-10-12 09:00:00",
+        "end": "2026-10-12 12:00:00",
+        "date": "12 Oct, 2026",
+        "weekday": "Monday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "0",
+          "val_avg": "2",
+          "val_max": "5"
+        },
+        "temp": {
+          "val_min": "29.9",
+          "val_avg": "31.9",
+          "val_max": "33.9"
+        },
+        "rh": {
+          "val_min": "62.1",
+          "val_avg": "70.1",
+          "val_max": "77.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.9",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-12 12:00:00",
+        "step_end": "2026-10-12 15:00:00",
+        "start": "2026-10-12 12:00:00",
+        "end": "2026-10-12 15:00:00",
+        "date": "12 Oct, 2026",
+        "weekday": "Monday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "8",
+          "val_avg": "10",
+          "val_max": "13"
+        },
+        "temp": {
+          "val_min": "31.9",
+          "val_avg": "33.9",
+          "val_max": "35.9"
+        },
+        "rh": {
+          "val_min": "57.1",
+          "val_avg": "65.1",
+          "val_max": "72.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.2",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-12 15:00:00",
+        "step_end": "2026-10-12 18:00:00",
+        "start": "2026-10-12 15:00:00",
+        "end": "2026-10-12 18:00:00",
+        "date": "12 Oct, 2026",
+        "weekday": "Monday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "2",
+          "val_avg": "4",
+          "val_max": "7"
+        },
+        "temp": {
+          "val_min": "30.4",
+          "val_avg": "32.4",
+          "val_max": "34.4"
+        },
+        "rh": {
+          "val_min": "64.1",
+          "val_avg": "72.1",
+          "val_max": "79.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.5",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-12 18:00:00",
+        "step_end": "2026-10-12 21:00:00",
+        "start": "2026-10-12 18:00:00",
+        "end": "2026-10-12 21:00:00",
+        "date": "12 Oct, 2026",
+        "weekday": "Monday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "4",
+          "val_avg": "6",
+          "val_max": "9"
+        },
+        "temp": {
+          "val_min": "23",
+          "val_avg": "25",
+          "val_max": "27"
+        },
+        "rh": {
+          "val_min": "73.1",
+          "val_avg": "81.1",
+          "val_max": "88.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.8",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-12 21:00:00",
+        "step_end": "2026-10-13 00:00:00",
+        "start": "2026-10-12 21:00:00",
+        "end": "2026-10-13 00:00:00",
+        "date": "12 Oct, 2026",
+        "weekday": "Monday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "6",
+          "val_avg": "8",
+          "val_max": "11"
+        },
+        "temp": {
+          "val_min": "20.5",
+          "val_avg": "22.5",
+          "val_max": "24.5"
+        },
+        "rh": {
+          "val_min": "76.1",
+          "val_avg": "84.1",
+          "val_max": "91.1"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "10.1",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-13 00:00:00",
+        "step_end": "2026-10-13 03:00:00",
+        "start": "2026-10-13 00:00:00",
+        "end": "2026-10-13 03:00:00",
+        "date": "13 Oct, 2026",
+        "weekday": "Tuesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "2",
+          "val_avg": "4",
+          "val_max": "7"
+        },
+        "temp": {
+          "val_min": "21.2",
+          "val_avg": "23.2",
+          "val_max": "25.2"
+        },
+        "rh": {
+          "val_min": "76.8",
+          "val_avg": "84.8",
+          "val_max": "91.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.0",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-13 03:00:00",
+        "step_end": "2026-10-13 06:00:00",
+        "start": "2026-10-13 03:00:00",
+        "end": "2026-10-13 06:00:00",
+        "date": "13 Oct, 2026",
+        "weekday": "Tuesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "8",
+          "val_avg": "10",
+          "val_max": "13"
+        },
+        "temp": {
+          "val_min": "20.4",
+          "val_avg": "22.4",
+          "val_max": "24.4"
+        },
+        "rh": {
+          "val_min": "78.8",
+          "val_avg": "86.8",
+          "val_max": "93.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.3",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-13 06:00:00",
+        "step_end": "2026-10-13 09:00:00",
+        "start": "2026-10-13 06:00:00",
+        "end": "2026-10-13 09:00:00",
+        "date": "13 Oct, 2026",
+        "weekday": "Tuesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "1",
+          "val_avg": "3",
+          "val_max": "6"
+        },
+        "temp": {
+          "val_min": "23.4",
+          "val_avg": "25.4",
+          "val_max": "27.4"
+        },
+        "rh": {
+          "val_min": "71.8",
+          "val_avg": "79.8",
+          "val_max": "86.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.6",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-13 09:00:00",
+        "step_end": "2026-10-13 12:00:00",
+        "start": "2026-10-13 09:00:00",
+        "end": "2026-10-13 12:00:00",
+        "date": "13 Oct, 2026",
+        "weekday": "Tuesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "9",
+          "val_avg": "11",
+          "val_max": "14"
+        },
+        "temp": {
+          "val_min": "29.7",
+          "val_avg": "31.7",
+          "val_max": "33.7"
+        },
+        "rh": {
+          "val_min": "61.8",
+          "val_avg": "69.8",
+          "val_max": "76.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.9",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-13 12:00:00",
+        "step_end": "2026-10-13 15:00:00",
+        "start": "2026-10-13 12:00:00",
+        "end": "2026-10-13 15:00:00",
+        "date": "13 Oct, 2026",
+        "weekday": "Tuesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "4",
+          "val_avg": "6",
+          "val_max": "9"
+        },
+        "temp": {
+          "val_min": "31.7",
+          "val_avg": "33.7",
+          "val_max": "35.7"
+        },
+        "rh": {
+          "val_min": "56.8",
+          "val_avg": "64.8",
+          "val_max": "71.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.2",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-13 15:00:00",
+        "step_end": "2026-10-13 18:00:00",
+        "start": "2026-10-13 15:00:00",
+        "end": "2026-10-13 18:00:00",
+        "date": "13 Oct, 2026",
+        "weekday": "Tuesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "8",
+          "val_avg": "10",
+          "val_max": "13"
+        },
+        "temp": {
+          "val_min": "30.2",
+          "val_avg": "32.2",
+          "val_max": "34.2"
+        },
+        "rh": {
+          "val_min": "63.8",
+          "val_avg": "71.8",
+          "val_max": "78.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.5",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-13 18:00:00",
+        "step_end": "2026-10-13 21:00:00",
+        "start": "2026-10-13 18:00:00",
+        "end": "2026-10-13 21:00:00",
+        "date": "13 Oct, 2026",
+        "weekday": "Tuesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "10",
+          "val_avg": "12",
+          "val_max": "15"
+        },
+        "temp": {
+          "val_min": "24.4",
+          "val_avg": "26.4",
+          "val_max": "28.4"
+        },
+        "rh": {
+          "val_min": "72.8",
+          "val_avg": "80.8",
+          "val_max": "87.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.8",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-13 21:00:00",
+        "step_end": "2026-10-14 00:00:00",
+        "start": "2026-10-13 21:00:00",
+        "end": "2026-10-14 00:00:00",
+        "date": "13 Oct, 2026",
+        "weekday": "Tuesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "2",
+          "val_avg": "4",
+          "val_max": "7"
+        },
+        "temp": {
+          "val_min": "21.9",
+          "val_avg": "23.9",
+          "val_max": "25.9"
+        },
+        "rh": {
+          "val_min": "75.8",
+          "val_avg": "83.8",
+          "val_max": "90.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "10.1",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-14 00:00:00",
+        "step_end": "2026-10-14 03:00:00",
+        "start": "2026-10-14 00:00:00",
+        "end": "2026-10-14 03:00:00",
+        "date": "14 Oct, 2026",
+        "weekday": "Wednesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "1",
+          "val_avg": "3",
+          "val_max": "6"
+        },
+        "temp": {
+          "val_min": "21.4",
+          "val_avg": "23.4",
+          "val_max": "25.4"
+        },
+        "rh": {
+          "val_min": "80.8",
+          "val_avg": "88.8",
+          "val_max": "95.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.0",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-14 03:00:00",
+        "step_end": "2026-10-14 06:00:00",
+        "start": "2026-10-14 03:00:00",
+        "end": "2026-10-14 06:00:00",
+        "date": "14 Oct, 2026",
+        "weekday": "Wednesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "9",
+          "val_avg": "11",
+          "val_max": "14"
+        },
+        "temp": {
+          "val_min": "20.6",
+          "val_avg": "22.6",
+          "val_max": "24.6"
+        },
+        "rh": {
+          "val_min": "82.8",
+          "val_avg": "90.8",
+          "val_max": "97.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.3",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-14 06:00:00",
+        "step_end": "2026-10-14 09:00:00",
+        "start": "2026-10-14 06:00:00",
+        "end": "2026-10-14 09:00:00",
+        "date": "14 Oct, 2026",
+        "weekday": "Wednesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "9",
+          "val_avg": "11",
+          "val_max": "14"
+        },
+        "temp": {
+          "val_min": "23.6",
+          "val_avg": "25.6",
+          "val_max": "27.6"
+        },
+        "rh": {
+          "val_min": "75.8",
+          "val_avg": "83.8",
+          "val_max": "90.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.6",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-14 09:00:00",
+        "step_end": "2026-10-14 12:00:00",
+        "start": "2026-10-14 09:00:00",
+        "end": "2026-10-14 12:00:00",
+        "date": "14 Oct, 2026",
+        "weekday": "Wednesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "10",
+          "val_avg": "12",
+          "val_max": "15"
+        },
+        "temp": {
+          "val_min": "29",
+          "val_avg": "31",
+          "val_max": "33"
+        },
+        "rh": {
+          "val_min": "65.8",
+          "val_avg": "73.8",
+          "val_max": "80.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "8.9",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-14 12:00:00",
+        "step_end": "2026-10-14 15:00:00",
+        "start": "2026-10-14 12:00:00",
+        "end": "2026-10-14 15:00:00",
+        "date": "14 Oct, 2026",
+        "weekday": "Wednesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "3",
+          "val_avg": "5",
+          "val_max": "8"
+        },
+        "temp": {
+          "val_min": "31",
+          "val_avg": "33",
+          "val_max": "35"
+        },
+        "rh": {
+          "val_min": "60.8",
+          "val_avg": "68.8",
+          "val_max": "75.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.2",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-14 15:00:00",
+        "step_end": "2026-10-14 18:00:00",
+        "start": "2026-10-14 15:00:00",
+        "end": "2026-10-14 18:00:00",
+        "date": "14 Oct, 2026",
+        "weekday": "Wednesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "Partly Cloudy",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "5",
+          "val_avg": "7",
+          "val_max": "10"
+        },
+        "temp": {
+          "val_min": "29.5",
+          "val_avg": "31.5",
+          "val_max": "33.5"
+        },
+        "rh": {
+          "val_min": "67.8",
+          "val_avg": "75.8",
+          "val_max": "82.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.5",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-14 18:00:00",
+        "step_end": "2026-10-14 21:00:00",
+        "start": "2026-10-14 18:00:00",
+        "end": "2026-10-14 21:00:00",
+        "date": "14 Oct, 2026",
+        "weekday": "Wednesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "1",
+          "val_avg": "3",
+          "val_max": "6"
+        },
+        "temp": {
+          "val_min": "24.6",
+          "val_avg": "26.6",
+          "val_max": "28.6"
+        },
+        "rh": {
+          "val_min": "76.8",
+          "val_avg": "84.8",
+          "val_max": "91.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "9.8",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      },
+      {
+        "step_start": "2026-10-14 21:00:00",
+        "step_end": "2026-10-15 00:00:00",
+        "start": "2026-10-14 21:00:00",
+        "end": "2026-10-15 00:00:00",
+        "date": "14 Oct, 2026",
+        "weekday": "Wednesday",
+        "rf_unit": "mm",
+        "temp_unit": "°C",
+        "rh_unit": "%",
+        "windspd_unit": "km/h",
+        "winddir_unit": "deg",
+        "cldcvr_unit": "okta",
+        "windgust_unit": "km/h",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "hrs",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "Mostly Cloudy",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "8",
+          "val_avg": "10",
+          "val_max": "13"
+        },
+        "temp": {
+          "val_min": "22.1",
+          "val_avg": "24.1",
+          "val_max": "26.1"
+        },
+        "rh": {
+          "val_min": "79.8",
+          "val_avg": "87.8",
+          "val_max": "94.8"
+        },
+        "windspd": {
+          "val_min": "4",
+          "val_avg": "10.1",
+          "val_max": "16"
+        },
+        "winddir": {
+          "val_min": "5",
+          "val_avg": "180",
+          "val_max": "355"
+        },
+        "cldcvr": {
+          "val_min": "0",
+          "val_avg": "45",
+          "val_max": "80"
+        },
+        "windgust": {
+          "val_min": "2",
+          "val_avg": "6",
+          "val_max": "15"
+        }
+      }
+    ],
+    "steps_chart": {
+      "rf_val_max": [
+        10,
+        7,
+        11,
+        15,
+        5,
+        6,
+        13,
+        6,
+        10,
+        14,
+        5,
+        13,
+        8,
+        5,
+        6,
+        11,
+        11,
+        6,
+        8,
+        6,
+        13,
+        11,
+        5,
+        14,
+        6,
+        8,
+        15,
+        15,
+        14,
+        5,
+        14,
+        14,
+        11,
+        5,
+        8,
+        5,
+        13,
+        7,
+        9,
+        11,
+        7,
+        13,
+        6,
+        14,
+        9,
+        13,
+        15,
+        7,
+        6,
+        14,
+        14,
+        15,
+        8,
+        10,
+        6,
+        13
+      ],
+      "temp_val_avg": [
+        "21.9",
+        "21.1",
+        "24.1",
+        "29",
+        "31",
+        "29.5",
+        "25.1",
+        "22.6",
+        "21.6",
+        "20.8",
+        "23.8",
+        "29.1",
+        "31.1",
+        "29.6",
+        "24.8",
+        "22.3",
+        "21.6",
+        "20.8",
+        "23.8",
+        "30.2",
+        "32.2",
+        "30.7",
+        "24.8",
+        "22.3",
+        "21.6",
+        "20.8",
+        "23.8",
+        "31.1",
+        "33.1",
+        "31.6",
+        "24.8",
+        "22.3",
+        "21.8",
+        "21",
+        "24",
+        "31.9",
+        "33.9",
+        "32.4",
+        "25",
+        "22.5",
+        "23.2",
+        "22.4",
+        "25.4",
+        "31.7",
+        "33.7",
+        "32.2",
+        "26.4",
+        "23.9",
+        "23.4",
+        "22.6",
+        "25.6",
+        "31",
+        "33",
+        "31.5",
+        "26.6",
+        "24.1"
+      ],
+      "rh_val_avg": [
+        "93.1",
+        "95.1",
+        "88.1",
+        "78.1",
+        "73.1",
+        "80.1",
+        "89.1",
+        "92.1",
+        "91.8",
+        "93.8",
+        "86.8",
+        "76.8",
+        "71.8",
+        "78.8",
+        "87.8",
+        "90.8",
+        "90.5",
+        "92.5",
+        "85.5",
+        "75.5",
+        "70.5",
+        "77.5",
+        "86.5",
+        "89.5",
+        "86.9",
+        "88.9",
+        "81.9",
+        "71.9",
+        "66.9",
+        "73.9",
+        "82.9",
+        "85.9",
+        "85.1",
+        "87.1",
+        "80.1",
+        "70.1",
+        "65.1",
+        "72.1",
+        "81.1",
+        "84.1",
+        "84.8",
+        "86.8",
+        "79.8",
+        "69.8",
+        "64.8",
+        "71.8",
+        "80.8",
+        "83.8",
+        "88.8",
+        "90.8",
+        "83.8",
+        "73.8",
+        "68.8",
+        "75.8",
+        "84.8",
+        "87.8"
+      ]
+    },
+    "_NEW_FIELDS_NOTE": "Same contract as the bn file; this is the Accept-Language: en variant (English text, ASCII numerals, en units). New fields vs current API: daily[].feels, daily[].soil_moisture, daily[].sunshine_hours, daily[].thi (+ current.*); new units soilmoist_unit, sunshine_unit."
+  }
+}

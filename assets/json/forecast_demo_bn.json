@@ -1,0 +1,3825 @@
+{
+  "status": true,
+  "message": "Forecast fetched (DEMO — enriched with feels/soil_moisture/sunshine_hours/thi)",
+  "result": {
+    "location": {
+      "id": "201",
+      "division": "Chittagong",
+      "district": "Cox's Bazar",
+      "upazila": "Ramu",
+      "division_bn": "চট্টগ্রাম",
+      "district_bn": "কক্সবাজার",
+      "upazila_bn": "রামু",
+      "forecast_date": "2026-10-08",
+      "updated_at": "2026-10-08 12:26:33",
+      "city": "নাইক্ষ্যংছড়ি",
+      "location": "নাইক্ষ্যংছড়ি, রামু, কক্সবাজার"
+    },
+    "current": {
+      "step_start": "2026-10-08 12:00:00",
+      "step_end": "2026-10-08 15:00:00",
+      "start": "২০২৬-১০-০৮ ১২:০০:০০",
+      "end": "২০২৬-১০-০৮ ১৫:০০:০০",
+      "date": "০৮ অক্টোঃ, ২০২৬",
+      "weekday": "বৃহস্পতিবার",
+      "rf_unit": "মি:মি:",
+      "temp_unit": "°সে",
+      "rh_unit": "%",
+      "windspd_unit": "কিমি/ঘণ্টা",
+      "winddir_unit": "ডিগ্রী",
+      "cldcvr_unit": "অক্টা",
+      "windgust_unit": "কিমি/ঘণ্টা",
+      "soilmoist_unit": "%",
+      "sunshine_unit": "ঘণ্টা",
+      "icon": "ic_partly_cloudy_d.png",
+      "type": "আংশিক মেঘলা",
+      "typen": "Partly Cloudy",
+      "rf": {
+        "val_min": "৫",
+        "val_avg": "৯",
+        "val_max": "১৫"
+      },
+      "temp": {
+        "val_min": "২৭.২",
+        "val_avg": "২৯.৭",
+        "val_max": "৩১"
+      },
+      "rh": {
+        "val_min": "৬১.৩",
+        "val_avg": "৭১",
+        "val_max": "৮৫.৫"
+      },
+      "windspd": {
+        "val_min": "২.২",
+        "val_avg": "৯.৮",
+        "val_max": "১৬.৫"
+      },
+      "winddir": {
+        "val_min": "২৫৭.৫",
+        "val_avg": "২৭৮.১",
+        "val_max": "৩০৪.৪"
+      },
+      "cldcvr": {
+        "val_min": "০",
+        "val_avg": "৪৯",
+        "val_max": "৮০"
+      },
+      "windgust": {
+        "val_min": "৩.৭",
+        "val_avg": "৮.২",
+        "val_max": "১৩"
+      },
+      "feels": "৩৪.৫",
+      "pressure": "১০১৩",
+      "uv": "৭",
+      "uvDesc": "উচ্চ",
+      "vis": "৩",
+      "soil_moisture": {
+        "val_min": "৩০",
+        "val_avg": "৩৩.৩",
+        "val_max": "৩৬"
+      },
+      "sunshine_hours": "৮",
+      "thi": "৭৩.৮",
+      "sunrise": "২০২৬-১০-০৮ ০৫:৪৫:০০",
+      "sunset": "২০২৬-১০-০৮ ১৭:৩৪:০০"
+    },
+    "daily": [
+      {
+        "step_start": "2026-10-08 00:00:00",
+        "step_end": "2026-10-09 00:00:00",
+        "start": "২০২৬-১০-০৮ ০০:০০:০০",
+        "end": "২০২৬-১০-০৯ ০০:০০:০০",
+        "date": "০৮ অক্টোঃ, ২০২৬",
+        "weekday": "বৃহস্পতিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "typenew": {
+          "icon": "ic_partly_cloudy_light_rain.png",
+          "type": "Partly Cloudy With Light Rain",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "৫",
+          "val_avg": "৯",
+          "val_max": "১৫"
+        },
+        "temp": {
+          "val_min": "২১.১",
+          "val_avg": "২৫.৪",
+          "val_max": "৩১"
+        },
+        "rh": {
+          "val_min": "৬১.৩",
+          "val_avg": "৮৭.১",
+          "val_max": "১০০"
+        },
+        "windspd": {
+          "val_min": "২.২",
+          "val_avg": "৭.৭",
+          "val_max": "১৬.৫"
+        },
+        "winddir": {
+          "val_min": "১০.৮",
+          "val_avg": "১৬০.৮",
+          "val_max": "৩১০.৮"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৫০",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "১.৮",
+          "val_avg": "৬.২",
+          "val_max": "১৮.২"
+        },
+        "feels": "৩৪",
+        "soil_moisture": {
+          "val_min": "৩০",
+          "val_avg": "৩৩.৩",
+          "val_max": "৩৬"
+        },
+        "sunshine_hours": "৮",
+        "thi": "৭৩.৮"
+      },
+      {
+        "step_start": "2026-10-09 00:00:00",
+        "step_end": "2026-10-10 00:00:00",
+        "start": "২০২৬-১০-০৯ ০০:০০:০০",
+        "end": "২০২৬-১০-১০ ০০:০০:০০",
+        "date": "০৯ অক্টোঃ, ২০২৬",
+        "weekday": "শুক্রবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "typenew": {
+          "icon": "ic_partly_cloudy.png",
+          "type": "Partly Cloudy",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "৫",
+          "val_avg": "৯",
+          "val_max": "১৪"
+        },
+        "temp": {
+          "val_min": "২০.৮",
+          "val_avg": "২৫.২",
+          "val_max": "৩১.১"
+        },
+        "rh": {
+          "val_min": "৬১.৭",
+          "val_avg": "৮৫.৮",
+          "val_max": "৯৭.৩"
+        },
+        "windspd": {
+          "val_min": "২.৮",
+          "val_avg": "৮.৪",
+          "val_max": "১৭.৬"
+        },
+        "winddir": {
+          "val_min": "৭.৩",
+          "val_avg": "১৫৭.৩",
+          "val_max": "৩০৭.৩"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৫০",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "১.৮",
+          "val_avg": "৬.৭",
+          "val_max": "১৯.৪"
+        },
+        "feels": "৩৩",
+        "soil_moisture": {
+          "val_min": "২৯",
+          "val_avg": "৩১.০",
+          "val_max": "৩৪"
+        },
+        "sunshine_hours": "৭",
+        "thi": "৭২.১"
+      },
+      {
+        "step_start": "2026-10-10 00:00:00",
+        "step_end": "2026-10-11 00:00:00",
+        "start": "২০২৬-১০-১০ ০০:০০:০০",
+        "end": "২০২৬-১০-১১ ০০:০০:০০",
+        "date": "১০ অক্টোঃ, ২০২৬",
+        "weekday": "শনিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_mostly_sunny.png",
+        "type": "প্রধানত রৌদ্রোজ্জ্বল",
+        "typen": "Mostly Sunny",
+        "typenew": {
+          "icon": "ic_mostly_sunny.png",
+          "type": "Mostly Sunny",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "৫",
+          "val_avg": "৯",
+          "val_max": "১৪"
+        },
+        "temp": {
+          "val_min": "২০.৮",
+          "val_avg": "২৫.৫",
+          "val_max": "৩২.২"
+        },
+        "rh": {
+          "val_min": "৫৫.৮",
+          "val_avg": "৮৪.৫",
+          "val_max": "৯৬.৮"
+        },
+        "windspd": {
+          "val_min": "৩.৫",
+          "val_avg": "৮.৯",
+          "val_max": "১৯.২"
+        },
+        "winddir": {
+          "val_min": "-২.৪",
+          "val_avg": "১৪৭.৬",
+          "val_max": "২৯৭.৬"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "২৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "১.৮",
+          "val_avg": "৭.১",
+          "val_max": "২১.১"
+        },
+        "feels": "৩৩",
+        "soil_moisture": {
+          "val_min": "২৮",
+          "val_avg": "৩০.২",
+          "val_max": "৩৩"
+        },
+        "sunshine_hours": "৯",
+        "thi": "৭১.৫"
+      },
+      {
+        "step_start": "2026-10-11 00:00:00",
+        "step_end": "2026-10-12 00:00:00",
+        "start": "২০২৬-১০-১১ ০০:০০:০০",
+        "end": "২০২৬-১০-১২ ০০:০০:০০",
+        "date": "১১ অক্টোঃ, ২০২৬",
+        "weekday": "রবিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_sunny.png",
+        "type": "রৌদ্রোজ্জ্বল",
+        "typen": "Sunny",
+        "typenew": {
+          "icon": "ic_sunny.png",
+          "type": "Clear",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "৫",
+          "val_avg": "১১",
+          "val_max": "১৫"
+        },
+        "temp": {
+          "val_min": "২০.৮",
+          "val_avg": "২৬.১",
+          "val_max": "৩৩.১"
+        },
+        "rh": {
+          "val_min": "৫২.৯",
+          "val_avg": "৮০.৯",
+          "val_max": "৯৩.৯"
+        },
+        "windspd": {
+          "val_min": "৬.৬",
+          "val_avg": "১০.৩",
+          "val_max": "২৫.১"
+        },
+        "winddir": {
+          "val_min": "২১.১",
+          "val_avg": "১৭১.১",
+          "val_max": "৩২১.১"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "০",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "১.৮",
+          "val_avg": "৮.২",
+          "val_max": "২৭.৬"
+        },
+        "feels": "৩৫",
+        "soil_moisture": {
+          "val_min": "২৬",
+          "val_avg": "২৮.৪",
+          "val_max": "৩১"
+        },
+        "sunshine_hours": "৯",
+        "thi": "৭৪.২"
+      },
+      {
+        "step_start": "2026-10-12 00:00:00",
+        "step_end": "2026-10-13 00:00:00",
+        "start": "২০২৬-১০-১২ ০০:০০:০০",
+        "end": "২০২৬-১০-১৩ ০০:০০:০০",
+        "date": "১২ অক্টোঃ, ২০২৬",
+        "weekday": "সোমবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_sunny.png",
+        "type": "রৌদ্রোজ্জ্বল",
+        "typen": "Sunny",
+        "typenew": {
+          "icon": "ic_sunny.png",
+          "type": "Clear",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "৫",
+          "val_avg": "৯",
+          "val_max": "১৩"
+        },
+        "temp": {
+          "val_min": "২১",
+          "val_avg": "২৬.৬",
+          "val_max": "৩৩.৯"
+        },
+        "rh": {
+          "val_min": "৪৯",
+          "val_avg": "৭৯.১",
+          "val_max": "৯৫.৪"
+        },
+        "windspd": {
+          "val_min": "৫.৮",
+          "val_avg": "৯.৬",
+          "val_max": "২৪.৪"
+        },
+        "winddir": {
+          "val_min": "২৮.২",
+          "val_avg": "১৭৮.২",
+          "val_max": "৩২৮.২"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "০",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "১.৮",
+          "val_avg": "৭.৭",
+          "val_max": "২৬.৮"
+        },
+        "feels": "৩৫",
+        "soil_moisture": {
+          "val_min": "২৭",
+          "val_avg": "২৯.০",
+          "val_max": "৩২"
+        },
+        "sunshine_hours": "৮",
+        "thi": "৭৪.৬"
+      },
+      {
+        "step_start": "2026-10-13 00:00:00",
+        "step_end": "2026-10-14 00:00:00",
+        "start": "২০২৬-১০-১৩ ০০:০০:০০",
+        "end": "২০২৬-১০-১৪ ০০:০০:০০",
+        "date": "১৩ অক্টোঃ, ২০২৬",
+        "weekday": "মঙ্গলবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_mostly_sunny_chance_of_rain.png",
+        "type": "প্রধানত রৌদ্রোজ্জ্বল সাথে বৃষ্টি হবার সম্ভাবনা",
+        "typen": "Sunny With Chances of Rain",
+        "typenew": {
+          "icon": "ic_mostly_sunny_light_rain.png",
+          "type": "Mostly Sunny With Light Rain",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "৬",
+          "val_avg": "১০",
+          "val_max": "১৫"
+        },
+        "temp": {
+          "val_min": "২২.৪",
+          "val_avg": "২৭.৪",
+          "val_max": "৩৩.৭"
+        },
+        "rh": {
+          "val_min": "৫২.৩",
+          "val_avg": "৭৮.৮",
+          "val_max": "৯৬.৫"
+        },
+        "windspd": {
+          "val_min": "২.১",
+          "val_avg": "৮.২",
+          "val_max": "২৩"
+        },
+        "winddir": {
+          "val_min": "১৬.৯",
+          "val_avg": "১৬৬.৯",
+          "val_max": "৩১৬.৯"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "২৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "১.৮",
+          "val_avg": "৬.৬",
+          "val_max": "২৫.৩"
+        },
+        "feels": "৩৪",
+        "soil_moisture": {
+          "val_min": "২৮",
+          "val_avg": "৩০.০",
+          "val_max": "৩৩"
+        },
+        "sunshine_hours": "৭",
+        "thi": "৭৩.০"
+      },
+      {
+        "step_start": "2026-10-14 00:00:00",
+        "step_end": "2026-10-15 00:00:00",
+        "start": "২০২৬-১০-১৪ ০০:০০:০০",
+        "end": "২০২৬-১০-১৫ ০০:০০:০০",
+        "date": "১৪ অক্টোঃ, ২০২৬",
+        "weekday": "বুধবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_with_light_rain_d.png",
+        "type": "আংশিক মেঘলা আকাশসহ হালকা বৃষ্টি",
+        "typen": "Partly Cloudy With Light Rain",
+        "typenew": {
+          "icon": "ic_partly_cloudy_light_rain.png",
+          "type": "Partly Cloudy With Light Rain",
+          "is_night": false
+        },
+        "rf": {
+          "val_min": "৬",
+          "val_avg": "১১",
+          "val_max": "১৫"
+        },
+        "temp": {
+          "val_min": "২২.৬",
+          "val_avg": "২৬.৯",
+          "val_max": "৩৩"
+        },
+        "rh": {
+          "val_min": "৫৩.২",
+          "val_avg": "৮২.৮",
+          "val_max": "৯৬.৫"
+        },
+        "windspd": {
+          "val_min": "০.৪",
+          "val_avg": "৭.৬",
+          "val_max": "১৯.৩"
+        },
+        "winddir": {
+          "val_min": "৪৪.৪",
+          "val_avg": "১৯৪.৪",
+          "val_max": "৩৪৪.৪"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "২৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "১.৮",
+          "val_avg": "৬.১",
+          "val_max": "২১.২"
+        },
+        "feels": "৩৩",
+        "soil_moisture": {
+          "val_min": "৩০",
+          "val_avg": "৩২.০",
+          "val_max": "৩৫"
+        },
+        "sunshine_hours": "৬",
+        "thi": "৭২.৬"
+      }
+    ],
+    "steps": [
+      {
+        "step_start": "2026-10-08 00:00:00",
+        "step_end": "2026-10-08 03:00:00",
+        "start": "২০২৬-১০-০৮ ০০:০০:০০",
+        "end": "২০২৬-১০-০৮ ০৩:০০:০০",
+        "date": "০৮ অক্টোঃ, ২০২৬",
+        "weekday": "বৃহস্পতিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৫",
+          "val_avg": "৭",
+          "val_max": "১০"
+        },
+        "temp": {
+          "val_min": "১৯.৯",
+          "val_avg": "২১.৯",
+          "val_max": "২৩.৯"
+        },
+        "rh": {
+          "val_min": "৮৫.১",
+          "val_avg": "৯৩.১",
+          "val_max": "১০০"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.০",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-08 03:00:00",
+        "step_end": "2026-10-08 06:00:00",
+        "start": "২০২৬-১০-০৮ ০৩:০০:০০",
+        "end": "২০২৬-১০-০৮ ০৬:০০:০০",
+        "date": "০৮ অক্টোঃ, ২০২৬",
+        "weekday": "বৃহস্পতিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "২",
+          "val_avg": "৪",
+          "val_max": "৭"
+        },
+        "temp": {
+          "val_min": "১৯.১",
+          "val_avg": "২১.১",
+          "val_max": "২৩.১"
+        },
+        "rh": {
+          "val_min": "৮৭.১",
+          "val_avg": "৯৫.১",
+          "val_max": "১০০"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৩",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-08 06:00:00",
+        "step_end": "2026-10-08 09:00:00",
+        "start": "২০২৬-১০-০৮ ০৬:০০:০০",
+        "end": "২০২৬-১০-০৮ ০৯:০০:০০",
+        "date": "০৮ অক্টোঃ, ২০২৬",
+        "weekday": "বৃহস্পতিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৬",
+          "val_avg": "৮",
+          "val_max": "১১"
+        },
+        "temp": {
+          "val_min": "২২.১",
+          "val_avg": "২৪.১",
+          "val_max": "২৬.১"
+        },
+        "rh": {
+          "val_min": "৮০.১",
+          "val_avg": "৮৮.১",
+          "val_max": "৯৫.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৬",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-08 09:00:00",
+        "step_end": "2026-10-08 12:00:00",
+        "start": "২০২৬-১০-০৮ ০৯:০০:০০",
+        "end": "২০২৬-১০-০৮ ১২:০০:০০",
+        "date": "০৮ অক্টোঃ, ২০২৬",
+        "weekday": "বৃহস্পতিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "১০",
+          "val_avg": "১২",
+          "val_max": "১৫"
+        },
+        "temp": {
+          "val_min": "২৭",
+          "val_avg": "২৯",
+          "val_max": "৩১"
+        },
+        "rh": {
+          "val_min": "৭০.১",
+          "val_avg": "৭৮.১",
+          "val_max": "৮৫.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৯",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-08 12:00:00",
+        "step_end": "2026-10-08 15:00:00",
+        "start": "২০২৬-১০-০৮ ১২:০০:০০",
+        "end": "২০২৬-১০-০৮ ১৫:০০:০০",
+        "date": "০৮ অক্টোঃ, ২০২৬",
+        "weekday": "বৃহস্পতিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "০",
+          "val_avg": "২",
+          "val_max": "৫"
+        },
+        "temp": {
+          "val_min": "২৯",
+          "val_avg": "৩১",
+          "val_max": "৩৩"
+        },
+        "rh": {
+          "val_min": "৬৫.১",
+          "val_avg": "৭৩.১",
+          "val_max": "৮০.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.২",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-08 15:00:00",
+        "step_end": "2026-10-08 18:00:00",
+        "start": "২০২৬-১০-০৮ ১৫:০০:০০",
+        "end": "২০২৬-১০-০৮ ১৮:০০:০০",
+        "date": "০৮ অক্টোঃ, ২০২৬",
+        "weekday": "বৃহস্পতিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "১",
+          "val_avg": "৩",
+          "val_max": "৬"
+        },
+        "temp": {
+          "val_min": "২৭.৫",
+          "val_avg": "২৯.৫",
+          "val_max": "৩১.৫"
+        },
+        "rh": {
+          "val_min": "৭২.১",
+          "val_avg": "৮০.১",
+          "val_max": "৮৭.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৫",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-08 18:00:00",
+        "step_end": "2026-10-08 21:00:00",
+        "start": "২০২৬-১০-০৮ ১৮:০০:০০",
+        "end": "২০২৬-১০-০৮ ২১:০০:০০",
+        "date": "০৮ অক্টোঃ, ২০২৬",
+        "weekday": "বৃহস্পতিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৮",
+          "val_avg": "১০",
+          "val_max": "১৩"
+        },
+        "temp": {
+          "val_min": "২৩.১",
+          "val_avg": "২৫.১",
+          "val_max": "২৭.১"
+        },
+        "rh": {
+          "val_min": "৮১.১",
+          "val_avg": "৮৯.১",
+          "val_max": "৯৬.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৮",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-08 21:00:00",
+        "step_end": "2026-10-09 00:00:00",
+        "start": "২০২৬-১০-০৮ ২১:০০:০০",
+        "end": "২০২৬-১০-০৯ ০০:০০:০০",
+        "date": "০৮ অক্টোঃ, ২০২৬",
+        "weekday": "বৃহস্পতিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "১",
+          "val_avg": "৩",
+          "val_max": "৬"
+        },
+        "temp": {
+          "val_min": "২০.৬",
+          "val_avg": "২২.৬",
+          "val_max": "২৪.৬"
+        },
+        "rh": {
+          "val_min": "৮৪.১",
+          "val_avg": "৯২.১",
+          "val_max": "৯৯.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "১০.১",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-09 00:00:00",
+        "step_end": "2026-10-09 03:00:00",
+        "start": "২০২৬-১০-০৯ ০০:০০:০০",
+        "end": "২০২৬-১০-০৯ ০৩:০০:০০",
+        "date": "০৯ অক্টোঃ, ২০২৬",
+        "weekday": "শুক্রবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৫",
+          "val_avg": "৭",
+          "val_max": "১০"
+        },
+        "temp": {
+          "val_min": "১৯.৬",
+          "val_avg": "২১.৬",
+          "val_max": "২৩.৬"
+        },
+        "rh": {
+          "val_min": "৮৩.৮",
+          "val_avg": "৯১.৮",
+          "val_max": "৯৮.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.০",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-09 03:00:00",
+        "step_end": "2026-10-09 06:00:00",
+        "start": "২০২৬-১০-০৯ ০৩:০০:০০",
+        "end": "২০২৬-১০-০৯ ০৬:০০:০০",
+        "date": "০৯ অক্টোঃ, ২০২৬",
+        "weekday": "শুক্রবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৯",
+          "val_avg": "১১",
+          "val_max": "১৪"
+        },
+        "temp": {
+          "val_min": "১৮.৮",
+          "val_avg": "২০.৮",
+          "val_max": "২২.৮"
+        },
+        "rh": {
+          "val_min": "৮৫.৮",
+          "val_avg": "৯৩.৮",
+          "val_max": "১০০"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৩",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-09 06:00:00",
+        "step_end": "2026-10-09 09:00:00",
+        "start": "২০২৬-১০-০৯ ০৬:০০:০০",
+        "end": "২০২৬-১০-০৯ ০৯:০০:০০",
+        "date": "০৯ অক্টোঃ, ২০২৬",
+        "weekday": "শুক্রবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "০",
+          "val_avg": "২",
+          "val_max": "৫"
+        },
+        "temp": {
+          "val_min": "২১.৮",
+          "val_avg": "২৩.৮",
+          "val_max": "২৫.৮"
+        },
+        "rh": {
+          "val_min": "৭৮.৮",
+          "val_avg": "৮৬.৮",
+          "val_max": "৯৩.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৬",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-09 09:00:00",
+        "step_end": "2026-10-09 12:00:00",
+        "start": "২০২৬-১০-০৯ ০৯:০০:০০",
+        "end": "২০২৬-১০-০৯ ১২:০০:০০",
+        "date": "০৯ অক্টোঃ, ২০২৬",
+        "weekday": "শুক্রবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৮",
+          "val_avg": "১০",
+          "val_max": "১৩"
+        },
+        "temp": {
+          "val_min": "২৭.১",
+          "val_avg": "২৯.১",
+          "val_max": "৩১.১"
+        },
+        "rh": {
+          "val_min": "৬৮.৮",
+          "val_avg": "৭৬.৮",
+          "val_max": "৮৩.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৯",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-09 12:00:00",
+        "step_end": "2026-10-09 15:00:00",
+        "start": "২০২৬-১০-০৯ ১২:০০:০০",
+        "end": "২০২৬-১০-০৯ ১৫:০০:০০",
+        "date": "০৯ অক্টোঃ, ২০২৬",
+        "weekday": "শুক্রবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৩",
+          "val_avg": "৫",
+          "val_max": "৮"
+        },
+        "temp": {
+          "val_min": "২৯.১",
+          "val_avg": "৩১.১",
+          "val_max": "৩৩.১"
+        },
+        "rh": {
+          "val_min": "৬৩.৮",
+          "val_avg": "৭১.৮",
+          "val_max": "৭৮.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.২",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-09 15:00:00",
+        "step_end": "2026-10-09 18:00:00",
+        "start": "২০২৬-১০-০৯ ১৫:০০:০০",
+        "end": "২০২৬-১০-০৯ ১৮:০০:০০",
+        "date": "০৯ অক্টোঃ, ২০২৬",
+        "weekday": "শুক্রবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "০",
+          "val_avg": "২",
+          "val_max": "৫"
+        },
+        "temp": {
+          "val_min": "২৭.৬",
+          "val_avg": "২৯.৬",
+          "val_max": "৩১.৬"
+        },
+        "rh": {
+          "val_min": "৭০.৮",
+          "val_avg": "৭৮.৮",
+          "val_max": "৮৫.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৫",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-09 18:00:00",
+        "step_end": "2026-10-09 21:00:00",
+        "start": "২০২৬-১০-০৯ ১৮:০০:০০",
+        "end": "২০২৬-১০-০৯ ২১:০০:০০",
+        "date": "০৯ অক্টোঃ, ২০২৬",
+        "weekday": "শুক্রবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "১",
+          "val_avg": "৩",
+          "val_max": "৬"
+        },
+        "temp": {
+          "val_min": "২২.৮",
+          "val_avg": "২৪.৮",
+          "val_max": "২৬.৮"
+        },
+        "rh": {
+          "val_min": "৭৯.৮",
+          "val_avg": "৮৭.৮",
+          "val_max": "৯৪.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৮",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-09 21:00:00",
+        "step_end": "2026-10-10 00:00:00",
+        "start": "২০২৬-১০-০৯ ২১:০০:০০",
+        "end": "২০২৬-১০-১০ ০০:০০:০০",
+        "date": "০৯ অক্টোঃ, ২০২৬",
+        "weekday": "শুক্রবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৬",
+          "val_avg": "৮",
+          "val_max": "১১"
+        },
+        "temp": {
+          "val_min": "২০.৩",
+          "val_avg": "২২.৩",
+          "val_max": "২৪.৩"
+        },
+        "rh": {
+          "val_min": "৮২.৮",
+          "val_avg": "৯০.৮",
+          "val_max": "৯৭.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "১০.১",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-10 00:00:00",
+        "step_end": "2026-10-10 03:00:00",
+        "start": "২০২৬-১০-১০ ০০:০০:০০",
+        "end": "২০২৬-১০-১০ ০৩:০০:০০",
+        "date": "১০ অক্টোঃ, ২০২৬",
+        "weekday": "শনিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৬",
+          "val_avg": "৮",
+          "val_max": "১১"
+        },
+        "temp": {
+          "val_min": "১৯.৬",
+          "val_avg": "২১.৬",
+          "val_max": "২৩.৬"
+        },
+        "rh": {
+          "val_min": "৮২.৫",
+          "val_avg": "৯০.৫",
+          "val_max": "৯৭.৫"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.০",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-10 03:00:00",
+        "step_end": "2026-10-10 06:00:00",
+        "start": "২০২৬-১০-১০ ০৩:০০:০০",
+        "end": "২০২৬-১০-১০ ০৬:০০:০০",
+        "date": "১০ অক্টোঃ, ২০২৬",
+        "weekday": "শনিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "১",
+          "val_avg": "৩",
+          "val_max": "৬"
+        },
+        "temp": {
+          "val_min": "১৮.৮",
+          "val_avg": "২০.৮",
+          "val_max": "২২.৮"
+        },
+        "rh": {
+          "val_min": "৮৪.৫",
+          "val_avg": "৯২.৫",
+          "val_max": "৯৯.৫"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৩",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-10 06:00:00",
+        "step_end": "2026-10-10 09:00:00",
+        "start": "২০২৬-১০-১০ ০৬:০০:০০",
+        "end": "২০২৬-১০-১০ ০৯:০০:০০",
+        "date": "১০ অক্টোঃ, ২০২৬",
+        "weekday": "শনিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৩",
+          "val_avg": "৫",
+          "val_max": "৮"
+        },
+        "temp": {
+          "val_min": "২১.৮",
+          "val_avg": "২৩.৮",
+          "val_max": "২৫.৮"
+        },
+        "rh": {
+          "val_min": "৭৭.৫",
+          "val_avg": "৮৫.৫",
+          "val_max": "৯২.৫"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৬",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-10 09:00:00",
+        "step_end": "2026-10-10 12:00:00",
+        "start": "২০২৬-১০-১০ ০৯:০০:০০",
+        "end": "২০২৬-১০-১০ ১২:০০:০০",
+        "date": "১০ অক্টোঃ, ২০২৬",
+        "weekday": "শনিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "১",
+          "val_avg": "৩",
+          "val_max": "৬"
+        },
+        "temp": {
+          "val_min": "২৮.২",
+          "val_avg": "৩০.২",
+          "val_max": "৩২.২"
+        },
+        "rh": {
+          "val_min": "৬৭.৫",
+          "val_avg": "৭৫.৫",
+          "val_max": "৮২.৫"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৯",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-10 12:00:00",
+        "step_end": "2026-10-10 15:00:00",
+        "start": "২০২৬-১০-১০ ১২:০০:০০",
+        "end": "২০২৬-১০-১০ ১৫:০০:০০",
+        "date": "১০ অক্টোঃ, ২০২৬",
+        "weekday": "শনিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৮",
+          "val_avg": "১০",
+          "val_max": "১৩"
+        },
+        "temp": {
+          "val_min": "৩০.২",
+          "val_avg": "৩২.২",
+          "val_max": "৩৪.২"
+        },
+        "rh": {
+          "val_min": "৬২.৫",
+          "val_avg": "৭০.৫",
+          "val_max": "৭৭.৫"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.২",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-10 15:00:00",
+        "step_end": "2026-10-10 18:00:00",
+        "start": "২০২৬-১০-১০ ১৫:০০:০০",
+        "end": "২০২৬-১০-১০ ১৮:০০:০০",
+        "date": "১০ অক্টোঃ, ২০২৬",
+        "weekday": "শনিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৬",
+          "val_avg": "৮",
+          "val_max": "১১"
+        },
+        "temp": {
+          "val_min": "২৮.৭",
+          "val_avg": "৩০.৭",
+          "val_max": "৩২.৭"
+        },
+        "rh": {
+          "val_min": "৬৯.৫",
+          "val_avg": "৭৭.৫",
+          "val_max": "৮৪.৫"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৫",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-10 18:00:00",
+        "step_end": "2026-10-10 21:00:00",
+        "start": "২০২৬-১০-১০ ১৮:০০:০০",
+        "end": "২০২৬-১০-১০ ২১:০০:০০",
+        "date": "১০ অক্টোঃ, ২০২৬",
+        "weekday": "শনিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "০",
+          "val_avg": "২",
+          "val_max": "৫"
+        },
+        "temp": {
+          "val_min": "২২.৮",
+          "val_avg": "২৪.৮",
+          "val_max": "২৬.৮"
+        },
+        "rh": {
+          "val_min": "৭৮.৫",
+          "val_avg": "৮৬.৫",
+          "val_max": "৯৩.৫"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৮",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-10 21:00:00",
+        "step_end": "2026-10-11 00:00:00",
+        "start": "২০২৬-১০-১০ ২১:০০:০০",
+        "end": "২০২৬-১০-১১ ০০:০০:০০",
+        "date": "১০ অক্টোঃ, ২০২৬",
+        "weekday": "শনিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৯",
+          "val_avg": "১১",
+          "val_max": "১৪"
+        },
+        "temp": {
+          "val_min": "২০.৩",
+          "val_avg": "২২.৩",
+          "val_max": "২৪.৩"
+        },
+        "rh": {
+          "val_min": "৮১.৫",
+          "val_avg": "৮৯.৫",
+          "val_max": "৯৬.৫"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "১০.১",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-11 00:00:00",
+        "step_end": "2026-10-11 03:00:00",
+        "start": "২০২৬-১০-১১ ০০:০০:০০",
+        "end": "২০২৬-১০-১১ ০৩:০০:০০",
+        "date": "১১ অক্টোঃ, ২০২৬",
+        "weekday": "রবিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "১",
+          "val_avg": "৩",
+          "val_max": "৬"
+        },
+        "temp": {
+          "val_min": "১৯.৬",
+          "val_avg": "২১.৬",
+          "val_max": "২৩.৬"
+        },
+        "rh": {
+          "val_min": "৭৮.৯",
+          "val_avg": "৮৬.৯",
+          "val_max": "৯৩.৯"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.০",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-11 03:00:00",
+        "step_end": "2026-10-11 06:00:00",
+        "start": "২০২৬-১০-১১ ০৩:০০:০০",
+        "end": "২০২৬-১০-১১ ০৬:০০:০০",
+        "date": "১১ অক্টোঃ, ২০২৬",
+        "weekday": "রবিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৩",
+          "val_avg": "৫",
+          "val_max": "৮"
+        },
+        "temp": {
+          "val_min": "১৮.৮",
+          "val_avg": "২০.৮",
+          "val_max": "২২.৮"
+        },
+        "rh": {
+          "val_min": "৮০.৯",
+          "val_avg": "৮৮.৯",
+          "val_max": "৯৫.৯"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৩",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-11 06:00:00",
+        "step_end": "2026-10-11 09:00:00",
+        "start": "২০২৬-১০-১১ ০৬:০০:০০",
+        "end": "২০২৬-১০-১১ ০৯:০০:০০",
+        "date": "১১ অক্টোঃ, ২০২৬",
+        "weekday": "রবিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "১০",
+          "val_avg": "১২",
+          "val_max": "১৫"
+        },
+        "temp": {
+          "val_min": "২১.৮",
+          "val_avg": "২৩.৮",
+          "val_max": "২৫.৮"
+        },
+        "rh": {
+          "val_min": "৭৩.৯",
+          "val_avg": "৮১.৯",
+          "val_max": "৮৮.৯"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৬",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-11 09:00:00",
+        "step_end": "2026-10-11 12:00:00",
+        "start": "২০২৬-১০-১১ ০৯:০০:০০",
+        "end": "২০২৬-১০-১১ ১২:০০:০০",
+        "date": "১১ অক্টোঃ, ২০২৬",
+        "weekday": "রবিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "১০",
+          "val_avg": "১২",
+          "val_max": "১৫"
+        },
+        "temp": {
+          "val_min": "২৯.১",
+          "val_avg": "৩১.১",
+          "val_max": "৩৩.১"
+        },
+        "rh": {
+          "val_min": "৬৩.৯",
+          "val_avg": "৭১.৯",
+          "val_max": "৭৮.৯"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৯",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-11 12:00:00",
+        "step_end": "2026-10-11 15:00:00",
+        "start": "২০২৬-১০-১১ ১২:০০:০০",
+        "end": "২০২৬-১০-১১ ১৫:০০:০০",
+        "date": "১১ অক্টোঃ, ২০২৬",
+        "weekday": "রবিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৯",
+          "val_avg": "১১",
+          "val_max": "১৪"
+        },
+        "temp": {
+          "val_min": "৩১.১",
+          "val_avg": "৩৩.১",
+          "val_max": "৩৫.১"
+        },
+        "rh": {
+          "val_min": "৫৮.৯",
+          "val_avg": "৬৬.৯",
+          "val_max": "৭৩.৯"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.২",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-11 15:00:00",
+        "step_end": "2026-10-11 18:00:00",
+        "start": "২০২৬-১০-১১ ১৫:০০:০০",
+        "end": "২০২৬-১০-১১ ১৮:০০:০০",
+        "date": "১১ অক্টোঃ, ২০২৬",
+        "weekday": "রবিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "০",
+          "val_avg": "২",
+          "val_max": "৫"
+        },
+        "temp": {
+          "val_min": "২৯.৬",
+          "val_avg": "৩১.৬",
+          "val_max": "৩৩.৬"
+        },
+        "rh": {
+          "val_min": "৬৫.৯",
+          "val_avg": "৭৩.৯",
+          "val_max": "৮০.৯"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৫",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-11 18:00:00",
+        "step_end": "2026-10-11 21:00:00",
+        "start": "২০২৬-১০-১১ ১৮:০০:০০",
+        "end": "২০২৬-১০-১১ ২১:০০:০০",
+        "date": "১১ অক্টোঃ, ২০২৬",
+        "weekday": "রবিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৯",
+          "val_avg": "১১",
+          "val_max": "১৪"
+        },
+        "temp": {
+          "val_min": "২২.৮",
+          "val_avg": "২৪.৮",
+          "val_max": "২৬.৮"
+        },
+        "rh": {
+          "val_min": "৭৪.৯",
+          "val_avg": "৮২.৯",
+          "val_max": "৮৯.৯"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৮",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-11 21:00:00",
+        "step_end": "2026-10-12 00:00:00",
+        "start": "২০২৬-১০-১১ ২১:০০:০০",
+        "end": "২০২৬-১০-১২ ০০:০০:০০",
+        "date": "১১ অক্টোঃ, ২০২৬",
+        "weekday": "রবিবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৯",
+          "val_avg": "১১",
+          "val_max": "১৪"
+        },
+        "temp": {
+          "val_min": "২০.৩",
+          "val_avg": "২২.৩",
+          "val_max": "২৪.৩"
+        },
+        "rh": {
+          "val_min": "৭৭.৯",
+          "val_avg": "৮৫.৯",
+          "val_max": "৯২.৯"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "১০.১",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-12 00:00:00",
+        "step_end": "2026-10-12 03:00:00",
+        "start": "২০২৬-১০-১২ ০০:০০:০০",
+        "end": "২০২৬-১০-১২ ০৩:০০:০০",
+        "date": "১২ অক্টোঃ, ২০২৬",
+        "weekday": "সোমবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৬",
+          "val_avg": "৮",
+          "val_max": "১১"
+        },
+        "temp": {
+          "val_min": "১৯.৮",
+          "val_avg": "২১.৮",
+          "val_max": "২৩.৮"
+        },
+        "rh": {
+          "val_min": "৭৭.১",
+          "val_avg": "৮৫.১",
+          "val_max": "৯২.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.০",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-12 03:00:00",
+        "step_end": "2026-10-12 06:00:00",
+        "start": "২০২৬-১০-১২ ০৩:০০:০০",
+        "end": "২০২৬-১০-১২ ০৬:০০:০০",
+        "date": "১২ অক্টোঃ, ২০২৬",
+        "weekday": "সোমবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "০",
+          "val_avg": "২",
+          "val_max": "৫"
+        },
+        "temp": {
+          "val_min": "১৯",
+          "val_avg": "২১",
+          "val_max": "২৩"
+        },
+        "rh": {
+          "val_min": "৭৯.১",
+          "val_avg": "৮৭.১",
+          "val_max": "৯৪.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৩",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-12 06:00:00",
+        "step_end": "2026-10-12 09:00:00",
+        "start": "২০২৬-১০-১২ ০৬:০০:০০",
+        "end": "২০২৬-১০-১২ ০৯:০০:০০",
+        "date": "১২ অক্টোঃ, ২০২৬",
+        "weekday": "সোমবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৩",
+          "val_avg": "৫",
+          "val_max": "৮"
+        },
+        "temp": {
+          "val_min": "২২",
+          "val_avg": "২৪",
+          "val_max": "২৬"
+        },
+        "rh": {
+          "val_min": "৭২.১",
+          "val_avg": "৮০.১",
+          "val_max": "৮৭.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৬",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-12 09:00:00",
+        "step_end": "2026-10-12 12:00:00",
+        "start": "২০২৬-১০-১২ ০৯:০০:০০",
+        "end": "২০২৬-১০-১২ ১২:০০:০০",
+        "date": "১২ অক্টোঃ, ২০২৬",
+        "weekday": "সোমবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "০",
+          "val_avg": "২",
+          "val_max": "৫"
+        },
+        "temp": {
+          "val_min": "২৯.৯",
+          "val_avg": "৩১.৯",
+          "val_max": "৩৩.৯"
+        },
+        "rh": {
+          "val_min": "৬২.১",
+          "val_avg": "৭০.১",
+          "val_max": "৭৭.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৯",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-12 12:00:00",
+        "step_end": "2026-10-12 15:00:00",
+        "start": "২০২৬-১০-১২ ১২:০০:০০",
+        "end": "২০২৬-১০-১২ ১৫:০০:০০",
+        "date": "১২ অক্টোঃ, ২০২৬",
+        "weekday": "সোমবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৮",
+          "val_avg": "১০",
+          "val_max": "১৩"
+        },
+        "temp": {
+          "val_min": "৩১.৯",
+          "val_avg": "৩৩.৯",
+          "val_max": "৩৫.৯"
+        },
+        "rh": {
+          "val_min": "৫৭.১",
+          "val_avg": "৬৫.১",
+          "val_max": "৭২.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.২",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-12 15:00:00",
+        "step_end": "2026-10-12 18:00:00",
+        "start": "২০২৬-১০-১২ ১৫:০০:০০",
+        "end": "২০২৬-১০-১২ ১৮:০০:০০",
+        "date": "১২ অক্টোঃ, ২০২৬",
+        "weekday": "সোমবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "২",
+          "val_avg": "৪",
+          "val_max": "৭"
+        },
+        "temp": {
+          "val_min": "৩০.৪",
+          "val_avg": "৩২.৪",
+          "val_max": "৩৪.৪"
+        },
+        "rh": {
+          "val_min": "৬৪.১",
+          "val_avg": "৭২.১",
+          "val_max": "৭৯.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৫",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-12 18:00:00",
+        "step_end": "2026-10-12 21:00:00",
+        "start": "২০২৬-১০-১২ ১৮:০০:০০",
+        "end": "২০২৬-১০-১২ ২১:০০:০০",
+        "date": "১২ অক্টোঃ, ২০২৬",
+        "weekday": "সোমবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৪",
+          "val_avg": "৬",
+          "val_max": "৯"
+        },
+        "temp": {
+          "val_min": "২৩",
+          "val_avg": "২৫",
+          "val_max": "২৭"
+        },
+        "rh": {
+          "val_min": "৭৩.১",
+          "val_avg": "৮১.১",
+          "val_max": "৮৮.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৮",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-12 21:00:00",
+        "step_end": "2026-10-13 00:00:00",
+        "start": "২০২৬-১০-১২ ২১:০০:০০",
+        "end": "২০২৬-১০-১৩ ০০:০০:০০",
+        "date": "১২ অক্টোঃ, ২০২৬",
+        "weekday": "সোমবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৬",
+          "val_avg": "৮",
+          "val_max": "১১"
+        },
+        "temp": {
+          "val_min": "২০.৫",
+          "val_avg": "২২.৫",
+          "val_max": "২৪.৫"
+        },
+        "rh": {
+          "val_min": "৭৬.১",
+          "val_avg": "৮৪.১",
+          "val_max": "৯১.১"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "১০.১",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-13 00:00:00",
+        "step_end": "2026-10-13 03:00:00",
+        "start": "২০২৬-১০-১৩ ০০:০০:০০",
+        "end": "২০২৬-১০-১৩ ০৩:০০:০০",
+        "date": "১৩ অক্টোঃ, ২০২৬",
+        "weekday": "মঙ্গলবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "২",
+          "val_avg": "৪",
+          "val_max": "৭"
+        },
+        "temp": {
+          "val_min": "২১.২",
+          "val_avg": "২৩.২",
+          "val_max": "২৫.২"
+        },
+        "rh": {
+          "val_min": "৭৬.৮",
+          "val_avg": "৮৪.৮",
+          "val_max": "৯১.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.০",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-13 03:00:00",
+        "step_end": "2026-10-13 06:00:00",
+        "start": "২০২৬-১০-১৩ ০৩:০০:০০",
+        "end": "২০২৬-১০-১৩ ০৬:০০:০০",
+        "date": "১৩ অক্টোঃ, ২০২৬",
+        "weekday": "মঙ্গলবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৮",
+          "val_avg": "১০",
+          "val_max": "১৩"
+        },
+        "temp": {
+          "val_min": "২০.৪",
+          "val_avg": "২২.৪",
+          "val_max": "২৪.৪"
+        },
+        "rh": {
+          "val_min": "৭৮.৮",
+          "val_avg": "৮৬.৮",
+          "val_max": "৯৩.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৩",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-13 06:00:00",
+        "step_end": "2026-10-13 09:00:00",
+        "start": "২০২৬-১০-১৩ ০৬:০০:০০",
+        "end": "২০২৬-১০-১৩ ০৯:০০:০০",
+        "date": "১৩ অক্টোঃ, ২০২৬",
+        "weekday": "মঙ্গলবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "১",
+          "val_avg": "৩",
+          "val_max": "৬"
+        },
+        "temp": {
+          "val_min": "২৩.৪",
+          "val_avg": "২৫.৪",
+          "val_max": "২৭.৪"
+        },
+        "rh": {
+          "val_min": "৭১.৮",
+          "val_avg": "৭৯.৮",
+          "val_max": "৮৬.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৬",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-13 09:00:00",
+        "step_end": "2026-10-13 12:00:00",
+        "start": "২০২৬-১০-১৩ ০৯:০০:০০",
+        "end": "২০২৬-১০-১৩ ১২:০০:০০",
+        "date": "১৩ অক্টোঃ, ২০২৬",
+        "weekday": "মঙ্গলবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৯",
+          "val_avg": "১১",
+          "val_max": "১৪"
+        },
+        "temp": {
+          "val_min": "২৯.৭",
+          "val_avg": "৩১.৭",
+          "val_max": "৩৩.৭"
+        },
+        "rh": {
+          "val_min": "৬১.৮",
+          "val_avg": "৬৯.৮",
+          "val_max": "৭৬.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৯",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-13 12:00:00",
+        "step_end": "2026-10-13 15:00:00",
+        "start": "২০২৬-১০-১৩ ১২:০০:০০",
+        "end": "২০২৬-১০-১৩ ১৫:০০:০০",
+        "date": "১৩ অক্টোঃ, ২০২৬",
+        "weekday": "মঙ্গলবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৪",
+          "val_avg": "৬",
+          "val_max": "৯"
+        },
+        "temp": {
+          "val_min": "৩১.৭",
+          "val_avg": "৩৩.৭",
+          "val_max": "৩৫.৭"
+        },
+        "rh": {
+          "val_min": "৫৬.৮",
+          "val_avg": "৬৪.৮",
+          "val_max": "৭১.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.২",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-13 15:00:00",
+        "step_end": "2026-10-13 18:00:00",
+        "start": "২০২৬-১০-১৩ ১৫:০০:০০",
+        "end": "২০২৬-১০-১৩ ১৮:০০:০০",
+        "date": "১৩ অক্টোঃ, ২০২৬",
+        "weekday": "মঙ্গলবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৮",
+          "val_avg": "১০",
+          "val_max": "১৩"
+        },
+        "temp": {
+          "val_min": "৩০.২",
+          "val_avg": "৩২.২",
+          "val_max": "৩৪.২"
+        },
+        "rh": {
+          "val_min": "৬৩.৮",
+          "val_avg": "৭১.৮",
+          "val_max": "৭৮.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৫",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-13 18:00:00",
+        "step_end": "2026-10-13 21:00:00",
+        "start": "২০২৬-১০-১৩ ১৮:০০:০০",
+        "end": "২০২৬-১০-১৩ ২১:০০:০০",
+        "date": "১৩ অক্টোঃ, ২০২৬",
+        "weekday": "মঙ্গলবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "১০",
+          "val_avg": "১২",
+          "val_max": "১৫"
+        },
+        "temp": {
+          "val_min": "২৪.৪",
+          "val_avg": "২৬.৪",
+          "val_max": "২৮.৪"
+        },
+        "rh": {
+          "val_min": "৭২.৮",
+          "val_avg": "৮০.৮",
+          "val_max": "৮৭.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৮",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-13 21:00:00",
+        "step_end": "2026-10-14 00:00:00",
+        "start": "২০২৬-১০-১৩ ২১:০০:০০",
+        "end": "২০২৬-১০-১৪ ০০:০০:০০",
+        "date": "১৩ অক্টোঃ, ২০২৬",
+        "weekday": "মঙ্গলবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "২",
+          "val_avg": "৪",
+          "val_max": "৭"
+        },
+        "temp": {
+          "val_min": "২১.৯",
+          "val_avg": "২৩.৯",
+          "val_max": "২৫.৯"
+        },
+        "rh": {
+          "val_min": "৭৫.৮",
+          "val_avg": "৮৩.৮",
+          "val_max": "৯০.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "১০.১",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-14 00:00:00",
+        "step_end": "2026-10-14 03:00:00",
+        "start": "২০২৬-১০-১৪ ০০:০০:০০",
+        "end": "২০২৬-১০-১৪ ০৩:০০:০০",
+        "date": "১৪ অক্টোঃ, ২০২৬",
+        "weekday": "বুধবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "১",
+          "val_avg": "৩",
+          "val_max": "৬"
+        },
+        "temp": {
+          "val_min": "২১.৪",
+          "val_avg": "২৩.৪",
+          "val_max": "২৫.৪"
+        },
+        "rh": {
+          "val_min": "৮০.৮",
+          "val_avg": "৮৮.৮",
+          "val_max": "৯৫.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.০",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-14 03:00:00",
+        "step_end": "2026-10-14 06:00:00",
+        "start": "২০২৬-১০-১৪ ০৩:০০:০০",
+        "end": "২০২৬-১০-১৪ ০৬:০০:০০",
+        "date": "১৪ অক্টোঃ, ২০২৬",
+        "weekday": "বুধবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৯",
+          "val_avg": "১১",
+          "val_max": "১৪"
+        },
+        "temp": {
+          "val_min": "২০.৬",
+          "val_avg": "২২.৬",
+          "val_max": "২৪.৬"
+        },
+        "rh": {
+          "val_min": "৮২.৮",
+          "val_avg": "৯০.৮",
+          "val_max": "৯৭.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৩",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-14 06:00:00",
+        "step_end": "2026-10-14 09:00:00",
+        "start": "২০২৬-১০-১৪ ০৬:০০:০০",
+        "end": "২০২৬-১০-১৪ ০৯:০০:০০",
+        "date": "১৪ অক্টোঃ, ২০২৬",
+        "weekday": "বুধবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৯",
+          "val_avg": "১১",
+          "val_max": "১৪"
+        },
+        "temp": {
+          "val_min": "২৩.৬",
+          "val_avg": "২৫.৬",
+          "val_max": "২৭.৬"
+        },
+        "rh": {
+          "val_min": "৭৫.৮",
+          "val_avg": "৮৩.৮",
+          "val_max": "৯০.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৬",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-14 09:00:00",
+        "step_end": "2026-10-14 12:00:00",
+        "start": "২০২৬-১০-১৪ ০৯:০০:০০",
+        "end": "২০২৬-১০-১৪ ১২:০০:০০",
+        "date": "১৪ অক্টোঃ, ২০২৬",
+        "weekday": "বুধবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "১০",
+          "val_avg": "১২",
+          "val_max": "১৫"
+        },
+        "temp": {
+          "val_min": "২৯",
+          "val_avg": "৩১",
+          "val_max": "৩৩"
+        },
+        "rh": {
+          "val_min": "৬৫.৮",
+          "val_avg": "৭৩.৮",
+          "val_max": "৮০.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৮.৯",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-14 12:00:00",
+        "step_end": "2026-10-14 15:00:00",
+        "start": "২০২৬-১০-১৪ ১২:০০:০০",
+        "end": "২০২৬-১০-১৪ ১৫:০০:০০",
+        "date": "১৪ অক্টোঃ, ২০২৬",
+        "weekday": "বুধবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৩",
+          "val_avg": "৫",
+          "val_max": "৮"
+        },
+        "temp": {
+          "val_min": "৩১",
+          "val_avg": "৩৩",
+          "val_max": "৩৫"
+        },
+        "rh": {
+          "val_min": "৬০.৮",
+          "val_avg": "৬৮.৮",
+          "val_max": "৭৫.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.২",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-14 15:00:00",
+        "step_end": "2026-10-14 18:00:00",
+        "start": "২০২৬-১০-১৪ ১৫:০০:০০",
+        "end": "২০২৬-১০-১৪ ১৮:০০:০০",
+        "date": "১৪ অক্টোঃ, ২০২৬",
+        "weekday": "বুধবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_d.png",
+        "type": "আংশিক মেঘলা",
+        "typen": "Partly Cloudy",
+        "rf": {
+          "val_min": "৫",
+          "val_avg": "৭",
+          "val_max": "১০"
+        },
+        "temp": {
+          "val_min": "২৯.৫",
+          "val_avg": "৩১.৫",
+          "val_max": "৩৩.৫"
+        },
+        "rh": {
+          "val_min": "৬৭.৮",
+          "val_avg": "৭৫.৮",
+          "val_max": "৮২.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৫",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-14 18:00:00",
+        "step_end": "2026-10-14 21:00:00",
+        "start": "২০২৬-১০-১৪ ১৮:০০:০০",
+        "end": "২০২৬-১০-১৪ ২১:০০:০০",
+        "date": "১৪ অক্টোঃ, ২০২৬",
+        "weekday": "বুধবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "১",
+          "val_avg": "৩",
+          "val_max": "৬"
+        },
+        "temp": {
+          "val_min": "২৪.৬",
+          "val_avg": "২৬.৬",
+          "val_max": "২৮.৬"
+        },
+        "rh": {
+          "val_min": "৭৬.৮",
+          "val_avg": "৮৪.৮",
+          "val_max": "৯১.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "৯.৮",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      },
+      {
+        "step_start": "2026-10-14 21:00:00",
+        "step_end": "2026-10-15 00:00:00",
+        "start": "২০২৬-১০-১৪ ২১:০০:০০",
+        "end": "২০২৬-১০-১৫ ০০:০০:০০",
+        "date": "১৪ অক্টোঃ, ২০২৬",
+        "weekday": "বুধবার",
+        "rf_unit": "মি:মি:",
+        "temp_unit": "°সে",
+        "rh_unit": "%",
+        "windspd_unit": "কিমি/ঘণ্টা",
+        "winddir_unit": "ডিগ্রী",
+        "cldcvr_unit": "অক্টা",
+        "windgust_unit": "কিমি/ঘণ্টা",
+        "soilmoist_unit": "%",
+        "sunshine_unit": "ঘণ্টা",
+        "icon": "ic_partly_cloudy_n.png",
+        "type": "প্রধানত মেঘলা",
+        "typen": "Mostly Cloudy",
+        "rf": {
+          "val_min": "৮",
+          "val_avg": "১০",
+          "val_max": "১৩"
+        },
+        "temp": {
+          "val_min": "২২.১",
+          "val_avg": "২৪.১",
+          "val_max": "২৬.১"
+        },
+        "rh": {
+          "val_min": "৭৯.৮",
+          "val_avg": "৮৭.৮",
+          "val_max": "৯৪.৮"
+        },
+        "windspd": {
+          "val_min": "৪",
+          "val_avg": "১০.১",
+          "val_max": "১৬"
+        },
+        "winddir": {
+          "val_min": "৫",
+          "val_avg": "১৮০",
+          "val_max": "৩৫৫"
+        },
+        "cldcvr": {
+          "val_min": "০",
+          "val_avg": "৪৫",
+          "val_max": "৮০"
+        },
+        "windgust": {
+          "val_min": "২",
+          "val_avg": "৬",
+          "val_max": "১৫"
+        }
+      }
+    ],
+    "steps_chart": {
+      "rf_val_max": [
+        10,
+        7,
+        11,
+        15,
+        5,
+        6,
+        13,
+        6,
+        10,
+        14,
+        5,
+        13,
+        8,
+        5,
+        6,
+        11,
+        11,
+        6,
+        8,
+        6,
+        13,
+        11,
+        5,
+        14,
+        6,
+        8,
+        15,
+        15,
+        14,
+        5,
+        14,
+        14,
+        11,
+        5,
+        8,
+        5,
+        13,
+        7,
+        9,
+        11,
+        7,
+        13,
+        6,
+        14,
+        9,
+        13,
+        15,
+        7,
+        6,
+        14,
+        14,
+        15,
+        8,
+        10,
+        6,
+        13
+      ],
+      "temp_val_avg": [
+        "21.9",
+        "21.1",
+        "24.1",
+        "29",
+        "31",
+        "29.5",
+        "25.1",
+        "22.6",
+        "21.6",
+        "20.8",
+        "23.8",
+        "29.1",
+        "31.1",
+        "29.6",
+        "24.8",
+        "22.3",
+        "21.6",
+        "20.8",
+        "23.8",
+        "30.2",
+        "32.2",
+        "30.7",
+        "24.8",
+        "22.3",
+        "21.6",
+        "20.8",
+        "23.8",
+        "31.1",
+        "33.1",
+        "31.6",
+        "24.8",
+        "22.3",
+        "21.8",
+        "21",
+        "24",
+        "31.9",
+        "33.9",
+        "32.4",
+        "25",
+        "22.5",
+        "23.2",
+        "22.4",
+        "25.4",
+        "31.7",
+        "33.7",
+        "32.2",
+        "26.4",
+        "23.9",
+        "23.4",
+        "22.6",
+        "25.6",
+        "31",
+        "33",
+        "31.5",
+        "26.6",
+        "24.1"
+      ],
+      "rh_val_avg": [
+        "93.1",
+        "95.1",
+        "88.1",
+        "78.1",
+        "73.1",
+        "80.1",
+        "89.1",
+        "92.1",
+        "91.8",
+        "93.8",
+        "86.8",
+        "76.8",
+        "71.8",
+        "78.8",
+        "87.8",
+        "90.8",
+        "90.5",
+        "92.5",
+        "85.5",
+        "75.5",
+        "70.5",
+        "77.5",
+        "86.5",
+        "89.5",
+        "86.9",
+        "88.9",
+        "81.9",
+        "71.9",
+        "66.9",
+        "73.9",
+        "82.9",
+        "85.9",
+        "85.1",
+        "87.1",
+        "80.1",
+        "70.1",
+        "65.1",
+        "72.1",
+        "81.1",
+        "84.1",
+        "84.8",
+        "86.8",
+        "79.8",
+        "69.8",
+        "64.8",
+        "71.8",
+        "80.8",
+        "83.8",
+        "88.8",
+        "90.8",
+        "83.8",
+        "73.8",
+        "68.8",
+        "75.8",
+        "84.8",
+        "87.8"
+      ]
+    },
+    "_NEW_FIELDS_NOTE": "Fields added vs the current forecast API: daily[].feels, daily[].soil_moisture{val_min/avg/max}, daily[].sunshine_hours, daily[].thi (+ matching current.*). Units added: soilmoist_unit, sunshine_unit. Everything else is unchanged from your existing /weather/forecast response. The 7-day screen = daily[] cards + steps[] filtered per day for the chart; the weather card = current."
+  }
+}

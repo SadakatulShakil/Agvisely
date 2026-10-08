@@ -19,8 +19,9 @@ import '../../../menu/presentation/pages/menu_page.dart';
 import '../../../pest_advisory/presentation/pages/pest_advisory_page.dart';
 import '../../../profile/domen/controllers/profile_controller.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
-import '../../../weather/domen/binding/weather_binding.dart';
-import '../../../weather/presentation/pages/weather_page.dart';
+import '../../../weather/domen/binding/seven_day_binding.dart';
+import '../../../weather/presentation/pages/seven_day_page.dart';
+import '../../../weather/presentation/widgets/today_forecast_chart.dart';
 import '../../domen/controllers/home_controller.dart';
 import '../widgets/advisory_card.dart';
 import '../widgets/my_choice_carousel.dart';
@@ -210,7 +211,7 @@ class _HomeDashboard extends StatelessWidget {
             );
           }),
           SizedBox(height: 12.h),
-          // Weather chart: placeholder image for now, tap to go to full weather page
+          // Today's 3-hourly forecast preview; tap through to the full 7-day page.
           Container(
             decoration: BoxDecoration(
               color: AppColors.cardLight,
@@ -221,7 +222,7 @@ class _HomeDashboard extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
                   child: GestureDetector(
-                    onTap: () => Get.to(() => const WeatherPage(), binding: WeatherBinding()),
+                    onTap: () => Get.to(() => const SevenDayPage(), binding: SevenDayBinding()),
                     child: Container(
                       color: Colors.transparent,
                       child: Row(
@@ -258,15 +259,14 @@ class _HomeDashboard extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 12.h),
-                ClipRect(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    heightFactor: 225 / 283,
-                    child: Image.asset(
-                      'assets/images/weather_forecast_chart_demo.png',
-                      width: double.infinity,
-                      fit: BoxFit.fitWidth,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 16.h),
+                  child: Obx(
+                    () => TodayForecastChart(
+                      points: c.todayChart.toList(),
+                      rainfallUnit: c.todayChartRainUnit.value,
+                      height: 250,
+                      tempUnit: c.todayChartTempUnit.value,
                     ),
                   ),
                 ),

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../core/utils/bengali_numerals.dart' as numerals;
+
 class CurrentWeatherModel {
   final double tempNow;
   final double tempHigh;
@@ -37,31 +39,10 @@ class CurrentWeatherModel {
     required this.icon,
   });
 
-  static const _bengaliDigits = '০১২৩৪৫৬৭৮৯';
+  static double _numOf(dynamic v) => numerals.numOf(v);
 
-  static String _toAsciiDigits(String s) {
-    final buffer = StringBuffer();
-    for (final ch in s.split('')) {
-      final idx = _bengaliDigits.indexOf(ch);
-      buffer.write(idx == -1 ? ch : idx.toString());
-    }
-    return buffer.toString();
-  }
-
-  static double _numOf(dynamic v) {
-    if (v is num) return v.toDouble();
-    return double.tryParse(_toAsciiDigits(v?.toString() ?? '')) ?? 0;
-  }
-
-  /// Reverse of [_toAsciiDigits] — ASCII 0-9 to Bengali numerals, for display.
-  static String toBanglaDigits(String s) {
-    final buffer = StringBuffer();
-    for (final ch in s.split('')) {
-      final idx = '0123456789'.indexOf(ch);
-      buffer.write(idx == -1 ? ch : _bengaliDigits[idx]);
-    }
-    return buffer.toString();
-  }
+  /// ASCII 0-9 to Bengali numerals, for display.
+  static String toBanglaDigits(String s) => numerals.toBanglaDigits(s);
 
   bool get _bn => Get.locale?.languageCode == 'bn';
 

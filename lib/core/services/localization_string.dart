@@ -54,6 +54,8 @@ class LocalizationString extends Translations {
     'weather.thi': 'THI',
     'weather.view_graph': 'View Rainfall, temperature, humidity graph',
     'weather.hide_graph': 'Hide graph',
+    'weather.temperature': 'Temperature',
+    'weather.today': 'Today',
 
     // ── My choice feature titles ──────────────────────────────────────────
     'my_choice.boro_rice': 'Boro Rice',
@@ -195,6 +197,8 @@ class LocalizationString extends Translations {
     'weather.thi': 'THI',
     'weather.view_graph': 'বৃষ্টিপাত, তাপমাত্রা, আর্দ্রতার গ্রাফ দেখুন',
     'weather.hide_graph': 'গ্রাফ লুকান',
+    'weather.temperature': 'তাপমাত্রা',
+    'weather.today': 'আজ',
 
     // ── My choice feature titles ──────────────────────────────────────────
     'my_choice.boro_rice': 'বোরো ধান',

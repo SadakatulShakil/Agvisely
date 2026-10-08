@@ -10,8 +10,8 @@ import '../../features/livestock_advisory/domen/binding/livestock_advisory_bindi
 import '../../features/livestock_advisory/presentation/pages/livestock_advisory_page.dart';
 import '../../features/aquaculture_advisory/domen/binding/aquaculture_advisory_binding.dart';
 import '../../features/aquaculture_advisory/presentation/pages/aquaculture_advisory_page.dart';
-import '../../features/weather/domen/binding/weather_binding.dart';
-import '../../features/weather/presentation/pages/weather_page.dart';
+import '../../features/weather/domen/binding/seven_day_binding.dart';
+import '../../features/weather/presentation/pages/seven_day_page.dart';
 import '../../features/notifications/presentation/pages/notification_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 
@@ -42,7 +42,7 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
             _item(Icons.cloud_outlined, 'advisory.weather'.tr,
-                () => Get.to(() => const WeatherPage(), binding: WeatherBinding())),
+                () => Get.to(() => const SevenDayPage(), binding: SevenDayBinding())),
             _item(Icons.grass_outlined, 'advisory.crop'.tr,
                 () => Get.to(() => const CropAdvisoryPage(), binding: CropAdvisoryBinding())),
             _item(Icons.coronavirus_outlined, 'advisory.disease'.tr,

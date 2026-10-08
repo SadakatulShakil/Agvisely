@@ -10,7 +10,9 @@ import '../../../../core/services/location_service.dart';
 import '../../../../core/services/user_pref_service.dart';
 import '../../../../models/advisory_category_model.dart';
 import '../../../../models/current_weather_model.dart';
+import '../../../../models/seven_day_model.dart';
 import '../../../location/data/location_repository.dart';
+import '../../../weather/data/seven_day_repository.dart';
 import '../../../weather/data/weather_repository.dart';
 import '../../presentation/widgets/saved_locations_sheet.dart';
 
@@ -28,6 +30,11 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   final _weatherRepository = WeatherRepository();
 
   final advisoryCategories = <AdvisoryCategoryModel>[].obs;
+
+  final todayChart = <ForecastChartPoint>[].obs;
+  final todayChartRainUnit = 'mm'.obs;
+  final todayChartTempUnit = 'C'.obs;
+  final _sevenDayRepository = SevenDayRepository();
 
   // ── Live weather (condition/icon only — see LiveWeatherModel) ─────────────
   final liveType = ''.obs;
@@ -57,6 +64,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     refreshLocationName();
     loadWeather();
     loadAdvisoryCategories();
+    loadTodayChart();
     // TODO: fetch "My Choice" payload
   }
 
@@ -104,6 +112,18 @@ class HomeController extends GetxController with WidgetsBindingObserver {
 
     final fresh = await AdvisoryCategoriesService().fetch();
     if (fresh != null) advisoryCategories.assignAll(fresh);
+  }
+
+  /// Today's 3-hourly chart for the dashboard's forecast preview — same
+  /// [SevenDayRepository]/demo JSON the 7-day page uses, just today's slice.
+  /// Also re-called by SettingsController on a language switch.
+  Future<void> loadTodayChart() async {
+    final days = await _sevenDayRepository.load();
+    final today = days.firstWhereOrNull((d) => d.isToday) ??
+        (days.isNotEmpty ? days.first : null);
+    todayChart.assignAll(today?.chart ?? const []);
+    todayChartRainUnit.value = today?.units.rf ?? 'mm';
+    todayChartTempUnit.value = today?.units.temp ?? 'C';
   }
 
   /// Fetches current-weather for the active saved location's lat/lon.

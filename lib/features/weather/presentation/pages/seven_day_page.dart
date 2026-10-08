@@ -3,17 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/theme/app_theme_colors.dart';
-import '../../domen/controllers/weather_controller.dart';
-import '../widgets/daily_forecast_card.dart';
+import '../../domen/controllers/seven_day_controller.dart';
+import '../widgets/seven_day_card.dart';
 
-/// 7 Days Weather Forecast — one expandable card per day; tapping a card's
-/// "View graph" row shows the rainfall/temperature/humidity chart.
-class WeatherPage extends StatelessWidget {
-  const WeatherPage({super.key});
+/// 7-Day Weather Forecast — one expandable card per day; tapping a card's
+/// "View graph" row shows its rainfall/temperature/humidity chart.
+class SevenDayPage extends StatelessWidget {
+  const SevenDayPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<WeatherController>();
+    final controller = Get.find<SevenDayController>();
     return Scaffold(
       backgroundColor: AppColors.scaffoldLight,
       appBar: AppBar(
@@ -41,14 +41,14 @@ class WeatherPage extends StatelessWidget {
                 separatorBuilder: (_, __) => SizedBox(height: 12.h),
                 itemBuilder: (context, index) {
                   final day = controller.days[index];
-                  // Own Obx per card — reading expandedIndex.value inside
+                  // Own Obx per card — reading expandedDate.value inside
                   // ListView's itemBuilder happens outside the outer Obx's
                   // build call, so it wouldn't be tracked there.
                   return Obx(
-                    () => DailyForecastCard(
+                    () => SevenDayCard(
                       day: day,
-                      expanded: controller.expandedIndex.value == index,
-                      onToggleGraph: () => controller.toggleExpanded(index),
+                      expanded: controller.isExpanded(day.dayStart),
+                      onToggleGraph: () => controller.toggleExpanded(day.dayStart),
                     ),
                   );
                 },

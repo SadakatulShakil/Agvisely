@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
-import '../../domen/controllers/weather_controller.dart';
+import '../../../../models/seven_day_model.dart';
+import 'today_forecast_chart.dart';
 
 /// One day of the 7-day list — header stats always visible, the
-/// rainfall/temperature/humidity graph expands below on tap.
-///
-/// The graph reuses the same demo chart image as the Home "Next 7 days"
-/// card; only the top title/button strip is cropped off since this card
-/// already renders its own date header and toggle.
-class DailyForecastCard extends StatelessWidget {
-  const DailyForecastCard({
+/// rainfall/temperature/humidity graph ([TodayForecastChart]) expands
+/// below on tap.
+class SevenDayCard extends StatelessWidget {
+  const SevenDayCard({
     super.key,
     required this.day,
     required this.expanded,
     required this.onToggleGraph,
   });
 
-  final DailyForecastDemo day;
+  final DayForecast day;
   final bool expanded;
   final VoidCallback onToggleGraph;
 
@@ -40,31 +39,29 @@ class DailyForecastCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _Stat(label: 'home.feels_like'.tr, value: day.feelsLike),
-                      _Stat(label: 'weather.rainfall'.tr, value: day.rainfall),
-                      _Stat(label: 'weather.cloud_coverage'.tr, value: day.cloudCoverage),
-                      _Stat(label: 'weather.humidity'.tr, value: day.humidity),
+                      _Stat(label: 'home.feels_like'.tr, value: day.feelsLikeText),
+                      _Stat(label: 'weather.rainfall'.tr, value: day.rainfallText),
+                      _Stat(label: 'weather.cloud_coverage'.tr, value: day.cloudCoverText),
+                      _Stat(label: 'weather.humidity'.tr, value: day.humidityText),
                     ],
                   ),
                   SizedBox(height: 16.h),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _Stat(label: 'weather.soil_moisture'.tr, value: day.soilMoisture),
-                      _Stat(label: 'weather.sunshine'.tr, value: day.sunshine),
+                      _Stat(label: 'weather.soil_moisture'.tr, value: day.soilMoistureText),
+                      _Stat(label: 'weather.sunshine'.tr, value: day.sunshineText),
                       _Stat(
                         label: 'home.wind'.tr,
-                        value: day.wind,
+                        value: day.windText,
                         trailing: Transform.rotate(
-                          angle: day.windDeg * 3.1415926535 / 180,
-                          child: Icon(
-                            Icons.navigation,
-                            size: 12.sp,
-                            color: AppColors.primary,
-                          ),
+                          angle: day.windDirDeg * 3.1415926535 / 180,
+                          child: Icon(Icons.navigation, size: 12.sp, color: AppColors.primary),
                         ),
                       ),
-                      _Stat(label: 'weather.thi'.tr, value: day.thi),
+                      _Stat(label: 'weather.thi'.tr, value: day.thiText),
                     ],
                   ),
                   SizedBox(height: 14.h),
@@ -101,7 +98,15 @@ class DailyForecastCard extends StatelessWidget {
                     duration: const Duration(milliseconds: 200),
                     curve: Curves.easeInOut,
                     alignment: Alignment.topCenter,
-                    child: expanded ? _Graph() : const SizedBox(width: double.infinity),
+                    child: expanded
+                        ? Padding(
+                            padding: EdgeInsets.only(top: 12.h),
+                            child: TodayForecastChart(
+                              points: day.chart,
+                              rainfallUnit: day.units.rf,
+                            ),
+                          )
+                        : const SizedBox(width: double.infinity),
                   ),
                 ],
               ),
@@ -116,10 +121,11 @@ class DailyForecastCard extends StatelessWidget {
 class _Header extends StatelessWidget {
   const _Header({required this.day});
 
-  final DailyForecastDemo day;
+  final DayForecast day;
 
   @override
   Widget build(BuildContext context) {
+    final dayName = day.isToday ? 'weather.today'.tr : day.weekday;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Row(
@@ -131,7 +137,7 @@ class _Header extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  day.dayLabel,
+                  dayName,
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
@@ -140,7 +146,7 @@ class _Header extends StatelessWidget {
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  day.dateLabel,
+                  day.date,
                   style: TextStyle(fontSize: 12.sp, color: AppColors.textSecondaryLight),
                 ),
               ],
@@ -151,9 +157,9 @@ class _Header extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('H: ${day.highC}°c', style: _labelStyle),
+                Text('H: ${day.tempHighText}°', style: _labelStyle),
                 SizedBox(height: 4.h),
-                Text('L: ${day.lowC}°c', style: _labelStyle),
+                Text('L: ${day.tempLowText}°', style: _labelStyle),
               ],
             ),
           ),
@@ -162,7 +168,7 @@ class _Header extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Icon(_conditionIcon(day.condition), color: AppColors.primary, size: 22.sp),
+                _ConditionIcon(iconFile: day.displayIcon),
                 SizedBox(height: 4.h),
                 Text(
                   day.condition,
@@ -181,19 +187,25 @@ class _Header extends StatelessWidget {
 
   static TextStyle get _labelStyle =>
       TextStyle(fontSize: 13.sp, color: AppColors.textPrimaryLight);
+}
 
-  IconData _conditionIcon(String condition) {
-    final c = condition.toLowerCase();
-    if (c.contains('storm') || c.contains('thunder')) return Icons.flash_on;
-    if (c.contains('rain') || c.contains('shower') || c.contains('drizzle')) {
-      return Icons.grain;
-    }
-    if (c.contains('cloud')) return Icons.cloud;
-    if (c.contains('clear') || c.contains('sunny')) return Icons.wb_sunny;
-    if (c.contains('fog') || c.contains('mist') || c.contains('haze')) {
-      return Icons.blur_on;
-    }
-    return Icons.cloud;
+class _ConditionIcon extends StatelessWidget {
+  const _ConditionIcon({required this.iconFile});
+
+  final String iconFile;
+
+  @override
+  Widget build(BuildContext context) {
+    final fallback = Icon(Icons.cloud, size: 28.sp, color: AppColors.primary);
+    if (iconFile.isEmpty) return fallback;
+
+    return Image.network(
+      '${ApiEndpoints.baseUrlWeatherIcon}/$iconFile',
+      width: 32.w,
+      height: 32.w,
+      fit: BoxFit.contain,
+      errorBuilder: (context, error, stackTrace) => fallback,
+    );
   }
 }
 
@@ -212,46 +224,29 @@ class _Stat extends StatelessWidget {
         children: [
           Text(
             label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 11.sp, color: AppColors.textSecondaryLight),
           ),
           SizedBox(height: 4.h),
           Row(
-            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                value,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimaryLight,
+              Flexible(
+                child: Text(
+                  value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimaryLight,
+                  ),
                 ),
               ),
               if (trailing != null) ...[SizedBox(width: 2.w), trailing!],
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// Rainfall/temperature/humidity chart — same demo asset used on Home,
-/// cropped to drop its baked-in title/button strip (top ~20%).
-class _Graph extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 12.h),
-      child: ClipRect(
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          heightFactor: 225 / 283,
-          child: Image.asset(
-            'assets/images/weather_forecast_chart_demo.png',
-            width: double.infinity,
-            fit: BoxFit.fitWidth,
-          ),
-        ),
       ),
     );
   }

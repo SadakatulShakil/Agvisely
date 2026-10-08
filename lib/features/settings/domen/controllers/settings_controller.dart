@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/services/user_pref_service.dart';
 import '../../../home/domen/controllers/home_controller.dart';
+import '../../../weather/domen/controllers/seven_day_controller.dart';
 
 /// Language + preferences state for the Settings screen.
 class SettingsController extends GetxController {
@@ -26,6 +27,13 @@ class SettingsController extends GetxController {
       // The displayed location name is derived from the SavedLocation's
       // name/nameBn, not re-read automatically — recompute for the new locale.
       home.refreshLocationName();
+      home.loadTodayChart();
+    }
+    if (Get.isRegistered<SevenDayController>()) {
+      // Same reasoning — the demo JSON is split per-language, and the real
+      // forecast endpoint is server-localized too, so re-load rather than
+      // trying to client-convert.
+      Get.find<SevenDayController>().load();
     }
   }
 }
