@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/app_drawer.dart';
+import '../../../../core/utils/user_avatar.dart';
 import '../../../aquaculture_advisory/domen/binding/aquaculture_advisory_binding.dart';
 import '../../../aquaculture_advisory/presentation/pages/aquaculture_advisory_page.dart';
 import '../../../crop_advisory/domen/binding/crop_advisory_binding.dart';
@@ -101,14 +102,14 @@ class _HomeDashboard extends StatelessWidget {
           //Top bar: profile icon + greeting + location + notification icon
           Row(
             children: [
-              Container(
-                height: 38.h,
-                width: 38.w,
-                decoration: BoxDecoration(
-                  color: AppColors.cardLight,
+              Obx(
+                () => UserAvatar(
+                  profileUrl: profileC.user.value?.profileUrl,
+                  size: 38.w,
+                  iconSize: 34.sp,
                   borderRadius: BorderRadius.circular(8.r),
                 ),
-                  child: Icon(Icons.person, size: 34.sp, color: AppColors.primaryDark),),
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: GestureDetector(
@@ -181,71 +182,33 @@ class _HomeDashboard extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
           // Advisory grid: 2x2 of crop, livestock, aquaculture, disease
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: AdvisoryCard(
-                    svg: 'assets/icons/advisory/crop.svg',
-                    iconColor: AppColors.primary,
-                    title: 'advisory.crop'.tr,
-                    subtitle: 'advisory.crop_subtitle'.tr,
-                    onTap: () => Get.to(
-                      () => const CropAdvisoryPage(),
-                      binding: CropAdvisoryBinding(),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: AdvisoryCard(
-                    svg: 'assets/icons/advisory/livestock.svg',
-                    iconColor: AppColors.primary,
-                    title: 'advisory.livestock'.tr,
-                    subtitle: 'advisory.livestock_subtitle'.tr,
-                    onTap: () => Get.to(
-                      () => const LivestockAdvisoryPage(),
-                      binding: LivestockAdvisoryBinding(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 12.h),
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: AdvisoryCard(
-                    svg: 'assets/icons/advisory/aquaculture.svg',
-                    iconColor: AppColors.primary,
-                    title: 'advisory.aquaculture'.tr,
-                    subtitle: 'advisory.aquaculture_subtitle'.tr,
-                    onTap: () => Get.to(
-                      () => const AquacultureAdvisoryPage(),
-                      binding: AquacultureAdvisoryBinding(),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: AdvisoryCard(
-                    svg: 'assets/icons/advisory/disease.svg',
-                    iconColor: AppColors.primary,
-                    title: 'advisory.disease'.tr,
-                    subtitle: 'advisory.disease_subtitle'.tr,
-                    onTap: () => Get.to(
-                      () => const DiseaseAdvisoryPage(),
-                      binding: DiseaseAdvisoryBinding(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          Obx(() {
+            final categories = c.advisoryCategories;
+            if (categories.isEmpty) return const SizedBox.shrink();
+
+            final isBn = Get.locale?.languageCode == 'bn';
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: categories.length,
+              gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12.w,
+                mainAxisSpacing: 12.h,
+                childAspectRatio: 0.95,
+              ),
+              itemBuilder: (context, i) {
+                final category = categories[i];
+                return AdvisoryCard(
+                  iconUrl: category.icon,
+                  iconColor: AppColors.primary,
+                  title: category.label(isBn),
+                  subtitle: category.subtitle(isBn),
+                  onTap: () => _openAdvisoryCategory(category.id),
+                );
+              },
+            );
+          }),
           SizedBox(height: 12.h),
           // Weather chart: placeholder image for now, tap to go to full weather page
           Container(
@@ -322,5 +285,21 @@ class _HomeDashboard extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+/// Maps an advisory-category id (from `GET /advisory/categories`) to the
+/// page already built for it. Unknown ids (a category added on the backend
+/// before its page ships) are tapped as a no-op rather than crashing.
+void _openAdvisoryCategory(int categoryId) {
+  switch (categoryId) {
+    case 1:
+      Get.to(() => const CropAdvisoryPage(), binding: CropAdvisoryBinding());
+    case 2:
+      Get.to(() => const LivestockAdvisoryPage(), binding: LivestockAdvisoryBinding());
+    case 3:
+      Get.to(() => const AquacultureAdvisoryPage(), binding: AquacultureAdvisoryBinding());
+    case 4:
+      Get.to(() => const DiseaseAdvisoryPage(), binding: DiseaseAdvisoryBinding());
   }
 }

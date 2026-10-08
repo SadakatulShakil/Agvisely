@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/advisory_category_model.dart';
 import '../../models/api_location_model.dart';
 import '../../models/profession_model.dart';
 import '../../models/saved_location_model.dart';
@@ -69,6 +70,7 @@ class UserPrefService {
   static const String _keyRefreshToken = 'REFRESH_TOKEN';
   static const String _keyCachedUser = 'CACHED_USER';
   static const String _keyCachedProfessions = 'CACHED_PROFESSIONS';
+  static const String _keyCachedAdvisoryCategories = 'CACHED_ADVISORY_CATEGORIES';
   static const String _kAccessTokenExpiresAt = 'ACCESS_TOKEN_EXPIRES_AT';
 
   // ===== Utility =====
@@ -224,6 +226,30 @@ class UserPrefService {
     await _prefs?.setString(
       _keyCachedProfessions,
       jsonEncode(list.map((p) => p.toJson()).toList()),
+    );
+  }
+
+  // ── Advisory categories cache ───────────────────────────────────────────
+  // Persisted so the home dashboard's advisory grid renders instantly on a
+  // cold start, before AdvisoryCategoriesService's live fetch finishes.
+
+  List<AdvisoryCategoryModel>? get cachedAdvisoryCategories {
+    final raw = _prefs?.getString(_keyCachedAdvisoryCategories);
+    if (raw == null) return null;
+    try {
+      final list = jsonDecode(raw) as List;
+      return list
+          .map((e) => AdvisoryCategoryModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> setCachedAdvisoryCategories(List<AdvisoryCategoryModel> list) async {
+    await _prefs?.setString(
+      _keyCachedAdvisoryCategories,
+      jsonEncode(list.map((c) => c.toJson()).toList()),
     );
   }
 

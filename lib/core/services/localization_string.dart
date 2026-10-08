@@ -38,14 +38,10 @@ class LocalizationString extends Translations {
 
     // ── Advisory feature titles ──────────────────────────────────────────
     'advisory.crop': 'Crop Advisory',
-    'advisory.crop_subtitle': 'Weather-based guidance for your standing crops',
     'advisory.disease': 'Crop Disease Early Warning',
-    'advisory.disease_subtitle': 'Outbreak risks and control steps near you',
     'advisory.pest': 'Pest Advisory',
     'advisory.livestock': 'Livestock Advisory',
-    'advisory.livestock_subtitle': 'Keep cattle and poultry safe this week',
     'advisory.aquaculture': 'Aquaculture Advisory',
-    'advisory.aquaculture_subtitle': 'Protect your fish from heat and rain',
     'advisory.weather': 'Weather Forecast',
 
     // ── Weather forecast (7-day detail) ────────────────────────────────────
@@ -183,14 +179,10 @@ class LocalizationString extends Translations {
 
     // ── Advisory feature titles ──────────────────────────────────────────
     'advisory.crop': 'ফসল পরামর্শ',
-    'advisory.crop_subtitle': 'আপনার ফসলের জন্য আবহাওয়াভিত্তিক পরামর্শ',
     'advisory.disease': 'ফসলের রোগ পূর্ব সতর্কতা',
-    'advisory.disease_subtitle': 'আপনার আশেপাশে প্রাদুর্ভাবের ঝুঁকি ও নিয়ন্ত্রণ পদক্ষেপ',
     'advisory.pest': 'পোকা পরামর্শ',
     'advisory.livestock': 'গবাদি পশু পরামর্শ',
-    'advisory.livestock_subtitle': 'এই সপ্তাহে গবাদি পশু ও হাঁস-মুরগি নিরাপদ রাখুন',
     'advisory.aquaculture': 'মৎস্য পরামর্শ',
-    'advisory.aquaculture_subtitle': 'তাপ ও বৃষ্টি থেকে আপনার মাছ রক্ষা করুন',
     'advisory.weather': 'আবহাওয়ার পূর্বাভাস',
 
     // ── Weather forecast (7-day detail) ────────────────────────────────────

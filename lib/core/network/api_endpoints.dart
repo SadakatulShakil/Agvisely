@@ -36,7 +36,7 @@ class ApiEndpoints {
   //   Android emulator → http://10.0.2.2:3000/api/v1
   //   physical device  → http://<machine-LAN-IP>:3000/api/v1
   // ===================================
-  static const String baseUrlUser = 'http://192.168.68.55:3000/api/v1';
+  static const String baseUrlUser = 'http://192.168.68.54:3000/api/v1';
   static const String professions = '$baseUrlUser/professions';
   static const String signupUrl = '$baseUrlUser/users/signup';
   static const String loginUrl = '$baseUrlUser/users/login';
@@ -44,6 +44,14 @@ class ApiEndpoints {
   static const String userMeUrl = '$baseUrlUser/users/me';
   static const String refreshTokenUrl = '$baseUrlUser/users/refresh-token';
   static const String logoutUrl = '$baseUrlUser/users/logout';
+
+  /// Host root for the user/auth backend (same host as [baseUrlUser], minus
+  /// the `/api/v1` path) — used to resolve relative paths like
+  /// `UserModel.profileUrl` into full, loadable image URLs.
+  static String get baseUrlUserHost =>
+      baseUrlUser.replaceFirst(RegExp(r'/api/v\d+$'), '');
+
+  static const String advisoryCategories = '$baseUrlUser/advisory/categories';
 
   // ===================================
   // Notifications

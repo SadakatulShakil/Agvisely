@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 
-/// One tile of the home dashboard's 2x2 advisory grid — icon + external-link
+/// One tile of the home dashboard's advisory grid — icon + external-link
 /// arrow up top, bold title, then a two-line grey subtitle underneath.
 class AdvisoryCard extends StatelessWidget {
   const AdvisoryCard({
     super.key,
-    required this.svg,
+    required this.iconUrl,
     required this.iconColor,
     required this.title,
     required this.subtitle,
     this.onTap,
   });
 
-  final String svg;
+  /// Relative path from the advisory-categories API (e.g.
+  /// `/assets/category/xxx.png`) — resolved against [ApiEndpoints.baseUrlUserHost].
+  final String? iconUrl;
   final Color iconColor;
   final String title;
   final String subtitle;
@@ -24,6 +26,18 @@ class AdvisoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fallbackIcon = Icon(Icons.info_outline, size: 40.sp, color: iconColor);
+    final url = iconUrl;
+    final icon = (url == null || url.isEmpty)
+        ? fallbackIcon
+        : Image.network(
+            '${ApiEndpoints.baseUrlUserHost}$url',
+            width: 56.w,
+            height: 56.h,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) => fallbackIcon,
+          );
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16.r),
@@ -41,11 +55,7 @@ class AdvisoryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SvgPicture.asset(
-                  svg,
-                  width: 56.w,
-                  height: 56.h,
-                ),
+                icon,
                 Icon(Icons.north_east, size: 24.sp, color: AppColors.primaryDark),
               ],
             ),

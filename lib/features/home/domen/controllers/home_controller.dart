@@ -5,8 +5,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/network/api_client.dart';
+import '../../../../core/services/advisory_categories_service.dart';
 import '../../../../core/services/location_service.dart';
 import '../../../../core/services/user_pref_service.dart';
+import '../../../../models/advisory_category_model.dart';
 import '../../../../models/current_weather_model.dart';
 import '../../../location/data/location_repository.dart';
 import '../../../weather/data/weather_repository.dart';
@@ -24,6 +26,8 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   final currentWeather = Rxn<CurrentWeatherModel>();
   final isLoadingWeather = false.obs;
   final _weatherRepository = WeatherRepository();
+
+  final advisoryCategories = <AdvisoryCategoryModel>[].obs;
 
   // ── Live weather (condition/icon only — see LiveWeatherModel) ─────────────
   final liveType = ''.obs;
@@ -52,7 +56,8 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     refreshLocationName();
     loadWeather();
-    // TODO: fetch dashboard payload (advisory summaries + my choice)
+    loadAdvisoryCategories();
+    // TODO: fetch "My Choice" payload
   }
 
   @override
@@ -89,6 +94,16 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     }
     final saved = UserPrefService().locationName;
     if (saved != null && saved.isNotEmpty) locationName.value = saved;
+  }
+
+  /// Cache-first + background refresh for the advisory grid, same pattern
+  /// as [ProfessionsService]/[AdvisoryCategoriesService] elsewhere.
+  Future<void> loadAdvisoryCategories() async {
+    final cached = AdvisoryCategoriesService().cached;
+    if (cached != null) advisoryCategories.assignAll(cached);
+
+    final fresh = await AdvisoryCategoriesService().fetch();
+    if (fresh != null) advisoryCategories.assignAll(fresh);
   }
 
   /// Fetches current-weather for the active saved location's lat/lon.

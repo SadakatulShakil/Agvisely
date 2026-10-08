@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/services/user_pref_service.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/user_avatar.dart';
 import '../../../auth/auth/presentation/pages/login_page.dart';
 import '../../../auth/auth/presentation/widgets/auth_widgets.dart';
 import '../../../settings/domen/controllers/settings_controller.dart';
@@ -31,16 +32,14 @@ class ProfilePage extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.all(20.w),
           children: [
-            Center(
-              child: Container(
-                width: 96.w,
-                height: 96.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.cardLight,
+            Obx(
+              () => Center(
+                child: UserAvatar(
+                  profileUrl: c.user.value?.profileUrl,
+                  size: 96.w,
+                  iconSize: 56.sp,
                   border: Border.all(color: Colors.white, width: 3),
                 ),
-                child: Icon(Icons.person, size: 56.sp, color: AppColors.primaryDark),
               ),
             ),
             SizedBox(height: 14.h),
