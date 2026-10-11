@@ -34,12 +34,11 @@ class SevenDayCard extends StatelessWidget {
             Container(
               width: double.infinity,
               color: AppColors.cardLight,
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 14.h),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _Stat(label: 'home.feels_like'.tr, value: day.feelsLikeText),
                       _Stat(label: 'weather.rainfall'.tr, value: day.rainfallText),
@@ -65,32 +64,35 @@ class SevenDayCard extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 14.h),
-                  GestureDetector(
-                    onTap: onToggleGraph,
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
-                      decoration: BoxDecoration(
-                        color: AppColors.cardMint,
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              expanded ? 'weather.hide_graph'.tr : 'weather.view_graph'.tr,
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                color: AppColors.textPrimaryLight,
+                  Padding(
+                    padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                    child: GestureDetector(
+                      onTap: onToggleGraph,
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+                        decoration: BoxDecoration(
+                          color: AppColors.cardMint,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                expanded ? 'weather.hide_graph'.tr : 'weather.view_graph'.tr,
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: AppColors.textPrimaryLight,
+                                ),
                               ),
                             ),
-                          ),
-                          Icon(
-                            expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                            color: AppColors.textSecondaryLight,
-                            size: 20.sp,
-                          ),
-                        ],
+                            Icon(
+                              expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                              color: AppColors.textSecondaryLight,
+                              size: 20.sp,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -100,7 +102,7 @@ class SevenDayCard extends StatelessWidget {
                     alignment: Alignment.topCenter,
                     child: expanded
                         ? Padding(
-                            padding: EdgeInsets.only(top: 12.h),
+                            padding: EdgeInsets.only(top: 10.h, left: 8.w),
                             child: TodayForecastChart(
                               points: day.chart,
                               rainfallUnit: day.units.rf,
@@ -220,7 +222,7 @@ class _Stat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             label,
@@ -230,6 +232,7 @@ class _Stat extends StatelessWidget {
           ),
           SizedBox(height: 4.h),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
                 child: Text(

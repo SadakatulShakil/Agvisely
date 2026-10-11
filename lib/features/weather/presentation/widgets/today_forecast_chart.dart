@@ -16,7 +16,7 @@ class TodayForecastChart extends StatelessWidget {
   const TodayForecastChart({
     super.key,
     required this.points,
-    this.height = 250,
+    this.height = 260,
     this.rainfallUnit = 'mm',
     this.tempUnit = '°C',
   });
@@ -31,14 +31,8 @@ class TodayForecastChart extends StatelessWidget {
   static const _leftReserved = 30.0;
   static const _rightReserved = 34.0;
   static const _bottomReserved = 22.0;
-  // Blank strip at the very top of both charts' plot areas, reserved so the
-  // gray track (which otherwise fills the full 0..barMaxY height) never
-  // reaches the top edge — leaving genuine empty space for the rainfall
-  // value label to sit in, outside/above the pill rather than overlapping it.
   static const _topReserved = 30.0;
 
-  // Fixed 0-50°C left axis — matches the design and comfortably spans the
-  // realistic range for this app's climate, so ticks land on round numbers.
   static const _tempAxisMin = 0.0;
   static const _tempAxisMax = 50.0;
   static const _tempAxisInterval = 10.0;
@@ -127,12 +121,7 @@ class TodayForecastChart extends StatelessWidget {
                               getTitlesWidget: _blank,
                             ),
                           ),
-                          // showTitles must be true for reservedSize to
-                          // actually be allocated during layout — these two
-                          // sides mirror the LineChart's visible left/right
-                          // reservedSize exactly (via _blank) purely so both
-                          // charts' plot areas end up the same pixel size
-                          // and stay aligned.
+
                           rightTitles: AxisTitles(
                             sideTitles: SideTitles(
                               showTitles: true,
@@ -164,13 +153,7 @@ class TodayForecastChart extends StatelessWidget {
                                   toY: points[i].rain <= 0 ? barStub : points[i].rain,
                                   color: AppColors.barChart,
                                   width: barWidth,
-                                  // Fully-rounded "pill" ends — fl_chart
-                                  // reuses this same borderRadius for the
-                                  // gray track behind it, so both draw as
-                                  // one continuous capsule.
                                   borderRadius: BorderRadius.circular(barWidth / 4),
-                                  // Full-height gray "track" behind every
-                                  // bar, matching the reference design.
                                   backDrawRodData: BackgroundBarChartRodData(
                                     show: true,
                                     toY: barMaxY,
@@ -184,19 +167,12 @@ class TodayForecastChart extends StatelessWidget {
                     ),
                     LineChart(
                       LineChartData(
-                        // Half-step padding on each side mirrors
-                        // BarChartAlignment.spaceEvenly's own group spacing,
-                        // so point i's x fraction lands on the same
-                        // horizontal position as bar group i's center.
+
                         minX: -0.5,
                         maxX: n - 0.5,
                         minY: _tempAxisMin,
                         maxY: _tempAxisMax,
-                        // Only the LineChart draws a grid — its temp-axis
-                        // ticks are the "real" shared scale; the BarChart's
-                        // own (rainfall-scaled) ticks would land at
-                        // different pixel rows and look like a second,
-                        // misaligned grid if both drew one.
+
                         gridData: FlGridData(
                           show: true,
                           drawVerticalLine: false,

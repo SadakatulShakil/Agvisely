@@ -260,12 +260,12 @@ class _HomeDashboard extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 16.h),
+                  padding: EdgeInsets.fromLTRB(16.w, 12.h, 4.w, 16.h),
                   child: Obx(
                     () => TodayForecastChart(
                       points: c.todayChart.toList(),
                       rainfallUnit: c.todayChartRainUnit.value,
-                      height: 250,
+                      height: 280.h,
                       tempUnit: c.todayChartTempUnit.value,
                     ),
                   ),
