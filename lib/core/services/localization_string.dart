@@ -81,6 +81,14 @@ class LocalizationString extends Translations {
     'pest_advisory.selected_prefix': 'Selected:',
     'pest_advisory.nothing_prefix': 'Please select a crop.',
 
+    // ── Advisory items (generic item grid, any category) ───────────────────
+    'advisory_items.select_item_title': 'Select an item for advisory',
+    'advisory_items.go_next_step': 'Go Next Step',
+    'advisory_items.nothing_selected': 'Please select an item.',
+    'advisory_items.retry': 'Retry',
+    'advisory_items.empty': 'No items available right now.',
+    'advisory_items.empty_for': 'No items available for @category right now.',
+
     // ── Crop names (demo catalog) ──────────────────────────────────────────
     'crop.tomato': 'Tomato',
     'crop.kharif1': 'Kharif 1',
@@ -223,6 +231,14 @@ class LocalizationString extends Translations {
     'pest_advisory.go_next_step': 'পরবর্তী পদক্ষেপ',
     'pest_advisory.selected_prefix': 'নির্বাচিত:',
     'pest_advisory.nothing_prefix': 'দয়া করে একটি ফসল নির্বাচন করুন।',
+
+    // ── Advisory items (generic item grid, any category) ───────────────────
+    'advisory_items.select_item_title': 'পরামর্শের জন্য একটি আইটেম নির্বাচন করুন',
+    'advisory_items.go_next_step': 'পরবর্তী পদক্ষেপ',
+    'advisory_items.nothing_selected': 'দয়া করে একটি আইটেম নির্বাচন করুন।',
+    'advisory_items.retry': 'আবার চেষ্টা করুন',
+    'advisory_items.empty': 'এই মুহূর্তে কোনো আইটেম পাওয়া যায়নি।',
+    'advisory_items.empty_for': 'এই মুহূর্তে @category-এর জন্য কোনো আইটেম পাওয়া যায়নি।',
 
     // ── Crop names (demo catalog) ──────────────────────────────────────────
     'crop.tomato': 'টমেটো',

@@ -2,14 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../theme/app_theme_colors.dart';
-import '../../features/crop_advisory/domen/binding/crop_advisory_binding.dart';
-import '../../features/crop_advisory/presentation/pages/crop_advisory_page.dart';
-import '../../features/disease_advisory/domen/binding/disease_advisory_binding.dart';
-import '../../features/disease_advisory/presentation/pages/disease_advisory_page.dart';
-import '../../features/livestock_advisory/domen/binding/livestock_advisory_binding.dart';
-import '../../features/livestock_advisory/presentation/pages/livestock_advisory_page.dart';
-import '../../features/aquaculture_advisory/domen/binding/aquaculture_advisory_binding.dart';
-import '../../features/aquaculture_advisory/presentation/pages/aquaculture_advisory_page.dart';
+import '../../features/advisory_items/domen/binding/advisory_items_binding.dart';
+import '../../features/advisory_items/presentation/pages/advisory_items_page.dart';
 import '../../features/weather/domen/binding/seven_day_binding.dart';
 import '../../features/weather/presentation/pages/seven_day_page.dart';
 import '../../features/notifications/presentation/pages/notification_page.dart';
@@ -43,14 +37,18 @@ class AppDrawer extends StatelessWidget {
             ),
             _item(Icons.cloud_outlined, 'advisory.weather'.tr,
                 () => Get.to(() => const SevenDayPage(), binding: SevenDayBinding())),
+            // The drawer has no live AdvisoryCategoryModel in scope (unlike
+            // the home grid, which passes the real tapped category through)
+            // — these fallback ids mirror the backend's known category
+            // ordering: 1=crop, 2=livestock, 3=aquaculture, 4=disease.
             _item(Icons.grass_outlined, 'advisory.crop'.tr,
-                () => Get.to(() => const CropAdvisoryPage(), binding: CropAdvisoryBinding())),
+                () => _openAdvisoryShortcut(categoryId: 1, categoryLabel: 'advisory.crop'.tr)),
             _item(Icons.coronavirus_outlined, 'advisory.disease'.tr,
-                () => Get.to(() => const DiseaseAdvisoryPage(), binding: DiseaseAdvisoryBinding())),
+                () => _openAdvisoryShortcut(categoryId: 4, categoryLabel: 'advisory.disease'.tr)),
             _item(Icons.pets_outlined, 'advisory.livestock'.tr,
-                () => Get.to(() => const LivestockAdvisoryPage(), binding: LivestockAdvisoryBinding())),
+                () => _openAdvisoryShortcut(categoryId: 2, categoryLabel: 'advisory.livestock'.tr)),
             _item(Icons.set_meal_outlined, 'advisory.aquaculture'.tr,
-                () => Get.to(() => const AquacultureAdvisoryPage(), binding: AquacultureAdvisoryBinding())),
+                () => _openAdvisoryShortcut(categoryId: 3, categoryLabel: 'advisory.aquaculture'.tr)),
             const Divider(),
             _item(Icons.notifications_none, 'common.notifications'.tr,
                 () => Get.to(() => const NotificationPage())),
@@ -70,4 +68,11 @@ class AppDrawer extends StatelessWidget {
           onTap();
         },
       );
+
+  void _openAdvisoryShortcut({required int categoryId, required String categoryLabel}) {
+    Get.to(
+      () => const AdvisoryItemsPage(),
+      binding: AdvisoryItemsBinding(categoryId: categoryId, categoryLabel: categoryLabel),
+    );
+  }
 }

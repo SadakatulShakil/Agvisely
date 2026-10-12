@@ -53,6 +53,12 @@ class ApiEndpoints {
 
   static const String advisoryCategories = '$baseUrlUser/advisory/categories';
 
+  /// `GET /advisory/categories/{categoryId}/items` — the item grid (crops,
+  /// livestock, etc.) shown on an advisory module's "select an item" screen.
+  static String advisoryCategoryItems(int categoryId) =>
+      '$baseUrlUser/advisory/categories/$categoryId/items';
+
+
   // ===================================
   // Notifications
   // ===================================

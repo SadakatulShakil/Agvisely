@@ -7,14 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/app_drawer.dart';
 import '../../../../core/utils/user_avatar.dart';
-import '../../../aquaculture_advisory/domen/binding/aquaculture_advisory_binding.dart';
-import '../../../aquaculture_advisory/presentation/pages/aquaculture_advisory_page.dart';
-import '../../../crop_advisory/domen/binding/crop_advisory_binding.dart';
-import '../../../crop_advisory/presentation/pages/crop_advisory_page.dart';
-import '../../../disease_advisory/domen/binding/disease_advisory_binding.dart';
-import '../../../disease_advisory/presentation/pages/disease_advisory_page.dart';
-import '../../../livestock_advisory/domen/binding/livestock_advisory_binding.dart';
-import '../../../livestock_advisory/presentation/pages/livestock_advisory_page.dart';
+import '../../../advisory_items/domen/binding/advisory_items_binding.dart';
+import '../../../advisory_items/presentation/pages/advisory_items_page.dart';
 import '../../../menu/presentation/pages/menu_page.dart';
 import '../../../pest_advisory/presentation/pages/pest_advisory_page.dart';
 import '../../../profile/domen/controllers/profile_controller.dart';
@@ -22,6 +16,7 @@ import '../../../profile/presentation/pages/profile_page.dart';
 import '../../../weather/domen/binding/seven_day_binding.dart';
 import '../../../weather/presentation/pages/seven_day_page.dart';
 import '../../../weather/presentation/widgets/today_forecast_chart.dart';
+import '../../../../models/advisory_category_model.dart';
 import '../../domen/controllers/home_controller.dart';
 import '../widgets/advisory_card.dart';
 import '../widgets/my_choice_carousel.dart';
@@ -205,7 +200,7 @@ class _HomeDashboard extends StatelessWidget {
                   iconColor: AppColors.primary,
                   title: category.label(isBn),
                   subtitle: category.subtitle(isBn),
-                  onTap: () => _openAdvisoryCategory(category.id),
+                  onTap: () => _openAdvisoryCategory(category, isBn),
                 );
               },
             );
@@ -288,18 +283,13 @@ class _HomeDashboard extends StatelessWidget {
   }
 }
 
-/// Maps an advisory-category id (from `GET /advisory/categories`) to the
-/// page already built for it. Unknown ids (a category added on the backend
-/// before its page ships) are tapped as a no-op rather than crashing.
-void _openAdvisoryCategory(int categoryId) {
-  switch (categoryId) {
-    case 1:
-      Get.to(() => const CropAdvisoryPage(), binding: CropAdvisoryBinding());
-    case 2:
-      Get.to(() => const LivestockAdvisoryPage(), binding: LivestockAdvisoryBinding());
-    case 3:
-      Get.to(() => const AquacultureAdvisoryPage(), binding: AquacultureAdvisoryBinding());
-    case 4:
-      Get.to(() => const DiseaseAdvisoryPage(), binding: DiseaseAdvisoryBinding());
-  }
+
+void _openAdvisoryCategory(AdvisoryCategoryModel category, bool isBn) {
+  Get.to(
+    () => const AdvisoryItemsPage(),
+    binding: AdvisoryItemsBinding(
+      categoryId: category.id,
+      categoryLabel: category.label(isBn),
+    ),
+  );
 }
