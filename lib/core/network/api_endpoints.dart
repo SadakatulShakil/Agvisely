@@ -58,6 +58,11 @@ class ApiEndpoints {
   static String advisoryCategoryItems(int categoryId) =>
       '$baseUrlUser/advisory/categories/$categoryId/items';
 
+  /// `GET /advisory/categories/{categoryId}/items/{itemId}/stages` — the
+  /// stage list (sowing, sprouting, ...) shown after an item is picked.
+  static String advisoryItemStages(int categoryId, int itemId) =>
+      '$baseUrlUser/advisory/categories/$categoryId/items/$itemId/stages';
+
 
   // ===================================
   // Notifications

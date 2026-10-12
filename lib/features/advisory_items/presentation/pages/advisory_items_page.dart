@@ -4,14 +4,10 @@ import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
+import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
 import '../../domen/controllers/advisory_items_controller.dart';
-import 'advisory_item_stage_page.dart';
 
-/// "Select an item for advisory" — item grid fed by
-/// `GET /advisory/categories/{categoryId}/items`. One page, reused by every
-/// advisory category (crop, livestock, aquaculture, disease, ...); which
-/// category it's showing comes entirely from [AdvisoryItemsController].
-/// "Go Next Step" pushes the (placeholder) stage page for the selected item.
 class AdvisoryItemsPage extends StatelessWidget {
   const AdvisoryItemsPage({super.key});
 
@@ -112,47 +108,53 @@ class AdvisoryItemsPage extends StatelessWidget {
                   itemCount: items.length,
                   itemBuilder: (context, i) {
                     final item = items[i];
-                    final isSelected = i == controller.selectedIndex.value;
-                    return GestureDetector(
-                      onTap: () => controller.select(i),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              AppColors.primaryDark.withValues(alpha: 0.0),
-                              AppColors.primaryDark.withValues(alpha: 0.06),
-                              AppColors.primaryDark.withValues(alpha: 0.30),
-                            ],
-                            stops: const [0.0, 0.46, 1.0],
-                          ),
-                          borderRadius: !isSelected
-                              ? BorderRadius.only(
-                                  bottomLeft: Radius.circular(16.r),
-                                  bottomRight: Radius.circular(16.r),
-                                )
-                              : BorderRadius.circular(16.r),
-                          border: isSelected
-                              ? Border.all(color: AppColors.primary, width: 2)
-                              : null,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _ItemIcon(imageUrl: item.imageUrl),
-                            SizedBox(height: 10.h),
-                            Text(
-                              item.label(isBn),
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 13.sp, color: AppColors.navy),
+                    // GridView.builder's itemBuilder runs lazily, outside the
+                    // outer Obx's synchronous build — reading selectedIndex
+                    // out there would never register as a dependency, so
+                    // each tile tracks it with its own Obx instead.
+                    return Obx(() {
+                      final isSelected = i == controller.selectedIndex.value;
+                      return GestureDetector(
+                        onTap: () => controller.select(i),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                AppColors.primaryDark.withValues(alpha: 0.0),
+                                AppColors.primaryDark.withValues(alpha: 0.06),
+                                AppColors.primaryDark.withValues(alpha: 0.30),
+                              ],
+                              stops: const [0.0, 0.46, 1.0],
                             ),
-                          ],
+                            borderRadius: !isSelected
+                                ? BorderRadius.only(
+                                    bottomLeft: Radius.circular(16.r),
+                                    bottomRight: Radius.circular(16.r),
+                                  )
+                                : BorderRadius.circular(16.r),
+                            border: isSelected
+                                ? Border.all(color: AppColors.primary, width: 2)
+                                : null,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _ItemIcon(imageUrl: item.imageUrl),
+                              SizedBox(height: 10.h),
+                              Text(
+                                item.label(isBn),
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 13.sp, color: AppColors.navy),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    });
                   },
                 );
               }),
@@ -171,7 +173,14 @@ class AdvisoryItemsPage extends StatelessWidget {
                     );
                     return;
                   }
-                  Get.to(() => AdvisoryItemStagePage(item: controller.items[index]));
+                  Get.to(
+                    () => const AdvisoryStagesPage(),
+                    binding: AdvisoryStagesBinding(
+                      categoryId: controller.categoryId,
+                      item: controller.items[index],
+                      categoryLabel: controller.categoryLabel,
+                    ),
+                  );
                 },
                 child: Container(
                   width: double.infinity,

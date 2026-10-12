@@ -1,0 +1,52 @@
+import '../../models/advisory_stage_model.dart';
+import '../network/api_client.dart';
+import '../network/api_endpoints.dart';
+import '../network/network_exceptions.dart';
+import 'user_pref_service.dart';
+
+/// Stage list for a picked advisory item — `GET /advisory/categories/
+/// {categoryId}/items/{itemId}/stages`. Always hits the network, same as
+/// [AdvisoryItemsService] — nothing here needs to survive a navigation away.
+class AdvisoryStagesService {
+  AdvisoryStagesService._internal();
+  static final AdvisoryStagesService _instance = AdvisoryStagesService._internal();
+  factory AdvisoryStagesService() => _instance;
+
+  List<AdvisoryStageModel> _normalize(List<AdvisoryStageModel> list) {
+    final active = list.where((s) => s.isActive).toList();
+    active.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+    return active;
+  }
+
+  /// `stages` is non-null (possibly empty) on success. `error` is a
+  /// human-readable message on failure.
+  Future<({List<AdvisoryStageModel>? stages, String? error})> fetch(
+    int categoryId,
+    int itemId,
+  ) async {
+    final token = await UserPrefService().getAccessToken();
+    if (token == null || token.isEmpty) {
+      return (stages: null, error: 'Please log in again.');
+    }
+
+    try {
+      final resp = await ApiClient().get(
+        ApiEndpoints.advisoryItemStages(categoryId, itemId),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+      final data = resp is Map ? resp['data'] : null;
+      if (data is! List) {
+        return (stages: null, error: 'Invalid response format received from the server.');
+      }
+
+      final raw = data
+          .whereType<Map>()
+          .map((e) => AdvisoryStageModel.fromJson(e.cast<String, dynamic>()))
+          .toList();
+
+      return (stages: _normalize(raw), error: null);
+    } catch (e) {
+      return (stages: null, error: NetworkExceptions.getErrorMessage(e));
+    }
+  }
+}
