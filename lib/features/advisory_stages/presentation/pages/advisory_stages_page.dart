@@ -9,7 +9,7 @@ import 'advisory_content_page.dart';
 
 /// "Select a stage for advisory" — per the "Crop advisory" Figma frame:
 /// a header card for the picked item, then a scrollable list of its stages
-/// (thumbnail + name + date range), then a "See The Advisory" CTA. One
+/// (thumbnail + name + description), then a "See The Advisory" CTA. One
 /// page, reused by every advisory category/item.
 class AdvisoryStagesPage extends StatelessWidget {
   const AdvisoryStagesPage({super.key});
@@ -147,28 +147,24 @@ class AdvisoryStagesPage extends StatelessWidget {
                   separatorBuilder: (_, __) => SizedBox(height: 12.h),
                   itemBuilder: (context, i) {
                     final stage = stages[i];
-                    final dateRange = stage.dateRangeLabel(isBn);
-                    // ListView.builder's itemBuilder runs lazily, outside the
-                    // outer Obx's synchronous build — reading selectedIndex
-                    // out there would never register as a dependency, so
-                    // each row tracks it with its own Obx instead.
+                    final description = stage.descriptionLabel(isBn);
                     return Obx(() {
                       final isSelected = i == controller.selectedIndex.value;
                       return GestureDetector(
                         onTap: () => controller.select(i),
                         child: Container(
-                          padding: EdgeInsets.all(10.w),
+                          width: double.infinity,
                           decoration: BoxDecoration(
-                            color: AppColors.cardLight,
-                            borderRadius: BorderRadius.circular(14.r),
+                            color: isSelected ? AppColors.primary.withValues(alpha: 0.06) : Colors.transparent,
+                            borderRadius: BorderRadius.circular(12.r),
                             border: Border.all(
-                              color: isSelected ? AppColors.primary : Colors.transparent,
-                              width: 2,
+                              color: isSelected ? AppColors.primary.withValues(alpha: 0.12) : Colors.transparent,
+                              width: 1.w,
                             ),
                           ),
                           child: Row(
                             children: [
-                              _Thumbnail(imageUrl: stage.imageUrl, size: 52.w),
+                              _Thumbnail(imageUrl: stage.imageUrl, size: 70.w),
                               SizedBox(width: 12.w),
                               Expanded(
                                 child: Column(
@@ -177,18 +173,18 @@ class AdvisoryStagesPage extends StatelessWidget {
                                     Text(
                                       stage.label(isBn),
                                       style: TextStyle(
-                                        fontSize: 15.sp,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.w600,
-                                        color: AppColors.navy,
+                                        color: isSelected ?AppColors.primary : AppColors.navy,
                                       ),
                                     ),
-                                    if (dateRange.isNotEmpty) ...[
+                                    if (description.isNotEmpty) ...[
                                       SizedBox(height: 4.h),
                                       Text(
-                                        dateRange,
+                                        description,
                                         style: TextStyle(
                                           fontSize: 12.sp,
-                                          color: AppColors.textSecondaryLight,
+                                          color: isSelected ?AppColors.primary : AppColors.textSecondaryLight,
                                         ),
                                       ),
                                     ],

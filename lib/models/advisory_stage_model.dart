@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 /// One row of an advisory item's "select a stage for advisory" list, from
 /// `GET /advisory/categories/{categoryId}/items/{itemId}/stages`.
 class AdvisoryStageModel {
@@ -7,9 +5,18 @@ class AdvisoryStageModel {
   final int itemId;
   final String name;
   final String? nameBn;
-  final String? imageUrl; // relative path — resolve via ApiEndpoints.baseUrlUserHost
   final DateTime? startDate;
   final DateTime? endDate;
+  final String? stage;
+  final String? category;
+  final String? icon;
+  final String? imageUrl; // relative path — resolve via ApiEndpoints.baseUrlUserHost
+  final String? description;
+  final String? descriptionBn;
+  final num? minimumThreshold;
+  final num? maximumThreshold;
+  final String? stageAdvisory;
+  final String? stageAdvisoryBn;
   final int sortOrder;
   final bool isActive;
 
@@ -18,9 +25,18 @@ class AdvisoryStageModel {
     required this.itemId,
     required this.name,
     this.nameBn,
-    this.imageUrl,
     this.startDate,
     this.endDate,
+    this.stage,
+    this.category,
+    this.icon,
+    this.imageUrl,
+    this.description,
+    this.descriptionBn,
+    this.minimumThreshold,
+    this.maximumThreshold,
+    this.stageAdvisory,
+    this.stageAdvisoryBn,
     this.sortOrder = 0,
     this.isActive = true,
   });
@@ -30,9 +46,18 @@ class AdvisoryStageModel {
         itemId: j['itemId'] is int ? j['itemId'] as int : 0,
         name: j['name']?.toString() ?? '',
         nameBn: j['nameBn']?.toString(),
-        imageUrl: j['imageUrl']?.toString(),
         startDate: DateTime.tryParse(j['startDate']?.toString() ?? ''),
         endDate: DateTime.tryParse(j['endDate']?.toString() ?? ''),
+        stage: j['stage']?.toString(),
+        category: j['category']?.toString(),
+        icon: j['icon']?.toString(),
+        imageUrl: j['imageUrl']?.toString(),
+        description: j['description']?.toString(),
+        descriptionBn: j['descriptionBn']?.toString(),
+        minimumThreshold: j['minimumThreshold'] as num?,
+        maximumThreshold: j['maximumThreshold'] as num?,
+        stageAdvisory: j['stageAdvisory']?.toString(),
+        stageAdvisoryBn: j['stageAdvisoryBn']?.toString(),
         sortOrder: j['sortOrder'] is int ? j['sortOrder'] as int : 0,
         isActive: j['isActive'] != false,
       );
@@ -40,11 +65,8 @@ class AdvisoryStageModel {
   String label(bool isBn) =>
       isBn && (nameBn != null && nameBn!.isNotEmpty) ? nameBn! : name;
 
-  /// e.g. "01 November-05 December" — empty when either date is missing.
-  String dateRangeLabel(bool isBn) {
-    final s = startDate, e = endDate;
-    if (s == null || e == null) return '';
-    final fmt = DateFormat('dd MMMM', isBn ? 'bn' : 'en');
-    return '${fmt.format(s)}-${fmt.format(e)}';
-  }
+  String descriptionLabel(bool isBn) =>
+      isBn && (descriptionBn != null && descriptionBn!.isNotEmpty)
+          ? descriptionBn!
+          : (description ?? '');
 }
