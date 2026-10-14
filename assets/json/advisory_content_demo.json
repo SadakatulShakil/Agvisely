@@ -1,0 +1,63 @@
+{
+  "message": "Advisory content fetched successfully",
+  "data": {
+    "stageId": 0,
+    "sections": [
+      {
+        "title": "Temperature Related Advisory:",
+        "titleBn": "তাপমাত্রা সংক্রান্ত পরামর্শ:",
+        "bullets": [
+          {
+            "text": "The temperatures are expected to be above 33°C in the coming five days.",
+            "textBn": "আগামী পাঁচ দিনে তাপমাত্রা ৩৩°C-এর বেশি থাকতে পারে।"
+          },
+          {
+            "text": "The temperatures above 33°C during the ripening stage can accelerate the ripening process and affect crop yield.",
+            "textBn": "পাকার পর্যায়ে ৩৩°C-এর বেশি তাপমাত্রা পাকার প্রক্রিয়া দ্রুত করতে পারে এবং ফলনকে প্রভাবিত করতে পারে।"
+          },
+          {
+            "text": "There is nothing to do in this situation. If the Aus rice farmers experience frequent cold temperature during the ripening stage of the crop, they should consider growing recommended heat tolerant varieties.",
+            "textBn": "এই পরিস্থিতিতে করণীয় কিছু নেই। পাকার পর্যায়ে ঘন ঘন ঠান্ডা তাপমাত্রার সম্মুখীন হলে আউশ ধান চাষিদের তাপ সহনশীল জাত চাষের কথা বিবেচনা করা উচিত।"
+          }
+        ]
+      },
+      {
+        "title": "Rainfall Related Advisory:",
+        "titleBn": "বৃষ্টিপাত সংক্রান্ত পরামর্শ:",
+        "bullets": [
+          {
+            "text": "Light (less than 10 mm/d) rainfall is expected in the next five days.",
+            "textBn": "আগামী পাঁচ দিনে হালকা (১০ মিমি/দিনের কম) বৃষ্টিপাত হতে পারে।"
+          },
+          {
+            "text": "Moisture stress during the milk and dough stages of rice can lead to poor grain filling and lower overall yield. It can also result in smaller grains, increased cracking, and reduced quality.",
+            "textBn": "ধানের দুধ ও ডো পর্যায়ে আর্দ্রতার ঘাটতি দানা পূর্ণ হওয়া ব্যাহত করে এবং সামগ্রিক ফলন কমিয়ে দিতে পারে। এর ফলে দানা ছোট হওয়া, ফাটল বৃদ্ধি এবং মান হ্রাস পেতে পারে।"
+          },
+          {
+            "text": "Aus farmers should consider irrigating their fields to maintain at least 5-7 cm of standing water.",
+            "textBn": "আউশ চাষিদের ক্ষেতে কমপক্ষে ৫-৭ সেমি দাঁড়ানো পানি বজায় রাখতে সেচ দেওয়ার কথা বিবেচনা করা উচিত।"
+          }
+        ]
+      }
+    ],
+    "goodPractice": {
+      "title": "Good Agriculture Practice",
+      "titleBn": "উত্তম কৃষি চর্চা",
+      "bullets": [
+        {
+          "text": "Light (less than 10 mm/d) rainfall is expected in the next five days.",
+          "textBn": "আগামী পাঁচ দিনে হালকা (১০ মিমি/দিনের কম) বৃষ্টিপাত হতে পারে।"
+        },
+        {
+          "text": "Moisture stress during the milk and dough stages of rice can lead to poor grain filling and lower overall yield. It can also result in smaller grains, increased cracking, and reduced quality.",
+          "textBn": "ধানের দুধ ও ডো পর্যায়ে আর্দ্রতার ঘাটতি দানা পূর্ণ হওয়া ব্যাহত করে এবং সামগ্রিক ফলন কমিয়ে দিতে পারে। এর ফলে দানা ছোট হওয়া, ফাটল বৃদ্ধি এবং মান হ্রাস পেতে পারে।"
+        },
+        {
+          "text": "Aus farmers should consider irrigating their fields to maintain at least 5-7 cm of standing water.",
+          "textBn": "আউশ চাষিদের ক্ষেতে কমপক্ষে ৫-৭ সেমি দাঁড়ানো পানি বজায় রাখতে সেচ দেওয়ার কথা বিবেচনা করা উচিত।"
+        }
+      ]
+    }
+  },
+  "statusCode": 200
+}

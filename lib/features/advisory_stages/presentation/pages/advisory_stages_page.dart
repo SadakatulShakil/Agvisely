@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../domen/binding/advisory_content_binding.dart';
 import '../../domen/controllers/advisory_stages_controller.dart';
 import 'advisory_content_page.dart';
 
@@ -215,7 +216,10 @@ class AdvisoryStagesPage extends StatelessWidget {
                     return;
                   }
                   Get.to(
-                    () => AdvisoryContentPage(
+                    () => const AdvisoryContentPage(),
+                    binding: AdvisoryContentBinding(
+                      categoryId: controller.categoryId,
+                      categoryLabel: controller.categoryLabel,
                       item: controller.item,
                       stage: controller.stages[index],
                     ),

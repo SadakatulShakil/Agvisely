@@ -98,6 +98,13 @@ class LocalizationString extends Translations {
     'advisory_stages.retry': 'Retry',
     'advisory_stages.empty_for': 'No stages available for @item right now.',
 
+    // ── Advisory content (the stage's full advisory body) ───────────────────
+    'advisory_content.heading': 'Crop Advisory',
+    'advisory_content.retry': 'Retry',
+    'advisory_content.share': 'Share',
+    'advisory_content.download_pdf': 'Download PDF',
+    'advisory_content.error': 'Could not load this advisory.',
+
     // ── Crop names (demo catalog) ──────────────────────────────────────────
     'crop.tomato': 'Tomato',
     'crop.kharif1': 'Kharif 1',
@@ -257,6 +264,13 @@ class LocalizationString extends Translations {
     'advisory_stages.nothing_selected': 'দয়া করে একটি ধাপ নির্বাচন করুন।',
     'advisory_stages.retry': 'আবার চেষ্টা করুন',
     'advisory_stages.empty_for': 'এই মুহূর্তে @item-এর জন্য কোনো ধাপ পাওয়া যায়নি।',
+
+    // ── Advisory content (the stage's full advisory body) ───────────────────
+    'advisory_content.heading': 'ফসল পরামর্শ',
+    'advisory_content.retry': 'আবার চেষ্টা করুন',
+    'advisory_content.share': 'শেয়ার করুন',
+    'advisory_content.download_pdf': 'পিডিএফ ডাউনলোড করুন',
+    'advisory_content.error': 'এই পরামর্শটি লোড করা যায়নি।',
 
     // ── Crop names (demo catalog) ──────────────────────────────────────────
     'crop.tomato': 'টমেটো',
