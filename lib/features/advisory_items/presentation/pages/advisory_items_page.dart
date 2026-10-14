@@ -108,104 +108,51 @@ class AdvisoryItemsPage extends StatelessWidget {
                   itemCount: items.length,
                   itemBuilder: (context, i) {
                     final item = items[i];
-                    // GridView.builder's itemBuilder runs lazily, outside the
-                    // outer Obx's synchronous build — reading selectedIndex
-                    // out there would never register as a dependency, so
-                    // each tile tracks it with its own Obx instead.
-                    return Obx(() {
-                      final isSelected = i == controller.selectedIndex.value;
-                      return GestureDetector(
-                        onTap: () => controller.select(i),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                AppColors.primaryDark.withValues(alpha: 0.0),
-                                AppColors.primaryDark.withValues(alpha: 0.06),
-                                AppColors.primaryDark.withValues(alpha: 0.30),
-                              ],
-                              stops: const [0.0, 0.46, 1.0],
-                            ),
-                            borderRadius: !isSelected
-                                ? BorderRadius.only(
-                                    bottomLeft: Radius.circular(16.r),
-                                    bottomRight: Radius.circular(16.r),
-                                  )
-                                : BorderRadius.circular(16.r),
-                            border: isSelected
-                                ? Border.all(color: AppColors.primary, width: 2)
-                                : null,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _ItemIcon(imageUrl: item.imageUrl),
-                              SizedBox(height: 10.h),
-                              Text(
-                                item.label(isBn),
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 13.sp, color: AppColors.navy),
-                              ),
+                    return GestureDetector(
+                      onTap: () => Get.to(
+                        () => const AdvisoryStagesPage(),
+                        binding: AdvisoryStagesBinding(
+                          categoryId: controller.categoryId,
+                          item: item,
+                          categoryLabel: controller.categoryLabel,
+                        ),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              AppColors.primaryDark.withValues(alpha: 0.0),
+                              AppColors.primaryDark.withValues(alpha: 0.06),
+                              AppColors.primaryDark.withValues(alpha: 0.30),
                             ],
+                            stops: const [0.0, 0.46, 1.0],
+                          ),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(16.r),
+                            bottomRight: Radius.circular(16.r),
                           ),
                         ),
-                      );
-                    });
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _ItemIcon(imageUrl: item.imageUrl),
+                            SizedBox(height: 10.h),
+                            Text(
+                              item.label(isBn),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 13.sp, color: AppColors.navy),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   },
                 );
               }),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
-              child: GestureDetector(
-                onTap: () {
-                  final index = controller.selectedIndex.value;
-                  if (index == -1) {
-                    Get.snackbar(
-                      'Agvisely',
-                      'advisory_items.nothing_selected'.tr,
-                      snackPosition: SnackPosition.BOTTOM,
-                      margin: EdgeInsets.all(12.w),
-                    );
-                    return;
-                  }
-                  Get.to(
-                    () => const AdvisoryStagesPage(),
-                    binding: AdvisoryStagesBinding(
-                      categoryId: controller.categoryId,
-                      item: controller.items[index],
-                      categoryLabel: controller.categoryLabel,
-                    ),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryDark,
-                    borderRadius: BorderRadius.circular(30.r),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'advisory_items.go_next_step'.tr,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(width: 8.w),
-                      Icon(Icons.arrow_forward, color: Colors.white, size: 18.sp),
-                    ],
-                  ),
-                ),
-              ),
             ),
           ],
         ),
@@ -227,8 +174,8 @@ class _ItemIcon extends StatelessWidget {
     if (url == null || url.isEmpty) return fallback;
     return Image.network(
       '${ApiEndpoints.baseUrlUserHost}$url',
-      width: 40.w,
-      height: 40.h,
+      width: 55.w,
+      height: 55.h,
       fit: BoxFit.contain,
       errorBuilder: (context, error, stackTrace) => fallback,
     );

@@ -83,8 +83,6 @@ class LocalizationString extends Translations {
 
     // ── Advisory items (generic item grid, any category) ───────────────────
     'advisory_items.select_item_title': 'Select an item for advisory',
-    'advisory_items.go_next_step': 'Go Next Step',
-    'advisory_items.nothing_selected': 'Please select an item.',
     'advisory_items.retry': 'Retry',
     'advisory_items.empty': 'No items available right now.',
     'advisory_items.empty_for': 'No items available for @category right now.',
@@ -93,8 +91,6 @@ class LocalizationString extends Translations {
     'advisory_stages.select_stage_title': 'Select a stage for advisory',
     'advisory_stages.select_stage_title_for': 'Select a @category stage for advisory',
     'advisory_stages.card_subtitle': 'Select a stage to see relevant advisory',
-    'advisory_stages.see_advisory': 'See The Advisory',
-    'advisory_stages.nothing_selected': 'Please select a stage.',
     'advisory_stages.retry': 'Retry',
     'advisory_stages.empty_for': 'No stages available for @item right now.',
 
@@ -250,8 +246,6 @@ class LocalizationString extends Translations {
 
     // ── Advisory items (generic item grid, any category) ───────────────────
     'advisory_items.select_item_title': 'পরামর্শের জন্য একটি আইটেম নির্বাচন করুন',
-    'advisory_items.go_next_step': 'পরবর্তী পদক্ষেপ',
-    'advisory_items.nothing_selected': 'দয়া করে একটি আইটেম নির্বাচন করুন।',
     'advisory_items.retry': 'আবার চেষ্টা করুন',
     'advisory_items.empty': 'এই মুহূর্তে কোনো আইটেম পাওয়া যায়নি।',
     'advisory_items.empty_for': 'এই মুহূর্তে @category-এর জন্য কোনো আইটেম পাওয়া যায়নি।',
@@ -260,8 +254,6 @@ class LocalizationString extends Translations {
     'advisory_stages.select_stage_title': 'পরামর্শের জন্য একটি ধাপ নির্বাচন করুন',
     'advisory_stages.select_stage_title_for': '@category পরামর্শের জন্য একটি ধাপ নির্বাচন করুন',
     'advisory_stages.card_subtitle': 'প্রাসঙ্গিক পরামর্শ দেখতে একটি ধাপ নির্বাচন করুন',
-    'advisory_stages.see_advisory': 'পরামর্শ দেখুন',
-    'advisory_stages.nothing_selected': 'দয়া করে একটি ধাপ নির্বাচন করুন।',
     'advisory_stages.retry': 'আবার চেষ্টা করুন',
     'advisory_stages.empty_for': 'এই মুহূর্তে @item-এর জন্য কোনো ধাপ পাওয়া যায়নি।',
 

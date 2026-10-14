@@ -17,7 +17,6 @@ class AdvisoryItemsController extends GetxController {
   final isLoading = false.obs;
   final errorMessage = Rxn<String>();
   final items = <AdvisoryItemModel>[].obs;
-  final selectedIndex = (-1).obs;
 
   @override
   void onInit() {
@@ -30,7 +29,6 @@ class AdvisoryItemsController extends GetxController {
   Future<void> loadItems() async {
     isLoading.value = true;
     errorMessage.value = null;
-    selectedIndex.value = -1;
 
     final result = await AdvisoryItemsService().fetch(categoryId);
     if (result.items != null) {
@@ -41,6 +39,4 @@ class AdvisoryItemsController extends GetxController {
     }
     isLoading.value = false;
   }
-
-  void select(int index) => selectedIndex.value = index;
 }

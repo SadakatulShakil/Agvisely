@@ -21,7 +21,6 @@ class AdvisoryStagesController extends GetxController {
   final isLoading = false.obs;
   final errorMessage = Rxn<String>();
   final stages = <AdvisoryStageModel>[].obs;
-  final selectedIndex = (-1).obs;
 
   @override
   void onInit() {
@@ -32,7 +31,6 @@ class AdvisoryStagesController extends GetxController {
   Future<void> loadStages() async {
     isLoading.value = true;
     errorMessage.value = null;
-    selectedIndex.value = -1;
 
     final result = await AdvisoryStagesService().fetch(categoryId, item.id);
     if (result.stages != null) {
@@ -43,6 +41,4 @@ class AdvisoryStagesController extends GetxController {
     }
     isLoading.value = false;
   }
-
-  void select(int index) => selectedIndex.value = index;
 }

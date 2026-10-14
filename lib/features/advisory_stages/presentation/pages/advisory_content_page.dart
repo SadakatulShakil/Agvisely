@@ -18,7 +18,7 @@ import '../../domen/controllers/advisory_content_controller.dart';
 class AdvisoryContentPage extends StatelessWidget {
   const AdvisoryContentPage({super.key});
 
-  static const double _heroHeight = 260;
+  static const double _heroHeight = 340;
   static const double _sheetOverlap = 24;
 
   Future<Uint8List> _buildPdf(
@@ -69,7 +69,7 @@ class AdvisoryContentPage extends StatelessWidget {
                 children: [
                   _Hero(
                     imageUrl:
-                        controller.stage.imageUrl ?? controller.item.imageUrl,
+                        controller.stage.icon ?? controller.item.imageUrl,
                     title: controller.item.label(isBn),
                     subtitle: controller.stage.label(isBn),
                     height: _heroHeight.h,

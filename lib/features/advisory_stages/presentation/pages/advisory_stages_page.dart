@@ -10,8 +10,8 @@ import 'advisory_content_page.dart';
 
 /// "Select a stage for advisory" — per the "Crop advisory" Figma frame:
 /// a header card for the picked item, then a scrollable list of its stages
-/// (thumbnail + name + description), then a "See The Advisory" CTA. One
-/// page, reused by every advisory category/item.
+/// (thumbnail + name + description); tapping a stage goes straight to its
+/// advisory content. One page, reused by every advisory category/item.
 class AdvisoryStagesPage extends StatelessWidget {
   const AdvisoryStagesPage({super.key});
 
@@ -149,106 +149,58 @@ class AdvisoryStagesPage extends StatelessWidget {
                   itemBuilder: (context, i) {
                     final stage = stages[i];
                     final description = stage.descriptionLabel(isBn);
-                    return Obx(() {
-                      final isSelected = i == controller.selectedIndex.value;
-                      return GestureDetector(
-                        onTap: () => controller.select(i),
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: isSelected ? AppColors.primary.withValues(alpha: 0.06) : Colors.transparent,
-                            borderRadius: BorderRadius.circular(12.r),
-                            border: Border.all(
-                              color: isSelected ? AppColors.primary.withValues(alpha: 0.12) : Colors.transparent,
-                              width: 1.w,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              _Thumbnail(imageUrl: stage.imageUrl, size: 70.w),
-                              SizedBox(width: 12.w),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                    return GestureDetector(
+                      onTap: () => Get.to(
+                        () => const AdvisoryContentPage(),
+                        binding: AdvisoryContentBinding(
+                          categoryId: controller.categoryId,
+                          categoryLabel: controller.categoryLabel,
+                          item: controller.item,
+                          stage: stage,
+                        ),
+                      ),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Row(
+                          children: [
+                            _Thumbnail(imageUrl: stage.icon, size: 70.w),
+                            SizedBox(width: 12.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    stage.label(isBn),
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.navy,
+                                    ),
+                                  ),
+                                  if (description.isNotEmpty) ...[
+                                    SizedBox(height: 4.h),
                                     Text(
-                                      stage.label(isBn),
+                                      description,
                                       style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600,
-                                        color: isSelected ?AppColors.primary : AppColors.navy,
+                                        fontSize: 12.sp,
+                                        color: AppColors.textSecondaryLight,
                                       ),
                                     ),
-                                    if (description.isNotEmpty) ...[
-                                      SizedBox(height: 4.h),
-                                      Text(
-                                        description,
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: isSelected ?AppColors.primary : AppColors.textSecondaryLight,
-                                        ),
-                                      ),
-                                    ],
                                   ],
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      );
-                    });
+                      ),
+                    );
                   },
                 );
               }),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
-              child: GestureDetector(
-                onTap: () {
-                  final index = controller.selectedIndex.value;
-                  if (index == -1) {
-                    Get.snackbar(
-                      'Agvisely',
-                      'advisory_stages.nothing_selected'.tr,
-                      snackPosition: SnackPosition.BOTTOM,
-                      margin: EdgeInsets.all(12.w),
-                    );
-                    return;
-                  }
-                  Get.to(
-                    () => const AdvisoryContentPage(),
-                    binding: AdvisoryContentBinding(
-                      categoryId: controller.categoryId,
-                      categoryLabel: controller.categoryLabel,
-                      item: controller.item,
-                      stage: controller.stages[index],
-                    ),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryDark,
-                    borderRadius: BorderRadius.circular(30.r),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'advisory_stages.see_advisory'.tr,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(width: 8.w),
-                      Icon(Icons.arrow_forward, color: Colors.white, size: 18.sp),
-                    ],
-                  ),
-                ),
-              ),
             ),
           ],
         ),
