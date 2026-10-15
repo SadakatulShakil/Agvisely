@@ -101,12 +101,12 @@ class _HomeDashboard extends StatelessWidget {
               Obx(
                 () => UserAvatar(
                   profileUrl: profileC.user.value?.profileUrl,
-                  size: 38.w,
+                  size: 42.w,
                   iconSize: 34.sp,
                   borderRadius: BorderRadius.circular(8.r),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 8),
               Expanded(
                 child: GestureDetector(
                   onTap: c.openSavedLocationsSheet,

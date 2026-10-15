@@ -20,6 +20,9 @@
     <!-- FCM receive permission -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
 
+    <!-- Profile picture upload: take/choose a photo -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
         android:label="Agvisely"
         android:name="${applicationName}"

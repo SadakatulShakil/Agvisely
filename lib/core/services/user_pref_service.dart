@@ -1,8 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:mime/mime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/advisory_category_model.dart';
@@ -180,6 +184,116 @@ class UserPrefService {
       return null;
     }
   }
+
+  /// `PUT /users/me` — every parameter is optional; only the ones passed
+  /// (non-null) are sent, so a caller can change just the name, just the
+  /// profession, or just the language without touching the others. Returns
+  /// the updated [UserModel] (and refreshes the cache) on success. Throws
+  /// (the server's own message, via [ApiClient]) on failure — unlike
+  /// [refreshCurrentUser]'s silent background refresh, this is always a
+  /// direct user action, so the caller should surface the error.
+  Future<UserModel?> updateProfile({
+    String? name,
+    int? professionId,
+    String? preferredLanguage,
+  }) async {
+    final token = await getAccessToken();
+    if (token == null || token.isEmpty) return null;
+
+    final body = <String, dynamic>{
+      if (name != null) 'name': name,
+      if (professionId != null) 'professionId': professionId,
+      if (preferredLanguage != null) 'preferredLanguage': preferredLanguage,
+    };
+    if (body.isEmpty) return null;
+
+    final resp = await ApiClient().put(
+      ApiEndpoints.userMeUrl,
+      body: body,
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    final data = resp is Map ? resp['data'] : null;
+    if (data is! Map) return null;
+    final user = UserModel.fromJson(data.cast<String, dynamic>());
+    await setCachedUser(user);
+    return user;
+  }
+
+  static const int _maxProfilePictureBytes = 2 * 1024 * 1024;
+  static const Set<String> _allowedProfilePictureMimeTypes = {
+    'image/png',
+    'image/jpeg',
+    'image/webp',
+  };
+
+  /// `PUT /users/me/profile-picture` (multipart/form-data, field
+  /// `profilePicture`). Rejects anything that isn't PNG/JPEG/WebP outright;
+  /// if the file is over 2MB it's re-compressed (re-encoded to JPEG) and
+  /// only uploaded if that gets it under the limit. Throws a user-facing
+  /// message (localized via [LocalizationString]) on either failure, or the
+  /// server's own message on a network/HTTP error — this is always a direct
+  /// user action, so the caller should surface whatever is thrown.
+  Future<UserModel?> uploadProfilePicture(File file) async {
+    final originalBytes = await file.readAsBytes();
+    final detectedMimeType = lookupMimeType(file.path, headerBytes: originalBytes);
+    if (detectedMimeType == null || !_allowedProfilePictureMimeTypes.contains(detectedMimeType)) {
+      throw 'profile.picture_unsupported_format'.tr;
+    }
+
+    var bytes = originalBytes;
+    var mimeType = detectedMimeType;
+    if (bytes.lengthInBytes > _maxProfilePictureBytes) {
+      bytes = await _compressProfilePicture(originalBytes);
+      if (bytes.lengthInBytes > _maxProfilePictureBytes) {
+        throw 'profile.picture_too_large'.tr;
+      }
+      mimeType = 'image/jpeg'; // compression always re-encodes to JPEG
+    }
+
+    final token = await getAccessToken();
+    if (token == null || token.isEmpty) return null;
+
+    final resp = await ApiClient().putMultipart(
+      ApiEndpoints.userMeProfilePictureUrl,
+      fieldName: 'profilePicture',
+      bytes: bytes,
+      filename: 'profile${_extensionFor(mimeType)}',
+      mimeType: mimeType,
+    );
+    final data = resp is Map ? resp['data'] : null;
+    if (data is! Map) return null;
+    final user = UserModel.fromJson(data.cast<String, dynamic>());
+    await setCachedUser(user);
+    return user;
+  }
+
+  /// Re-encodes to JPEG at shrinking quality/dimensions (always from the
+  /// original bytes, never cumulatively, so repeated passes don't stack
+  /// lossy artifacts) until the result fits under the 2MB limit or the
+  /// attempts run out.
+  Future<Uint8List> _compressProfilePicture(Uint8List original) async {
+    const qualities = [85, 70, 55, 40, 25];
+    const dimensions = [1920, 1600, 1280, 1024, 800];
+
+    var best = original;
+    for (var i = 0; i < qualities.length; i++) {
+      best = await FlutterImageCompress.compressWithList(
+        original,
+        minWidth: dimensions[i],
+        minHeight: dimensions[i],
+        quality: qualities[i],
+        format: CompressFormat.jpeg,
+      );
+      if (best.lengthInBytes <= _maxProfilePictureBytes) break;
+    }
+    return best;
+  }
+
+  String _extensionFor(String mimeType) => switch (mimeType) {
+        'image/png' => '.png',
+        'image/webp' => '.webp',
+        _ => '.jpg',
+      };
 
   /// Clears everything session-related on logout. Best-effort tells the
   /// server to revoke the refresh token first — if that call fails (no

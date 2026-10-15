@@ -67,6 +67,18 @@ class LocalizationString extends Translations {
     'profile.add_new_location': 'Add New Location',
     'profile.edit_profile': 'Edit profile',
     'profile.logout': 'Logout',
+    'profile.name': 'Name',
+    'profile.profession': 'Profession',
+    'profile.select_profession': 'Select profession',
+    'profile.update_success': 'Profile updated',
+    'profile.update_failed': 'Could not update profile',
+    'profile.change_photo': 'Change photo',
+    'profile.take_photo': 'Take photo',
+    'profile.choose_from_gallery': 'Choose from gallery',
+    'profile.picture_unsupported_format': 'Only PNG, JPEG or WebP images are supported.',
+    'profile.picture_too_large': "Couldn't shrink this image below 2MB — please choose a smaller photo.",
+    'profile.picture_update_failed': 'Could not update profile picture',
+    'profile.picture_update_success': 'Profile picture updated',
 
     // ── Menu ─────────────────────────────────────────────────────────────
     'menu.title': 'Menu items',
@@ -171,6 +183,8 @@ class LocalizationString extends Translations {
     'common.language': 'Language',
     'common.retry': 'Retry',
     'common.no_internet': 'No internet connection',
+    'common.save': 'Save',
+    'common.cancel': 'Cancel',
   };
 
   static const Map<String, String> _bn = {
@@ -230,6 +244,18 @@ class LocalizationString extends Translations {
     'profile.add_new_location': 'নতুন অবস্থান যোগ করুন',
     'profile.edit_profile': 'প্রোফাইল সম্পাদনা করুন',
     'profile.logout': 'লগ আউট',
+    'profile.name': 'নাম',
+    'profile.profession': 'পেশা',
+    'profile.select_profession': 'পেশা নির্বাচন করুন',
+    'profile.update_success': 'প্রোফাইল আপডেট হয়েছে',
+    'profile.update_failed': 'প্রোফাইল আপডেট করা যায়নি',
+    'profile.change_photo': 'ছবি পরিবর্তন করুন',
+    'profile.take_photo': 'ছবি তুলুন',
+    'profile.choose_from_gallery': 'গ্যালারি থেকে নির্বাচন করুন',
+    'profile.picture_unsupported_format': 'শুধুমাত্র PNG, JPEG বা WebP ছবি সমর্থিত।',
+    'profile.picture_too_large': 'ছবিটি ২ এমবি-র নিচে আনা যায়নি — অনুগ্রহ করে ছোট আকারের ছবি নির্বাচন করুন।',
+    'profile.picture_update_failed': 'প্রোফাইল ছবি আপডেট করা যায়নি',
+    'profile.picture_update_success': 'প্রোফাইল ছবি আপডেট হয়েছে',
 
     // ── Menu ─────────────────────────────────────────────────────────────
     'menu.title': 'মেনু আইটেম',
@@ -334,5 +360,7 @@ class LocalizationString extends Translations {
     'common.language': 'ভাষা',
     'common.retry': 'আবার চেষ্টা করুন',
     'common.no_internet': 'ইন্টারনেট সংযোগ নেই',
+    'common.save': 'সংরক্ষণ করুন',
+    'common.cancel': 'বাতিল',
   };
 }

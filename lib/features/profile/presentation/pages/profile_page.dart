@@ -11,6 +11,7 @@ import '../../../settings/domen/controllers/settings_controller.dart';
 import '../../../home/domen/controllers/home_controller.dart';
 import '../../domen/controllers/profile_controller.dart';
 import '../widgets/favorite_locations_card.dart';
+import 'edit_profile_page.dart';
 
 /// Profile screen — matches the Figma "Profile" frame. Name comes from the
 /// cached/live user profile ([ProfileController]); avatar/role are still
@@ -36,9 +37,9 @@ class ProfilePage extends StatelessWidget {
               () => Center(
                 child: UserAvatar(
                   profileUrl: c.user.value?.profileUrl,
-                  size: 96.w,
-                  iconSize: 56.sp,
-                  border: Border.all(color: Colors.white, width: 3),
+                  size: 140.w,
+                  iconSize: 120.sp,
+                  border: Border.all(color: Colors.white, width: 0),
                 ),
               ),
             ),
@@ -67,14 +68,22 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: 24.h),
             const FavoriteLocationsCard(),
             SizedBox(height: 8.h),
-            _MenuRow(label: 'profile.edit_profile'.tr, onTap: () {}),
+            _MenuRow(label: 'profile.edit_profile'.tr, onTap: () => Get.to(() => const EditProfilePage())),
             Divider(color: AppColors.dividerLight),
             _MenuRow(label: 'home.my_choice'.tr, onTap: () {}),
             Divider(color: AppColors.dividerLight),
             InkWell(
               // Whole row toggles the language — not just the small pill —
               // so the tap target isn't limited to the pill's tight bounds.
-              onTap: () => settings.setLanguage(settings.language.value == 'bn' ? 'en' : 'bn'),
+              onTap: () {
+                final code = settings.language.value == 'bn' ? 'en' : 'bn';
+                settings.setLanguage(code);
+                // Best-effort: persists the choice to the account so it
+                // follows the user across devices/sessions. A failure here
+                // (offline, logged out) shouldn't block the local toggle,
+                // which already applied above.
+                UserPrefService().updateProfile(preferredLanguage: code).catchError((_) => null);
+              },
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 14.h),
                 child: Row(

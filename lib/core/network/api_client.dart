@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:get/get.dart';
 import '../../features/auth/auth/presentation/pages/login_page.dart';
 import '../services/user_pref_service.dart';
@@ -40,6 +41,67 @@ class ApiClient {
   Future<dynamic> post(String url, {dynamic body, Map<String, String>? headers}) =>
       _send('POST', url, body: body, headers: headers);
 
+  Future<dynamic> put(String url, {dynamic body, Map<String, String>? headers}) =>
+      _send('PUT', url, body: body, headers: headers);
+
+  /// `PUT` with a single file field, multipart/form-data — used for the
+  /// profile-picture upload. Doesn't go through [_send] (JSON-only) but
+  /// mirrors its 401-refresh-and-retry and response handling.
+  Future<dynamic> putMultipart(
+    String url, {
+    required String fieldName,
+    required List<int> bytes,
+    required String filename,
+    required String mimeType,
+    bool isRetry = false,
+  }) async {
+    try {
+      final uri = Uri.parse(url);
+      final token = await UserPrefService().getAccessToken();
+      final request = http.MultipartRequest('PUT', uri)
+        ..headers['Accept'] = 'application/json'
+        ..headers['Accept-Language'] = Get.locale?.languageCode ?? 'bn'
+        ..files.add(http.MultipartFile.fromBytes(
+          fieldName,
+          bytes,
+          filename: filename,
+          contentType: MediaType.parse(mimeType),
+        ));
+      if (token != null && token.isNotEmpty) {
+        request.headers['Authorization'] = 'Bearer $token';
+      }
+
+      _logRequest('PUT', url, request.headers, body: '<$filename, ${bytes.length}B>');
+
+      final streamed = await _client.send(request).timeout(_timeout);
+      final response = await http.Response.fromStream(streamed);
+
+      _logResponse(url, response.statusCode, response.body);
+
+      if (response.statusCode == 401 && request.headers.containsKey('Authorization')) {
+        if (!isRetry) {
+          final newToken = await _refreshAccessToken();
+          if (newToken != null) {
+            return putMultipart(
+              url,
+              fieldName: fieldName,
+              bytes: bytes,
+              filename: filename,
+              mimeType: mimeType,
+              isRetry: true,
+            );
+          }
+        }
+        await _forceLogout();
+      }
+
+      return await _processResponse(response);
+    } catch (e) {
+      _logError(url, e);
+      throw NetworkExceptions.getErrorMessage(e);
+    }
+  }
+
   Future<dynamic> _send(
     String method,
     String url, {
@@ -53,11 +115,15 @@ class ApiClient {
 
       _logRequest(method, url, finalHeaders, body: body);
 
-      final response = method == 'GET'
-          ? await _client.get(uri, headers: finalHeaders).timeout(_timeout)
-          : await _client
-              .post(uri, headers: finalHeaders, body: jsonEncode(body))
-              .timeout(_timeout);
+      final response = switch (method) {
+        'GET' => await _client.get(uri, headers: finalHeaders).timeout(_timeout),
+        'PUT' => await _client
+            .put(uri, headers: finalHeaders, body: jsonEncode(body))
+            .timeout(_timeout),
+        _ => await _client
+            .post(uri, headers: finalHeaders, body: jsonEncode(body))
+            .timeout(_timeout),
+      };
 
       _logResponse(url, response.statusCode, response.body);
 

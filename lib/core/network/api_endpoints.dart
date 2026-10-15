@@ -34,12 +34,13 @@ class ApiEndpoints {
   //   Android emulator → http://10.0.2.2:3000/api/v1
   //   physical device  → http://<machine-LAN-IP>:3000/api/v1
   // ===================================
-  static const String baseUrlUser = 'http://192.168.68.59:3000/api/v1';
+  static const String baseUrlUser = 'http://192.168.68.55:3000/api/v1';
   static const String professions = '$baseUrlUser/professions';
   static const String signupUrl = '$baseUrlUser/users/signup';
   static const String loginUrl = '$baseUrlUser/users/login';
   static const String verifyOtpUrl = '$baseUrlUser/users/verify-otp';
   static const String userMeUrl = '$baseUrlUser/users/me';
+  static const String userMeProfilePictureUrl = '$baseUrlUser/users/me/profile-picture';
   static const String refreshTokenUrl = '$baseUrlUser/users/refresh-token';
   static const String logoutUrl = '$baseUrlUser/users/logout';
 
