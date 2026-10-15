@@ -1,8 +1,3 @@
-/// Maps BMD weather-icon filenames (as returned by the API's `icon` field,
-/// e.g. "ic_mostly_cloudy_d.png") to the matching bundled asset, so the app
-/// can render from assets/icons/weather_icons instead of hitting the
-/// network. Filenames not in [_bundled] (e.g. a new icon BMD adds later)
-/// fall back to the network image.
 class WeatherIconAssets {
   WeatherIconAssets._();
 

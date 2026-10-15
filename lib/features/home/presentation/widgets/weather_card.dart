@@ -231,10 +231,7 @@ class WeatherCard extends StatelessWidget {
       TextStyle(fontSize: 14.sp, color: AppColors.textPrimaryLight);
 
   /// Live icon overrides the forecast's; BMD's own condition icon when
-  /// available, falling back to a keyword-based local icon if neither the
-  /// API sent one nor the image fails to load. Icons BMD ships that we've
-  /// bundled locally (assets/icons/weather_icons) render from assets;
-  /// anything else falls back to the network URL.
+
   Widget _conditionImage(CurrentWeatherModel w) {
     final resolvedCondition = liveType.isNotEmpty ? liveType : w.condition;
     final fallback = Icon(_conditionIcon(resolvedCondition), color: AppColors.primary, size: 26.sp);

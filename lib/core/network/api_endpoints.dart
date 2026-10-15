@@ -50,6 +50,10 @@ class ApiEndpoints {
   static String get baseUrlUserHost =>
       baseUrlUser.replaceFirst(RegExp(r'/api/v\d+$'), '');
 
+  /// `GET /weather/current?lat=&lon=` — our own backend's authenticated
+  static String weatherCurrent(String lat, String lon) =>
+      '$baseUrlUser/weather/current?lat=$lat&lon=$lon';
+
   static const String advisoryCategories = '$baseUrlUser/advisory/categories';
 
   /// `GET /advisory/categories/{categoryId}/items` — the item grid (crops,

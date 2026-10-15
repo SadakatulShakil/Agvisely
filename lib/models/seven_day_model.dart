@@ -44,13 +44,29 @@ class ForecastUnits {
     required this.sunshine,
   });
 
-  factory ForecastUnits.fromJson(Map<String, dynamic> j) => ForecastUnits(
-        temp: j['temp_unit']?.toString() ?? '°C',
-        rf: j['rf_unit']?.toString() ?? 'mm',
-        windspd: j['windspd_unit']?.toString() ?? 'km/h',
-        soilmoist: j['soilmoist_unit']?.toString() ?? '%',
-        sunshine: j['sunshine_unit']?.toString() ?? 'hrs',
+  /// The live API always returns bn-flavored unit strings regardless of
+  /// locale (confirmed against `/api/v1/weather/current`) — so for English,
+  /// these are fixed rather than read off the response. A no-op for the bn
+  /// response (and for forecast_demo_en.json, which already stores these
+  /// exact strings).
+  factory ForecastUnits.fromJson(Map<String, dynamic> j, {bool isBn = true}) {
+    if (!isBn) {
+      return const ForecastUnits(
+        temp: '°C',
+        rf: 'mm',
+        windspd: 'km/h',
+        soilmoist: '%',
+        sunshine: 'hrs',
       );
+    }
+    return ForecastUnits(
+      temp: j['temp_unit']?.toString() ?? '°C',
+      rf: j['rf_unit']?.toString() ?? 'mm',
+      windspd: j['windspd_unit']?.toString() ?? 'km/h',
+      soilmoist: j['soilmoist_unit']?.toString() ?? '%',
+      sunshine: j['sunshine_unit']?.toString() ?? 'hrs',
+    );
+  }
 }
 
 /// One 3-hourly point for the per-day chart.
@@ -116,16 +132,27 @@ class DayForecast {
   factory DayForecast.fromJson(
     Map<String, dynamic> j, {
     required List<ForecastChartPoint> chart,
+    bool? isBn,
   }) {
+    final bn = isBn ?? (Get.locale?.languageCode == 'bn');
     final typenew = j['typenew'] as Map<String, dynamic>?;
     final temp = j['temp'] as Map<String, dynamic>?;
+    // The live API always sends bn condition text in `type` (and the en one
+    // in `typen`) regardless of locale — pick whichever matches, falling
+    // back to the other if one's missing. A no-op for forecast_demo_*.json,
+    // where `type` already matches the file's own language.
+    final bnCondition = j['type']?.toString();
+    final enCondition = j['typen']?.toString();
+    final condition = bn
+        ? (bnCondition?.isNotEmpty == true ? bnCondition : enCondition)
+        : (enCondition?.isNotEmpty == true ? enCondition : bnCondition);
     return DayForecast(
       date: j['date']?.toString() ?? '',
       weekday: j['weekday']?.toString() ?? '',
       dayStart: DateTime.parse(j['step_start'] as String),
       icon: j['icon']?.toString() ?? '',
       typenewIcon: typenew?['icon']?.toString(),
-      condition: j['type']?.toString() ?? '',
+      condition: condition ?? '',
       tempHigh: numOf(temp?['val_max']),
       tempLow: numOf(temp?['val_min']),
       feels: numOf(j['feels']),
@@ -138,7 +165,7 @@ class DayForecast {
           numOf((j['soil_moisture'] as Map<String, dynamic>?)?['val_avg']),
       sunshineHours: numOf(j['sunshine_hours']),
       thi: numOf(j['thi']),
-      units: ForecastUnits.fromJson(j),
+      units: ForecastUnits.fromJson(j, isBn: bn),
       chart: chart,
     );
   }
@@ -153,8 +180,7 @@ class DayForecast {
   /// typenew's icon is the more specific condition artwork (e.g. "partly
   /// cloudy WITH light rain" vs just "partly cloudy") — prefer it when
   /// present.
-  String get displayIcon =>
-      (typenewIcon != null && typenewIcon!.isNotEmpty) ? typenewIcon! : icon;
+  String get displayIcon => icon;
 
   // ── Display (locale-aware digit formatting) ─────────────────────────────
 
@@ -165,8 +191,8 @@ class DayForecast {
     return _bn ? toBanglaDigits(ascii) : ascii;
   }
 
-  String get tempHighText => _num(tempHigh);
-  String get tempLowText => _num(tempLow);
+  String get tempHighText => '${_num(tempHigh)}${units.temp}';
+  String get tempLowText => '${_num(tempLow)}${units.temp}';
   String get feelsLikeText => '${_num(feels)}${units.temp}';
   String get rainfallText => '${_num(rf.valMin)}-${_num(rf.valMax)} ${units.rf}';
   String get cloudCoverText => '${_num(cldcvr.valAvg)}%';

@@ -41,9 +41,6 @@ class SevenDayPage extends StatelessWidget {
                 separatorBuilder: (_, __) => SizedBox(height: 12.h),
                 itemBuilder: (context, index) {
                   final day = controller.days[index];
-                  // Own Obx per card — reading expandedDate.value inside
-                  // ListView's itemBuilder happens outside the outer Obx's
-                  // build call, so it wouldn't be tracked there.
                   return Obx(
                     () => SevenDayCard(
                       day: day,

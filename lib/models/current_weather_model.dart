@@ -80,7 +80,10 @@ class CurrentWeatherModel {
   /// Returns null when there's no usable current-conditions data at all —
   /// callers should treat that as "unavailable", not render zeros.
   static CurrentWeatherModel? fromJson(Map<String, dynamic>? json) {
-    final result = json?['result'] as Map<String, dynamic>?;
+    // `result` is the BMD-direct/demo-JSON envelope key; `data` is our own
+    // backend's `/api/v1/weather/current` (same inner shape, confirmed live).
+    final result =
+        (json?['result'] ?? json?['data']) as Map<String, dynamic>?;
     final current = result?['current'] as Map<String, dynamic>?;
     if (current == null || current.isEmpty) return null;
 
@@ -96,6 +99,17 @@ class CurrentWeatherModel {
     final windspd = _range(current, 'windspd');
     final winddir = _range(current, 'winddir');
 
+    // Our own backend's endpoint always sends bn condition text/units
+    // regardless of locale (confirmed live) — `typen` carries the en
+    // condition text alongside bn's `type`. No-op against BMD-direct/demo
+    // JSON, which already match the active locale.
+    final bn = Get.locale?.languageCode == 'bn';
+    final bnCondition = current['type'] as String?;
+    final enCondition = current['typen'] as String?;
+    final condition = bn
+        ? (bnCondition?.isNotEmpty == true ? bnCondition : enCondition)
+        : (enCondition?.isNotEmpty == true ? enCondition : bnCondition);
+
     return CurrentWeatherModel(
       tempNow: _numOf(currentTemp?['val_avg']),
       tempHigh: _numOf(dailyTemp?['val_max']),
@@ -105,11 +119,11 @@ class CurrentWeatherModel {
       pressureHpa: _numOf(current['pressure']),
       windSpeedKmh: _numOf(windspd?['val_avg']),
       windDirDeg: _numOf(winddir?['val_avg']),
-      condition: (current['type'] as String?) ?? '',
+      condition: condition ?? '',
       conditionShort: (current['capabbr'] as String?) ?? '',
-      tempUnit: (current['temp_unit'] as String?) ?? '°C',
-      rfUnit: (current['rf_unit'] as String?) ?? 'mm',
-      windspdUnit: (current['windspd_unit'] as String?) ?? 'km/h',
+      tempUnit: bn ? ((current['temp_unit'] as String?) ?? '°C') : '°C',
+      rfUnit: bn ? ((current['rf_unit'] as String?) ?? 'mm') : 'mm',
+      windspdUnit: bn ? ((current['windspd_unit'] as String?) ?? 'km/h') : 'km/h',
       icon: (current['icon'] as String?) ?? '',
     );
   }

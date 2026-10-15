@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/weather_icon_assets.dart';
 import '../../../../models/seven_day_model.dart';
 import 'today_forecast_chart.dart';
 
@@ -166,7 +167,7 @@ class _Header extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -201,11 +202,35 @@ class _ConditionIcon extends StatelessWidget {
     final fallback = Icon(Icons.cloud, size: 28.sp, color: AppColors.primary);
     if (iconFile.isEmpty) return fallback;
 
+    final assetPath = WeatherIconAssets.assetPath(iconFile);
+    if (assetPath != null) {
+      return Image.asset(
+        assetPath,
+        width: 35.w,
+        height: 35.w,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) => fallback,
+      );
+    }
     return Image.network(
-      '${ApiEndpoints.baseUrlWeatherIcon}/$iconFile',
-      width: 32.w,
-      height: 32.w,
+      '${ApiEndpoints.baseUrlWeatherIcon}/$key',
+      width: 35.w,
+      height: 35.w,
       fit: BoxFit.contain,
+      loadingBuilder: (context, child, progress) {
+        if (progress == null) return child;
+        return SizedBox(
+          width: 35.w,
+          height: 56.w,
+          child: Center(
+            child: SizedBox(
+              width: 35.w,
+              height: 35.w,
+              child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+            ),
+          ),
+        );
+      },
       errorBuilder: (context, error, stackTrace) => fallback,
     );
   }
