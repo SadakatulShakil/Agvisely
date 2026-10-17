@@ -459,8 +459,20 @@ class _GoodPracticeCard extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.cardMint,
-        borderRadius: BorderRadius.circular(16.r),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            AppColors.primaryDark.withValues(alpha: 0.30),
+            AppColors.primaryDark.withValues(alpha: 0.08),
+            AppColors.primaryDark.withValues(alpha: 0.0),
+          ],
+          stops: const [0.0, 0.50, 1.0],   // ascending
+        ),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.r),
+          topRight: Radius.circular(16.r),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

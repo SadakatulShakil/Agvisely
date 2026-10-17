@@ -7,10 +7,12 @@ import 'package:get/get.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/services/advisory_categories_service.dart';
 import '../../../../core/services/location_service.dart';
+import '../../../../core/services/user_choices_service.dart';
 import '../../../../core/services/user_pref_service.dart';
 import '../../../../models/advisory_category_model.dart';
 import '../../../../models/current_weather_model.dart';
 import '../../../../models/seven_day_model.dart';
+import '../../../../models/user_choice_model.dart';
 import '../../../location/data/location_repository.dart';
 import '../../../weather/data/seven_day_repository.dart';
 import '../../../weather/data/weather_repository.dart';
@@ -30,6 +32,8 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   final _weatherRepository = WeatherRepository();
 
   final advisoryCategories = <AdvisoryCategoryModel>[].obs;
+
+  final myChoices = <UserChoiceModel>[].obs;
 
   final todayChart = <ForecastChartPoint>[].obs;
   final todayChartRainUnit = 'mm'.obs;
@@ -65,7 +69,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     loadWeather();
     loadAdvisoryCategories();
     loadTodayChart();
-    // TODO: fetch "My Choice" payload
+    loadMyChoices();
   }
 
   @override
@@ -112,6 +116,15 @@ class HomeController extends GetxController with WidgetsBindingObserver {
 
     final fresh = await AdvisoryCategoriesService().fetch();
     if (fresh != null) advisoryCategories.assignAll(fresh);
+  }
+
+  /// The dashboard's "My Choice" carousel — `GET /user-choices`. Fails
+  /// silently (leaves [myChoices] as-is) so a flaky network just shows the
+  /// last-known list, or the empty-state prompt on a cold start, rather
+  /// than an error banner on the dashboard.
+  Future<void> loadMyChoices() async {
+    final result = await UserChoicesService().fetch();
+    if (result.choices != null) myChoices.assignAll(result.choices!);
   }
 
   /// Today's 3-hourly chart for the dashboard's forecast preview — same
@@ -175,6 +188,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   Future<void> refreshAll() async {
     refreshLocationName();
     await loadWeather();
+    loadMyChoices();
     // TODO: advisory summaries once that endpoint exists
   }
 

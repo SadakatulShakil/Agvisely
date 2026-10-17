@@ -2,30 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
-
-/// One item in the "My Choice" horizontal carousel.
-class MyChoiceItem {
-  const MyChoiceItem({required this.icon, required this.label});
-
-  /// PNG asset path — these Figma exports are a shape with a raster
-  /// "image fill" wrapped in an SVG `<pattern>`, which flutter_svg's
-  /// renderer doesn't support (renders blank). Use the real PNG instead.
-  final String icon;
-  final String label;
-}
+import '../../../../models/user_choice_model.dart';
 
 /// Header ("My Choice" + "See all") + horizontally-scrollable carousel of
-/// the farmer's chosen crops/livestock. Demo data for now — swap [items]
-/// for the real "My Choice" payload once that endpoint exists.
+/// the farmer's saved picks from `GET /user-choices`. When [items] is
+/// empty, shows a prompt to go pick some from the My Choice page instead
+/// (tapping it fires [onSeeAll], same destination as the "See all" pill).
 class MyChoiceCarousel extends StatelessWidget {
   const MyChoiceCarousel({super.key, required this.items, this.onSeeAll});
 
-  final List<MyChoiceItem> items;
+  final List<UserChoiceModel> items;
   final VoidCallback? onSeeAll;
 
   @override
   Widget build(BuildContext context) {
+    final isBn = Get.locale?.languageCode == 'bn';
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
@@ -70,25 +63,63 @@ class MyChoiceCarousel extends StatelessWidget {
             ],
           ),
           SizedBox(height: 14.h),
-          SizedBox(
-            height: 130.h,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: items.length,
-              separatorBuilder: (_, __) => SizedBox(width: 12.w),
-              itemBuilder: (context, i) => _MyChoiceTile(item: items[i]),
+          if (items.isEmpty)
+            _EmptyMyChoice(onTap: onSeeAll)
+          else
+            SizedBox(
+              height: 130.h,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: items.length,
+                separatorBuilder: (_, __) => SizedBox(width: 12.w),
+                itemBuilder: (context, i) => _MyChoiceTile(choice: items[i], isBn: isBn),
+              ),
             ),
-          ),
         ],
       ),
     );
   }
 }
 
-class _MyChoiceTile extends StatelessWidget {
-  const _MyChoiceTile({required this.item});
+/// Shown instead of the carousel when the farmer hasn't picked anything yet
+/// — nudges them to go add one from the My Choice page.
+class _EmptyMyChoice extends StatelessWidget {
+  const _EmptyMyChoice({this.onTap});
 
-  final MyChoiceItem item;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 12.w),
+        decoration: BoxDecoration(
+          color: AppColors.cardMint,
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        child: Column(
+          children: [
+            Icon(Icons.add_circle_outline, size: 28.sp, color: AppColors.primaryDark),
+            SizedBox(height: 8.h),
+            Text(
+              'my_choice.empty_home'.tr,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 13.sp, color: AppColors.textSecondaryLight),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MyChoiceTile extends StatelessWidget {
+  const _MyChoiceTile({required this.choice, required this.isBn});
+
+  final UserChoiceModel choice;
+  final bool isBn;
 
   @override
   Widget build(BuildContext context) {
@@ -102,14 +133,10 @@ class _MyChoiceTile extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            item.icon,
-            width: 48.w,
-            height: 48.h,
-          ),
+          _MyChoiceIcon(imageUrl: choice.itemImageUrl),
           SizedBox(height: 12.h),
           Text(
-            item.label,
+            choice.itemLabel(isBn),
             textAlign: TextAlign.center,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -121,6 +148,26 @@ class _MyChoiceTile extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _MyChoiceIcon extends StatelessWidget {
+  const _MyChoiceIcon({required this.imageUrl});
+
+  final String? imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    final fallback = Icon(Icons.eco, size: 36.sp, color: AppColors.primary);
+    final url = imageUrl;
+    if (url == null || url.isEmpty) return fallback;
+    return Image.network(
+      '${ApiEndpoints.baseUrlUserHost}$url',
+      width: 48.w,
+      height: 48.h,
+      fit: BoxFit.contain,
+      errorBuilder: (context, error, stackTrace) => fallback,
     );
   }
 }

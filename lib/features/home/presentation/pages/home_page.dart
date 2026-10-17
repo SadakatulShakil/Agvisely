@@ -10,6 +10,8 @@ import '../../../../core/utils/user_avatar.dart';
 import '../../../advisory_items/domen/binding/advisory_items_binding.dart';
 import '../../../advisory_items/presentation/pages/advisory_items_page.dart';
 import '../../../menu/presentation/pages/menu_page.dart';
+import '../../../my_choice/domen/binding/my_choice_binding.dart';
+import '../../../my_choice/presentation/pages/my_choice_page.dart';
 import '../../../pest_advisory/presentation/pages/pest_advisory_page.dart';
 import '../../../profile/domen/controllers/profile_controller.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
@@ -269,13 +271,11 @@ class _HomeDashboard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 12.h),
-          // "My Choice" payload once that endpoint exists.
-          MyChoiceCarousel(
-            items: [
-              MyChoiceItem(icon: 'assets/icons/my_choice/boro_rice.png', label: 'my_choice.boro_rice'.tr),
-              MyChoiceItem(icon: 'assets/icons/my_choice/chicken.png', label: 'my_choice.chicken'.tr),
-              MyChoiceItem(icon: 'assets/icons/my_choice/wheat.png', label: 'my_choice.wheat'.tr),
-            ],
+          Obx(
+            () => MyChoiceCarousel(
+              items: c.myChoices.toList(),
+              onSeeAll: () => Get.to(() => const MyChoicePage(), binding: MyChoiceBinding()),
+            ),
           ),
         ],
       ),

@@ -34,7 +34,7 @@ class ApiEndpoints {
   //   Android emulator → http://10.0.2.2:3000/api/v1
   //   physical device  → http://<machine-LAN-IP>:3000/api/v1
   // ===================================
-  static const String baseUrlUser = 'http://192.168.68.55:3000/api/v1';
+  static const String baseUrlUser = 'http://192.168.68.60:3000/api/v1';
   static const String professions = '$baseUrlUser/professions';
   static const String signupUrl = '$baseUrlUser/users/signup';
   static const String loginUrl = '$baseUrlUser/users/login';
@@ -66,6 +66,15 @@ class ApiEndpoints {
   static String advisoryItemStages(int categoryId, int itemId) =>
       '$baseUrlUser/advisory/categories/$categoryId/items/$itemId/stages';
 
+  /// `GET /user-choices` — the logged-in user's saved "My Choice" picks.
+  /// `POST /user-choices` with `{categoryId, itemId}` — add one (confirmed
+  /// live: the backend upserts by categoryId+itemId, so re-adding the same
+  /// pair is safe, not an error).
+  static const String userChoices = '$baseUrlUser/user-choices';
+
+  /// `DELETE /user-choices/{id}` — removes one by the choice's own `id`
+  /// (not categoryId/itemId).
+  static String userChoice(int id) => '$baseUrlUser/user-choices/$id';
 
   // ===================================
   // Notifications
@@ -81,5 +90,4 @@ class ApiEndpoints {
   static const String pestAdvisory = '$baseApiUrl/advisory/pest';
   static const String livestockAdvisory = '$baseApiUrl/advisory/livestock';
   static const String aquacultureAdvisory = '$baseApiUrl/advisory/aquaculture';
-  static const String myChoice = '$baseApiUrl/user/mychoice';
 }

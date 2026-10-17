@@ -44,6 +44,9 @@ class ApiClient {
   Future<dynamic> put(String url, {dynamic body, Map<String, String>? headers}) =>
       _send('PUT', url, body: body, headers: headers);
 
+  Future<dynamic> delete(String url, {dynamic body, Map<String, String>? headers}) =>
+      _send('DELETE', url, body: body, headers: headers);
+
   /// `PUT` with a single file field, multipart/form-data — used for the
   /// profile-picture upload. Doesn't go through [_send] (JSON-only) but
   /// mirrors its 401-refresh-and-retry and response handling.
@@ -119,6 +122,9 @@ class ApiClient {
         'GET' => await _client.get(uri, headers: finalHeaders).timeout(_timeout),
         'PUT' => await _client
             .put(uri, headers: finalHeaders, body: jsonEncode(body))
+            .timeout(_timeout),
+        'DELETE' => await _client
+            .delete(uri, headers: finalHeaders, body: body == null ? null : jsonEncode(body))
             .timeout(_timeout),
         _ => await _client
             .post(uri, headers: finalHeaders, body: jsonEncode(body))

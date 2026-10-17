@@ -9,6 +9,8 @@ import '../../../auth/auth/presentation/pages/login_page.dart';
 import '../../../auth/auth/presentation/widgets/auth_widgets.dart';
 import '../../../settings/domen/controllers/settings_controller.dart';
 import '../../../home/domen/controllers/home_controller.dart';
+import '../../../my_choice/domen/binding/my_choice_binding.dart';
+import '../../../my_choice/presentation/pages/my_choice_page.dart';
 import '../../domen/controllers/profile_controller.dart';
 import '../widgets/favorite_locations_card.dart';
 import 'edit_profile_page.dart';
@@ -16,8 +18,7 @@ import 'edit_profile_page.dart';
 /// Profile screen — matches the Figma "Profile" frame. Name comes from the
 /// cached/live user profile ([ProfileController]); avatar/role are still
 /// static. Favorite Locations is real (same saved-locations list as the
-/// home page); Language is wired to [SettingsController]; Edit profile /
-/// My Choice have no destination page yet, so their taps are no-ops.
+/// home page); Language is wired to [SettingsController].
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -70,7 +71,10 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: 8.h),
             _MenuRow(label: 'profile.edit_profile'.tr, onTap: () => Get.to(() => const EditProfilePage())),
             Divider(color: AppColors.dividerLight),
-            _MenuRow(label: 'home.my_choice'.tr, onTap: () {}),
+            _MenuRow(
+              label: 'home.my_choice'.tr,
+              onTap: () => Get.to(() => const MyChoicePage(), binding: MyChoiceBinding()),
+            ),
             Divider(color: AppColors.dividerLight),
             InkWell(
               // Whole row toggles the language — not just the small pill —

@@ -57,10 +57,23 @@ class LocalizationString extends Translations {
     'weather.temperature': 'Temperature',
     'weather.today': 'Today',
 
-    // ── My choice feature titles ──────────────────────────────────────────
-    'my_choice.boro_rice': 'Boro Rice',
-    'my_choice.chicken': 'Chicken',
-    'my_choice.wheat': 'Wheat',
+    // ── My choice page ───────────────────────────────────────────────────
+    'my_choice.empty_home': "You haven't picked anything yet — select it from your profile.",
+    'my_choice.add_new': 'Add new',
+    'my_choice.add_new_title': 'Add New',
+    'my_choice.add_new_subtitle': 'Give info to add a new item',
+    'my_choice.category': 'Category',
+    'my_choice.select_category': 'Select category',
+    'my_choice.item': 'Item',
+    'my_choice.select_item': 'Select item',
+    'my_choice.select_category_first': 'Select a category first',
+    'my_choice.add_button': 'Add New',
+    'my_choice.add_success': 'Added to My Choice',
+    'my_choice.add_failed': 'Could not add',
+    'my_choice.remove': 'Remove',
+    'my_choice.remove_confirm': 'Remove @item from My Choice?',
+    'my_choice.remove_failed': 'Could not remove',
+    'my_choice.pick_both': 'Please select both a category and an item.',
 
     // ── Profile ──────────────────────────────────────────────────────────
     'profile.favorite_locations': 'Favorite Locations',
@@ -234,10 +247,23 @@ class LocalizationString extends Translations {
     'weather.temperature': 'তাপমাত্রা',
     'weather.today': 'আজ',
 
-    // ── My choice feature titles ──────────────────────────────────────────
-    'my_choice.boro_rice': 'বোরো ধান',
-    'my_choice.chicken': 'মুরগি',
-    'my_choice.wheat': 'গম',
+    // ── My choice page ───────────────────────────────────────────────────
+    'my_choice.empty_home': 'আপনি এখনো কিছু নির্বাচন করেননি — আপনার প্রোফাইল থেকে নির্বাচন করুন।',
+    'my_choice.add_new': 'নতুন যোগ',
+    'my_choice.add_new_title': 'নতুন যোগ করুন',
+    'my_choice.add_new_subtitle': 'নতুন বিষয় যোগ করতে তথ্য দিন',
+    'my_choice.category': 'বিভাগ',
+    'my_choice.select_category': 'বিভাগ নির্বাচন করুন',
+    'my_choice.item': 'বিষয়',
+    'my_choice.select_item': 'বিষয় নির্বাচন করুন',
+    'my_choice.select_category_first': 'প্রথমে একটি বিভাগ নির্বাচন করুন',
+    'my_choice.add_button': 'নতুন যোগ করুন',
+    'my_choice.add_success': 'আমার পছন্দে যোগ হয়েছে',
+    'my_choice.add_failed': 'যোগ করা যায়নি',
+    'my_choice.remove': 'মুছে ফেলুন',
+    'my_choice.remove_confirm': 'আমার পছন্দ থেকে @item মুছে ফেলবেন?',
+    'my_choice.remove_failed': 'মুছে ফেলা যায়নি',
+    'my_choice.pick_both': 'অনুগ্রহ করে একটি বিভাগ এবং একটি বিষয় নির্বাচন করুন।',
 
     // ── Profile ──────────────────────────────────────────────────────────
     'profile.favorite_locations': 'পছন্দের অবস্থান',
