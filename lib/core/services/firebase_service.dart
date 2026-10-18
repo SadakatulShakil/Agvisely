@@ -7,6 +7,7 @@ import 'package:agvisely/core/services/user_pref_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../features/notifications/presentation/pages/notification_page.dart';
 import 'notification_service.dart';
 
 // ✅ MUST be top-level — runs in separate isolate when app is killed
@@ -95,8 +96,10 @@ class FirebaseService {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       debugPrint('👆 FCM background tap: ${message.data}');
       final type = message.data['type'] ?? 'general';
-      // ✅ Direct navigation — navigator is guaranteed ready in this state
-      Get.toNamed('/notification', arguments: {'type': type});
+      // ✅ Direct navigation — navigator is guaranteed ready in this state.
+      // No named routes are registered anywhere in this app (GetMaterialApp
+      // has no getPages/initialRoute) — Get.toNamed() was silently failing.
+      Get.to(() => const NotificationPage(), arguments: {'type': type});
     });
 
     // ── Step 8: TERMINATED tap ───────────────────────────────────
@@ -116,8 +119,8 @@ class FirebaseService {
     if (_pendingFcmPayload != null) {
       final payload = _pendingFcmPayload;
       _pendingFcmPayload = null;
-      debugPrint('🧭 FCM pending nav → /notification type: $payload');
-      Get.toNamed('/notification', arguments: {'type': payload});
+      debugPrint('🧭 FCM pending nav → notification page, type: $payload');
+      Get.to(() => const NotificationPage(), arguments: {'type': payload});
     }
   }
 

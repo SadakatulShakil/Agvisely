@@ -8,8 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:timezone/data/latest.dart' as tzdata;
-import 'package:timezone/timezone.dart' as tz;
 
 import 'core/network/api_client.dart';
 import 'core/services/localization_string.dart';
@@ -60,10 +58,6 @@ void main() async {
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
   ));
-
-  // Pin scheduled notifications to Bangladesh time regardless of device tz.
-  tzdata.initializeTimeZones();
-  tz.setLocalLocation(tz.getLocation('Asia/Dhaka'));
 
   runApp(AgviselyApp(savedLang));
 

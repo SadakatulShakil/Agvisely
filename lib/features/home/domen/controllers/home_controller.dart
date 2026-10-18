@@ -7,7 +7,9 @@ import 'package:get/get.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/services/advisory_categories_service.dart';
 import '../../../../core/services/fcm_sync_service.dart';
+import '../../../../core/services/firebase_service.dart';
 import '../../../../core/services/location_service.dart';
+import '../../../../core/services/notification_service.dart';
 import '../../../../core/services/user_choices_service.dart';
 import '../../../../core/services/user_pref_service.dart';
 import '../../../../models/advisory_category_model.dart';
@@ -77,6 +79,13 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   @override
   void onReady() {
     super.onReady();
+    // Consumes a notification tap that arrived while the app was being
+    // cold-started from a terminated state (navigator wasn't ready yet when
+    // the tap was first detected) — FCM-posted and locally-shown
+    // notifications each track this separately.
+    FirebaseService().handlePendingFcmNavigation();
+    NotificationService().handlePendingNavigation();
+
     // Cached/live data already on screen → don't compete with initial
     // render. Nothing on screen yet → sync almost immediately so the
     // first forecast loads fast instead of sitting on the empty state.

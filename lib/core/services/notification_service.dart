@@ -1,55 +1,11 @@
-// lib/core/services/notification_service.dart
-//
-// ─────────────────────────────────────────────────────────────────
-// SEVERE ALERT — required FCM v1 payload (backend must send):
-// {
-//   "message": {
-//     "token": "<device_token>",
-//     "notification": { "title": "...", "body": "..." },
-//     "android": {
-//       "priority": "high",
-//       "notification": {
-//         "channel_id": "alert_channel_id_v2",
-//         "notification_priority": "PRIORITY_MAX",
-//         "visibility": "PUBLIC",
-//         "default_vibrate_timings": false,
-//         "vibrate_timings": ["0s","0.4s","0.2s","0.8s"]
-//         // NO "sound" field — channel provides the alarm tone
-//       }
-//     },
-//     "data": { "type": "alert" }
-//   }
-// }
-// Full-screen behavior in background/killed is driven by the channel
-// (importance MAX + category alarm already set at channel creation)
-// plus the app's data-message handling. For guaranteed full-screen
-// takeover in killed state, send as a DATA-ONLY message (no
-// "notification" block) so the app's background handler builds the
-// notification via showNotification() — which applies full-screen
-// intent + the volume boost. Tradeoff: data-only requires the
-// background isolate to run. Decide per alert severity; document
-// both.
-//
-// NOTE: firebaseMessagingBackgroundHandler (firebase_service.dart)
-// currently does NOT call showNotification() for data-only messages —
-// it only logs and relies on the FCM SDK auto-rendering the
-// "notification" block. That auto-render path cannot apply full-screen
-// intent or the alarm-volume boost. Wiring data-only alert messages
-// through showNotification() in the background handler is a required
-// follow-up for full belt-and-suspenders coverage in the killed state.
-// ─────────────────────────────────────────────────────────────────
-
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:timezone/timezone.dart' as tz;
 import '../../features/notifications/presentation/pages/notification_page.dart';
-import '../../features/home/presentation/pages/home_page.dart';
 import 'notification_pref.dart';
-import 'user_pref_service.dart';
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -107,8 +63,6 @@ class NotificationService {
     await _checkTerminatedTap();
   }
 
-  Future<void> _ensureInitialized() => init();
-
   //MUST be static — runs in a separate isolate
   @pragma('vm:entry-point')
   static void _staticBgTapHandler(NotificationResponse r) {
@@ -153,19 +107,8 @@ class NotificationService {
       showBadge: true,
     );
 
-    // Scheduled forecast channel — gentle daily digest, distinct from
-    // the alarm-stream alert channel above.
-    const scheduledChannel = AndroidNotificationChannel(
-      'scheduled_forecast_id',
-      'Daily Forecast',
-      description: 'Scheduled daily weather updates',
-      importance: Importance.max,
-      playSound: true,
-    );
-
     await android.createNotificationChannel(alertChannel);
     await android.createNotificationChannel(generalChannel);
-    await android.createNotificationChannel(scheduledChannel);
     await android.requestNotificationsPermission();
   }
 
@@ -328,101 +271,9 @@ class NotificationService {
   void _navigate(String? payload) {
     debugPrint('🧭 Navigating — type: $payload');
 
-    // Scheduled daily forecast taps go to the home page, not the
-    // notification inbox — offAll so it lands on Home regardless of
-    // whatever page/stack the app happened to be on when tapped.
-    if (payload == 'scheduled_forecast') {
-      Get.offAll(() => const HomePage());
-      return;
-    }
-
     Get.to(
           () => const NotificationPage(),
       arguments: {'type': payload ?? 'general'},
     );
-  }
-
-  // ─────────────────────────────────────────────────────────
-  // SCHEDULED DAILY FORECAST NOTIFICATIONS
-  // ─────────────────────────────────────────────────────────
-
-  static const List<int> _dailyForecastHours = [9, 17, 18, 0]; // 9AM, 3PM, 9PM, 12AM
-  static const int _dailyForecastBaseId = 8100; // stable slot IDs
-  static const String _keyExactAlarmAsked = 'EXACT_ALARM_ASKED';
-
-  Future<void> scheduleDailyForecasts({
-    required String locationName,
-    required String temp,      // whole number, e.g. "32"
-    required String tempUnit,  // "°সে" / "°C"
-    required bool isBangla,
-    bool allowExactAlarmPrompt = true,
-  }) async {
-    if (locationName.isEmpty || temp.isEmpty || temp == '--') return;
-
-    await _ensureInitialized();
-    final canExact =
-        await _ensureExactAlarmPermission(allowPrompt: allowExactAlarmPrompt);
-    final isBn = isBangla;
-
-    for (int i = 0; i < _dailyForecastHours.length; i++) {
-      final id = _dailyForecastBaseId + i;
-      await _plugin.cancel(id);
-
-      final scheduled = _nextInstanceOf(_dailyForecastHours[i], 30);
-      final title = locationName; // location only
-      final body = isBn
-          ? 'বর্তমান তাপমাত্রা $temp$tempUnit'
-          : 'Current temperature $temp$tempUnit';
-
-      // keep body construction isolated here.
-
-      await _plugin.zonedSchedule(
-        id, title, body, scheduled,
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'scheduled_forecast_id', 'Daily Forecast',
-            channelDescription: 'Scheduled daily weather updates',
-            icon: 'ic_launcher',
-            importance: Importance.max,
-            priority: Priority.max,
-          ),
-          iOS: DarwinNotificationDetails(),
-        ),
-        androidScheduleMode: canExact
-            ? AndroidScheduleMode.exactAllowWhileIdle
-            : AndroidScheduleMode.inexactAllowWhileIdle,
-        matchDateTimeComponents: DateTimeComponents.time, // daily repeat
-        payload: 'scheduled_forecast',
-      );
-    }
-  }
-
-  tz.TZDateTime _nextInstanceOf(int hour, int minute) {
-    final now = tz.TZDateTime.now(tz.local);
-    var scheduled =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
-    if (scheduled.isBefore(now)) {
-      scheduled = scheduled.add(const Duration(days: 1));
-    }
-    return scheduled;
-  }
-
-  Future<bool> _ensureExactAlarmPermission({bool allowPrompt = true}) async {
-    if (!Platform.isAndroid) return true;
-    final android = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-    if (android == null) return false;
-
-    final granted = await android.canScheduleExactNotifications() ?? false;
-    if (granted) return true;
-    if (!allowPrompt) return false;
-
-    final alreadyAsked =
-        UserPrefService().getBool(_keyExactAlarmAsked) == true;
-    if (alreadyAsked) return false;
-
-    await android.requestExactAlarmsPermission();
-    await UserPrefService().setBool(_keyExactAlarmAsked, true);
-    return await android.canScheduleExactNotifications() ?? false;
   }
 }
