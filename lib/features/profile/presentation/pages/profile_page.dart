@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/services/fcm_sync_service.dart';
 import '../../../../core/services/user_pref_service.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/user_avatar.dart';
@@ -148,6 +149,10 @@ class ProfilePage extends StatelessWidget {
     if (confirmed != true) return;
 
     await UserPrefService().clearSession();
+    // Best-effort: an explicit, user-initiated logout (unlike a forced
+    // session-expiry logout) may be followed by a different user logging in
+    // on this device, so drop the token tied to this account.
+    FcmSyncService().deleteToken().catchError((_) {});
     // HomeController/ProfileController are permanent singletons — their
     // state survives this logout, so without resetting them a login right
     // after logging out from the Profile tab would land back on Profile

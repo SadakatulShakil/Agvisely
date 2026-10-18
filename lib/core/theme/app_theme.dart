@@ -27,6 +27,17 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.scaffoldLight,
       fontFamily: AppFonts.family,
       textTheme: AppFonts.textTheme(ThemeData.light().textTheme),
+      primaryTextTheme: AppFonts.textTheme(ThemeData.light().primaryTextTheme),
+      dialogTheme: DialogThemeData(
+        titleTextStyle: ThemeData.light().textTheme.titleLarge
+            ?.copyWith(fontFamily: AppFonts.family, color: AppColors.navy),
+        contentTextStyle: ThemeData.light().textTheme.bodyMedium
+            ?.copyWith(fontFamily: AppFonts.family, color: AppColors.textPrimaryLight),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        contentTextStyle: ThemeData.light().textTheme.titleMedium
+            ?.copyWith(fontFamily: AppFonts.family, color: Colors.white),
+      ),
       dividerColor: AppColors.dividerLight,
       cardTheme: const CardThemeData(
         color: AppColors.cardLight,
@@ -75,6 +86,17 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.scaffoldDark,
       fontFamily: AppFonts.family,
       textTheme: AppFonts.textTheme(ThemeData.dark().textTheme),
+      primaryTextTheme: AppFonts.textTheme(ThemeData.dark().primaryTextTheme),
+      dialogTheme: DialogThemeData(
+        titleTextStyle: ThemeData.dark().textTheme.titleLarge
+            ?.copyWith(fontFamily: AppFonts.family, color: AppColors.textPrimaryDark),
+        contentTextStyle: ThemeData.dark().textTheme.bodyMedium
+            ?.copyWith(fontFamily: AppFonts.family, color: AppColors.textPrimaryDark),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        contentTextStyle: ThemeData.dark().textTheme.titleMedium
+            ?.copyWith(fontFamily: AppFonts.family, color: Colors.white),
+      ),
       dividerColor: AppColors.dividerDark,
       cardTheme: const CardThemeData(
         color: AppColors.cardDark,

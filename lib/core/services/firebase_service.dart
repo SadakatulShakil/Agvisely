@@ -1,6 +1,8 @@
 // lib/core/services/firebase_service.dart
 
+import 'dart:async';
 import 'dart:io';
+import 'package:agvisely/core/services/fcm_sync_service.dart';
 import 'package:agvisely/core/services/user_pref_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +31,13 @@ class FirebaseService {
   // Consumed by handlePendingFcmNavigation() in HomeController.onReady()
   String? _pendingFcmPayload;
 
-  Future<void> init() async {
+  // Guards against double-registering onTokenRefresh (and everything else
+  // below) if init() is ever called more than once (e.g. hot restart).
+  Future<void>? _initFuture;
+
+  Future<void> init() => _initFuture ??= _doInit();
+
+  Future<void> _doInit() async {
     // ── Step 1: Register BG handler FIRST ───────────────────────
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
@@ -62,6 +70,7 @@ class FirebaseService {
     _fcm.onTokenRefresh.listen((newToken) async {
       debugPrint('🔄 FCM token refreshed');
       await UserPrefService().saveFireBaseData(newToken);
+      unawaited(FcmSyncService().syncFcmToken(token: newToken));
     });
 
     // ── Step 6: FOREGROUND messages ──────────────────────────────

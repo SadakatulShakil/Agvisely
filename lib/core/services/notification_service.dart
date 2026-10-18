@@ -78,7 +78,7 @@ class NotificationService {
 
   Future<void> _doInit() async {
     const androidInit =
-    AndroidInitializationSettings('@drawable/ic_launcher');
+    AndroidInitializationSettings('ic_launcher');
 
     const iOSInit = DarwinInitializationSettings(
       requestAlertPermission: true,
@@ -258,8 +258,8 @@ class NotificationService {
           'agvisely_general_channel',
           'General Notifications',
           icon: 'ic_launcher',
-          importance: Importance.high,
-          priority: Priority.high,
+          importance: Importance.max,
+          priority: Priority.max,
           playSound: true,
           sound: customSound,
           enableVibration: vibrate,
@@ -355,11 +355,6 @@ class NotificationService {
     required String temp,      // whole number, e.g. "32"
     required String tempUnit,  // "°সে" / "°C"
     required bool isBangla,
-    // false when called from the headless WorkManager isolate — there is
-    // no live Activity there, and requestExactAlarmsPermission() calls
-    // mainActivity.startActivityForResult() internally, which crashes
-    // without one. The foreground call site (HomeController) always has
-    // an Activity, so it keeps the default of true.
     bool allowExactAlarmPrompt = true,
   }) async {
     if (locationName.isEmpty || temp.isEmpty || temp == '--') return;

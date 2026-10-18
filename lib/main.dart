@@ -15,6 +15,7 @@ import 'core/network/api_client.dart';
 import 'core/services/localization_string.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/user_pref_service.dart';
+import 'core/theme/app_fonts.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_controller.dart';
 import 'core/utils/firebase_option.dart';
@@ -111,6 +112,10 @@ class AgviselyApp extends StatelessWidget {
           translations: LocalizationString(),
           locale: Locale(savedLang),
           home: const SplashScreen(),
+          builder: (context, child) => DefaultTextStyle.merge(
+            style: const TextStyle(fontFamily: AppFonts.family),
+            child: child ?? const SizedBox.shrink(),
+          ),
         ),
       ),
     );

@@ -25,29 +25,31 @@ class AdvisoryContentPage extends StatelessWidget {
   Future<Uint8List> _buildPdf(
     AdvisoryContentController controller,
     AdvisoryContentModel content,
+    bool isBn,
   ) {
     return AdvisoryPdfBuilder.build(
       item: controller.item,
       stage: controller.stage,
       categoryLabel: controller.categoryLabel,
       content: content,
+      isBn: isBn,
     );
   }
 
   String _pdfFileName(AdvisoryContentController controller) =>
       '${controller.stage.label(false).replaceAll(' ', '_').toLowerCase()}_advisory.pdf';
 
-  Future<void> _onShare(AdvisoryContentController controller) async {
+  Future<void> _onShare(AdvisoryContentController controller, bool isBn) async {
     final content = controller.content.value;
     if (content == null) return;
-    final bytes = await _buildPdf(controller, content);
+    final bytes = await _buildPdf(controller, content, isBn);
     await Printing.sharePdf(bytes: bytes, filename: _pdfFileName(controller));
   }
 
-  Future<void> _onDownload(AdvisoryContentController controller) async {
+  Future<void> _onDownload(AdvisoryContentController controller, bool isBn) async {
     final content = controller.content.value;
     if (content == null) return;
-    final bytes = await _buildPdf(controller, content);
+    final bytes = await _buildPdf(controller, content, isBn);
     await Printing.layoutPdf(
       onLayout: (_) async => bytes,
       name: _pdfFileName(controller),
@@ -198,7 +200,7 @@ class AdvisoryContentPage extends StatelessWidget {
               child: Row(
                 children: [
                   OutlinedButton(
-                    onPressed: enabled ? () => _onShare(controller) : null,
+                    onPressed: enabled ? () => _onShare(controller, isBn) : null,
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: AppColors.primaryDark),
                       padding: EdgeInsets.symmetric(
@@ -232,7 +234,7 @@ class AdvisoryContentPage extends StatelessWidget {
                   SizedBox(width: 12.w),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: enabled ? () => _onDownload(controller) : null,
+                      onPressed: enabled ? () => _onDownload(controller, isBn) : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryDark,
                         disabledBackgroundColor: AppColors.primaryDark

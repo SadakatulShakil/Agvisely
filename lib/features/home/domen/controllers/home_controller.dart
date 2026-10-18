@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/network/api_client.dart';
 import '../../../../core/services/advisory_categories_service.dart';
+import '../../../../core/services/fcm_sync_service.dart';
 import '../../../../core/services/location_service.dart';
 import '../../../../core/services/user_choices_service.dart';
 import '../../../../core/services/user_pref_service.dart';
@@ -70,6 +71,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     loadAdvisoryCategories();
     loadTodayChart();
     loadMyChoices();
+    unawaited(FcmSyncService().syncFcmToken());
   }
 
   @override

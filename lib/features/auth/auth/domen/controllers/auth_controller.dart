@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../core/network/api_client.dart';
 import '../../../../../core/network/api_endpoints.dart';
+import '../../../../../core/services/fcm_sync_service.dart';
 import '../../../../../core/services/professions_service.dart';
 import '../../../../../core/services/user_pref_service.dart';
 import '../../../../../core/utils/phone_util.dart';
@@ -167,6 +170,7 @@ class AuthController extends GetxController {
       }
 
       await UserPrefService().setLoggedIn(true);
+      unawaited(FcmSyncService().syncFcmToken());
       Get.offAll(() => const LocationGatePage());
     } catch (e) {
       _toast(e.toString());

@@ -111,6 +111,20 @@ class UserPrefService {
   static const String _kOnboarded = 'has_onboarded';
   static const String _kLoggedIn = 'is_logged_in';
   static const String _kLocationName = 'selected_location_name';
+  static const String _kLastSyncedFcmToken = 'last_synced_fcm_token';
+
+  /// The FCM token value last successfully pushed to the backend — guards
+  /// [FcmSyncService.syncFcmToken] so a token that hasn't changed since the
+  /// last sync doesn't trigger a redundant PUT /users/me on every trigger
+  /// (login, app start, token refresh).
+  String? get lastSyncedFcmToken => _prefs?.getString(_kLastSyncedFcmToken);
+  Future<void> setLastSyncedFcmToken(String token) async {
+    await _prefs?.setString(_kLastSyncedFcmToken, token);
+  }
+
+  Future<void> clearLastSyncedFcmToken() async {
+    await _prefs?.remove(_kLastSyncedFcmToken);
+  }
 
   /// 'en' or 'bn' — defaults to Bangla for Agvisely's audience.
   String get appLanguage => _prefs?.getString(_kLanguage) ?? 'bn';
@@ -192,18 +206,27 @@ class UserPrefService {
   /// (the server's own message, via [ApiClient]) on failure — unlike
   /// [refreshCurrentUser]'s silent background refresh, this is always a
   /// direct user action, so the caller should surface the error.
+  ///
+  /// [fcmToken] is also piggybacked on EVERY call (falling back to the
+  /// last-known cached token when the caller doesn't pass one explicitly) so
+  /// any profile edit — name, profession, language — also keeps the backend's
+  /// copy of the token fresh. [FcmSyncService] passes one explicitly when
+  /// syncing a token that hasn't been cached yet.
   Future<UserModel?> updateProfile({
     String? name,
     int? professionId,
     String? preferredLanguage,
+    String? fcmToken,
   }) async {
     final token = await getAccessToken();
     if (token == null || token.isEmpty) return null;
 
+    final effectiveFcmToken = fcmToken ?? this.fcmToken;
     final body = <String, dynamic>{
       if (name != null) 'name': name,
       if (professionId != null) 'professionId': professionId,
       if (preferredLanguage != null) 'preferredLanguage': preferredLanguage,
+      if (effectiveFcmToken != null && effectiveFcmToken.isNotEmpty) 'fcmToken': effectiveFcmToken,
     };
     if (body.isEmpty) return null;
 
@@ -216,6 +239,9 @@ class UserPrefService {
     if (data is! Map) return null;
     final user = UserModel.fromJson(data.cast<String, dynamic>());
     await setCachedUser(user);
+    if (effectiveFcmToken != null && effectiveFcmToken.isNotEmpty) {
+      await setLastSyncedFcmToken(effectiveFcmToken);
+    }
     return user;
   }
 
@@ -315,6 +341,7 @@ class UserPrefService {
     await setLoggedIn(false);
     await _prefs?.remove(_keyCachedUser);
     await _prefs?.remove(_kAccessTokenExpiresAt);
+    await clearLastSyncedFcmToken();
     await _secureStorage.delete(key: _keyAccessToken);
     await _secureStorage.delete(key: _keyRefreshToken);
   }

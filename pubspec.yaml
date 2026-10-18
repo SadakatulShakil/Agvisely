@@ -51,6 +51,7 @@ dependencies:
   # Advisory content export
   pdf: ^3.12.0
   printing: ^5.14.3
+  bangla_pdf: ^1.2.0
   flutter_image_compress: ^2.5.1
   mime: ^2.1.0
   http_parser: ^4.1.2
@@ -75,15 +76,14 @@ flutter:
     - assets/json/
 
   # AnekBangla is the same bundled-font system as BMD (renders Bangla on
-  # the first frame, fully offline). Drop the .ttf files into
-  # assets/fonts/ then uncomment this block.
-  # fonts:
-  #   - family: AnekBangla
-  #     fonts:
-  #       - asset: assets/fonts/AnekBangla-Regular.ttf
-  #       - asset: assets/fonts/AnekBangla-Medium.ttf
-  #         weight: 500
-  #       - asset: assets/fonts/AnekBangla-SemiBold.ttf
-  #         weight: 600
-  #       - asset: assets/fonts/AnekBangla-Bold.ttf
-  #         weight: 700
+  # the first frame, fully offline).
+  fonts:
+    - family: AnekBangla
+      fonts:
+        - asset: assets/fonts/AnekBangla-Regular.ttf
+        - asset: assets/fonts/AnekBangla-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/AnekBangla-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/AnekBangla-Bold.ttf
+          weight: 700
