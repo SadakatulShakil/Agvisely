@@ -129,7 +129,7 @@ class NotificationService {
     //_v2 — bumped from 'alert_channel_id'. Channel sound is
 
     final alertChannel = AndroidNotificationChannel(
-      'alert_channel_id_v2',
+      'agvisely_alert_channel',
       'Weather Alerts',
       description: 'Severe weather alerts — always audible',
       importance: Importance.max,
@@ -144,7 +144,7 @@ class NotificationService {
 
     // General channel — respects ringer/silent mode
     const generalChannel = AndroidNotificationChannel(
-      'general_channel_id',
+      'agvisely_general_channel',
       'General Notifications',
       description: 'Weather updates and general info',
       importance: Importance.high,
@@ -229,7 +229,7 @@ class NotificationService {
     if (isAlert) {
       return NotificationDetails(
         android: AndroidNotificationDetails(
-          'alert_channel_id_v2',
+          'agvisely_alert_channel',
           'Weather Alerts',
           icon: 'ic_launcher',
           importance: Importance.max,
@@ -255,7 +255,7 @@ class NotificationService {
     } else {
       return NotificationDetails(
         android: AndroidNotificationDetails(
-          'general_channel_id',
+          'agvisely_general_channel',
           'General Notifications',
           icon: 'ic_launcher',
           importance: Importance.high,

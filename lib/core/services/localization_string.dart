@@ -104,9 +104,6 @@ class LocalizationString extends Translations {
 
     // ── Pest advisory (crop-select demo) ──────────────────────────────────
     'pest_advisory.select_crop_title': 'Select a crop for advisory',
-    'pest_advisory.go_next_step': 'Go Next Step',
-    'pest_advisory.selected_prefix': 'Selected:',
-    'pest_advisory.nothing_prefix': 'Please select a crop.',
 
     // ── Advisory items (generic item grid, any category) ───────────────────
     'advisory_items.select_item_title': 'Select an item for advisory',
@@ -195,6 +192,7 @@ class LocalizationString extends Translations {
 
     // ── Common ───────────────────────────────────────────────────────────
     'common.notifications': 'Notifications',
+    'notifications.empty': 'No notifications yet.',
     'common.settings': 'Settings',
     'common.language': 'Language',
     'common.retry': 'Retry',
@@ -297,9 +295,6 @@ class LocalizationString extends Translations {
 
     // ── Pest advisory (crop-select demo) ──────────────────────────────────
     'pest_advisory.select_crop_title': 'পরামর্শের জন্য একটি ফসল নির্বাচন করুন',
-    'pest_advisory.go_next_step': 'পরবর্তী পদক্ষেপ',
-    'pest_advisory.selected_prefix': 'নির্বাচিত:',
-    'pest_advisory.nothing_prefix': 'দয়া করে একটি ফসল নির্বাচন করুন।',
 
     // ── Advisory items (generic item grid, any category) ───────────────────
     'advisory_items.select_item_title': 'পরামর্শের জন্য একটি আইটেম নির্বাচন করুন',
@@ -388,6 +383,7 @@ class LocalizationString extends Translations {
 
     // ── Common ───────────────────────────────────────────────────────────
     'common.notifications': 'বিজ্ঞপ্তি',
+    'notifications.empty': 'এখনো কোনো বিজ্ঞপ্তি নেই।',
     'common.settings': 'সেটিংস',
     'common.language': 'ভাষা',
     'common.retry': 'আবার চেষ্টা করুন',

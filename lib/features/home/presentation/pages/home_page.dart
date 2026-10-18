@@ -14,6 +14,7 @@ import '../../../advisory_items/presentation/pages/advisory_items_page.dart';
 import '../../../menu/presentation/pages/menu_page.dart';
 import '../../../my_choice/domen/binding/my_choice_binding.dart';
 import '../../../my_choice/presentation/pages/my_choice_page.dart';
+import '../../../notifications/presentation/pages/notification_page.dart';
 import '../../../pest_advisory/presentation/pages/pest_advisory_page.dart';
 import '../../../profile/domen/controllers/profile_controller.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
@@ -151,10 +152,13 @@ class _HomeDashboard extends StatelessWidget {
                   ),
                 ),
               ),
-              SvgPicture.asset(
-                'assets/icons/notification.svg',
-                width: 38.w,
-                height: 38.h,
+              GestureDetector(
+                onTap: () => Get.to(() => const NotificationPage()),
+                child: SvgPicture.asset(
+                  'assets/icons/notification.svg',
+                  width: 38.w,
+                  height: 38.h,
+                ),
               ),
             ],
           ),

@@ -56,14 +56,17 @@ class AdvisoryContentModel {
   /// Groups the stage's active rules into display sections: rules with a
   /// `category` (`"temperature"`, `"rainfall"`, ...) become ordinary
   /// sections (one per category, in first-seen order, bullets concatenated
-  /// across every rule sharing that category); rules with no `category`
-  /// (e.g. `stageAdvisory == "IPM"`, which applies unconditionally rather
-  /// than on a weather threshold) are pooled into the highlighted
-  /// "good practice" card. Each rule's `advisory`/`advisoryBn` HTML list is
-  /// parsed into plain-text bullets and paired up by position.
+  /// across every rule sharing that category). Rules with no `category` and
+  /// `stageAdvisory == "IPM"` become an ordinary "IPM Advisory" section
+  /// appended after those — so the order is always temperature/rainfall/...,
+  /// then IPM. Any other no-`category` rules (the general "Good Agriculture
+  /// Practice" advice) are pooled into the highlighted "good practice" card,
+  /// which always renders last. Each rule's `advisory`/`advisoryBn` HTML list
+  /// is parsed into plain-text bullets and paired up by position.
   factory AdvisoryContentModel.fromRules(int stageId, List<AdvisoryRuleModel> rules) {
     final sections = <AdvisorySectionModel>[];
     final sectionIndexByCategory = <String, int>{};
+    final ipmBullets = <AdvisoryBulletModel>[];
     final goodPracticeBullets = <AdvisoryBulletModel>[];
     String? goodPracticeKey;
 
@@ -73,8 +76,12 @@ class AdvisoryContentModel {
 
       final category = rule.category;
       if (category == null || category.isEmpty) {
-        goodPracticeKey ??= rule.stageAdvisory;
-        goodPracticeBullets.addAll(bullets);
+        if (rule.stageAdvisory?.toLowerCase() == 'ipm') {
+          ipmBullets.addAll(bullets);
+        } else {
+          goodPracticeKey ??= rule.stageAdvisory;
+          goodPracticeBullets.addAll(bullets);
+        }
         continue;
       }
 
@@ -92,6 +99,12 @@ class AdvisoryContentModel {
           bullets: [...existing.bullets, ...bullets],
         );
       }
+    }
+
+    if (ipmBullets.isNotEmpty) {
+      sections.add(
+        AdvisorySectionModel(title: 'IPM Advisory', titleBn: 'আইপিএম পরামর্শ', bullets: ipmBullets),
+      );
     }
 
     AdvisorySectionModel? goodPractice;
@@ -129,7 +142,6 @@ class AdvisoryContentModel {
 
   static (String, String?) _goodPracticeSectionTitle(String? stageAdvisory) {
     if (stageAdvisory == null || stageAdvisory.isEmpty) return ('General Advisory', null);
-    if (stageAdvisory.toLowerCase() == 'ipm') return ('IPM Advisory', 'আইপিএম পরামর্শ');
     return ('$stageAdvisory Advisory', null);
   }
 }
