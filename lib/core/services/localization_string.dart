@@ -74,6 +74,8 @@ class LocalizationString extends Translations {
     'my_choice.remove_confirm': 'Remove @item from My Choice?',
     'my_choice.remove_failed': 'Could not remove',
     'my_choice.pick_both': 'Please select both a category and an item.',
+    'my_choice.already_added_title': 'Already Added',
+    'my_choice.already_added': 'This item is already in your My Choice list.',
 
     // ── Profile ──────────────────────────────────────────────────────────
     'profile.favorite_locations': 'Favorite Locations',
@@ -108,6 +110,7 @@ class LocalizationString extends Translations {
 
     // ── Advisory items (generic item grid, any category) ───────────────────
     'advisory_items.select_item_title': 'Select an item for advisory',
+    'advisory_items.select_category_label': 'Select Category',
     'advisory_items.retry': 'Retry',
     'advisory_items.empty': 'No items available right now.',
     'advisory_items.empty_for': 'No items available for @category right now.',
@@ -264,6 +267,8 @@ class LocalizationString extends Translations {
     'my_choice.remove_confirm': 'আমার পছন্দ থেকে @item মুছে ফেলবেন?',
     'my_choice.remove_failed': 'মুছে ফেলা যায়নি',
     'my_choice.pick_both': 'অনুগ্রহ করে একটি বিভাগ এবং একটি বিষয় নির্বাচন করুন।',
+    'my_choice.already_added_title': 'ইতিমধ্যে যোগ করা হয়েছে',
+    'my_choice.already_added': 'এই বিষয়টি ইতিমধ্যে আপনার পছন্দ তালিকায় রয়েছে।',
 
     // ── Profile ──────────────────────────────────────────────────────────
     'profile.favorite_locations': 'পছন্দের অবস্থান',
@@ -298,6 +303,7 @@ class LocalizationString extends Translations {
 
     // ── Advisory items (generic item grid, any category) ───────────────────
     'advisory_items.select_item_title': 'পরামর্শের জন্য একটি আইটেম নির্বাচন করুন',
+    'advisory_items.select_category_label': 'বিভাগ নির্বাচন করুন',
     'advisory_items.retry': 'আবার চেষ্টা করুন',
     'advisory_items.empty': 'এই মুহূর্তে কোনো আইটেম পাওয়া যায়নি।',
     'advisory_items.empty_for': 'এই মুহূর্তে @category-এর জন্য কোনো আইটেম পাওয়া যায়নি।',

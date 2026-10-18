@@ -155,8 +155,20 @@ class _ChoiceTile extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
           decoration: BoxDecoration(
-            color: AppColors.cardMint,
-            borderRadius: BorderRadius.circular(16.r),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                AppColors.primaryDark.withValues(alpha: 0.0),
+                AppColors.primaryDark.withValues(alpha: 0.06),
+                AppColors.primaryDark.withValues(alpha: 0.30),
+              ],
+              stops: const [0.0, 0.46, 1.0],
+            ),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(16.r),
+              bottomRight: Radius.circular(16.r),
+            ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -174,13 +186,13 @@ class _ChoiceTile extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: -6,
-          right: -6,
+          top: 1.h,
+          right: 8.w,
           child: GestureDetector(
             onTap: onRemove,
             child: Container(
-              width: 22.w,
-              height: 22.w,
+              width: 25.w,
+              height: 25.w,
               decoration: BoxDecoration(
                 color: AppColors.textSecondaryLight,
                 shape: BoxShape.circle,
@@ -226,8 +238,20 @@ class _AddNewTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.cardMint,
-          borderRadius: BorderRadius.circular(16.r),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.primaryDark.withValues(alpha: 0.0),
+              AppColors.primaryDark.withValues(alpha: 0.06),
+              AppColors.primaryDark.withValues(alpha: 0.30),
+            ],
+            stops: const [0.0, 0.46, 1.0],
+          ),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(16.r),
+            bottomRight: Radius.circular(16.r),
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -394,12 +418,14 @@ class _AddChoiceSheet extends StatelessWidget {
                     loading: controller.isSubmitting.value,
                     showArrow: false,
                     onPressed: () async {
-                      final error = await controller.submitAddChoice();
-                      if (error == null) {
+                      final result = await controller.submitAddChoice();
+                      if (result.duplicate) {
+                        Get.snackbar('my_choice.already_added_title'.tr, 'my_choice.already_added'.tr);
+                      } else if (result.error == null) {
                         Get.back();
                         Get.snackbar('', 'my_choice.add_success'.tr);
                       } else {
-                        Get.snackbar('my_choice.add_failed'.tr, error);
+                        Get.snackbar('my_choice.add_failed'.tr, result.error!);
                       }
                     },
                   )),

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../theme/app_theme_colors.dart';
+import '../../features/advisory_items/domen/binding/advisory_disease_items_binding.dart';
 import '../../features/advisory_items/domen/binding/advisory_items_binding.dart';
+import '../../features/advisory_items/presentation/pages/advisory_disease_items_page.dart';
 import '../../features/advisory_items/presentation/pages/advisory_items_page.dart';
 import '../../features/weather/domen/binding/seven_day_binding.dart';
 import '../../features/weather/presentation/pages/seven_day_page.dart';
@@ -44,7 +46,8 @@ class AppDrawer extends StatelessWidget {
             _item(Icons.grass_outlined, 'advisory.crop'.tr,
                 () => _openAdvisoryShortcut(categoryId: 1, categoryLabel: 'advisory.crop'.tr)),
             _item(Icons.coronavirus_outlined, 'advisory.disease'.tr,
-                () => _openAdvisoryShortcut(categoryId: 4, categoryLabel: 'advisory.disease'.tr)),
+                () => _openDiseaseAdvisoryShortcut(
+                    categoryId: 4, categoryLabel: 'advisory.disease'.tr)),
             _item(Icons.pets_outlined, 'advisory.livestock'.tr,
                 () => _openAdvisoryShortcut(categoryId: 2, categoryLabel: 'advisory.livestock'.tr)),
             _item(Icons.set_meal_outlined, 'advisory.aquaculture'.tr,
@@ -73,6 +76,13 @@ class AppDrawer extends StatelessWidget {
     Get.to(
       () => const AdvisoryItemsPage(),
       binding: AdvisoryItemsBinding(categoryId: categoryId, categoryLabel: categoryLabel),
+    );
+  }
+
+  void _openDiseaseAdvisoryShortcut({required int categoryId, required String categoryLabel}) {
+    Get.to(
+      () => const AdvisoryDiseaseItemsPage(),
+      binding: AdvisoryDiseaseItemsBinding(categoryId: categoryId, categoryLabel: categoryLabel),
     );
   }
 }

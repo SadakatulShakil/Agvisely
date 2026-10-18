@@ -6,6 +6,7 @@ import '../../../../core/services/user_choices_service.dart';
 import '../../../../models/advisory_category_model.dart';
 import '../../../../models/advisory_item_model.dart';
 import '../../../../models/user_choice_model.dart';
+import '../../../home/domen/controllers/home_controller.dart';
 
 /// My Choice — screen state. [choices] backs the page's grid; the rest
 /// backs the "Add new" sheet's category → item dropdowns.
@@ -89,12 +90,23 @@ class MyChoiceController extends GetxController {
     itemsLoading.value = false;
   }
 
-  /// Returns a user-facing error message on failure, or null on success.
-  Future<String?> submitAddChoice() async {
+  /// Returns `duplicate: true` if the picked category/item pair is already
+  /// in [choices] — the backend would silently upsert it, so this is
+  /// checked locally first to give the user a proper message instead.
+  /// Otherwise `error` is a user-facing message on failure, or null on
+  /// success.
+  Future<({bool duplicate, String? error})> submitAddChoice() async {
     final category = selectedCategory.value;
     final item = selectedItem.value;
     if (category == null || item == null) {
-      return 'my_choice.pick_both'.tr;
+      return (duplicate: false, error: 'my_choice.pick_both'.tr);
+    }
+
+    final alreadyAdded = choices.any(
+      (c) => c.categoryId == category.id && c.itemId == item.id,
+    );
+    if (alreadyAdded) {
+      return (duplicate: true, error: null);
     }
 
     isSubmitting.value = true;
@@ -103,7 +115,7 @@ class MyChoiceController extends GetxController {
         categoryId: category.id,
         itemId: item.id,
       );
-      if (result.choice == null) return result.error;
+      if (result.choice == null) return (duplicate: false, error: result.error);
 
       // The backend upserts by (categoryId, itemId) — replace any existing
       // entry with the same id instead of duplicating it in the grid.
@@ -113,7 +125,8 @@ class MyChoiceController extends GetxController {
       } else {
         choices.add(result.choice!);
       }
-      return null;
+      _syncHomeChoices();
+      return (duplicate: false, error: null);
     } finally {
       isSubmitting.value = false;
     }
@@ -130,8 +143,18 @@ class MyChoiceController extends GetxController {
     final result = await UserChoicesService().remove(choice.id);
     if (!result.success) {
       choices.insert(idx, choice);
-      return result.error;
     }
-    return null;
+    _syncHomeChoices();
+    return result.success ? null : result.error;
+  }
+
+  /// Mirrors this page's list into the dashboard's "My Choice" carousel —
+  /// [HomeController] is permanent and only loads its own copy once on cold
+  /// start, so without this an add/remove here wouldn't show up on Home
+  /// until the next pull-to-refresh. No-ops if Home hasn't been built yet.
+  void _syncHomeChoices() {
+    if (Get.isRegistered<HomeController>()) {
+      Get.find<HomeController>().myChoices.assignAll(choices);
+    }
   }
 }

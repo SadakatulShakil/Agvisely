@@ -9,6 +9,7 @@ import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/advisory_pdf_builder.dart';
 import '../../../../models/advisory_content_model.dart';
+import '../../../home/presentation/pages/home_page.dart';
 import '../../domen/controllers/advisory_content_controller.dart';
 
 /// "See The Advisory" — per the "Crop advisory" Figma frame: a hero photo
@@ -333,6 +334,20 @@ class _Hero extends StatelessWidget {
             ),
           ),
           Positioned(
+            top: 12.h,
+            right: 12.w,
+            child: SafeArea(
+              bottom: false,
+              child: CircleAvatar(
+                backgroundColor: Colors.white.withValues(alpha: 0.85),
+                child: IconButton(
+                  icon: Icon(Icons.home_rounded, color: AppColors.primaryDark),
+                  onPressed: () => Get.offAll(() => const HomePage()),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
             left: 16.w,
             right: 16.w,
             bottom: 36.h,
@@ -467,7 +482,7 @@ class _GoodPracticeCard extends StatelessWidget {
             AppColors.primaryDark.withValues(alpha: 0.08),
             AppColors.primaryDark.withValues(alpha: 0.0),
           ],
-          stops: const [0.0, 0.50, 1.0],   // ascending
+          stops: const [0.0, 0.50, 1.0],
         ),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16.r),

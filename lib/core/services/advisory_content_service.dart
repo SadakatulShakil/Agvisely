@@ -1,10 +1,15 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart' show rootBundle;
-
 import '../../models/advisory_content_model.dart';
+import '../../models/advisory_rule_model.dart';
+import '../network/api_client.dart';
+import '../network/api_endpoints.dart';
+import '../network/network_exceptions.dart';
+import 'user_pref_service.dart';
 
-/// Advisory body for a picked stage — demo-JSON-backed for now.
+/// Advisory body for a picked stage — `POST /advisory/categories/{categoryId}/
+/// items/{itemId}/stages/{stageId}/rules/match` with the user's currently
+/// selected location, so the backend returns only the rules matching that
+/// location's current weather. Always hits the network, same as
+/// [AdvisoryStagesService] — nothing here needs to survive a navigation away.
 class AdvisoryContentService {
   AdvisoryContentService._internal();
   static final AdvisoryContentService _instance = AdvisoryContentService._internal();
@@ -17,23 +22,43 @@ class AdvisoryContentService {
     int itemId,
     int stageId,
   ) async {
-    try {
-      final raw = await rootBundle.loadString('assets/json/advisory_content_demo.json');
-      // TODO(api): replace the line above with a GET to
-      //   /advisory/categories/{categoryId}/items/{itemId}/stages/{stageId}/content
-      //   via ApiClient (same Authorization-bearer pattern as
-      //   AdvisoryStagesService.fetch). Keep the SAME parsing below —
-      //   decoded['data'] is the real API's shape too.
+    final token = await UserPrefService().getAccessToken();
+    if (token == null || token.isEmpty) {
+      return (content: null, error: 'Please log in again.');
+    }
 
-      final decoded = jsonDecode(raw) as Map<String, dynamic>;
-      final data = decoded['data'] as Map<String, dynamic>?;
-      if (data == null) {
+    final lat = double.tryParse(UserPrefService().getLat() ?? '');
+    final lon = double.tryParse(UserPrefService().getLon() ?? '');
+    if (lat == null || lon == null) {
+      return (content: null, error: 'Please select a location first.');
+    }
+
+    try {
+      final resp = await ApiClient().post(
+        ApiEndpoints.advisoryStageRulesMatch(categoryId, itemId, stageId),
+        body: {'lat': lat, 'lon': lon},
+        headers: {'Authorization': 'Bearer $token'},
+      );
+      final data = resp is Map ? resp['data'] : null;
+      if (data is! List) {
         return (content: null, error: 'Invalid response format received from the server.');
       }
 
-      return (content: AdvisoryContentModel.fromJson(data), error: null);
-    } catch (_) {
-      return (content: null, error: 'Something went wrong while loading the advisory.');
+      final rules = data
+          .whereType<Map>()
+          .map((e) => AdvisoryRuleModel.fromJson(e.cast<String, dynamic>()))
+          .where((r) => r.isActive)
+          .toList()
+        ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+      final content = AdvisoryContentModel.fromRules(stageId, rules);
+      if (content.sections.isEmpty && content.goodPractice == null) {
+        return (content: null, error: 'No advisory available for this stage yet.');
+      }
+
+      return (content: content, error: null);
+    } catch (e) {
+      return (content: null, error: NetworkExceptions.getErrorMessage(e));
     }
   }
 }

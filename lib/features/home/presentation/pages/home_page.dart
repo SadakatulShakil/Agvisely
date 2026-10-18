@@ -7,7 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/app_drawer.dart';
 import '../../../../core/utils/user_avatar.dart';
+import '../../../advisory_items/domen/binding/advisory_disease_items_binding.dart';
 import '../../../advisory_items/domen/binding/advisory_items_binding.dart';
+import '../../../advisory_items/presentation/pages/advisory_disease_items_page.dart';
 import '../../../advisory_items/presentation/pages/advisory_items_page.dart';
 import '../../../menu/presentation/pages/menu_page.dart';
 import '../../../my_choice/domen/binding/my_choice_binding.dart';
@@ -284,7 +286,22 @@ class _HomeDashboard extends StatelessWidget {
 }
 
 
+/// "Crop Disease Early Warning" category id — it browses other categories'
+/// items via a dropdown instead of its own, so it routes to a dedicated
+/// page. Mirrors the same fallback id app_drawer.dart uses for its shortcut.
+const _diseaseCategoryId = 4;
+
 void _openAdvisoryCategory(AdvisoryCategoryModel category, bool isBn) {
+  if (category.id == _diseaseCategoryId) {
+    Get.to(
+      () => const AdvisoryDiseaseItemsPage(),
+      binding: AdvisoryDiseaseItemsBinding(
+        categoryId: category.id,
+        categoryLabel: category.label(isBn),
+      ),
+    );
+    return;
+  }
   Get.to(
     () => const AdvisoryItemsPage(),
     binding: AdvisoryItemsBinding(
