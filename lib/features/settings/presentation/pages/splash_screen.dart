@@ -135,18 +135,21 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               AppLogo(height: 96.h),
               SizedBox(height: 20.h),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 48),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 48),
                 child: Text(
-                  'Localized weather forecasts and expert farming advice — right in your hands.',
+                  'splash.tagline'.tr,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 16, color: AppColors.textSecondaryLight, height: 1.4),
                 ),
               ),
               SizedBox(height: 38.h),
               Text(
-                'Technical Partner: RIMES',
+                // "RIMES" is a proper noun (the partner org's name) — it stays
+                // as-is in both languages, only the "Technical Partner" label
+                // is translated.
+                '${'splash.technical_partner'.tr}: RIMES',
                 style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,

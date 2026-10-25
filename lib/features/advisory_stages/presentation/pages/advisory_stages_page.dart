@@ -8,6 +8,34 @@ import '../../domen/binding/advisory_content_binding.dart';
 import '../../domen/controllers/advisory_stages_controller.dart';
 import 'advisory_content_page.dart';
 
+// Backend category ids (see agvisely-backend's advisory_categories seed).
+const _cropCategoryId = 1;
+const _livestockCategoryId = 2;
+const _aquacultureCategoryId = 3;
+
+/// Fixed per-category title, matching the approved copy exactly; the disease
+/// flow (flagged via [AdvisoryStagesController.stageCategory]) and any other
+/// (future) category id fall back to a generic, category-label-driven title.
+String _stageListTitle(AdvisoryStagesController controller, bool isBn) {
+  if (controller.stageCategory == 'disease') {
+    return 'advisory_stages.disease_title_for'
+        .trParams({'item': controller.item.label(isBn)});
+  }
+  switch (controller.categoryId) {
+    case _cropCategoryId:
+      return 'advisory_stages.title_crop'.tr;
+    case _livestockCategoryId:
+      return 'advisory_stages.title_livestock'.tr;
+    case _aquacultureCategoryId:
+      return 'advisory_stages.title_aquaculture'.tr;
+    default:
+      return controller.categoryLabel != null
+          ? 'advisory_stages.select_stage_title_for'
+              .trParams({'category': controller.categoryLabel!})
+          : 'advisory_stages.select_stage_title'.tr;
+  }
+}
+
 /// "Select a stage for advisory" — per the "Crop advisory" Figma frame:
 /// a header card for the picked item, then a scrollable list of its stages
 /// (thumbnail + name + description); tapping a stage goes straight to its
@@ -35,10 +63,7 @@ class AdvisoryStagesPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      controller.categoryLabel != null
-                          ? 'advisory_stages.select_stage_title_for'
-                              .trParams({'category': controller.categoryLabel!})
-                          : 'advisory_stages.select_stage_title'.tr,
+                      _stageListTitle(controller, isBn),
                       style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w600,

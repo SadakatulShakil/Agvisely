@@ -69,6 +69,12 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   void onInit() {
     super.onInit();
     WidgetsBinding.instance.addObserver(this);
+    // Cached data renders immediately, before either network call lands —
+    // loadWeather/loadMyChoices below refresh it live and leave it as-is
+    // (rather than blanking it) if that refresh fails, e.g. offline.
+    currentWeather.value = UserPrefService().cachedCurrentWeather;
+    final cachedChoices = UserPrefService().cachedMyChoices;
+    if (cachedChoices != null) myChoices.assignAll(cachedChoices);
     refreshLocationName();
     loadWeather();
     loadAdvisoryCategories();
@@ -131,12 +137,16 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   }
 
   /// The dashboard's "My Choice" carousel — `GET /user-choices`. Fails
-  /// silently (leaves [myChoices] as-is) so a flaky network just shows the
-  /// last-known list, or the empty-state prompt on a cold start, rather
-  /// than an error banner on the dashboard.
+  /// silently (leaves [myChoices] as-is, which `onInit` already seeded from
+  /// [UserPrefService.cachedMyChoices]) so a flaky network just shows the
+  /// last-known list rather than an error banner on the dashboard. A success
+  /// persists so the next cold start has it too.
   Future<void> loadMyChoices() async {
     final result = await UserChoicesService().fetch();
-    if (result.choices != null) myChoices.assignAll(result.choices!);
+    if (result.choices != null) {
+      myChoices.assignAll(result.choices!);
+      unawaited(UserPrefService().setCachedMyChoices(result.choices!));
+    }
   }
 
   /// Today's 3-hourly chart for the dashboard's forecast preview — same
@@ -155,7 +165,10 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   /// No-ops silently if no location has been resolved yet. Stale-response
   /// guarded like [fetchLiveWeather] — rapid location switching (saved
   /// locations sheet, GPS auto-refresh) can fire this concurrently, and an
-  /// older call landing after a newer one must not overwrite it.
+  /// older call landing after a newer one must not overwrite it. A failed
+  /// fetch (e.g. offline) leaves [currentWeather] as whatever was already
+  /// showing — cached or a previous successful fetch — rather than blanking
+  /// the card; a success persists so the next cold start has it too.
   Future<void> loadWeather() async {
     final lat = double.tryParse(UserPrefService().getLat() ?? '');
     final lon = double.tryParse(UserPrefService().getLon() ?? '');
@@ -171,7 +184,10 @@ class HomeController extends GetxController with WidgetsBindingObserver {
         lon: lon,
       );
       if (myId != _weatherReqId) return; // stale — a newer call is active
-      currentWeather.value = weather;
+      if (weather != null) {
+        currentWeather.value = weather;
+        unawaited(UserPrefService().setCachedCurrentWeather(weather));
+      }
     } finally {
       if (myId == _weatherReqId) isLoadingWeather.value = false;
     }

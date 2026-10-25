@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '../../features/auth/auth/presentation/pages/login_page.dart';
 import '../services/user_pref_service.dart';
 import 'api_endpoints.dart';
+import 'network_controller.dart';
 import 'network_exceptions.dart';
 
 class ApiClient {
@@ -25,6 +26,12 @@ class ApiClient {
   // Guards against N concurrent 401s (all sharing one failed _refreshFuture)
   // each independently clearing the session and pushing LoginPage.
   bool _loggingOut = false;
+
+  // Checked before every request so a genuine "no internet" is reported
+  // accurately — otherwise a connected-but-dead network (or airplane mode)
+  // just hangs until [_timeout] and gets misreported as a slow server.
+  bool get _isOffline =>
+      Get.isRegistered<NetworkController>() && Get.find<NetworkController>().isOffline;
 
   Map<String, String> _getHeaders({Map<String, String>? extraHeaders}) {
     final lang = Get.locale?.languageCode ?? 'bn';
@@ -63,6 +70,8 @@ class ApiClient {
     bool isRetry = false,
   }) async {
     try {
+      if (_isOffline) throw 'error.no_internet'.tr;
+
       final uri = Uri.parse(url);
       final token = await UserPrefService().getAccessToken();
       final request = http.MultipartRequest('PUT', uri)
@@ -117,6 +126,8 @@ class ApiClient {
     bool isRetry = false,
   }) async {
     try {
+      if (_isOffline) throw 'error.no_internet'.tr;
+
       final uri = Uri.parse(url);
       final finalHeaders = _getHeaders(extraHeaders: headers);
 
@@ -208,6 +219,7 @@ class ApiClient {
     try {
       await UserPrefService().clearSession();
       Get.offAll(() => const LoginPage());
+      Get.snackbar('common.error'.tr, 'error.session_expired'.tr);
     } finally {
       _loggingOut = false;
     }

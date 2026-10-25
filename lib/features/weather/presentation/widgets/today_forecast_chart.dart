@@ -7,11 +7,6 @@ import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/bengali_numerals.dart';
 import '../../../../models/seven_day_model.dart';
 
-/// Rainfall bars (green, value labeled on top) + temperature line (navy,
-/// solid) + humidity line (orange, dashed) over 3-hourly [points]. Both
-/// lines carry tappable dots showing their real value. Reused for every day
-/// card on the 7-day forecast page and the Home dashboard preview — fed a
-/// different day's points each time, never duplicated per-card.
 class TodayForecastChart extends StatelessWidget {
   const TodayForecastChart({
     super.key,

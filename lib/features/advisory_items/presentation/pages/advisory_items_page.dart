@@ -8,6 +8,29 @@ import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
 import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
 import '../../domen/controllers/advisory_items_controller.dart';
 
+// Backend category ids (see agvisely-backend's advisory_categories seed) —
+// disease (4) has its own dedicated page and never reaches this one.
+const _cropCategoryId = 1;
+const _livestockCategoryId = 2;
+const _aquacultureCategoryId = 3;
+
+/// Fixed per-category title, matching the approved copy exactly; any other
+/// (future) category id falls back to a generic, category-label-driven title.
+String _itemGridTitle(int categoryId, String? categoryLabel) {
+  switch (categoryId) {
+    case _cropCategoryId:
+      return 'advisory_items.title_crop'.tr;
+    case _livestockCategoryId:
+      return 'advisory_items.title_livestock'.tr;
+    case _aquacultureCategoryId:
+      return 'advisory_items.title_aquaculture'.tr;
+    default:
+      return categoryLabel != null
+          ? 'advisory_items.select_item_title_for'.trParams({'category': categoryLabel})
+          : 'advisory_items.select_item_title'.tr;
+  }
+}
+
 class AdvisoryItemsPage extends StatelessWidget {
   const AdvisoryItemsPage({super.key});
 
@@ -31,7 +54,7 @@ class AdvisoryItemsPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      controller.categoryLabel ?? 'advisory_items.select_item_title'.tr,
+                      _itemGridTitle(controller.categoryId, controller.categoryLabel),
                       style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w600,

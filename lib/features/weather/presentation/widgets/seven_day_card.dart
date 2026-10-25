@@ -107,6 +107,7 @@ class SevenDayCard extends StatelessWidget {
                             child: TodayForecastChart(
                               points: day.chart,
                               rainfallUnit: day.units.rf,
+                              tempUnit: day.units.temp,
                             ),
                           )
                         : const SizedBox(width: double.infinity),
@@ -160,9 +161,9 @@ class _Header extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('H: ${day.tempHighText}°', style: _labelStyle),
+                Text('${'home.high'.tr} ${day.tempHighText}', style: _labelStyle),
                 SizedBox(height: 4.h),
-                Text('L: ${day.tempLowText}°', style: _labelStyle),
+                Text('${'home.low'.tr} ${day.tempLowText}', style: _labelStyle),
               ],
             ),
           ),

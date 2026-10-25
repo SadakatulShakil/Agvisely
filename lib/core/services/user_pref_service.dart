@@ -11,8 +11,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/advisory_category_model.dart';
 import '../../models/api_location_model.dart';
+import '../../models/current_weather_model.dart';
 import '../../models/profession_model.dart';
 import '../../models/saved_location_model.dart';
+import '../../models/user_choice_model.dart';
 import '../../models/user_model.dart';
 import '../network/api_client.dart';
 import '../network/api_endpoints.dart';
@@ -75,6 +77,8 @@ class UserPrefService {
   static const String _keyCachedUser = 'CACHED_USER';
   static const String _keyCachedProfessions = 'CACHED_PROFESSIONS';
   static const String _keyCachedAdvisoryCategories = 'CACHED_ADVISORY_CATEGORIES';
+  static const String _keyCachedWeather = 'CACHED_CURRENT_WEATHER';
+  static const String _keyCachedMyChoices = 'CACHED_MY_CHOICES';
   static const String _kAccessTokenExpiresAt = 'ACCESS_TOKEN_EXPIRES_AT';
 
   // ===== Utility =====
@@ -390,6 +394,50 @@ class UserPrefService {
   Future<void> setCachedAdvisoryCategories(List<AdvisoryCategoryModel> list) async {
     await _prefs?.setString(
       _keyCachedAdvisoryCategories,
+      jsonEncode(list.map((c) => c.toJson()).toList()),
+    );
+  }
+
+  // ── Current weather cache ───────────────────────────────────────────────
+  // Persisted so the home dashboard's weather card keeps showing the last
+  // known conditions when offline, instead of going blank.
+
+  CurrentWeatherModel? get cachedCurrentWeather {
+    final raw = _prefs?.getString(_keyCachedWeather);
+    if (raw == null) return null;
+    try {
+      return CurrentWeatherModel.fromCacheJson(jsonDecode(raw) as Map<String, dynamic>);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> setCachedCurrentWeather(CurrentWeatherModel weather) async {
+    await _prefs?.setString(_keyCachedWeather, jsonEncode(weather.toCacheJson()));
+  }
+
+  // ── My Choice cache (home dashboard carousel only) ──────────────────────
+  // The My Choice page itself always hits the network (the user's own
+  // curated list should reflect the server's current state) — this cache
+  // only backs the home dashboard's preview carousel, so a cold start while
+  // offline still shows the last-known picks instead of the empty state.
+
+  List<UserChoiceModel>? get cachedMyChoices {
+    final raw = _prefs?.getString(_keyCachedMyChoices);
+    if (raw == null) return null;
+    try {
+      final list = jsonDecode(raw) as List;
+      return list
+          .map((e) => UserChoiceModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> setCachedMyChoices(List<UserChoiceModel> list) async {
+    await _prefs?.setString(
+      _keyCachedMyChoices,
       jsonEncode(list.map((c) => c.toJson()).toList()),
     );
   }

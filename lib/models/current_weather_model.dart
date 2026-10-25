@@ -74,6 +74,43 @@ class CurrentWeatherModel {
 
   String get windText => '${_num(windSpeedKmh)} $windspdUnit';
 
+  /// Flat round-trip pair for [UserPrefService.cachedCurrentWeather] — unlike
+  /// [fromJson], this doesn't re-derive anything from a raw API envelope, it
+  /// just persists/restores the already-computed fields verbatim.
+  Map<String, dynamic> toCacheJson() => {
+        'tempNow': tempNow,
+        'tempHigh': tempHigh,
+        'tempLow': tempLow,
+        'feelsLike': feelsLike,
+        'precipitationMm': precipitationMm,
+        'pressureHpa': pressureHpa,
+        'windSpeedKmh': windSpeedKmh,
+        'windDirDeg': windDirDeg,
+        'condition': condition,
+        'conditionShort': conditionShort,
+        'tempUnit': tempUnit,
+        'rfUnit': rfUnit,
+        'windspdUnit': windspdUnit,
+        'icon': icon,
+      };
+
+  static CurrentWeatherModel fromCacheJson(Map<String, dynamic> j) => CurrentWeatherModel(
+        tempNow: (j['tempNow'] as num).toDouble(),
+        tempHigh: (j['tempHigh'] as num).toDouble(),
+        tempLow: (j['tempLow'] as num).toDouble(),
+        feelsLike: (j['feelsLike'] as num).toDouble(),
+        precipitationMm: (j['precipitationMm'] as num).toDouble(),
+        pressureHpa: (j['pressureHpa'] as num).toDouble(),
+        windSpeedKmh: (j['windSpeedKmh'] as num).toDouble(),
+        windDirDeg: (j['windDirDeg'] as num).toDouble(),
+        condition: j['condition']?.toString() ?? '',
+        conditionShort: j['conditionShort']?.toString() ?? '',
+        tempUnit: j['tempUnit']?.toString() ?? '°C',
+        rfUnit: j['rfUnit']?.toString() ?? 'mm',
+        windspdUnit: j['windspdUnit']?.toString() ?? 'km/h',
+        icon: j['icon']?.toString() ?? '',
+      );
+
   static Map<String, dynamic>? _range(Map<String, dynamic>? obj, String key) =>
       obj?[key] as Map<String, dynamic>?;
 

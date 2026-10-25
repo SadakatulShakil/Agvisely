@@ -36,4 +36,17 @@ class UserChoiceModel {
 
   String itemLabel(bool isBn) =>
       isBn && (itemNameBn != null && itemNameBn!.isNotEmpty) ? itemNameBn! : itemName;
+
+  /// For [UserPrefService.cachedMyChoices] — the home dashboard's carousel
+  /// only, not the My Choice page itself (which always hits the network).
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'categoryId': categoryId,
+        'categoryName': categoryName,
+        'categoryNameBn': categoryNameBn,
+        'itemId': itemId,
+        'itemName': itemName,
+        'itemNameBn': itemNameBn,
+        'itemImageUrl': itemImageUrl,
+      };
 }

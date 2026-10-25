@@ -14,7 +14,20 @@ class NetworkController extends GetxController {
   var networkStatus = 'Checking network...'.obs;
   var networkIcon = Icons.wifi_off.obs;
 
+  /// Bumped each time connectivity is confirmed restored after being
+  /// offline — widgets showing a broken-image fallback (home category
+  /// icons, My Choice icons) watch this via `Obx` and fold it into their
+  /// `Image`'s key, so regaining connectivity forces a fresh load attempt
+  /// instead of leaving the earlier failure on screen until something else
+  /// happens to rebuild them.
+  final reconnectedAt = 0.obs;
+
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
+
+  /// `true` only once a check has actually run and come back negative —
+  /// during the brief `loading` window right after app start this is
+  /// `false` so an early request isn't wrongly short-circuited.
+  bool get isOffline => networkState.value == NetworkState.offline;
 
   @override
   void onInit() {
@@ -39,12 +52,14 @@ class NetworkController extends GetxController {
   }
 
   Future<void> _initNetworkCheck() async {
-    networkState.value = NetworkState.loading;
+    // Not set to `loading` here — _updateStatus needs the still-current
+    // state first to tell a reconnect apart from a fresh/initial check.
     final result = await Connectivity().checkConnectivity();
     await _updateStatus(result);
   }
 
   Future<void> _updateStatus(List<ConnectivityResult> result) async {
+    final wasOffline = networkState.value == NetworkState.offline;
     networkState.value = NetworkState.loading;
 
     if (result.contains(ConnectivityResult.wifi)) {
@@ -64,10 +79,10 @@ class NetworkController extends GetxController {
       return;
     }
 
-    await _checkInternetAccess();
+    await _checkInternetAccess(wasOffline);
   }
 
-  Future<void> _checkInternetAccess() async {
+  Future<void> _checkInternetAccess(bool wasOffline) async {
     final urlsToTry = [
       ApiEndpoints.checkNetwork, // Using our new Endpoints file
       'https://www.google.com/generate_204',
@@ -94,6 +109,7 @@ class NetworkController extends GetxController {
     if (hasInternet) {
       networkState.value = NetworkState.online;
       networkMessage.value = 'Internet working';
+      if (wasOffline) reconnectedAt.value++;
     } else {
       _setOffline('No internet access');
     }

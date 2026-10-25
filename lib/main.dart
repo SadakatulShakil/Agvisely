@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/network/api_client.dart';
+import 'core/network/network_controller.dart';
 import 'core/services/localization_string.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/user_pref_service.dart';
@@ -53,6 +54,10 @@ void main() async {
   // Lightweight synchronous registrations — no I/O.
   Get.put(SettingsController());
   Get.put(ThemeController());
+  // Starts monitoring connectivity immediately so ApiClient can tell a
+  // genuine "no internet" apart from a slow/unreachable server from the
+  // very first request.
+  Get.put(NetworkController());
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,

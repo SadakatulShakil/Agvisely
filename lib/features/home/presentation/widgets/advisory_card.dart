@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
+import '../../../../core/network/network_controller.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 
 /// One tile of the home dashboard's advisory grid — icon + external-link
@@ -24,19 +26,39 @@ class AdvisoryCard extends StatelessWidget {
   final String subtitle;
   final VoidCallback? onTap;
 
+  /// Shown when there's simply no icon to display (e.g. a category the API
+  /// didn't give one for) — distinct from the broken-image icon, which means
+  /// there IS one but it failed to load (most commonly: offline, viewing
+  /// cached category data with no network to fetch the image itself).
+  Widget _fallbackIcon() => Icon(Icons.info_outline, size: 40.sp, color: iconColor);
+
+  /// Reactive to [NetworkController.reconnectedAt] — folding it into the
+  /// `Image`'s key forces a fresh load attempt the moment connectivity is
+  /// restored, instead of leaving the broken-image icon up until something
+  /// unrelated happens to rebuild this widget.
+  Widget _icon() {
+    final url = iconUrl;
+    if (url == null || url.isEmpty) return _fallbackIcon();
+
+    return Obx(() {
+      final epoch = Get.isRegistered<NetworkController>()
+          ? Get.find<NetworkController>().reconnectedAt.value
+          : 0;
+      return Image.network(
+        '${ApiEndpoints.baseUrlUserHost}$url',
+        key: ValueKey('advisory_icon_${url}_$epoch'),
+        width: 56.w,
+        height: 56.h,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) =>
+            Icon(Icons.broken_image_outlined, size: 40.sp, color: iconColor),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final fallbackIcon = Icon(Icons.info_outline, size: 40.sp, color: iconColor);
-    final url = iconUrl;
-    final icon = (url == null || url.isEmpty)
-        ? fallbackIcon
-        : Image.network(
-            '${ApiEndpoints.baseUrlUserHost}$url',
-            width: 56.w,
-            height: 56.h,
-            fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) => fallbackIcon,
-          );
+    final icon = _icon();
 
     return InkWell(
       onTap: onTap,

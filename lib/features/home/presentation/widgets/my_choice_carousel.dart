@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
+import '../../../../core/network/network_controller.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../models/user_choice_model.dart';
 
@@ -159,15 +160,31 @@ class _MyChoiceIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fallback = Icon(Icons.eco, size: 36.sp, color: AppColors.primary);
+    // No URL at all vs. one that failed to load (most commonly: offline,
+    // viewing a cached pick with no network to fetch the image itself) get
+    // visually distinct fallbacks.
     final url = imageUrl;
-    if (url == null || url.isEmpty) return fallback;
-    return Image.network(
-      '${ApiEndpoints.baseUrlUserHost}$url',
-      width: 48.w,
-      height: 48.h,
-      fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) => fallback,
-    );
+    if (url == null || url.isEmpty) {
+      return Icon(Icons.eco, size: 36.sp, color: AppColors.primary);
+    }
+
+    // Reactive to NetworkController.reconnectedAt — folding it into the
+    // Image's key forces a fresh load attempt the moment connectivity is
+    // restored, instead of leaving the broken-image icon up until something
+    // unrelated happens to rebuild this widget.
+    return Obx(() {
+      final epoch = Get.isRegistered<NetworkController>()
+          ? Get.find<NetworkController>().reconnectedAt.value
+          : 0;
+      return Image.network(
+        '${ApiEndpoints.baseUrlUserHost}$url',
+        key: ValueKey('my_choice_icon_${url}_$epoch'),
+        width: 48.w,
+        height: 48.h,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) =>
+            Icon(Icons.broken_image_outlined, size: 36.sp, color: AppColors.primary),
+      );
+    });
   }
 }

@@ -13,7 +13,9 @@ class LocalizationString extends Translations {
   static const Map<String, String> _en = {
     // ── App / splash ─────────────────────────────────────────────────────
     'app.name': 'Agvisely',
-    'splash.tagline': 'Localized weather forecasts and expert farming advice',
+    'splash.tagline':
+        'Localized weather forecasts and expert farming advice — right in your hands.',
+    'splash.technical_partner': 'Technical Partner',
     'initializing_services': 'Initializing services...',
     'ready_launching_app': 'Launching app...',
 
@@ -109,6 +111,11 @@ class LocalizationString extends Translations {
 
     // ── Advisory items (generic item grid, any category) ───────────────────
     'advisory_items.select_item_title': 'Select an item for advisory',
+    'advisory_items.select_item_title_for': 'Select an item for @category',
+    'advisory_items.title_crop': 'Select a crop for Advisory',
+    'advisory_items.title_livestock': 'Select a Live-stock for Advisory',
+    'advisory_items.title_aquaculture': 'Select a Aquaculture for Advisory',
+    'advisory_items.disease_title': 'Disease Advisory',
     'advisory_items.select_category_label': 'Select Category',
     'advisory_items.retry': 'Retry',
     'advisory_items.empty': 'No items available right now.',
@@ -117,6 +124,10 @@ class LocalizationString extends Translations {
     // ── Advisory stages (generic stage list, any item) ──────────────────────
     'advisory_stages.select_stage_title': 'Select a stage for advisory',
     'advisory_stages.select_stage_title_for': 'Select a @category stage for advisory',
+    'advisory_stages.title_crop': 'Select a crop stage for advisory',
+    'advisory_stages.title_livestock': 'Select a livestock stage for advisory',
+    'advisory_stages.title_aquaculture': 'Select a Aquaculture stage for advisory',
+    'advisory_stages.disease_title_for': 'Disease Advisory / @item',
     'advisory_stages.card_subtitle': 'Select a stage to see relevant advisory',
     'advisory_stages.retry': 'Retry',
     'advisory_stages.empty_for': 'No stages available for @item right now.',
@@ -215,6 +226,7 @@ class LocalizationString extends Translations {
     'error.server_connection': 'Server connection error occurred.',
     'error.unexpected_network': 'An unexpected network error occurred.',
     'error.login_again': 'Please log in again.',
+    'error.session_expired': 'Your session has expired. Please log in again.',
     'error.request_failed': 'Request failed (@code)',
     'error.select_location_first': 'Please select a location first.',
     'error.no_advisory_yet': 'No advisory available for this stage yet.',
@@ -227,7 +239,8 @@ class LocalizationString extends Translations {
   static const Map<String, String> _bn = {
     // ── App / splash ─────────────────────────────────────────────────────
     'app.name': 'এগভাইজলি',
-    'splash.tagline': 'স্থানীয় আবহাওয়ার পূর্বাভাস ও কৃষি পরামর্শ',
+    'splash.tagline': 'স্থানীয় আবহাওয়ার পূর্বাভাস ও কৃষি পরামর্শ — এখন আপনার হাতের মুঠোয়।',
+    'splash.technical_partner': 'কারিগরি সহযোগী',
     'initializing_services': 'সেবা প্রস্তুত করা হচ্ছে...',
     'ready_launching_app': 'অ্যাপ চালু হচ্ছে...',
 
@@ -266,8 +279,8 @@ class LocalizationString extends Translations {
     'weather.cloud_coverage': 'মেঘের আচ্ছাদন',
     'weather.humidity': 'আর্দ্রতা',
     'weather.soil_moisture': 'মাটির আর্দ্রতা',
-    'weather.sunshine': 'সূর্যালোক',
-    'weather.thi': 'THI',
+    'weather.sunshine': 'রোদ',
+    'weather.thi': 'তাপ-আর্দ্রতা সূচক',
     'weather.view_graph': 'বৃষ্টিপাত, তাপমাত্রা, আর্দ্রতার গ্রাফ দেখুন',
     'weather.hide_graph': 'গ্রাফ লুকান',
     'weather.temperature': 'তাপমাত্রা',
@@ -323,6 +336,11 @@ class LocalizationString extends Translations {
 
     // ── Advisory items (generic item grid, any category) ───────────────────
     'advisory_items.select_item_title': 'পরামর্শের জন্য একটি আইটেম নির্বাচন করুন',
+    'advisory_items.select_item_title_for': '@category-এর জন্য একটি আইটেম নির্বাচন করুন',
+    'advisory_items.title_crop': 'পরামর্শ পেতে ফসল বাছুন',
+    'advisory_items.title_livestock': 'পরামর্শ পেতে প্রাণী বাছুন',
+    'advisory_items.title_aquaculture': 'পরামর্শ পেতে মাছ বাছুন',
+    'advisory_items.disease_title': 'রোগের পরামর্শ',
     'advisory_items.select_category_label': 'বিভাগ নির্বাচন করুন',
     'advisory_items.retry': 'আবার চেষ্টা করুন',
     'advisory_items.empty': 'এই মুহূর্তে কোনো আইটেম পাওয়া যায়নি।',
@@ -331,6 +349,10 @@ class LocalizationString extends Translations {
     // ── Advisory stages (generic stage list, any item) ──────────────────────
     'advisory_stages.select_stage_title': 'পরামর্শের জন্য একটি ধাপ নির্বাচন করুন',
     'advisory_stages.select_stage_title_for': '@category পরামর্শের জন্য একটি ধাপ নির্বাচন করুন',
+    'advisory_stages.title_crop': 'পরামর্শ পেতে ফসলের পর্যায় বাছুন',
+    'advisory_stages.title_livestock': 'পরামর্শ পেতে প্রাণীর পর্যায় বাছুন',
+    'advisory_stages.title_aquaculture': 'পরামর্শ পেতে মাছের পর্যায় বাছুন',
+    'advisory_stages.disease_title_for': 'রোগের পরামর্শ / @item',
     'advisory_stages.card_subtitle': 'প্রাসঙ্গিক পরামর্শ দেখতে একটি ধাপ নির্বাচন করুন',
     'advisory_stages.retry': 'আবার চেষ্টা করুন',
     'advisory_stages.empty_for': 'এই মুহূর্তে @item-এর জন্য কোনো ধাপ পাওয়া যায়নি।',
@@ -429,6 +451,7 @@ class LocalizationString extends Translations {
     'error.server_connection': 'সার্ভার সংযোগে ত্রুটি হয়েছে।',
     'error.unexpected_network': 'একটি অপ্রত্যাশিত নেটওয়ার্ক ত্রুটি ঘটেছে।',
     'error.login_again': 'অনুগ্রহ করে আবার লগ ইন করুন।',
+    'error.session_expired': 'আপনার সেশনের মেয়াদ শেষ হয়ে গেছে। অনুগ্রহ করে আবার লগ ইন করুন।',
     'error.request_failed': 'অনুরোধ ব্যর্থ হয়েছে (@code)',
     'error.select_location_first': 'অনুগ্রহ করে প্রথমে একটি অবস্থান নির্বাচন করুন।',
     'error.no_advisory_yet': 'এই ধাপের জন্য এখনো কোনো পরামর্শ পাওয়া যায়নি।',

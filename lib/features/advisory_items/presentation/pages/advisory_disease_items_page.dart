@@ -35,7 +35,7 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      controller.categoryLabel ?? 'advisory_items.select_item_title'.tr,
+                      'advisory_items.disease_title'.tr,
                       style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w600,
