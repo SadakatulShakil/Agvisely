@@ -61,20 +61,55 @@ class HomePage extends StatelessWidget {
             onTap: c.changeTab,
             items: [
               BottomNavigationBarItem(
-                icon: const Icon(Icons.home_outlined),
-                activeIcon: const Icon(Icons.home),
+                icon: SvgPicture.asset(
+                  'assets/icons/nav_bar/home_unselected.svg',
+                  width: 24.w,
+                  height: 24.h,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/icons/nav_bar/home_selected.svg',
+                  width: 24.w,
+                  height: 24.h,
+                ),
                 label: 'nav.home'.tr,
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.bug_report_outlined),
+                icon: SvgPicture.asset(
+                  'assets/icons/nav_bar/pest_advisory_unselected.svg',
+                  width: 24.w,
+                  height: 24.h,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/icons/nav_bar/pest_advisory_selected.svg',
+                  width: 24.w,
+                  height: 24.h,
+                ),
                 label: 'nav.pest'.tr,
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.person_outline),
+                icon: SvgPicture.asset(
+                  'assets/icons/nav_bar/profile_unselected.svg',
+                  width: 24.w,
+                  height: 24.h,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/icons/nav_bar/profile_selected.svg',
+                  width: 24.w,
+                  height: 24.h,
+                ),
                 label: 'nav.profile'.tr,
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.menu),
+                icon: SvgPicture.asset(
+                  'assets/icons/nav_bar/menu_unselected.svg',
+                  width: 24.w,
+                  height: 24.h,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/icons/nav_bar/menu_selected.svg',
+                  width: 24.w,
+                  height: 24.h,
+                ),
                 label: 'nav.menu'.tr,
               ),
             ],

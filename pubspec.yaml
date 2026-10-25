@@ -70,6 +70,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/icons/svg/
+    - assets/icons/nav_bar/
     - assets/icons/weather_icons/
     - assets/json/
 
