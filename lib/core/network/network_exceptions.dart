@@ -1,20 +1,22 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'package:get/get.dart';
+
 class NetworkExceptions {
   static String getErrorMessage(dynamic error) {
     if (error is SocketException) {
-      return 'No internet connection. Please check your network.';
+      return 'error.no_internet'.tr;
     } else if (error is TimeoutException) {
-      return 'Connection timed out. The server took too long to respond.';
+      return 'error.timeout'.tr;
     } else if (error is FormatException) {
-      return 'Invalid response format received from the server.';
+      return 'error.invalid_response'.tr;
     } else if (error is HttpException) {
-      return 'Server connection error occurred.';
+      return 'error.server_connection'.tr;
     } else if (error is String) {
       return error;
     } else {
-      return 'An unexpected network error occurred.';
+      return 'error.unexpected_network'.tr;
     }
   }
 }

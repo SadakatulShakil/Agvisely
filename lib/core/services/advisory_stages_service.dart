@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import '../../models/advisory_stage_model.dart';
 import '../network/api_client.dart';
 import '../network/api_endpoints.dart';
@@ -29,7 +30,7 @@ class AdvisoryStagesService {
   }) async {
     final token = await UserPrefService().getAccessToken();
     if (token == null || token.isEmpty) {
-      return (stages: null, error: 'Please log in again.');
+      return (stages: null, error: 'error.login_again'.tr);
     }
 
     try {
@@ -39,7 +40,7 @@ class AdvisoryStagesService {
       );
       final data = resp is Map ? resp['data'] : null;
       if (data is! List) {
-        return (stages: null, error: 'Invalid response format received from the server.');
+        return (stages: null, error: 'error.invalid_response'.tr);
       }
 
       final raw = data

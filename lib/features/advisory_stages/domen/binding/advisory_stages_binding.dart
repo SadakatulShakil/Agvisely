@@ -11,6 +11,7 @@ class AdvisoryStagesBinding extends Bindings {
     required this.item,
     this.categoryLabel,
     this.stageCategory,
+    this.ipmOnly = false,
   });
 
   final int categoryId;
@@ -21,6 +22,10 @@ class AdvisoryStagesBinding extends Bindings {
   /// the item's advisory stages.
   final String? stageCategory;
 
+  /// `true` for the Pest Advisory flow — carried through to
+  /// [AdvisoryContentBinding] so the content page shows IPM advice only.
+  final bool ipmOnly;
+
   @override
   void dependencies() {
     Get.lazyPut<AdvisoryStagesController>(
@@ -29,6 +34,7 @@ class AdvisoryStagesBinding extends Bindings {
         item: item,
         categoryLabel: categoryLabel,
         stageCategory: stageCategory,
+        ipmOnly: ipmOnly,
       ),
     );
   }

@@ -10,7 +10,8 @@ import '../../domen/controllers/pest_advisory_controller.dart';
 
 /// "Select a crop for advisory" — pest attacks only crops, so this always
 /// browses the Crop category's item list. Picking an item proceeds through
-/// the exact same stage/content flow as the Crop advisory category.
+/// the same stage/content flow as the Crop advisory category, except the
+/// content page (`ipmOnly: true`) shows only the IPM advisory section.
 class PestAdvisoryPage extends StatelessWidget {
   const PestAdvisoryPage({super.key});
 
@@ -113,6 +114,7 @@ class PestAdvisoryPage extends StatelessWidget {
                           categoryId: PestAdvisoryController.cropCategoryId,
                           item: item,
                           categoryLabel: 'advisory.crop'.tr,
+                          ipmOnly: true,
                         ),
                       ),
                       child: Container(

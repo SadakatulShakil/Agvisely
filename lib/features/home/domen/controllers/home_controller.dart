@@ -47,6 +47,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   final liveType = ''.obs;
   final liveIcon = ''.obs;
   int _liveReqId = 0;
+  int _weatherReqId = 0;
 
   // ── GPS auto-refresh tracking (mirrors BMD-Abohawa's HomeController) ──────
   /// Last time we successfully fetched GPS — null means never this session.
@@ -151,7 +152,10 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   }
 
   /// Fetches current-weather for the active saved location's lat/lon.
-  /// No-ops silently if no location has been resolved yet.
+  /// No-ops silently if no location has been resolved yet. Stale-response
+  /// guarded like [fetchLiveWeather] — rapid location switching (saved
+  /// locations sheet, GPS auto-refresh) can fire this concurrently, and an
+  /// older call landing after a newer one must not overwrite it.
   Future<void> loadWeather() async {
     final lat = double.tryParse(UserPrefService().getLat() ?? '');
     final lon = double.tryParse(UserPrefService().getLon() ?? '');
@@ -159,14 +163,17 @@ class HomeController extends GetxController with WidgetsBindingObserver {
 
     fetchLiveWeather(lat, lon); // fire-and-forget — never blocks the forecast
 
+    final myId = ++_weatherReqId;
     isLoadingWeather.value = true;
     try {
-      currentWeather.value = await _weatherRepository.fetchCurrentWeather(
+      final weather = await _weatherRepository.fetchCurrentWeather(
         lat: lat,
         lon: lon,
       );
+      if (myId != _weatherReqId) return; // stale — a newer call is active
+      currentWeather.value = weather;
     } finally {
-      isLoadingWeather.value = false;
+      if (myId == _weatherReqId) isLoadingWeather.value = false;
     }
   }
 

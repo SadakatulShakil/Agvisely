@@ -107,7 +107,7 @@ class AgviselyApp extends StatelessWidget {
           locale: Locale(savedLang),
           home: const SplashScreen(),
           builder: (context, child) => DefaultTextStyle.merge(
-            style: const TextStyle(fontFamily: AppFonts.family),
+            style: TextStyle(fontFamily: AppFonts.family),
             child: child ?? const SizedBox.shrink(),
           ),
         ),

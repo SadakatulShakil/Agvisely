@@ -157,6 +157,7 @@ class AdvisoryStagesPage extends StatelessWidget {
                           categoryLabel: controller.categoryLabel,
                           item: controller.item,
                           stage: stage,
+                          ipmOnly: controller.ipmOnly,
                         ),
                       ),
                       child: Container(

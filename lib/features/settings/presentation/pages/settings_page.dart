@@ -21,7 +21,7 @@ class SettingsPage extends StatelessWidget {
                 onChanged: (bn) => c.setLanguage(bn ? 'bn' : 'en'),
               )),
           Obx(() => SwitchListTile(
-                title: const Text('Dark mode'),
+                title: Text('settings.dark_mode'.tr),
                 value: theme.isDark,
                 onChanged: theme.toggleTheme,
               )),

@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import '../../models/user_choice_model.dart';
 import '../network/api_client.dart';
 import '../network/api_endpoints.dart';
@@ -18,7 +19,7 @@ class UserChoicesService {
   Future<({List<UserChoiceModel>? choices, String? error})> fetch() async {
     final token = await UserPrefService().getAccessToken();
     if (token == null || token.isEmpty) {
-      return (choices: null, error: 'Please log in again.');
+      return (choices: null, error: 'error.login_again'.tr);
     }
 
     try {
@@ -28,7 +29,7 @@ class UserChoicesService {
       );
       final data = resp is Map ? resp['data'] : null;
       if (data is! List) {
-        return (choices: null, error: 'Invalid response format received from the server.');
+        return (choices: null, error: 'error.invalid_response'.tr);
       }
 
       final choices = data
@@ -50,7 +51,7 @@ class UserChoicesService {
   }) async {
     final token = await UserPrefService().getAccessToken();
     if (token == null || token.isEmpty) {
-      return (choice: null, error: 'Please log in again.');
+      return (choice: null, error: 'error.login_again'.tr);
     }
 
     try {
@@ -61,7 +62,7 @@ class UserChoicesService {
       );
       final data = resp is Map ? resp['data'] : null;
       if (data is! Map) {
-        return (choice: null, error: 'Invalid response format received from the server.');
+        return (choice: null, error: 'error.invalid_response'.tr);
       }
       return (choice: UserChoiceModel.fromJson(data.cast<String, dynamic>()), error: null);
     } catch (e) {
@@ -73,7 +74,7 @@ class UserChoicesService {
   Future<({bool success, String? error})> remove(int id) async {
     final token = await UserPrefService().getAccessToken();
     if (token == null || token.isEmpty) {
-      return (success: false, error: 'Please log in again.');
+      return (success: false, error: 'error.login_again'.tr);
     }
 
     try {

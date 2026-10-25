@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import '../../models/advisory_content_model.dart';
 import '../../models/advisory_rule_model.dart';
 import '../network/api_client.dart';
@@ -16,21 +17,23 @@ class AdvisoryContentService {
   factory AdvisoryContentService() => _instance;
 
   /// `content` is non-null on success. `error` is a human-readable message
-  /// on failure.
+  /// on failure. `ipmOnly` keeps just the IPM advisory section — see
+  /// [AdvisoryContentModel.fromRules] — for the Pest Advisory flow.
   Future<({AdvisoryContentModel? content, String? error})> fetch(
     int categoryId,
     int itemId,
-    int stageId,
-  ) async {
+    int stageId, {
+    bool ipmOnly = false,
+  }) async {
     final token = await UserPrefService().getAccessToken();
     if (token == null || token.isEmpty) {
-      return (content: null, error: 'Please log in again.');
+      return (content: null, error: 'error.login_again'.tr);
     }
 
     final lat = double.tryParse(UserPrefService().getLat() ?? '');
     final lon = double.tryParse(UserPrefService().getLon() ?? '');
     if (lat == null || lon == null) {
-      return (content: null, error: 'Please select a location first.');
+      return (content: null, error: 'error.select_location_first'.tr);
     }
 
     try {
@@ -41,7 +44,7 @@ class AdvisoryContentService {
       );
       final data = resp is Map ? resp['data'] : null;
       if (data is! List) {
-        return (content: null, error: 'Invalid response format received from the server.');
+        return (content: null, error: 'error.invalid_response'.tr);
       }
 
       final rules = data
@@ -51,9 +54,9 @@ class AdvisoryContentService {
           .toList()
         ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
-      final content = AdvisoryContentModel.fromRules(stageId, rules);
+      final content = AdvisoryContentModel.fromRules(stageId, rules, ipmOnly: ipmOnly);
       if (content.sections.isEmpty && content.goodPractice == null) {
-        return (content: null, error: 'No advisory available for this stage yet.');
+        return (content: null, error: 'error.no_advisory_yet'.tr);
       }
 
       return (content: content, error: null);

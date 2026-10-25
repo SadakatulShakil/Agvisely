@@ -13,6 +13,7 @@ class AdvisoryStagesController extends GetxController {
     required this.item,
     this.categoryLabel,
     this.stageCategory,
+    this.ipmOnly = false,
   });
 
   final int categoryId;
@@ -22,6 +23,10 @@ class AdvisoryStagesController extends GetxController {
   /// `'disease'` for the Crop Disease Early Warning flow; `null` fetches
   /// the item's advisory stages.
   final String? stageCategory;
+
+  /// `true` for the Pest Advisory flow — carried through to
+  /// [AdvisoryContentBinding] so the content page shows IPM advice only.
+  final bool ipmOnly;
 
   final isLoading = false.obs;
   final errorMessage = Rxn<String>();

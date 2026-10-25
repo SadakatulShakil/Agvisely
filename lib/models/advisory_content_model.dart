@@ -63,14 +63,27 @@ class AdvisoryContentModel {
   /// Practice" advice) are pooled into the highlighted "good practice" card,
   /// which always renders last. Each rule's `advisory`/`advisoryBn` HTML list
   /// is parsed into plain-text bullets and paired up by position.
-  factory AdvisoryContentModel.fromRules(int stageId, List<AdvisoryRuleModel> rules) {
+  ///
+  /// `ipmOnly` — the Pest Advisory flow only cares about pest-management
+  /// advice, so it drops every other rule (temperature/rainfall/good
+  /// practice) and keeps just the IPM ones, leaving a single "IPM Advisory"
+  /// section (and no good-practice card).
+  factory AdvisoryContentModel.fromRules(
+    int stageId,
+    List<AdvisoryRuleModel> rules, {
+    bool ipmOnly = false,
+  }) {
     final sections = <AdvisorySectionModel>[];
     final sectionIndexByCategory = <String, int>{};
     final ipmBullets = <AdvisoryBulletModel>[];
     final goodPracticeBullets = <AdvisoryBulletModel>[];
     String? goodPracticeKey;
 
-    for (final rule in rules) {
+    final effectiveRules = ipmOnly
+        ? rules.where((r) => _isIpmRule(r)).toList()
+        : rules;
+
+    for (final rule in effectiveRules) {
       final bullets = _pairBullets(rule.advisory, rule.advisoryBn);
       if (bullets.isEmpty) continue;
 
@@ -115,6 +128,10 @@ class AdvisoryContentModel {
 
     return AdvisoryContentModel(stageId: stageId, sections: sections, goodPractice: goodPractice);
   }
+
+  static bool _isIpmRule(AdvisoryRuleModel rule) =>
+      (rule.category == null || rule.category!.isEmpty) &&
+      rule.stageAdvisory?.toLowerCase() == 'ipm';
 
   static List<AdvisoryBulletModel> _pairBullets(String advisory, String advisoryBn) {
     final en = parseHtmlBullets(advisory);

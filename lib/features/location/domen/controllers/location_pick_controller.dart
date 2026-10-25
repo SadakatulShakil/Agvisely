@@ -27,6 +27,10 @@ class SelectLocationController extends GetxController {
   // UI Controls
   final TextEditingController searchController = TextEditingController();
 
+  // Guards the delayed dialog in [showExplainDialog] from popping up after
+  // the user has already navigated away from this page.
+  bool _closed = false;
+
   @override
   void onInit() {
     super.onInit();
@@ -44,6 +48,7 @@ class SelectLocationController extends GetxController {
 
   void showExplainDialog() {
     Future.delayed(const Duration(milliseconds: 100), () {
+      if (_closed) return;
       final isBangla = Get.locale?.languageCode == 'bn';
       Get.dialog(
         barrierDismissible: false, // Prevents closing by clicking outside
@@ -117,6 +122,7 @@ class SelectLocationController extends GetxController {
 
   @override
   void onClose() {
+    _closed = true;
     searchController.dispose();
     super.onClose();
   }
@@ -146,10 +152,10 @@ class SelectLocationController extends GetxController {
             ? const LoginPage()
             : const HomePage());
       } else {
-        Get.snackbar('Error', 'Could not save location');
+        Get.snackbar('common.error'.tr, 'error.could_not_save_location'.tr);
       }
     } catch (e) {
-      Get.snackbar('Error', 'Could not save location');
+      Get.snackbar('common.error'.tr, 'error.could_not_save_location'.tr);
     } finally {
       isSaving.value = false;
     }

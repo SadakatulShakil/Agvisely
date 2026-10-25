@@ -99,7 +99,7 @@ class AuthController extends GetxController {
 
   /// Sign-up flow: validate every field, POST it, then go to OTP.
   Future<void> submitSignup() async {
-    if (name.text.trim().isEmpty) return _toast('Please enter your name');
+    if (name.text.trim().isEmpty) return _toast('auth.enter_name'.tr);
 
     final err = PhoneUtil.validate(signupPhone.text);
     if (err != null) return _toast(err);
@@ -133,7 +133,9 @@ class AuthController extends GetxController {
     required String phone,
     required String purpose,
   }) async {
-    if (code.length != otpLength) return _toast('Enter the $otpLength-digit code');
+    if (code.length != otpLength) {
+      return _toast('auth.enter_otp_code'.trParams({'length': '$otpLength'}));
+    }
 
     isSubmitting.value = true;
     try {
@@ -144,13 +146,16 @@ class AuthController extends GetxController {
 
       final data = resp is Map ? resp['data'] : null;
       final token = data is Map ? (data['token'] ?? data['accessToken']) : null;
-      if (token is String && token.isNotEmpty) {
-        await UserPrefService().saveAccessToken(token);
-        final expiresIn = data is Map ? data['accessTokenExpiresIn'] : null;
-        if (expiresIn is int) {
-          await UserPrefService()
-              .saveAccessTokenExpiry(DateTime.now().add(Duration(seconds: expiresIn)));
-        }
+      if (token is! String || token.isEmpty) {
+        // Backend's verify-otp success path always returns a token together
+        // with the user — this guards against ever logging in without one.
+        return _toast('auth.verification_failed'.tr);
+      }
+      await UserPrefService().saveAccessToken(token);
+      final expiresIn = data is Map ? data['accessTokenExpiresIn'] : null;
+      if (expiresIn is int) {
+        await UserPrefService()
+            .saveAccessTokenExpiry(DateTime.now().add(Duration(seconds: expiresIn)));
       }
       final refreshToken = data is Map ? data['refreshToken'] : null;
       if (refreshToken is String && refreshToken.isNotEmpty) {
@@ -196,7 +201,7 @@ class AuthController extends GetxController {
       } else {
         await _postLogin(phone);
       }
-      _toast('A new OTP has been sent');
+      _toast('auth.otp_resent'.tr);
     } catch (e) {
       _toast(e.toString());
     } finally {

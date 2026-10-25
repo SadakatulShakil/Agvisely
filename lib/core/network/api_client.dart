@@ -22,6 +22,10 @@ class ApiClient {
   // one refresh call, not five.
   Future<String?>? _refreshFuture;
 
+  // Guards against N concurrent 401s (all sharing one failed _refreshFuture)
+  // each independently clearing the session and pushing LoginPage.
+  bool _loggingOut = false;
+
   Map<String, String> _getHeaders({Map<String, String>? extraHeaders}) {
     final lang = Get.locale?.languageCode ?? 'bn';
     Map<String, String> headers = {
@@ -199,8 +203,14 @@ class ApiClient {
   }
 
   Future<void> _forceLogout() async {
-    await UserPrefService().clearSession();
-    Get.offAll(() => const LoginPage());
+    if (_loggingOut) return;
+    _loggingOut = true;
+    try {
+      await UserPrefService().clearSession();
+      Get.offAll(() => const LoginPage());
+    } finally {
+      _loggingOut = false;
+    }
   }
 
   /// Proactively refreshes the access token if it's close to expiring, so
@@ -260,9 +270,9 @@ class ApiClient {
           : null;
       throw (message != null && message.isNotEmpty)
           ? message
-          : 'Request failed (${response.statusCode})';
+          : 'error.request_failed'.trParams({'code': '${response.statusCode}'});
     } on FormatException {
-      throw 'Request failed (${response.statusCode})';
+      throw 'error.request_failed'.trParams({'code': '${response.statusCode}'});
     }
   }
 

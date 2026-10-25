@@ -147,6 +147,10 @@ class LocalizationString extends Translations {
     'auth.continue': 'Continue',
     'auth.contact_no': 'Contact No',
     'auth.request_otp': 'Request OTP',
+    'auth.enter_name': 'Please enter your name',
+    'auth.enter_otp_code': 'Enter the @length-digit code',
+    'auth.otp_resent': 'A new OTP has been sent',
+    'auth.verification_failed': 'Verification failed. Please try again.',
 
     // ── Onboarding ───────────────────────────────────────────────────────
     'onboarding.slide1_title': 'Localized weather forecasts',
@@ -202,6 +206,22 @@ class LocalizationString extends Translations {
     'common.no_internet': 'No internet connection',
     'common.save': 'Save',
     'common.cancel': 'Cancel',
+    'common.error': 'Error',
+
+    // ── Errors (network/API — NetworkExceptions, ApiClient, services) ──────
+    'error.no_internet': 'No internet connection. Please check your network.',
+    'error.timeout': 'Connection timed out. The server took too long to respond.',
+    'error.invalid_response': 'Invalid response format received from the server.',
+    'error.server_connection': 'Server connection error occurred.',
+    'error.unexpected_network': 'An unexpected network error occurred.',
+    'error.login_again': 'Please log in again.',
+    'error.request_failed': 'Request failed (@code)',
+    'error.select_location_first': 'Please select a location first.',
+    'error.no_advisory_yet': 'No advisory available for this stage yet.',
+    'error.could_not_save_location': 'Could not save location',
+
+    // ── Settings ─────────────────────────────────────────────────────────
+    'settings.dark_mode': 'Dark mode',
   };
 
   static const Map<String, String> _bn = {
@@ -341,6 +361,10 @@ class LocalizationString extends Translations {
     'auth.continue': 'চালিয়ে যান',
     'auth.contact_no': 'যোগাযোগ নম্বর',
     'auth.request_otp': 'ওটিপি পাঠান',
+    'auth.enter_name': 'অনুগ্রহ করে আপনার নাম লিখুন',
+    'auth.enter_otp_code': '@length-সংখ্যার কোডটি লিখুন',
+    'auth.otp_resent': 'একটি নতুন ওটিপি পাঠানো হয়েছে',
+    'auth.verification_failed': 'যাচাই ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।',
 
     // ── Onboarding ───────────────────────────────────────────────────────
     'onboarding.slide1_title': 'স্থানীয় আবহাওয়ার পূর্বাভাস',
@@ -396,5 +420,21 @@ class LocalizationString extends Translations {
     'common.no_internet': 'ইন্টারনেট সংযোগ নেই',
     'common.save': 'সংরক্ষণ করুন',
     'common.cancel': 'বাতিল',
+    'common.error': 'ত্রুটি',
+
+    // ── Errors (network/API — NetworkExceptions, ApiClient, services) ──────
+    'error.no_internet': 'ইন্টারনেট সংযোগ নেই। অনুগ্রহ করে আপনার নেটওয়ার্ক পরীক্ষা করুন।',
+    'error.timeout': 'সংযোগের সময় শেষ হয়ে গেছে। সার্ভার সাড়া দিতে অনেক সময় নিয়েছে।',
+    'error.invalid_response': 'সার্ভার থেকে পাওয়া তথ্যের ফরম্যাট সঠিক নয়।',
+    'error.server_connection': 'সার্ভার সংযোগে ত্রুটি হয়েছে।',
+    'error.unexpected_network': 'একটি অপ্রত্যাশিত নেটওয়ার্ক ত্রুটি ঘটেছে।',
+    'error.login_again': 'অনুগ্রহ করে আবার লগ ইন করুন।',
+    'error.request_failed': 'অনুরোধ ব্যর্থ হয়েছে (@code)',
+    'error.select_location_first': 'অনুগ্রহ করে প্রথমে একটি অবস্থান নির্বাচন করুন।',
+    'error.no_advisory_yet': 'এই ধাপের জন্য এখনো কোনো পরামর্শ পাওয়া যায়নি।',
+    'error.could_not_save_location': 'লোকেশন সংরক্ষণ করা যায়নি',
+
+    // ── Settings ─────────────────────────────────────────────────────────
+    'settings.dark_mode': 'ডার্ক মোড',
   };
 }

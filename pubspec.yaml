@@ -75,8 +75,10 @@ flutter:
     - assets/lottie/
     - assets/json/
 
-  # AnekBangla is the same bundled-font system as BMD (renders Bangla on
-  # the first frame, fully offline).
+  # AnekBangla (bn) and Outfit (en) are both bundled locally — same system as
+  # BMD: renders on the first frame, fully offline, no google_fonts runtime
+  # fetch/flash. Outfit is a variable font; each weight entry below points at
+  # the same file (Flutter resolves the right instance from its weight axis).
   fonts:
     - family: AnekBangla
       fonts:
@@ -86,4 +88,13 @@ flutter:
         - asset: assets/fonts/AnekBangla-SemiBold.ttf
           weight: 600
         - asset: assets/fonts/AnekBangla-Bold.ttf
+          weight: 700
+    - family: Outfit
+      fonts:
+        - asset: assets/fonts/Outfit-Regular.ttf
+        - asset: assets/fonts/Outfit-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Outfit-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Outfit-Bold.ttf
           weight: 700

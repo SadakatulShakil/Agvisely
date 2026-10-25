@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import '../../models/advisory_item_model.dart';
 import '../network/api_client.dart';
 import '../network/api_endpoints.dart';
@@ -26,7 +27,7 @@ class AdvisoryItemsService {
   Future<({List<AdvisoryItemModel>? items, String? error})> fetch(int categoryId) async {
     final token = await UserPrefService().getAccessToken();
     if (token == null || token.isEmpty) {
-      return (items: null, error: 'Please log in again.');
+      return (items: null, error: 'error.login_again'.tr);
     }
 
     try {
@@ -36,7 +37,7 @@ class AdvisoryItemsService {
       );
       final data = resp is Map ? resp['data'] : null;
       if (data is! List) {
-        return (items: null, error: 'Invalid response format received from the server.');
+        return (items: null, error: 'error.invalid_response'.tr);
       }
 
       final raw = data

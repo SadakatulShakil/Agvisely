@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import '../../models/notification_model.dart';
 import '../network/api_client.dart';
 import '../network/api_endpoints.dart';
@@ -21,7 +22,7 @@ class NotificationsService {
   })> fetch({int page = 1, int limit = 20, String order = 'desc'}) async {
     final token = await UserPrefService().getAccessToken();
     if (token == null || token.isEmpty) {
-      return (items: null, meta: null, unreadCount: null, error: 'Please log in again.');
+      return (items: null, meta: null, unreadCount: null, error: 'error.login_again'.tr);
     }
 
     try {
@@ -35,7 +36,7 @@ class NotificationsService {
           items: null,
           meta: null,
           unreadCount: null,
-          error: 'Invalid response format received from the server.',
+          error: 'error.invalid_response'.tr,
         );
       }
 
@@ -69,7 +70,7 @@ class NotificationsService {
   Future<({NotificationModel? notification, String? error})> markRead(int id) async {
     final token = await UserPrefService().getAccessToken();
     if (token == null || token.isEmpty) {
-      return (notification: null, error: 'Please log in again.');
+      return (notification: null, error: 'error.login_again'.tr);
     }
 
     try {
@@ -79,7 +80,7 @@ class NotificationsService {
       );
       final data = resp is Map ? resp['data'] : null;
       if (data is! Map) {
-        return (notification: null, error: 'Invalid response format received from the server.');
+        return (notification: null, error: 'error.invalid_response'.tr);
       }
       return (notification: NotificationModel.fromJson(data.cast<String, dynamic>()), error: null);
     } catch (e) {
@@ -91,7 +92,7 @@ class NotificationsService {
   Future<({int? count, String? error})> markAllRead() async {
     final token = await UserPrefService().getAccessToken();
     if (token == null || token.isEmpty) {
-      return (count: null, error: 'Please log in again.');
+      return (count: null, error: 'error.login_again'.tr);
     }
 
     try {
@@ -101,7 +102,7 @@ class NotificationsService {
       );
       final data = resp is Map ? resp['data'] : null;
       if (data is! int) {
-        return (count: null, error: 'Invalid response format received from the server.');
+        return (count: null, error: 'error.invalid_response'.tr);
       }
       return (count: data, error: null);
     } catch (e) {

@@ -105,6 +105,7 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
         ],
       ),
     );
+    controller.dispose();
     if (newName == null || newName.trim().isEmpty) return;
 
     setState(() => _busy = true);

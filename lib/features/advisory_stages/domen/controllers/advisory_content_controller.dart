@@ -14,12 +14,17 @@ class AdvisoryContentController extends GetxController {
     required this.categoryLabel,
     required this.item,
     required this.stage,
+    this.ipmOnly = false,
   });
 
   final int categoryId;
   final String? categoryLabel;
   final AdvisoryItemModel item;
   final AdvisoryStageModel stage;
+
+  /// `true` for the Pest Advisory flow — only the IPM advisory section is
+  /// shown, see [AdvisoryContentModel.fromRules].
+  final bool ipmOnly;
 
   final isLoading = false.obs;
   final errorMessage = Rxn<String>();
@@ -35,7 +40,8 @@ class AdvisoryContentController extends GetxController {
     isLoading.value = true;
     errorMessage.value = null;
 
-    final result = await AdvisoryContentService().fetch(categoryId, item.id, stage.id);
+    final result = await AdvisoryContentService()
+        .fetch(categoryId, item.id, stage.id, ipmOnly: ipmOnly);
     if (result.content != null) {
       content.value = result.content;
     } else {

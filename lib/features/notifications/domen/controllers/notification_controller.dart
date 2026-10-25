@@ -21,6 +21,11 @@ class NotificationController extends GetxController {
   bool _hasMore = true;
   bool get hasMore => _hasMore;
 
+  // Bumped by every loadNotifications() call so a loadMore() in flight when
+  // a fresh reload/refresh starts can tell its page is now stale and drop
+  // its result instead of appending onto the just-reloaded page 1.
+  int _generation = 0;
+
   @override
   void onInit() {
     super.onInit();
@@ -28,12 +33,15 @@ class NotificationController extends GetxController {
   }
 
   Future<void> loadNotifications() async {
+    final myGeneration = ++_generation;
     isLoading.value = true;
     errorMessage.value = null;
     _page = 1;
     _hasMore = true;
 
     final result = await NotificationsService().fetch(page: _page, limit: _pageLimit);
+    if (myGeneration != _generation) return; // superseded by a newer reload
+
     if (result.items != null) {
       notifications.assignAll(result.items!);
       _setUnreadCount(result.unreadCount ?? 0);
@@ -48,8 +56,15 @@ class NotificationController extends GetxController {
   Future<void> loadMore() async {
     if (!_hasMore || isLoadingMore.value || isLoading.value) return;
 
+    final myGeneration = _generation;
     isLoadingMore.value = true;
     final result = await NotificationsService().fetch(page: _page + 1, limit: _pageLimit);
+    if (myGeneration != _generation) {
+      // loadNotifications() reset the list while this was in flight.
+      isLoadingMore.value = false;
+      return;
+    }
+
     if (result.items != null) {
       _page += 1;
       notifications.addAll(result.items!);
@@ -65,10 +80,13 @@ class NotificationController extends GetxController {
   Future<void> markAsRead(NotificationModel notification) async {
     if (notification.isRead) return;
 
-    final index = notifications.indexWhere((n) => n.id == notification.id);
     final result = await NotificationsService().markRead(notification.id);
     if (result.notification == null) return; // leave as unread on failure
 
+    // Looked up after the await (not before) — a concurrent loadNotifications()
+    // reset while this was in flight would otherwise leave a stale/out-of-range
+    // index.
+    final index = notifications.indexWhere((n) => n.id == notification.id);
     if (index != -1) notifications[index] = result.notification!;
     _setUnreadCount(unreadCount.value - 1);
   }

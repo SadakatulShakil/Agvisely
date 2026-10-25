@@ -24,18 +24,24 @@ class OtpBoxes extends StatefulWidget {
 class _OtpBoxesState extends State<OtpBoxes> {
   late final List<TextEditingController> _c;
   late final List<FocusNode> _f;
+  // Raw-backspace-detection nodes for the KeyboardListener wrapping each box
+  // — separate from [_f] (the boxes' real, reused focus nodes).
+  late final List<FocusNode> _keyboardListenerNodes;
 
   @override
   void initState() {
     super.initState();
     _c = List.generate(widget.length, (_) => TextEditingController());
     _f = List.generate(widget.length, (_) => FocusNode());
+    _keyboardListenerNodes =
+        List.generate(widget.length, (_) => FocusNode(skipTraversal: true));
   }
 
   @override
   void dispose() {
     for (final c in _c) c.dispose();
     for (final f in _f) f.dispose();
+    for (final f in _keyboardListenerNodes) f.dispose();
     super.dispose();
   }
 
@@ -60,7 +66,7 @@ class _OtpBoxesState extends State<OtpBoxes> {
           width: 56,
           height: 60,
           child: KeyboardListener(
-            focusNode: FocusNode(skipTraversal: true),
+            focusNode: _keyboardListenerNodes[i],
             onKeyEvent: (e) {
               if (e is KeyDownEvent &&
                   e.logicalKey == LogicalKeyboardKey.backspace &&

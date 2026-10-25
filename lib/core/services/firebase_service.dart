@@ -5,6 +5,7 @@ import 'package:agvisely/core/services/user_pref_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../features/notifications/domen/controllers/notification_badge_controller.dart';
 import '../../features/notifications/presentation/pages/notification_page.dart';
 import 'notification_service.dart';
 
@@ -80,6 +81,13 @@ class FirebaseService {
         body:    body,
         payload: type,
       );
+
+      // The push is already persisted server-side by the time it reaches the
+      // device — re-sync the home bell badge so it doesn't go stale while
+      // the user stays put instead of opening the notification list.
+      if (Get.isRegistered<NotificationBadgeController>()) {
+        unawaited(Get.find<NotificationBadgeController>().refreshUnreadCount());
+      }
     });
 
     // ── Step 7: BACKGROUND tap ───────────────────────────────────
