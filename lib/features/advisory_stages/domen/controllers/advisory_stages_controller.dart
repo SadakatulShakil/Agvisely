@@ -12,11 +12,16 @@ class AdvisoryStagesController extends GetxController {
     required this.categoryId,
     required this.item,
     this.categoryLabel,
+    this.stageCategory,
   });
 
   final int categoryId;
   final AdvisoryItemModel item;
   final String? categoryLabel;
+
+  /// `'disease'` for the Crop Disease Early Warning flow; `null` fetches
+  /// the item's advisory stages.
+  final String? stageCategory;
 
   final isLoading = false.obs;
   final errorMessage = Rxn<String>();
@@ -32,7 +37,8 @@ class AdvisoryStagesController extends GetxController {
     isLoading.value = true;
     errorMessage.value = null;
 
-    final result = await AdvisoryStagesService().fetch(categoryId, item.id);
+    final result = await AdvisoryStagesService()
+        .fetch(categoryId, item.id, stageCategory: stageCategory);
     if (result.stages != null) {
       stages.assignAll(result.stages!);
     } else {

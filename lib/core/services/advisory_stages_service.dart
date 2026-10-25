@@ -19,11 +19,14 @@ class AdvisoryStagesService {
   }
 
   /// `stages` is non-null (possibly empty) on success. `error` is a
-  /// human-readable message on failure.
+  /// human-readable message on failure. `stageCategory` is `'disease'` for
+  /// the Crop Disease Early Warning flow; left out (or `null`) it fetches
+  /// the item's advisory stages.
   Future<({List<AdvisoryStageModel>? stages, String? error})> fetch(
     int categoryId,
-    int itemId,
-  ) async {
+    int itemId, {
+    String? stageCategory,
+  }) async {
     final token = await UserPrefService().getAccessToken();
     if (token == null || token.isEmpty) {
       return (stages: null, error: 'Please log in again.');
@@ -31,7 +34,7 @@ class AdvisoryStagesService {
 
     try {
       final resp = await ApiClient().get(
-        ApiEndpoints.advisoryItemStages(categoryId, itemId),
+        ApiEndpoints.advisoryItemStages(categoryId, itemId, stageCategory: stageCategory),
         headers: {'Authorization': 'Bearer $token'},
       );
       final data = resp is Map ? resp['data'] : null;

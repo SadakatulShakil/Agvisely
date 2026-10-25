@@ -10,11 +10,16 @@ class AdvisoryStagesBinding extends Bindings {
     required this.categoryId,
     required this.item,
     this.categoryLabel,
+    this.stageCategory,
   });
 
   final int categoryId;
   final AdvisoryItemModel item;
   final String? categoryLabel;
+
+  /// `'disease'` for the Crop Disease Early Warning flow; `null` fetches
+  /// the item's advisory stages.
+  final String? stageCategory;
 
   @override
   void dependencies() {
@@ -23,6 +28,7 @@ class AdvisoryStagesBinding extends Bindings {
         categoryId: categoryId,
         item: item,
         categoryLabel: categoryLabel,
+        stageCategory: stageCategory,
       ),
     );
   }

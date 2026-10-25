@@ -63,8 +63,15 @@ class ApiEndpoints {
 
   /// `GET /advisory/categories/{categoryId}/items/{itemId}/stages` — the
   /// stage list (sowing, sprouting, ...) shown after an item is picked.
-  static String advisoryItemStages(int categoryId, int itemId) =>
-      '$baseUrlUser/advisory/categories/$categoryId/items/$itemId/stages';
+  /// `stageCategory` picks between the item's advisory stages (default,
+  /// also used when left out) and its disease stages — pass `'disease'`
+  /// for the Crop Disease Early Warning flow.
+  static String advisoryItemStages(int categoryId, int itemId, {String? stageCategory}) {
+    final base = '$baseUrlUser/advisory/categories/$categoryId/items/$itemId/stages';
+    return stageCategory == null || stageCategory.isEmpty
+        ? base
+        : '$base?category=$stageCategory';
+  }
 
   /// `POST /advisory/categories/{categoryId}/items/{itemId}/stages/{stageId}/rules/match`
   /// with `{lat, lon}` body — the advisory rules already matched against

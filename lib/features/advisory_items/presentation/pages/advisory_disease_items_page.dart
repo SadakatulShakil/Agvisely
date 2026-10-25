@@ -176,6 +176,7 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                             categoryId: category.id,
                             item: item,
                             categoryLabel: category.label(isBn),
+                            stageCategory: 'disease',
                           ),
                         );
                       },

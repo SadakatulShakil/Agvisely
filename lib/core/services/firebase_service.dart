@@ -1,5 +1,3 @@
-// lib/core/services/firebase_service.dart
-
 import 'dart:async';
 import 'dart:io';
 import 'package:agvisely/core/services/fcm_sync_service.dart';
@@ -10,13 +8,10 @@ import 'package:get/get.dart';
 import '../../features/notifications/presentation/pages/notification_page.dart';
 import 'notification_service.dart';
 
-// ✅ MUST be top-level — runs in separate isolate when app is killed
-// No Get.to, no BuildContext, no UI operations allowed here
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint('🔥 BG FCM received: ${message.notification?.title}');
-  // System shows the notification automatically from FCM payload.
-  // Only add showNotification() here if you send data-only messages.
+
 }
 
 class FirebaseService {
@@ -28,18 +23,14 @@ class FirebaseService {
   final _fcm = FirebaseMessaging.instance;
   final _notif = NotificationService();
 
-  // ✅ Stores FCM payload from terminated-state tap.
-  // Consumed by handlePendingFcmNavigation() in HomeController.onReady()
+
   String? _pendingFcmPayload;
 
-  // Guards against double-registering onTokenRefresh (and everything else
-  // below) if init() is ever called more than once (e.g. hot restart).
   Future<void>? _initFuture;
 
   Future<void> init() => _initFuture ??= _doInit();
 
   Future<void> _doInit() async {
-    // ── Step 1: Register BG handler FIRST ───────────────────────
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     // ── Step 2: Request permission ───────────────────────────────
@@ -96,16 +87,9 @@ class FirebaseService {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       debugPrint('👆 FCM background tap: ${message.data}');
       final type = message.data['type'] ?? 'general';
-      // ✅ Direct navigation — navigator is guaranteed ready in this state.
-      // No named routes are registered anywhere in this app (GetMaterialApp
-      // has no getPages/initialRoute) — Get.toNamed() was silently failing.
       Get.to(() => const NotificationPage(), arguments: {'type': type});
     });
 
-    // ── Step 8: TERMINATED tap ───────────────────────────────────
-    // App was killed. getInitialMessage() fires during cold start.
-    // Navigator is NOT ready yet — store payload, navigate in onReady().
-    // ✅ NO Future.delayed here — that was the bug
     final initial = await _fcm.getInitialMessage();
     if (initial != null) {
       debugPrint('🚀 FCM terminated tap — stored for later');
@@ -124,10 +108,6 @@ class FirebaseService {
     }
   }
 
-  // ✅ Called from HomeController's background refresh — catches the case
-  // where init()'s getToken() call timed out on the splash screen (e.g.
-  // slow network on first run) and no token was ever saved. No-ops
-  // instantly if a token already exists, so it's safe to call every time.
   Future<void> retryTokenIfMissing() async {
     final existing = UserPrefService().fcmToken;
     if (existing != null && existing.isNotEmpty) return;
