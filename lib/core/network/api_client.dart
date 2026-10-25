@@ -121,13 +121,13 @@ class ApiClient {
       final response = switch (method) {
         'GET' => await _client.get(uri, headers: finalHeaders).timeout(_timeout),
         'PUT' => await _client
-            .put(uri, headers: finalHeaders, body: jsonEncode(body))
+            .put(uri, headers: finalHeaders, body: body == null ? null : jsonEncode(body))
             .timeout(_timeout),
         'DELETE' => await _client
             .delete(uri, headers: finalHeaders, body: body == null ? null : jsonEncode(body))
             .timeout(_timeout),
         _ => await _client
-            .post(uri, headers: finalHeaders, body: jsonEncode(body))
+            .post(uri, headers: finalHeaders, body: body == null ? null : jsonEncode(body))
             .timeout(_timeout),
       };
 

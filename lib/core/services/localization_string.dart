@@ -29,6 +29,8 @@ class LocalizationString extends Translations {
     'home.precipitation': 'Precipitation',
     'home.pressure': 'Pressure',
     'home.wind': 'Wind',
+    'home.high': 'H:',
+    'home.low': 'L:',
     'home.weather_unavailable': 'Weather unavailable',
     'home.next_7_days': 'Next 7 days',
     'home.my_choice': 'My Choice',
@@ -193,6 +195,7 @@ class LocalizationString extends Translations {
     // ── Common ───────────────────────────────────────────────────────────
     'common.notifications': 'Notifications',
     'notifications.empty': 'No notifications yet.',
+    'notifications.mark_all_read': 'Mark all read',
     'common.settings': 'Settings',
     'common.language': 'Language',
     'common.retry': 'Retry',
@@ -220,6 +223,8 @@ class LocalizationString extends Translations {
     'home.precipitation': 'বৃষ্টিপাত',
     'home.pressure': 'চাপ',
     'home.wind': 'বাতাস',
+    'home.high': 'উচ্চ:',
+    'home.low': 'নিম্ন:',
     'home.weather_unavailable': 'আবহাওয়ার তথ্য পাওয়া যায়নি',
     'home.next_7_days': 'আগামী ৭ দিন',
     'home.my_choice': 'আমার পছন্দ',
@@ -384,6 +389,7 @@ class LocalizationString extends Translations {
     // ── Common ───────────────────────────────────────────────────────────
     'common.notifications': 'বিজ্ঞপ্তি',
     'notifications.empty': 'এখনো কোনো বিজ্ঞপ্তি নেই।',
+    'notifications.mark_all_read': 'সব পড়া হয়েছে চিহ্নিত করুন',
     'common.settings': 'সেটিংস',
     'common.language': 'ভাষা',
     'common.retry': 'আবার চেষ্টা করুন',

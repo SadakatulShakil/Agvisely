@@ -147,9 +147,9 @@ class WeatherCard extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text('H: ${w.tempHighText}', style: _labelStyle),
+                                      Text('${'home.high'.tr} ${w.tempHighText}', style: _labelStyle),
                                       SizedBox(height: 4.h),
-                                      Text('L: ${w.tempLowText}', style: _labelStyle),
+                                      Text('${'home.low'.tr} ${w.tempLowText}', style: _labelStyle),
                                     ],
                                   ),
                                 ),

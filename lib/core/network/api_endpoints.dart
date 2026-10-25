@@ -33,6 +33,7 @@ class ApiEndpoints {
   // ===================================
   //   Android emulator → http://10.0.2.2:3000/api/v1
   //   physical device  → http://<machine-LAN-IP>:3000/api/v1
+  //   Run this on CMD "ipconfig getifaddr en0" for your LAN IP on macOS, or ipconfig on Windows.
   // ===================================
   static const String baseUrlUser = 'http://192.168.68.52:3000/api/v1';
   static const String professions = '$baseUrlUser/professions';
@@ -93,7 +94,20 @@ class ApiEndpoints {
   // ===================================
   // Notifications
   // ===================================
-  static const String notificationList = '$baseApiUrl/notification/list';
+  /// `GET /notifications?page=&limit=&order=` — the current user's
+  /// notification inbox: ones sent to everyone plus ones sent to them by
+  /// id, newest first. `limit` is capped at 100 by the backend; `order` is
+  /// `asc`/`desc` by id (`desc` is the backend default).
+  static String notifications({int page = 1, int limit = 20, String order = 'desc'}) =>
+      '$baseUrlUser/notifications?page=$page&limit=$limit&order=$order';
+
+  /// `PUT /notifications/{id}/read` — marks one notification read for the
+  /// current user (idempotent: re-marking keeps the first `readAt`).
+  static String notificationMarkRead(int id) => '$baseUrlUser/notifications/$id/read';
+
+  /// `PUT /notifications/read-all` — marks every notification visible to
+  /// the current user as read; `data` is how many were newly marked.
+  static const String notificationMarkAllRead = '$baseUrlUser/notifications/read-all';
 
   // ===================================
   // Advisory modules (fill in as backend lands)

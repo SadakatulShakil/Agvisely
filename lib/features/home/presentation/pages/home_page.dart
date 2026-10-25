@@ -14,6 +14,7 @@ import '../../../advisory_items/presentation/pages/advisory_items_page.dart';
 import '../../../menu/presentation/pages/menu_page.dart';
 import '../../../my_choice/domen/binding/my_choice_binding.dart';
 import '../../../my_choice/presentation/pages/my_choice_page.dart';
+import '../../../notifications/domen/controllers/notification_badge_controller.dart';
 import '../../../notifications/presentation/pages/notification_page.dart';
 import '../../../pest_advisory/presentation/pages/pest_advisory_page.dart';
 import '../../../profile/domen/controllers/profile_controller.dart';
@@ -95,6 +96,9 @@ class _HomeDashboard extends StatelessWidget {
     final profileC = Get.isRegistered<ProfileController>()
         ? Get.find<ProfileController>()
         : Get.put(ProfileController(), permanent: true);
+    final notificationBadgeC = Get.isRegistered<NotificationBadgeController>()
+        ? Get.find<NotificationBadgeController>()
+        : Get.put(NotificationBadgeController(), permanent: true);
     return RefreshIndicator(
       onRefresh: c.refreshAll,
       child: ListView(
@@ -103,12 +107,15 @@ class _HomeDashboard extends StatelessWidget {
           //Top bar: profile icon + greeting + location + notification icon
           Row(
             children: [
-              Obx(
-                () => UserAvatar(
-                  profileUrl: profileC.user.value?.profileUrl,
-                  size: 42.w,
-                  iconSize: 34.sp,
-                  borderRadius: BorderRadius.circular(8.r),
+              GestureDetector(
+                onTap: () => c.changeTab(2),
+                child: Obx(
+                  () => UserAvatar(
+                    profileUrl: profileC.user.value?.profileUrl,
+                    size: 42.w,
+                    iconSize: 34.sp,
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -154,10 +161,41 @@ class _HomeDashboard extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () => Get.to(() => const NotificationPage()),
-                child: SvgPicture.asset(
-                  'assets/icons/notification.svg',
-                  width: 38.w,
-                  height: 38.h,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/notification.svg',
+                      width: 38.w,
+                      height: 38.h,
+                    ),
+                    Obx(() {
+                      final count = notificationBadgeC.unreadCount.value;
+                      if (count <= 0) return const SizedBox.shrink();
+                      return Positioned(
+                        right: -2,
+                        top: -2,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                          constraints: BoxConstraints(minWidth: 16.w),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10.r),
+                            border: Border.all(color: AppColors.scaffoldLight, width: 1.5),
+                          ),
+                          child: Text(
+                            count > 99 ? '99+' : '$count',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 9.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
                 ),
               ),
             ],
