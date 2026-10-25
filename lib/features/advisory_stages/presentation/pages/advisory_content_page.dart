@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:printing/printing.dart';
 
@@ -12,10 +13,6 @@ import '../../../../models/advisory_content_model.dart';
 import '../../../home/presentation/pages/home_page.dart';
 import '../../domen/controllers/advisory_content_controller.dart';
 
-/// "See The Advisory" — per the "Crop advisory" Figma frame: a hero photo
-/// of the item with the stage name, then a rounded content sheet with the
-/// stage's advisory sections, a highlighted "Good Agriculture Practice"
-/// card, and Share / Download PDF actions.
 class AdvisoryContentPage extends StatelessWidget {
   const AdvisoryContentPage({super.key});
 
@@ -223,10 +220,10 @@ class AdvisoryContentPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 8.w),
-                        Icon(
-                          Icons.ios_share_rounded,
-                          color: AppColors.primaryDark,
-                          size: 18.sp,
+                        SvgPicture.asset(
+                          'assets/icons/svg/share_btn.svg',
+                          width: 18.w,
+                          height: 18.h,
                         ),
                       ],
                     ),
@@ -256,10 +253,10 @@ class AdvisoryContentPage extends StatelessWidget {
                             ),
                           ),
                           SizedBox(width: 8.w),
-                          Icon(
-                            Icons.file_download_outlined,
-                            color: Colors.white,
-                            size: 18.sp,
+                          SvgPicture.asset(
+                            'assets/icons/svg/download_btn.svg',
+                            width: 18.w,
+                            height: 18.h,
                           ),
                         ],
                       ),
@@ -329,7 +326,7 @@ class _Hero extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: Colors.white.withValues(alpha: 0.85),
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: AppColors.primaryDark),
+                  icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
                   onPressed: () => Get.back(),
                 ),
               ),
@@ -343,7 +340,7 @@ class _Hero extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: Colors.white.withValues(alpha: 0.85),
                 child: IconButton(
-                  icon: Icon(Icons.home_rounded, color: AppColors.primaryDark),
+                  icon: SvgPicture.asset('assets/icons/svg/back_home_btn.svg', width: 24.w, height: 24.h),
                   onPressed: () => Get.offAll(() => const HomePage()),
                 ),
               ),

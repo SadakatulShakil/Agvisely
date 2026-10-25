@@ -69,10 +69,8 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-    - assets/icons/advisory/
-    - assets/icons/my_choice/
+    - assets/icons/svg/
     - assets/icons/weather_icons/
-    - assets/lottie/
     - assets/json/
 
   # AnekBangla (bn) and Outfit (en) are both bundled locally — same system as

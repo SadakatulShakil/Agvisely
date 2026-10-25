@@ -22,6 +22,10 @@ class AppColors {
   static const Color barChart = Color(0xFFB6EBBC);
   static const Color barChartBasic = Color(0xFFFAFCF9);
 
+  ///Line chart temp
+  static const Color lineChartTemp = Color(0xFF3D7488);
+  static const Color lineChartHumidity = Color(0xFFC2701C);
+
   /// Navy — the "visely" wordmark, headings on light surfaces.
   static const Color navy = Color(0xFF2E3F4F);
 

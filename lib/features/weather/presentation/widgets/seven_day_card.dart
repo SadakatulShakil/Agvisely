@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
@@ -87,10 +88,12 @@ class SevenDayCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Icon(
-                              expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                              color: AppColors.textSecondaryLight,
-                              size: 20.sp,
+                            SvgPicture.asset(
+                              expanded
+                                  ? 'assets/icons/svg/arrow_up.svg'
+                                  : 'assets/icons/svg/arrow_down.svg',
+                              width: 20.w,
+                              height: 20.h,
                             ),
                           ],
                         ),

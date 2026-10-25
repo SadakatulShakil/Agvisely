@@ -187,7 +187,9 @@ class TodayForecastChart extends StatelessWidget {
                             fitInsideHorizontally: true,
                             fitInsideVertically: true,
                             getTooltipItems: (touchedSpots) => touchedSpots.map((spot) {
-                              final i = spot.spotIndex;
+                              // real points — shift by 1 and let the range
+                              // check below drop them.
+                              final i = spot.spotIndex - 1;
                               if (i < 0 || i >= n) return null;
                               final isHumidityLine = spot.barIndex == 1;
                               final text = isHumidityLine
@@ -263,41 +265,56 @@ class TodayForecastChart extends StatelessWidget {
                         ),
                         lineBarsData: [
                           // barIndex 0 — temperature (real values, real axis).
+                          // A flat spot at -0.5 and n-0.5 (matching minX/maxX)
+                          // extends the line a little past the first/last
+                          // real point, instead of stopping dead at it — the
+                          // dot painter below hides the dot on those two.
                           LineChartBarData(
                             spots: [
+                              FlSpot(-0.35, points.first.temp),
                               for (var i = 0; i < n; i++) FlSpot(i.toDouble(), points[i].temp),
+                              FlSpot(n - 0.6, points.last.temp),
                             ],
                             isCurved: true,
-                            color: AppColors.navy,
+                            color: AppColors.lineChartTemp,
                             barWidth: 2,
                             dotData: FlDotData(
                               show: true,
-                              getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
-                                radius: 3.r,
-                                color: AppColors.navy,
-                                strokeWidth: 1.5,
-                                strokeColor: Colors.white,
-                              ),
+                              getDotPainter: (spot, percent, bar, index) =>
+                                  (index == 0 || index == n + 1)
+                                      ? FlDotCirclePainter(radius: 0, color: Colors.transparent)
+                                      : FlDotCirclePainter(
+                                          radius: 3.r,
+                                          color: AppColors.lineChartTemp,
+                                          strokeWidth: 1.5,
+                                          strokeColor: Colors.white,
+                                        ),
                             ),
                           ),
                           // barIndex 1 — humidity (mapped position, real % in tooltip/axis).
+                          // Same flat start/end extension as the temperature line.
                           LineChartBarData(
                             spots: [
+                              FlSpot(-0.35, humidityToTempScale(points.first.humidity)),
                               for (var i = 0; i < n; i++)
                                 FlSpot(i.toDouble(), humidityToTempScale(points[i].humidity)),
+                              FlSpot(n - 0.6, humidityToTempScale(points.last.humidity)),
                             ],
                             isCurved: true,
-                            color: AppColors.warning,
+                            color: AppColors.lineChartHumidity,
                             barWidth: 2,
-                            dashArray: const [6, 4],
+                            dashArray: const [4, 2],
                             dotData: FlDotData(
                               show: true,
-                              getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
-                                radius: 3.r,
-                                color: AppColors.warning,
-                                strokeWidth: 1.5,
-                                strokeColor: Colors.white,
-                              ),
+                              getDotPainter: (spot, percent, bar, index) =>
+                                  (index == 0 || index == n + 1)
+                                      ? FlDotCirclePainter(radius: 0, color: Colors.transparent)
+                                      : FlDotCirclePainter(
+                                          radius: 3.r,
+                                          color: AppColors.lineChartHumidity,
+                                          strokeWidth: 1.5,
+                                          strokeColor: Colors.white,
+                                        ),
                             ),
                           ),
                         ],
@@ -358,7 +375,7 @@ class _Legend extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _swatch(color: AppColors.navy, dashed: false, isBar: false),
+            _swatch(color: AppColors.lineChartTemp, dashed: false, isBar: false),
             SizedBox(width: 4.w),
             Text('weather.temperature'.tr, style: style),
           ],
@@ -366,7 +383,7 @@ class _Legend extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _swatch(color: AppColors.warning, dashed: true, isBar: false),
+            _swatch(color: AppColors.lineChartHumidity, dashed: true, isBar: false),
             SizedBox(width: 4.w),
             Text('weather.humidity'.tr, style: style),
           ],

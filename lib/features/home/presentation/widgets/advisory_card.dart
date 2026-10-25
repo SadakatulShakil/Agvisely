@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/network/network_controller.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 
-/// One tile of the home dashboard's advisory grid — icon + external-link
-/// arrow up top, bold title, then a two-line grey subtitle underneath.
 class AdvisoryCard extends StatelessWidget {
   const AdvisoryCard({
     super.key,
@@ -18,24 +17,14 @@ class AdvisoryCard extends StatelessWidget {
     this.onTap,
   });
 
-  /// Relative path from the advisory-categories API (e.g.
-  /// `/assets/category/xxx.png`) — resolved against [ApiEndpoints.baseUrlUserHost].
   final String? iconUrl;
   final Color iconColor;
   final String title;
   final String subtitle;
   final VoidCallback? onTap;
 
-  /// Shown when there's simply no icon to display (e.g. a category the API
-  /// didn't give one for) — distinct from the broken-image icon, which means
-  /// there IS one but it failed to load (most commonly: offline, viewing
-  /// cached category data with no network to fetch the image itself).
   Widget _fallbackIcon() => Icon(Icons.info_outline, size: 40.sp, color: iconColor);
 
-  /// Reactive to [NetworkController.reconnectedAt] — folding it into the
-  /// `Image`'s key forces a fresh load attempt the moment connectivity is
-  /// restored, instead of leaving the broken-image icon up until something
-  /// unrelated happens to rebuild this widget.
   Widget _icon() {
     final url = iconUrl;
     if (url == null || url.isEmpty) return _fallbackIcon();
@@ -78,7 +67,11 @@ class AdvisoryCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 icon,
-                Icon(Icons.north_east, size: 24.sp, color: AppColors.primaryDark),
+                SvgPicture.asset(
+                  'assets/icons/svg/arrow_up_right.svg',
+                  width: 24.w,
+                  height: 24.h,
+                ),
               ],
             ),
             SizedBox(height: 20.h),

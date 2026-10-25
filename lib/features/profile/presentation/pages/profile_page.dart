@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/services/fcm_sync_service.dart';
@@ -113,7 +114,7 @@ class ProfilePage extends StatelessWidget {
             _MenuRow(
               label: 'profile.logout'.tr,
               color: AppColors.danger,
-              icon: Icons.logout,
+              icon: 'assets/icons/svg/logout_btn.svg',
               onTap: () => _logout(context),
             ),
           ],
@@ -175,7 +176,7 @@ class _MenuRow extends StatelessWidget {
   final String label;
   final VoidCallback? onTap;
   final Color? color;
-  final IconData? icon;
+  final String? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +195,12 @@ class _MenuRow extends StatelessWidget {
                 color: color ?? AppColors.navy,
               ),
             ),
-            Icon(icon ?? Icons.chevron_right, size: 20.sp, color: color ?? AppColors.navy),
+            SvgPicture.asset(
+              icon ?? 'assets/icons/svg/arrow_right.svg',
+              width: 20.w,
+              height: 20.h,
+              color: color ?? AppColors.navy,
+            ),
           ],
         ),
       ),

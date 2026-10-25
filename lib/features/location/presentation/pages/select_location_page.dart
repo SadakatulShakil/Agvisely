@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/theme/app_fonts.dart';
@@ -53,10 +54,11 @@ class SelectLocationPage extends StatelessWidget {
                           color: Colors.transparent,
                           child: Padding(
                             padding: EdgeInsets.only(left: 15.w, top: 11.h, bottom: 12.h),
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.white,
-                              size: 20.sp,
+                            child: SvgPicture.asset(
+                              'assets/icons/svg/arrow_back.svg',
+                              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                              width: 20.sp,
+                              height: 20.sp,
                             ),
                           ),
                         ),

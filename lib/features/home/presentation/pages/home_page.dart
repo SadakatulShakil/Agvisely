@@ -291,7 +291,12 @@ class _HomeDashboard extends StatelessWidget {
                                   style: TextStyle(fontSize: 12.sp, color: AppColors.primaryDark),
                                 ),
                                 SizedBox(width: 4.w),
-                                Icon(Icons.double_arrow, size: 14.sp, color: AppColors.primaryDark),
+                                SvgPicture.asset(
+                                  'assets/icons/svg/arrow_double.svg',
+                                  width: 14.w,
+                                  height: 14.h,
+                                  color: AppColors.primaryDark,
+                                ),
                               ],
                             ),
                           ),

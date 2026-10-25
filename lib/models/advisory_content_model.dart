@@ -159,6 +159,9 @@ class AdvisoryContentModel {
 
   static (String, String?) _goodPracticeSectionTitle(String? stageAdvisory) {
     if (stageAdvisory == null || stageAdvisory.isEmpty) return ('General Advisory', null);
+    if (stageAdvisory.toLowerCase() == 'gap') {
+      return ('Good Agriculture Practice', 'উত্তম কৃষি চর্চা');
+    }
     return ('$stageAdvisory Advisory', null);
   }
 }

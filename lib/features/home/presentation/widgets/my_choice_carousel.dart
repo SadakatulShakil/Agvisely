@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
@@ -56,7 +57,11 @@ class MyChoiceCarousel extends StatelessWidget {
                         style: TextStyle(fontSize: 12.sp, color: AppColors.primaryDark),
                       ),
                       SizedBox(width: 4.w),
-                      Icon(Icons.double_arrow, size: 14.sp, color: AppColors.primaryDark),
+                      SvgPicture.asset(
+                        'assets/icons/svg/arrow_double.svg',
+                        width: 14.w,
+                        height: 14.h,
+                      ),
                     ],
                   ),
                 ),

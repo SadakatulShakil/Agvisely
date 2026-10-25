@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
@@ -8,8 +9,6 @@ import '../../../../models/user_choice_model.dart';
 import '../../../auth/auth/presentation/widgets/auth_widgets.dart';
 import '../../domen/controllers/my_choice_controller.dart';
 
-/// My Choice — a grid of the farmer's saved crop/livestock picks, 3 per
-/// row, with an "Add new" tile always last. Tapping "Add new" opens a sheet
 /// to pick a category then an item (nothing pre-selected) and POSTs it.
 class MyChoicePage extends StatelessWidget {
   const MyChoicePage({super.key});
@@ -21,73 +20,82 @@ class MyChoicePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldLight,
-      appBar: AppBar(
-        backgroundColor: AppColors.scaffoldLight,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.primaryDark),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'home.my_choice'.tr,
-          style: TextStyle(
-            color: AppColors.primaryDark,
-            fontWeight: FontWeight.bold,
-            fontSize: 18.sp,
-          ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(height: 12.h),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () => Get.back(),
+                  icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
+                ),
+                Text(
+                  'home.my_choice'.tr,
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryDark,
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Obx(() {
+                if (controller.isLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                final error = controller.errorMessage.value;
+                if (error != null) {
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.wifi_off_rounded, size: 36.sp, color: AppColors.textSecondaryLight),
+                          SizedBox(height: 12.h),
+                          Text(
+                            error,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondaryLight),
+                          ),
+                          SizedBox(height: 12.h),
+                          TextButton(onPressed: controller.loadChoices, child: Text('common.retry'.tr)),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+
+                final choices = controller.choices;
+                return GridView.builder(
+                  padding: EdgeInsets.all(16.w),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 12.w,
+                    mainAxisSpacing: 12.h,
+                    childAspectRatio: 0.85,
+                  ),
+                  itemCount: choices.length + 1, // + the "Add new" tile, always last
+                  itemBuilder: (context, index) {
+                    if (index == choices.length) {
+                      return _AddNewTile(onTap: () => _openAddSheet(controller));
+                    }
+                    final choice = choices[index];
+                    return _ChoiceTile(
+                      choice: choice,
+                      isBn: isBn,
+                      onRemove: () => _confirmAndRemove(controller, choice, isBn),
+                    );
+                  },
+                );
+              }),
+            ),
+          ],
         ),
       ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        final error = controller.errorMessage.value;
-        if (error != null) {
-          return Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.wifi_off_rounded, size: 36.sp, color: AppColors.textSecondaryLight),
-                  SizedBox(height: 12.h),
-                  Text(
-                    error,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondaryLight),
-                  ),
-                  SizedBox(height: 12.h),
-                  TextButton(onPressed: controller.loadChoices, child: Text('common.retry'.tr)),
-                ],
-              ),
-            ),
-          );
-        }
-
-        final choices = controller.choices;
-        return GridView.builder(
-          padding: EdgeInsets.all(16.w),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 12.w,
-            mainAxisSpacing: 12.h,
-            childAspectRatio: 0.85,
-          ),
-          itemCount: choices.length + 1, // + the "Add new" tile, always last
-          itemBuilder: (context, index) {
-            if (index == choices.length) {
-              return _AddNewTile(onTap: () => _openAddSheet(controller));
-            }
-            final choice = choices[index];
-            return _ChoiceTile(
-              choice: choice,
-              isBn: isBn,
-              onRemove: () => _confirmAndRemove(controller, choice, isBn),
-            );
-          },
-        );
-      }),
     );
   }
 

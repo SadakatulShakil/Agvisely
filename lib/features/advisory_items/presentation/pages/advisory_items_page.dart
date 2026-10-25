@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
@@ -8,14 +9,10 @@ import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
 import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
 import '../../domen/controllers/advisory_items_controller.dart';
 
-// Backend category ids (see agvisely-backend's advisory_categories seed) —
-// disease (4) has its own dedicated page and never reaches this one.
 const _cropCategoryId = 1;
 const _livestockCategoryId = 2;
 const _aquacultureCategoryId = 3;
 
-/// Fixed per-category title, matching the approved copy exactly; any other
-/// (future) category id falls back to a generic, category-label-driven title.
 String _itemGridTitle(int categoryId, String? categoryLabel) {
   switch (categoryId) {
     case _cropCategoryId:
@@ -49,7 +46,7 @@ class AdvisoryItemsPage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back, color: AppColors.primaryDark),
+                    icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
                     onPressed: () => Get.back(),
                   ),
                   Expanded(
