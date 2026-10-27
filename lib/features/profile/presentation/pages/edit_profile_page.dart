@@ -34,9 +34,9 @@ class EditProfilePage extends StatelessWidget {
                   Text(
                     'profile.edit_profile'.tr,
                     style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryDark,
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.w400,
+                      color: FigmaColors.primaryDefault,
                     ),
                   ),
                 ],
@@ -57,8 +57,8 @@ class EditProfilePage extends StatelessWidget {
                               final pickedPath = c.pickedImagePath.value;
                               if (pickedPath != null) {
                                 return Container(
-                                  width: 140.w,
-                                  height: 140.w,
+                                  width: 160.w,
+                                  height: 160.w,
                                   clipBehavior: Clip.antiAlias,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
@@ -66,15 +66,15 @@ class EditProfilePage extends StatelessWidget {
                                   ),
                                   child: Image.file(
                                     File(pickedPath),
-                                    width: 140.w,
-                                    height: 140.w,
+                                    width: 160.w,
+                                    height: 160.w,
                                     fit: BoxFit.cover,
                                   ),
                                 );
                               }
                               return UserAvatar(
                                 profileUrl: Get.find<ProfileController>().user.value?.profileUrl,
-                                size: 140.w,
+                                size: 160.w,
                                 iconSize: 115.sp,
                                 border: Border.all(color: Colors.white, width: 0),
                               );
@@ -100,16 +100,16 @@ class EditProfilePage extends StatelessWidget {
                                   : const SizedBox.shrink(),
                             ),
                             Positioned(
-                              bottom: 0,
-                              right: 0,
+                              bottom: 2,
+                              right: 5,
                               child: Container(
                                 padding: EdgeInsets.all(6.w),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primaryDark,
+                                  color: FigmaColors.primaryDefault,
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.white, width: 2),
+                                  border: Border.all(color: FigmaColors.neutralWhite, width: 2),
                                 ),
-                                child: Icon(Icons.camera_alt, size: 16.sp, color: Colors.white),
+                                child: Icon(Icons.camera_alt, size: 20.sp, color: Colors.white),
                               ),
                             ),
                           ],
@@ -127,7 +127,7 @@ class EditProfilePage extends StatelessWidget {
                         contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                       ),
                     ),
-
+                    SizedBox(height: 20.h),
                     FieldLabel('profile.profession'.tr),
                     Obx(() {
                       if (c.professionsLoading.value && c.professions.isEmpty) {
@@ -155,6 +155,15 @@ class EditProfilePage extends StatelessWidget {
                               isDense: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                             ),
+                            icon: SizedBox(
+                              width: 18.w,
+                              height: 18.h,
+                              child: SvgPicture.asset(
+                                'assets/icons/svg/arrow_down.svg',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            iconSize: 18.w,
                             items: c.professions
                                 .map((p) => DropdownMenuItem(
                                       value: p.id,

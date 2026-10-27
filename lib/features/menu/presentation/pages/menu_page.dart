@@ -1,34 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/theme/app_theme_colors.dart';
 
-/// "Menu items" screen — reached from the bottom-nav Menu tab, so no back
-/// button (it's a tab, not a pushed route). Demo-only: rows have no
-/// destination page yet, so their taps are no-ops.
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final items = [
-      (icon: Icons.science_outlined, label: 'menu.barc_fertilizer'.tr),
-      (icon: Icons.menu_book_outlined, label: 'menu.ipm_booklist'.tr),
-      (icon: Icons.feedback_outlined, label: 'menu.user_feedback'.tr),
-      (icon: Icons.apps_outlined, label: 'menu.other_apps'.tr),
+      (icon: 'assets/images/barc_logo.png', label: 'menu.barc_fertilizer'.tr),
+      (icon: 'assets/images/ipm_logo.png', label: 'menu.ipm_booklist'.tr),
+      (icon: 'assets/images/feedback_logo.png', label: 'menu.user_feedback'.tr),
+      (icon: 'assets/images/other_logo.png', label: 'menu.other_apps'.tr),
     ];
 
     return SafeArea(
       child: ListView(
-        padding: EdgeInsets.all(20.w),
+        padding: EdgeInsets.fromLTRB(20.w, 32.h, 20.w, 10.h),
         children: [
           Text(
             'menu.title'.tr,
             style: TextStyle(
               fontSize: 22.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.primaryDark,
+              fontWeight: FontWeight.w400,
+              color: FigmaColors.primaryDefault,
             ),
           ),
           SizedBox(height: 20.h),
@@ -45,7 +43,7 @@ class MenuPage extends StatelessWidget {
 class _MenuItemRow extends StatelessWidget {
   const _MenuItemRow({required this.icon, required this.label, this.onTap});
 
-  final IconData icon;
+  final String icon;
   final String label;
   final VoidCallback? onTap;
 
@@ -62,14 +60,10 @@ class _MenuItemRow extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              width: 40.w,
-              height: 40.w,
-              decoration: BoxDecoration(
-                color: AppColors.cardMint,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Icon(icon, size: 22.sp, color: AppColors.primaryDark),
+            SizedBox(
+              width: 45.w,
+              height: 45.w,
+              child: Image.asset(icon, width: 24.w, height: 24.w)
             ),
             SizedBox(width: 14.w),
             Expanded(
@@ -78,13 +72,17 @@ class _MenuItemRow extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize: 15.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.navy,
+                  color: FigmaColors.primaryDark,
                 ),
               ),
             ),
-            Icon(Icons.chevron_right, size: 20.sp, color: AppColors.textSecondaryLight),
+            SvgPicture.asset(
+              'assets/icons/svg/arrow_right.svg',
+              width: 24.w,
+              height: 24.w,
+            ),
           ],
         ),
       ),

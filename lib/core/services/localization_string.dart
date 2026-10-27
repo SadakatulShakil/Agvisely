@@ -98,6 +98,7 @@ class LocalizationString extends Translations {
     'profile.picture_too_large': "Couldn't shrink this image below 2MB — please choose a smaller photo.",
     'profile.picture_update_failed': 'Could not update profile picture',
     'profile.picture_update_success': 'Profile picture updated',
+    'profile.location_info': 'The currently selected location and current GPS location cannot be deleted.',
 
     // ── Menu ─────────────────────────────────────────────────────────────
     'menu.title': 'Menu items',
@@ -323,6 +324,7 @@ class LocalizationString extends Translations {
     'profile.picture_too_large': 'ছবিটি ২ এমবি-র নিচে আনা যায়নি — অনুগ্রহ করে ছোট আকারের ছবি নির্বাচন করুন।',
     'profile.picture_update_failed': 'প্রোফাইল ছবি আপডেট করা যায়নি',
     'profile.picture_update_success': 'প্রোফাইল ছবি আপডেট হয়েছে',
+    'profile.location_info': 'বর্তমানে নির্বাচিত অবস্থান এবং বর্তমান GPS অবস্থান মুছে ফেলা যাবে না।',
 
     // ── Menu ─────────────────────────────────────────────────────────────
     'menu.title': 'মেনু আইটেম',

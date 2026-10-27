@@ -17,10 +17,6 @@ import '../../domen/controllers/profile_controller.dart';
 import '../widgets/favorite_locations_card.dart';
 import 'edit_profile_page.dart';
 
-/// Profile screen — matches the Figma "Profile" frame. Name comes from the
-/// cached/live user profile ([ProfileController]); avatar/role are still
-/// static. Favorite Locations is real (same saved-locations list as the
-/// home page); Language is wired to [SettingsController].
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -34,7 +30,7 @@ class ProfilePage extends StatelessWidget {
     return SageBackground(
       child: SafeArea(
         child: ListView(
-          padding: EdgeInsets.all(20.w),
+          padding: EdgeInsets.fromLTRB(20.w, 32.h, 20.w, 10.h),
           children: [
             Obx(
               () => Center(
@@ -52,25 +48,25 @@ class ProfilePage extends StatelessWidget {
                 child: Text(
                   c.user.value?.name ?? '',
                   style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryDark,
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w600,
+                    color: FigmaColors.primaryDefault,
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 4.h),
+            SizedBox(height: 5.h),
             Obx(
               () => Center(
                 child: Text(
                   c.profession.value?.label(Get.locale?.languageCode == 'bn') ?? '',
-                  style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondaryLight),
+                  style: TextStyle(fontSize: 16.sp, color: FigmaColors.neutralPlaceholder),
                 ),
               ),
             ),
-            SizedBox(height: 24.h),
+            SizedBox(height: 32.h),
             const FavoriteLocationsCard(),
-            SizedBox(height: 8.h),
+            SizedBox(height: 20.h),
             _MenuRow(label: 'profile.edit_profile'.tr, onTap: () => Get.to(() => const EditProfilePage())),
             Divider(color: AppColors.dividerLight),
             _MenuRow(
@@ -80,14 +76,10 @@ class ProfilePage extends StatelessWidget {
             Divider(color: AppColors.dividerLight),
             InkWell(
               // Whole row toggles the language — not just the small pill —
-              // so the tap target isn't limited to the pill's tight bounds.
               onTap: () {
                 final code = settings.language.value == 'bn' ? 'en' : 'bn';
                 settings.setLanguage(code);
-                // Best-effort: persists the choice to the account so it
-                // follows the user across devices/sessions. A failure here
                 // (offline, logged out) shouldn't block the local toggle,
-                // which already applied above.
                 UserPrefService().updateProfile(preferredLanguage: code).catchError((_) => null);
               },
               child: Padding(
@@ -100,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.navy,
+                        color: FigmaColors.neutralBody,
                       ),
                     ),
                     Obx(
@@ -113,7 +105,7 @@ class ProfilePage extends StatelessWidget {
             Divider(color: AppColors.dividerLight),
             _MenuRow(
               label: 'profile.logout'.tr,
-              color: AppColors.danger,
+              color: FigmaColors.statusError,
               icon: 'assets/icons/svg/logout_btn.svg',
               onTap: () => _logout(context),
             ),
@@ -150,14 +142,7 @@ class ProfilePage extends StatelessWidget {
     if (confirmed != true) return;
 
     await UserPrefService().clearSession();
-    // Best-effort: an explicit, user-initiated logout (unlike a forced
-    // session-expiry logout) may be followed by a different user logging in
-    // on this device, so drop the token tied to this account.
     FcmSyncService().deleteToken().catchError((_) {});
-    // HomeController/ProfileController are permanent singletons — their
-    // state survives this logout, so without resetting them a login right
-    // after logging out from the Profile tab would land back on Profile
-    // instead of Home, and would briefly flash the previous user's name.
     if (Get.isRegistered<HomeController>()) {
       Get.find<HomeController>().navIndex.value = 0;
     }
@@ -190,16 +175,16 @@ class _MenuRow extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                fontSize: 15.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
-                color: color ?? AppColors.navy,
+                color: color ?? FigmaColors.neutralBody,
               ),
             ),
             SvgPicture.asset(
               icon ?? 'assets/icons/svg/arrow_right.svg',
               width: 20.w,
               height: 20.h,
-              color: color ?? AppColors.navy,
+              color: color ?? FigmaColors.primaryDefault,
             ),
           ],
         ),
@@ -208,8 +193,7 @@ class _MenuRow extends StatelessWidget {
   }
 }
 
-/// Pure display — the enclosing row's [InkWell] handles the tap, so this
-/// only reflects which side ([isBangla]) is currently active.
+/// A small pill-shaped toggle for switching between English and Bangla.
 class _LanguageToggle extends StatelessWidget {
   const _LanguageToggle({required this.isBangla});
 
@@ -220,8 +204,9 @@ class _LanguageToggle extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(3.w),
       decoration: BoxDecoration(
-        color: AppColors.primaryDark,
+        color: FigmaColors.neutralWhite,
         borderRadius: BorderRadius.circular(20.r),
+        border: Border.all(color: FigmaColors.primaryDefault, width: 1.w)
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -237,7 +222,7 @@ class _LanguageToggle extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       decoration: BoxDecoration(
-        color: active ? Colors.white : Colors.transparent,
+        color: active ? FigmaColors.primaryDefault : Colors.transparent,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Text(
@@ -245,7 +230,7 @@ class _LanguageToggle extends StatelessWidget {
         style: TextStyle(
           fontSize: 12.sp,
           fontWeight: FontWeight.bold,
-          color: active ? AppColors.primaryDark : Colors.white,
+          color: active ? FigmaColors.neutralWhite : FigmaColors.primaryDefault,
         ),
       ),
     );

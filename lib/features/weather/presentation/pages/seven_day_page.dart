@@ -30,9 +30,9 @@ class SevenDayPage extends StatelessWidget {
                 Text(
                   'weather.title'.tr,
                   style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryDark,
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w400,
+                    color: FigmaColors.primaryDefault,
                   ),
                 ),
               ],

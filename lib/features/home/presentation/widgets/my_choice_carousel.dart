@@ -6,12 +6,13 @@ import 'package:get/get.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/network/network_controller.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../models/advisory_item_model.dart';
 import '../../../../models/user_choice_model.dart';
+import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
+import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
 
-/// Header ("My Choice" + "See all") + horizontally-scrollable carousel of
-/// the farmer's saved picks from `GET /user-choices`. When [items] is
-/// empty, shows a prompt to go pick some from the My Choice page instead
-/// (tapping it fires [onSeeAll], same destination as the "See all" pill).
+const _diseaseCategoryId = 4;
+
 class MyChoiceCarousel extends StatelessWidget {
   const MyChoiceCarousel({super.key, required this.items, this.onSeeAll});
 
@@ -24,7 +25,7 @@ class MyChoiceCarousel extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.cardLight,
+        color: FigmaColors.neutralWhite,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
@@ -38,7 +39,7 @@ class MyChoiceCarousel extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textSecondaryLight,
+                  color: FigmaColors.primaryDefault,
                 ),
               ),
               GestureDetector(
@@ -46,7 +47,7 @@ class MyChoiceCarousel extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.primaryDark),
+                    border: Border.all(color: FigmaColors.primaryDefault),
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Row(
@@ -54,7 +55,7 @@ class MyChoiceCarousel extends StatelessWidget {
                     children: [
                       Text(
                         'home.see_all'.tr,
-                        style: TextStyle(fontSize: 12.sp, color: AppColors.primaryDark),
+                        style: TextStyle(fontSize: 12.sp, color: FigmaColors.primaryDefault),
                       ),
                       SizedBox(width: 4.w),
                       SvgPicture.asset(
@@ -87,8 +88,7 @@ class MyChoiceCarousel extends StatelessWidget {
   }
 }
 
-/// Shown instead of the carousel when the farmer hasn't picked anything yet
-/// — nudges them to go add one from the My Choice page.
+
 class _EmptyMyChoice extends StatelessWidget {
   const _EmptyMyChoice({this.onTap});
 
@@ -127,32 +127,54 @@ class _MyChoiceTile extends StatelessWidget {
   final UserChoiceModel choice;
   final bool isBn;
 
+  void _openStages() {
+    final item = AdvisoryItemModel(
+      id: choice.itemId,
+      categoryId: choice.categoryId,
+      name: choice.itemName,
+      nameBn: choice.itemNameBn,
+      imageUrl: choice.itemImageUrl,
+    );
+    Get.to(
+      () => const AdvisoryStagesPage(),
+      binding: AdvisoryStagesBinding(
+        categoryId: choice.categoryId,
+        item: item,
+        categoryLabel: choice.categoryLabel(isBn),
+        stageCategory: choice.categoryId == _diseaseCategoryId ? 'disease' : null,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 120.w,
-      padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 8.w),
-      decoration: BoxDecoration(
-        color: AppColors.cardMint,
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _MyChoiceIcon(imageUrl: choice.itemImageUrl),
-          SizedBox(height: 12.h),
-          Text(
-            choice.itemLabel(isBn),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColors.navy,
+    return GestureDetector(
+      onTap: _openStages,
+      child: Container(
+        width: 125.w,
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 8.w),
+        decoration: BoxDecoration(
+          color: FigmaColors.primaryTint,
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _MyChoiceIcon(imageUrl: choice.itemImageUrl),
+            SizedBox(height: 12.h),
+            Text(
+              choice.itemLabel(isBn),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w400,
+                color: FigmaColors.primaryDark,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -165,18 +187,12 @@ class _MyChoiceIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // No URL at all vs. one that failed to load (most commonly: offline,
-    // viewing a cached pick with no network to fetch the image itself) get
-    // visually distinct fallbacks.
+
     final url = imageUrl;
     if (url == null || url.isEmpty) {
       return Icon(Icons.eco, size: 36.sp, color: AppColors.primary);
     }
 
-    // Reactive to NetworkController.reconnectedAt — folding it into the
-    // Image's key forces a fresh load attempt the moment connectivity is
-    // restored, instead of leaving the broken-image icon up until something
-    // unrelated happens to rebuild this widget.
     return Obx(() {
       final epoch = Get.isRegistered<NetworkController>()
           ? Get.find<NetworkController>().reconnectedAt.value

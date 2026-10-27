@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import '../network/api_endpoints.dart';
 import '../theme/app_theme_colors.dart';
 
-/// Profile picture used on Home and Profile. Falls back to a generic
-/// person icon when [profileUrl] is null/empty, or if the image fails to
-/// load (e.g. a stale/unreachable URL).
 class UserAvatar extends StatelessWidget {
   final String? profileUrl;
   final double size;

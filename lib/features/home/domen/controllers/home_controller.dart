@@ -75,6 +75,12 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     currentWeather.value = UserPrefService().cachedCurrentWeather;
     final cachedChoices = UserPrefService().cachedMyChoices;
     if (cachedChoices != null) myChoices.assignAll(cachedChoices);
+    final cachedChart = UserPrefService().cachedTodayChart;
+    if (cachedChart != null) {
+      todayChart.assignAll(cachedChart.points);
+      todayChartRainUnit.value = cachedChart.rainUnit;
+      todayChartTempUnit.value = cachedChart.tempUnit;
+    }
     refreshLocationName();
     loadWeather();
     loadAdvisoryCategories();
@@ -151,14 +157,27 @@ class HomeController extends GetxController with WidgetsBindingObserver {
 
   /// Today's 3-hourly chart for the dashboard's forecast preview — same
   /// [SevenDayRepository]/demo JSON the 7-day page uses, just today's slice.
-  /// Also re-called by SettingsController on a language switch.
+  /// Re-called on every location change (see [onLocationChanged] etc.) and
+  /// by SettingsController on a language switch — [SevenDayRepository]'s own
+  /// cache is keyed by lat/lon so this always reflects the active location.
+  /// Persists so the next cold start has it too.
   Future<void> loadTodayChart() async {
     final days = await _sevenDayRepository.load();
     final today = days.firstWhereOrNull((d) => d.isToday) ??
         (days.isNotEmpty ? days.first : null);
-    todayChart.assignAll(today?.chart ?? const []);
-    todayChartRainUnit.value = today?.units.rf ?? 'mm';
-    todayChartTempUnit.value = today?.units.temp ?? 'C';
+    final chart = today?.chart ?? const <ForecastChartPoint>[];
+    final rainUnit = today?.units.rf ?? 'mm';
+    final tempUnit = today?.units.temp ?? 'C';
+    todayChart.assignAll(chart);
+    todayChartRainUnit.value = rainUnit;
+    todayChartTempUnit.value = tempUnit;
+    if (chart.isNotEmpty) {
+      unawaited(UserPrefService().setCachedTodayChart(
+        points: chart,
+        rainUnit: rainUnit,
+        tempUnit: tempUnit,
+      ));
+    }
   }
 
   /// Fetches current-weather for the active saved location's lat/lon.
@@ -211,17 +230,19 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   }
 
   /// Called after the active location changes (switched in the saved-
-  /// locations sheet) — refreshes both the displayed name and the weather
-  /// for the newly-active lat/lon.
+  /// locations sheet) — refreshes the displayed name, weather, and today's
+  /// chart for the newly-active lat/lon.
   Future<void> onLocationChanged() async {
     refreshLocationName();
     await loadWeather();
+    loadTodayChart();
   }
 
   /// Pull-to-refresh entry point for the home dashboard.
   Future<void> refreshAll() async {
     refreshLocationName();
     await loadWeather();
+    loadTodayChart();
     loadMyChoices();
     // TODO: advisory summaries once that endpoint exists
   }
@@ -255,6 +276,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
         await UserPrefService().addOrUpdateCustom(loc, makeCurrent: true);
         refreshLocationName();
         loadWeather();
+        loadTodayChart();
       }
     } finally {
       isResolvingLocation.value = false;
@@ -285,6 +307,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
       if (UserPrefService().isFollowingGPS) {
         refreshLocationName();
         await loadWeather();
+        loadTodayChart();
       }
     } finally {
       _isSyncing.value = false;

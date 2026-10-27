@@ -9,14 +9,11 @@ import '../../domen/binding/advisory_content_binding.dart';
 import '../../domen/controllers/advisory_stages_controller.dart';
 import 'advisory_content_page.dart';
 
-// Backend category ids (see agvisely-backend's advisory_categories seed).
 const _cropCategoryId = 1;
 const _livestockCategoryId = 2;
 const _aquacultureCategoryId = 3;
 
-/// Fixed per-category title, matching the approved copy exactly; the disease
-/// flow (flagged via [AdvisoryStagesController.stageCategory]) and any other
-/// (future) category id fall back to a generic, category-label-driven title.
+
 String _stageListTitle(AdvisoryStagesController controller, bool isBn) {
   if (controller.stageCategory == 'disease') {
     return 'advisory_stages.disease_title_for'
@@ -37,10 +34,6 @@ String _stageListTitle(AdvisoryStagesController controller, bool isBn) {
   }
 }
 
-/// "Select a stage for advisory" — per the "Crop advisory" Figma frame:
-/// a header card for the picked item, then a scrollable list of its stages
-/// (thumbnail + name + description); tapping a stage goes straight to its
-/// advisory content. One page, reused by every advisory category/item.
 class AdvisoryStagesPage extends StatelessWidget {
   const AdvisoryStagesPage({super.key});
 
@@ -66,9 +59,9 @@ class AdvisoryStagesPage extends StatelessWidget {
                     child: Text(
                       _stageListTitle(controller, isBn),
                       style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primaryDark,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.w400,
+                        color: FigmaColors.primaryDefault,
                       ),
                     ),
                   ),
@@ -76,39 +69,42 @@ class AdvisoryStagesPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 8.h),
+              padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 8.h),
               child: Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(16.w),
                 decoration: BoxDecoration(
-                  color: AppColors.cardLight,
+                  color: FigmaColors.neutralWhite,
                   borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Row(
                   children: [
-                    _Thumbnail(imageUrl: controller.item.imageUrl, size: 44.w),
+                    _Thumbnail(imageUrl: controller.item.imageUrl, size: 50.w),
                     SizedBox(width: 12.w),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            controller.item.label(isBn),
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.navy,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(8.w, 10.h, 0.w, 8.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              controller.item.label(isBn),
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w400,
+                                color: FigmaColors.primaryDark,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 2.h),
-                          Text(
-                            'advisory_stages.card_subtitle'.tr,
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: AppColors.textSecondaryLight,
+                            SizedBox(height: 4.h),
+                            Text(
+                              'advisory_stages.card_subtitle'.tr,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: FigmaColors.neutralSecondary,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -169,12 +165,12 @@ class AdvisoryStagesPage extends StatelessWidget {
                 }
 
                 return ListView.separated(
-                  padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 8.h),
+                  padding: EdgeInsets.fromLTRB(20.w, 32.h, 20.w, 8.h),
                   itemCount: stages.length,
-                  separatorBuilder: (_, __) => SizedBox(height: 12.h),
+                  separatorBuilder: (_, __) => SizedBox(height: 22.h),
                   itemBuilder: (context, i) {
                     final stage = stages[i];
-                    final description = stage.descriptionLabel(isBn);
+                    final dateRange = stage.dateRangeLabel(isBn);
                     return GestureDetector(
                       onTap: () => Get.to(
                         () => const AdvisoryContentPage(),
@@ -204,17 +200,17 @@ class AdvisoryStagesPage extends StatelessWidget {
                                     stage.label(isBn),
                                     style: TextStyle(
                                       fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.navy,
+                                      fontWeight: FontWeight.w500,
+                                      color: FigmaColors.neutralBody,
                                     ),
                                   ),
-                                  if (description.isNotEmpty) ...[
+                                  if (dateRange.isNotEmpty) ...[
                                     SizedBox(height: 4.h),
                                     Text(
-                                      description,
+                                      dateRange,
                                       style: TextStyle(
                                         fontSize: 12.sp,
-                                        color: AppColors.textSecondaryLight,
+                                        color: FigmaColors.neutralSecondary,
                                       ),
                                     ),
                                   ],

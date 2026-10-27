@@ -33,6 +33,8 @@ class ForecastUnits {
   final String temp;
   final String rf;
   final String windspd;
+  final String windgust;
+  final String cldcvr;
   final String soilmoist;
   final String sunshine;
 
@@ -40,6 +42,8 @@ class ForecastUnits {
     required this.temp,
     required this.rf,
     required this.windspd,
+    required this.windgust,
+    required this.cldcvr,
     required this.soilmoist,
     required this.sunshine,
   });
@@ -55,16 +59,23 @@ class ForecastUnits {
         temp: '°C',
         rf: 'mm',
         windspd: 'km/h',
+        windgust: 'km/h',
+        cldcvr: '',
         soilmoist: '%',
         sunshine: 'hrs',
       );
     }
+    // This branch only runs when isBn is true — the fallback (used when the
+    // API omits a unit field) must be the Bangla string, not the English
+    // default from the `!isBn` branch above.
     return ForecastUnits(
-      temp: j['temp_unit']?.toString() ?? '°C',
-      rf: j['rf_unit']?.toString() ?? 'mm',
-      windspd: j['windspd_unit']?.toString() ?? 'km/h',
+      temp: j['temp_unit']?.toString() ?? '°সে',
+      rf: j['rf_unit']?.toString() ?? 'মি:মি:',
+      windspd: j['windspd_unit']?.toString() ?? 'কিমি/ঘণ্টা',
+      windgust: j['windgust_unit']?.toString() ?? 'কিমি/ঘণ্টা',
+      cldcvr: j['cldcvr_unit']?.toString() ?? 'অক্টা',
       soilmoist: j['soilmoist_unit']?.toString() ?? '%',
-      sunshine: j['sunshine_unit']?.toString() ?? 'hrs',
+      sunshine: j['sunshine_unit']?.toString() ?? 'ঘণ্টা',
     );
   }
 }
@@ -82,6 +93,24 @@ class ForecastChartPoint {
     required this.temp,
     required this.humidity,
   });
+
+  /// For [UserPrefService.cachedTodayChart] — the home dashboard's chart
+  /// preview only, so a cold start shows the last-known location's chart
+  /// immediately instead of a blank/demo one while the live fetch is in
+  /// flight.
+  Map<String, dynamic> toJson() => {
+        'time': time.toIso8601String(),
+        'rain': rain,
+        'temp': temp,
+        'humidity': humidity,
+      };
+
+  factory ForecastChartPoint.fromJson(Map<String, dynamic> j) => ForecastChartPoint(
+        time: DateTime.parse(j['time'] as String),
+        rain: (j['rain'] as num).toDouble(),
+        temp: (j['temp'] as num).toDouble(),
+        humidity: (j['humidity'] as num).toDouble(),
+      );
 }
 
 /// One day of `result.daily[]`, plus the slice of `result.steps[]` that
@@ -100,6 +129,7 @@ class DayForecast {
   final NumericRange rh;
   final NumericRange cldcvr;
   final NumericRange windspd;
+  final NumericRange windgust;
   final double windDirDeg;
   final double soilMoisture;
   final double sunshineHours;
@@ -121,6 +151,7 @@ class DayForecast {
     required this.rh,
     required this.cldcvr,
     required this.windspd,
+    required this.windgust,
     required this.windDirDeg,
     required this.soilMoisture,
     required this.sunshineHours,
@@ -160,6 +191,7 @@ class DayForecast {
       rh: NumericRange.fromJson(j['rh'] as Map<String, dynamic>?),
       cldcvr: NumericRange.fromJson(j['cldcvr'] as Map<String, dynamic>?),
       windspd: NumericRange.fromJson(j['windspd'] as Map<String, dynamic>?),
+      windgust: NumericRange.fromJson(j['windgust'] as Map<String, dynamic>?),
       windDirDeg: numOf((j['winddir'] as Map<String, dynamic>?)?['val_avg']),
       soilMoisture:
           numOf((j['soil_moisture'] as Map<String, dynamic>?)?['val_avg']),
@@ -195,8 +227,9 @@ class DayForecast {
   String get tempLowText => '${_num(tempLow)}${units.temp}';
   String get feelsLikeText => '${_num(feels)}${units.temp}';
   String get rainfallText => '${_num(rf.valMin)}-${_num(rf.valMax)} ${units.rf}';
-  String get cloudCoverText => '${_num(cldcvr.valAvg)}%';
+  String get cloudCoverText => '${_num(cldcvr.valAvg)} ${units.cldcvr}'.trim();
   String get humidityText => '${_num(rh.valAvg)}%';
+  String get windGustText => '${_num(windgust.valAvg, dp: 1)} ${units.windgust}';
   String get soilMoistureText => '${_num(soilMoisture, dp: 1)}${units.soilmoist}';
   String get sunshineText => '${_num(sunshineHours)} ${units.sunshine}';
   String get windText => '${_num(windspd.valAvg, dp: 1)} ${units.windspd}';

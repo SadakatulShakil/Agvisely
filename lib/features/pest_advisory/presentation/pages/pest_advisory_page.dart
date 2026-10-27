@@ -28,16 +28,16 @@ class PestAdvisoryPage extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 8.h),
+              padding: EdgeInsets.fromLTRB(20.w, 32.h, 20.w, 10.h),
               child: Row(
                 children: [
                   Expanded(
                     child: Text(
                       'pest_advisory.select_crop_title'.tr,
                       style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primaryDark,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.w400,
+                        color: FigmaColors.primaryDefault,
                       ),
                     ),
                   ),
@@ -97,12 +97,12 @@ class PestAdvisoryPage extends StatelessWidget {
                 }
 
                 return GridView.builder(
-                  padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 8.h),
+                  padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 8.h),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    crossAxisSpacing: 12.w,
-                    mainAxisSpacing: 12.h,
-                    childAspectRatio: 0.85,
+                    crossAxisSpacing: 15.w,
+                    mainAxisSpacing: 16.h,
+                    childAspectRatio: 1.00,
                   ),
                   itemCount: items.length,
                   itemBuilder: (context, i) {
@@ -144,7 +144,7 @@ class PestAdvisoryPage extends StatelessWidget {
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 13.sp, color: AppColors.navy),
+                              style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark, fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),

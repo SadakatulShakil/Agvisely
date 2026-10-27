@@ -11,8 +11,6 @@ import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
 import '../../domen/controllers/advisory_disease_items_controller.dart';
 
 /// "Crop Disease Early Warning" — a category dropdown (crop, livestock,
-/// aquaculture, ...) over an item grid for whichever one is selected.
-/// Picking an item proceeds exactly like the other advisory categories.
 class AdvisoryDiseaseItemsPage extends StatelessWidget {
   const AdvisoryDiseaseItemsPage({super.key});
 
@@ -38,9 +36,9 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                     child: Text(
                       'advisory_items.disease_title'.tr,
                       style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primaryDark,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.w400,
+                        color: FigmaColors.primaryDefault,
                       ),
                     ),
                   ),
@@ -48,7 +46,7 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 8.h),
+              padding: EdgeInsets.fromLTRB(20.w, 16.h, 16.w, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -64,32 +62,84 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                         ),
                       );
                     }
+
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         DropdownButtonFormField<int>(
                           value: controller.selectedCategory.value?.id,
                           isExpanded: true,
-                          decoration: agFieldDecoration('').copyWith(
-                            isDense: true,
-                            contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+
+                          // Control the dropdown icon's layout constraints.
+                          icon: SizedBox(
+                            width: 18.w,
+                            height: 18.h,
+                            child: SvgPicture.asset(
+                              'assets/icons/svg/arrow_down.svg',
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                          items: controller.categories
-                              .map((c) => DropdownMenuItem(
-                                    value: c.id,
-                                    child: Text(
-                                      c.label(isBn),
-                                      style: TextStyle(
-                                          fontSize: 16.sp, color: AppColors.textSecondaryLight),
-                                    ),
-                                  ))
-                              .toList(),
+                          iconSize: 18.w,
+
+                          // Keep the selected value vertically centered.
+                          alignment: AlignmentDirectional.centerStart,
+
+                          decoration: agFieldDecoration('').copyWith(
+                            filled: true,
+                            fillColor: FigmaColors.neutralBorder,
+                            isDense: false,
+
+                            // Balanced vertical padding.
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 0,
+                            ),
+
+                            constraints: BoxConstraints(
+                              minHeight: 48.h,
+                            ),
+
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14.r),
+                              borderSide: BorderSide(
+                                color: FigmaColors.neutralPlaceholder,
+                                width: 1,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14.r),
+                              borderSide: const BorderSide(
+                                color: FigmaColors.neutralPlaceholder,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+
+                          items: controller.categories.map((c) {
+                            return DropdownMenuItem<int>(
+                              value: c.id,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  c.label(isBn),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: FigmaColors.neutralPlaceholder,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+
                           onChanged: (id) {
                             final category =
-                                controller.categories.firstWhereOrNull((c) => c.id == id);
+                            controller.categories.firstWhereOrNull((c) => c.id == id);
                             controller.onCategoryChanged(category);
                           },
                         ),
+
                         if (controller.categoriesLoadFailed.value)
                           TextButton(
                             onPressed: controller.loadCategories,
@@ -157,12 +207,12 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                 }
 
                 return GridView.builder(
-                  padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 8.h),
+                  padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 8.h),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    crossAxisSpacing: 12.w,
-                    mainAxisSpacing: 12.h,
-                    childAspectRatio: 0.85,
+                    crossAxisSpacing: 15.w,
+                    mainAxisSpacing: 16.h,
+                    childAspectRatio: 1.00,
                   ),
                   itemCount: items.length,
                   itemBuilder: (context, i) {
@@ -208,7 +258,7 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 13.sp, color: AppColors.navy),
+                              style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark, fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),

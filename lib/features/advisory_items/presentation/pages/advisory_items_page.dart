@@ -53,9 +53,9 @@ class AdvisoryItemsPage extends StatelessWidget {
                     child: Text(
                       _itemGridTitle(controller.categoryId, controller.categoryLabel),
                       style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primaryDark,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.w400,
+                        color: FigmaColors.primaryDefault,
                       ),
                     ),
                   ),
@@ -118,12 +118,12 @@ class AdvisoryItemsPage extends StatelessWidget {
                 }
 
                 return GridView.builder(
-                  padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 8.h),
+                  padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 8.h),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    crossAxisSpacing: 12.w,
-                    mainAxisSpacing: 12.h,
-                    childAspectRatio: 0.85,
+                    crossAxisSpacing: 15.w,
+                    mainAxisSpacing: 16.h,
+                    childAspectRatio: 1.00,
                   ),
                   itemCount: items.length,
                   itemBuilder: (context, i) {
@@ -143,9 +143,9 @@ class AdvisoryItemsPage extends StatelessWidget {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              AppColors.primaryDark.withValues(alpha: 0.0),
-                              AppColors.primaryDark.withValues(alpha: 0.06),
-                              AppColors.primaryDark.withValues(alpha: 0.30),
+                              FigmaColors.primaryDefault.withValues(alpha: 0.0),
+                              FigmaColors.primaryDefault.withValues(alpha: 0.06),
+                              FigmaColors.primaryDefault.withValues(alpha: 0.30),
                             ],
                             stops: const [0.0, 0.46, 1.0],
                           ),
@@ -158,13 +158,13 @@ class AdvisoryItemsPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             _ItemIcon(imageUrl: item.imageUrl),
-                            SizedBox(height: 10.h),
+                            SizedBox(height: 6.h),
                             Text(
                               item.label(isBn),
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 13.sp, color: AppColors.navy),
+                              style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark, fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),

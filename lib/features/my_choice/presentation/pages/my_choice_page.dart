@@ -33,9 +33,9 @@ class MyChoicePage extends StatelessWidget {
                 Text(
                   'home.my_choice'.tr,
                   style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryDark,
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w400,
+                    color: FigmaColors.primaryDefault,
                   ),
                 ),
               ],
@@ -74,9 +74,9 @@ class MyChoicePage extends StatelessWidget {
                   padding: EdgeInsets.all(16.w),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    crossAxisSpacing: 12.w,
-                    mainAxisSpacing: 12.h,
-                    childAspectRatio: 0.85,
+                    crossAxisSpacing: 15.w,
+                    mainAxisSpacing: 16.h,
+                    childAspectRatio: 1.00,
                   ),
                   itemCount: choices.length + 1, // + the "Add new" tile, always last
                   itemBuilder: (context, index) {
@@ -188,25 +188,20 @@ class _ChoiceTile extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 13.sp, color: AppColors.navy),
+                style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark),
               ),
             ],
           ),
         ),
         Positioned(
           top: 1.h,
-          right: 8.w,
+          right: 5.w,
           child: GestureDetector(
             onTap: onRemove,
-            child: Container(
-              width: 25.w,
-              height: 25.w,
-              decoration: BoxDecoration(
-                color: AppColors.textSecondaryLight,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 1.5),
-              ),
-              child: Icon(Icons.close, size: 14.sp, color: Colors.white),
+            child: SvgPicture.asset(
+              'assets/icons/svg/cancel_icon.svg',
+              width: 24.w,
+              height: 24.h,
             ),
           ),
         ),
@@ -269,7 +264,7 @@ class _AddNewTile extends StatelessWidget {
             Text(
               'my_choice.add_new'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13.sp, color: AppColors.navy),
+              style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark),
             ),
           ],
         ),

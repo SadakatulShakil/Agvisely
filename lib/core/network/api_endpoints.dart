@@ -35,7 +35,7 @@ class ApiEndpoints {
   //   physical device  → http://<machine-LAN-IP>:3000/api/v1
   //   Run this on CMD "ipconfig getifaddr en0" for your LAN IP on macOS, or ipconfig on Windows.
   // ===================================
-  static const String baseUrlUser = 'http://192.168.68.52:3000/api/v1';
+  static const String baseUrlUser = 'http://192.168.68.54:3000/api/v1';
   static const String professions = '$baseUrlUser/professions';
   static const String signupUrl = '$baseUrlUser/users/signup';
   static const String loginUrl = '$baseUrlUser/users/login';

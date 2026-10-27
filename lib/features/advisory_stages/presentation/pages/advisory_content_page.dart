@@ -80,7 +80,7 @@ class AdvisoryContentPage extends StatelessWidget {
                     ),
                     child: Container(
                       width: double.infinity,
-                      padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 20.h),
+                      padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 20.h),
                       decoration: BoxDecoration(
                         color: AppColors.cardLight,
                         borderRadius: BorderRadius.only(
@@ -147,9 +147,9 @@ class AdvisoryContentPage extends StatelessWidget {
                                   child: Text(
                                     controller.categoryLabel ?? '',
                                     style: TextStyle(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.primary,
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: FigmaColors.primaryDefault,
                                     ),
                                   ),
                                 ),
@@ -166,7 +166,7 @@ class AdvisoryContentPage extends StatelessWidget {
                                 isBn: isBn,
                               ),
                               if (i < content.sections.length - 1) ...[
-                                SizedBox(height: 14.h),
+                                SizedBox(height: 20.h),
                                 Divider(
                                   color: AppColors.dividerLight,
                                   height: 1,
@@ -174,7 +174,7 @@ class AdvisoryContentPage extends StatelessWidget {
                               ],
                             ],
                             if (content.goodPractice != null) ...[
-                              SizedBox(height: 20.h),
+                              SizedBox(height: 36.h),
                               _GoodPracticeCard(
                                 section: content.goodPractice!,
                                 isBn: isBn,
@@ -199,13 +199,13 @@ class AdvisoryContentPage extends StatelessWidget {
                   OutlinedButton(
                     onPressed: enabled ? () => _onShare(controller, isBn) : null,
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: AppColors.primaryDark),
+                      side: BorderSide(color: FigmaColors.primaryDefault),
                       padding: EdgeInsets.symmetric(
                         horizontal: 20.w,
                         vertical: 14.h,
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.r),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
                     ),
                     child: Row(
@@ -214,9 +214,9 @@ class AdvisoryContentPage extends StatelessWidget {
                         Text(
                           'advisory_content.share'.tr,
                           style: TextStyle(
-                            color: AppColors.primaryDark,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15.sp,
+                            color: FigmaColors.primaryDefault,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18.sp,
                           ),
                         ),
                         SizedBox(width: 8.w),
@@ -233,12 +233,13 @@ class AdvisoryContentPage extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: enabled ? () => _onDownload(controller, isBn) : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryDark,
-                        disabledBackgroundColor: AppColors.primaryDark
+                        backgroundColor: FigmaColors.primaryDefault,
+                        disabledBackgroundColor: FigmaColors.primaryDefault
                             .withValues(alpha: 0.4),
                         padding: EdgeInsets.symmetric(vertical: 14.h),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.r),
+                          borderRadius: BorderRadius.circular(16.r),
+                          side: BorderSide(color: FigmaColors.primaryLight)
                         ),
                       ),
                       child: Row(
@@ -247,9 +248,9 @@ class AdvisoryContentPage extends StatelessWidget {
                           Text(
                             'advisory_content.download_pdf'.tr,
                             style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15.sp,
+                              color: FigmaColors.neutralWhite,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17.sp,
                             ),
                           ),
                           SizedBox(width: 8.w),
@@ -319,12 +320,12 @@ class _Hero extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 12.h,
-            left: 12.w,
+            top: 20.h,
+            left: 20.w,
             child: SafeArea(
               bottom: false,
               child: CircleAvatar(
-                backgroundColor: Colors.white.withValues(alpha: 0.85),
+                backgroundColor: FigmaColors.primaryTint,
                 child: IconButton(
                   icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
                   onPressed: () => Get.back(),
@@ -333,12 +334,12 @@ class _Hero extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 12.h,
-            right: 12.w,
+            top: 20.h,
+            right: 20.w,
             child: SafeArea(
               bottom: false,
               child: CircleAvatar(
-                backgroundColor: Colors.white.withValues(alpha: 0.85),
+                backgroundColor: FigmaColors.primaryTint,
                 child: IconButton(
                   icon: SvgPicture.asset('assets/icons/svg/back_home_btn.svg', width: 24.w, height: 24.h),
                   onPressed: () => Get.offAll(() => const HomePage()),
@@ -347,7 +348,7 @@ class _Hero extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 16.w,
+            left: 20.w,
             right: 16.w,
             bottom: 36.h,
             child: Column(
@@ -356,17 +357,17 @@ class _Hero extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w600,
+                    color: FigmaColors.neutralWhite,
                   ),
                 ),
                 SizedBox(height: 4.h),
                 Text(
                   subtitle,
                   style: TextStyle(
-                    fontSize: 13.sp,
-                    color: Colors.white.withValues(alpha: 0.9),
+                    fontSize: 16.sp,
+                    color: FigmaColors.neutralWhite,
                   ),
                 ),
               ],
@@ -409,12 +410,12 @@ class _Section extends StatelessWidget {
         Text(
           section.label(isBn),
           style: TextStyle(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w700,
-            color: AppColors.navy,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w500,
+            color: FigmaColors.primaryDark,
           ),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 12.h),
         for (final bullet in section.bullets) _Bullet(text: bullet.label(isBn)),
       ],
     );
@@ -429,7 +430,7 @@ class _Bullet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8.h),
+      padding: EdgeInsets.only(bottom: 8.h, left: 8.w),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -438,8 +439,8 @@ class _Bullet extends StatelessWidget {
             child: Container(
               width: 4.w,
               height: 4.w,
-              decoration: const BoxDecoration(
-                color: AppColors.textSecondaryLight,
+              decoration: BoxDecoration(
+                color: FigmaColors.primaryDefault,
                 shape: BoxShape.circle,
               ),
             ),
@@ -449,8 +450,8 @@ class _Bullet extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                fontSize: 13.sp,
-                color: AppColors.textPrimaryLight,
+                fontSize: 14.sp,
+                color: FigmaColors.neutralBody,
                 height: 1.4,
               ),
             ),
@@ -471,15 +472,15 @@ class _GoodPracticeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 16.h),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            AppColors.primaryDark.withValues(alpha: 0.30),
-            AppColors.primaryDark.withValues(alpha: 0.08),
-            AppColors.primaryDark.withValues(alpha: 0.0),
+            FigmaColors.primaryDefault.withValues(alpha: 0.30),
+            FigmaColors.primaryDefault.withValues(alpha: 0.08),
+            FigmaColors.primaryDefault.withValues(alpha: 0.0),
           ],
           stops: const [0.0, 0.50, 1.0],
         ),
@@ -499,9 +500,9 @@ class _GoodPracticeCard extends StatelessWidget {
                 child: Text(
                   section.label(isBn),
                   style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primaryDark,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w500,
+                    color: FigmaColors.primaryDefault,
                   ),
                 ),
               ),

@@ -54,9 +54,7 @@ void main() async {
   // Lightweight synchronous registrations — no I/O.
   Get.put(SettingsController());
   Get.put(ThemeController());
-  // Starts monitoring connectivity immediately so ApiClient can tell a
-  // genuine "no internet" apart from a slow/unreachable server from the
-  // very first request.
+
   Get.put(NetworkController());
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

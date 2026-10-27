@@ -58,7 +58,7 @@ class TodayForecastChart extends StatelessWidget {
     }
 
     final n = points.length;
-    final axisStyle = TextStyle(fontSize: 10.sp, color: AppColors.textSecondaryLight);
+    final axisStyle = TextStyle(fontSize: 10.sp, color: FigmaColors.neutralBody, fontWeight: FontWeight.w600);
 
     final rains = points.map((p) => p.rain).toList();
     final maxRain = rains.reduce((a, b) => a > b ? a : b);
@@ -99,6 +99,65 @@ class TodayForecastChart extends StatelessWidget {
 
                 return Stack(
                   children: [
+                    // Grid-only layer, drawn first (bottom of the stack) so
+                    // the horizontal lines sit behind the bars/curves instead
+                    // of slicing over them. Uses the temp-scale domain (same
+                    // as the real LineChart below) so lines land exactly on
+                    // the left-axis tick values; BarChart's own y-domain
+                    // (0..barMaxY) is unrelated and can't share a grid with
+                    // it directly. Same reservedSize padding on every side
+                    // keeps its plot area pixel-aligned with the other two.
+                    LineChart(
+                      LineChartData(
+                        minX: -0.5,
+                        maxX: n - 0.5,
+                        minY: _tempAxisMin,
+                        maxY: _tempAxisMax,
+                        gridData: FlGridData(
+                          show: true,
+                          drawVerticalLine: false,
+                          horizontalInterval: _tempAxisInterval,
+                          getDrawingHorizontalLine: (value) => FlLine(
+                            color: FigmaColors.neutralBackground,
+                            strokeWidth: 1,
+                          ),
+                        ),
+                        borderData: FlBorderData(show: false),
+                        lineTouchData: const LineTouchData(enabled: false),
+                        titlesData: FlTitlesData(
+                          show: true,
+                          topTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: _topReserved,
+                              getTitlesWidget: _blank,
+                            ),
+                          ),
+                          leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: _leftReserved,
+                              getTitlesWidget: _blank,
+                            ),
+                          ),
+                          rightTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: _rightReserved,
+                              getTitlesWidget: _blank,
+                            ),
+                          ),
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: _bottomReserved,
+                              getTitlesWidget: _blank,
+                            ),
+                          ),
+                        ),
+                        lineBarsData: const [],
+                      ),
+                    ),
                     BarChart(
                       BarChartData(
                         minY: 0,
@@ -146,13 +205,13 @@ class TodayForecastChart extends StatelessWidget {
                               barRods: [
                                 BarChartRodData(
                                   toY: points[i].rain <= 0 ? barStub : points[i].rain,
-                                  color: AppColors.barChart,
+                                  color: FigmaColors.chartRainfall,
                                   width: barWidth,
                                   borderRadius: BorderRadius.circular(barWidth / 4),
                                   backDrawRodData: BackgroundBarChartRodData(
                                     show: true,
                                     toY: barMaxY,
-                                    color: AppColors.dividerLight.withAlpha(85),
+                                    color: FigmaColors.neutralBackground.withAlpha(150),
                                   ),
                                 ),
                               ],
@@ -168,15 +227,10 @@ class TodayForecastChart extends StatelessWidget {
                         minY: _tempAxisMin,
                         maxY: _tempAxisMax,
 
-                        gridData: FlGridData(
-                          show: true,
-                          drawVerticalLine: false,
-                          horizontalInterval: _tempAxisInterval,
-                          getDrawingHorizontalLine: (value) => FlLine(
-                            color: AppColors.dividerLight,
-                            strokeWidth: 1,
-                          ),
-                        ),
+                        // Grid now lives in the bottom-most layer above (so
+                        // it renders behind the bars) — disabled here to
+                        // avoid drawing it twice.
+                        gridData: const FlGridData(show: false),
                         borderData: FlBorderData(show: false),
                         lineTouchData: LineTouchData(
                           enabled: true,
@@ -276,7 +330,7 @@ class TodayForecastChart extends StatelessWidget {
                               FlSpot(n - 0.6, points.last.temp),
                             ],
                             isCurved: true,
-                            color: AppColors.lineChartTemp,
+                            color: FigmaColors.chartTemperature,
                             barWidth: 2,
                             dotData: FlDotData(
                               show: true,
@@ -285,7 +339,7 @@ class TodayForecastChart extends StatelessWidget {
                                       ? FlDotCirclePainter(radius: 0, color: Colors.transparent)
                                       : FlDotCirclePainter(
                                           radius: 3.r,
-                                          color: AppColors.lineChartTemp,
+                                          color: FigmaColors.chartTemperature,
                                           strokeWidth: 1.5,
                                           strokeColor: Colors.white,
                                         ),
@@ -301,7 +355,7 @@ class TodayForecastChart extends StatelessWidget {
                               FlSpot(n - 0.6, humidityToTempScale(points.last.humidity)),
                             ],
                             isCurved: true,
-                            color: AppColors.lineChartHumidity,
+                            color: FigmaColors.chartHumidity,
                             barWidth: 2,
                             dashArray: const [4, 2],
                             dotData: FlDotData(
@@ -311,7 +365,7 @@ class TodayForecastChart extends StatelessWidget {
                                       ? FlDotCirclePainter(radius: 0, color: Colors.transparent)
                                       : FlDotCirclePainter(
                                           radius: 3.r,
-                                          color: AppColors.lineChartHumidity,
+                                          color: FigmaColors.chartHumidity,
                                           strokeWidth: 1.5,
                                           strokeColor: Colors.white,
                                         ),
@@ -335,7 +389,7 @@ class TodayForecastChart extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 9.sp,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.primaryDark,
+                              color: FigmaColors.primaryDark,
                             ),
                           ),
                         ),
@@ -360,14 +414,14 @@ class _Legend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = TextStyle(fontSize: 11.sp, color: AppColors.textSecondaryLight);
+    final style = TextStyle(fontSize: 12.sp, color: FigmaColors.neutralSecondary, fontWeight: FontWeight.w500);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _swatch(color: AppColors.barChart, dashed: false, isBar: true),
+            _swatch(color: FigmaColors.chartRainfall, dashed: false, isBar: true),
             SizedBox(width: 4.w),
             Text('weather.rainfall'.tr, style: style),
           ],
@@ -375,7 +429,7 @@ class _Legend extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _swatch(color: AppColors.lineChartTemp, dashed: false, isBar: false),
+            _swatch(color: FigmaColors.chartTemperature, dashed: false, isBar: false),
             SizedBox(width: 4.w),
             Text('weather.temperature'.tr, style: style),
           ],
@@ -383,7 +437,7 @@ class _Legend extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _swatch(color: AppColors.lineChartHumidity, dashed: true, isBar: false),
+            _swatch(color: FigmaColors.chartHumidity, dashed: true, isBar: false),
             SizedBox(width: 4.w),
             Text('weather.humidity'.tr, style: style),
           ],

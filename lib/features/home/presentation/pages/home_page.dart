@@ -28,8 +28,6 @@ import '../widgets/advisory_card.dart';
 import '../widgets/my_choice_carousel.dart';
 import '../widgets/weather_card.dart';
 
-/// Root shell after splash. Bottom nav mirrors the Figma home frame:
-/// Home · Pest Advisory · Profile · Menu.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -121,7 +119,6 @@ class HomePage extends StatelessWidget {
 }
 
 /// Dashboard body — top bar + weather card + advisory grid + chart + my choice.
-/// Placeholder blocks; build each out from the Figma "home" frame.
 class _HomeDashboard extends StatelessWidget {
   const _HomeDashboard();
 
@@ -163,7 +160,7 @@ class _HomeDashboard extends StatelessWidget {
                       Obx(
                         () => Text(
                           '${'home.greeting'.tr}, ${profileC.user.value?.name ?? ''}',
-                          style: TextStyle(fontSize: 14.sp),
+                          style: TextStyle(fontSize: 14.sp, color: FigmaColors.neutralBody),
                         ),
                       ),
                       Obx(
@@ -176,7 +173,7 @@ class _HomeDashboard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.primaryDark,
+                                  color: FigmaColors.primaryDefault,
                                   fontSize: 16.sp,
                                 ),
                               ),
@@ -185,7 +182,7 @@ class _HomeDashboard extends StatelessWidget {
                             Icon(
                               Icons.keyboard_arrow_down,
                               size: 16.sp,
-                              color: AppColors.primaryDark,
+                              color: FigmaColors.primaryDefault,
                             ),
                           ],
                         ),
@@ -200,9 +197,9 @@ class _HomeDashboard extends StatelessWidget {
                   clipBehavior: Clip.none,
                   children: [
                     SvgPicture.asset(
-                      'assets/icons/notification.svg',
-                      width: 38.w,
-                      height: 38.h,
+                      'assets/icons/svg/notification.svg',
+                      width: 44.w,
+                      height: 44.h,
                     ),
                     Obx(() {
                       final count = notificationBadgeC.unreadCount.value;
@@ -251,7 +248,7 @@ class _HomeDashboard extends StatelessWidget {
                         height: 16.w,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: AppColors.primary,
+                          color: FigmaColors.primaryDefault,
                         ),
                       )
                       : null,
@@ -272,13 +269,13 @@ class _HomeDashboard extends StatelessWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: 12.w,
                 mainAxisSpacing: 12.h,
-                childAspectRatio: 0.95,
+                childAspectRatio: 1.12,
               ),
               itemBuilder: (context, i) {
                 final category = categories[i];
                 return AdvisoryCard(
                   iconUrl: category.icon,
-                  iconColor: AppColors.primary,
+                  iconColor: FigmaColors.primaryDefault,
                   title: category.label(isBn),
                   subtitle: category.subtitle(isBn),
                   onTap: () => _openAdvisoryCategory(category, isBn),
@@ -290,7 +287,7 @@ class _HomeDashboard extends StatelessWidget {
           // Today's 3-hourly forecast preview; tap through to the full 7-day page.
           Container(
             decoration: BoxDecoration(
-              color: AppColors.cardLight,
+              color: FigmaColors.neutralWhite,
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: Column(
@@ -309,13 +306,13 @@ class _HomeDashboard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.textSecondaryLight,
+                              color: FigmaColors.primaryDefault,
                             ),
                           ),
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
                             decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.primaryDark),
+                              border: Border.all(color: FigmaColors.primaryDefault),
                               borderRadius: BorderRadius.circular(20.r),
                             ),
                             child: Row(
@@ -323,14 +320,13 @@ class _HomeDashboard extends StatelessWidget {
                               children: [
                                 Text(
                                   'home.view7days'.tr,
-                                  style: TextStyle(fontSize: 12.sp, color: AppColors.primaryDark),
+                                  style: TextStyle(fontSize: 12.sp, color: FigmaColors.primaryDefault),
                                 ),
                                 SizedBox(width: 4.w),
                                 SvgPicture.asset(
                                   'assets/icons/svg/arrow_double.svg',
                                   width: 14.w,
                                   height: 14.h,
-                                  color: AppColors.primaryDark,
                                 ),
                               ],
                             ),
@@ -368,9 +364,6 @@ class _HomeDashboard extends StatelessWidget {
 }
 
 
-/// "Crop Disease Early Warning" category id — it browses other categories'
-/// items via a dropdown instead of its own, so it routes to a dedicated
-/// page. Mirrors the same fallback id app_drawer.dart uses for its shortcut.
 const _diseaseCategoryId = 4;
 
 void _openAdvisoryCategory(AdvisoryCategoryModel category, bool isBn) {

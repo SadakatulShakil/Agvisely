@@ -59,9 +59,9 @@ class _NotificationPageState extends State<NotificationPage> {
                   Text(
                     'common.notifications'.tr,
                     style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primaryDark,
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.w400,
+                      color: FigmaColors.primaryDefault,
                     ),
                   ),
                   SizedBox(width: 8.w),
@@ -210,13 +210,13 @@ class _NotificationCard extends StatelessWidget {
               Expanded(
                 child: RichText(
                   text: TextSpan(
-                    style: TextStyle(fontSize: 14.sp, color: AppColors.navy, height: 1.4),
+                    style: TextStyle(fontSize: 14.sp, color: FigmaColors.neutralBody, height: 1.4),
                     children: [
                       TextSpan(
                         text: '${notification.title}: ',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
-                      TextSpan(text: '"${notification.body}"'),
+                      TextSpan(text: '"${notification.body}"', style: const TextStyle(fontWeight: FontWeight.w400)),
                     ],
                   ),
                 ),
@@ -226,7 +226,7 @@ class _NotificationCard extends StatelessWidget {
           SizedBox(height: 4.h),
           Text(
             _time(notification.createdAt),
-            style: TextStyle(fontSize: 11.sp, color: AppColors.textSecondaryLight),
+            style: TextStyle(fontSize: 12.sp, color: FigmaColors.neutralPlaceholder, fontWeight: FontWeight.w400),
           ),
         ],
       ),

@@ -14,6 +14,7 @@ import '../../models/api_location_model.dart';
 import '../../models/current_weather_model.dart';
 import '../../models/profession_model.dart';
 import '../../models/saved_location_model.dart';
+import '../../models/seven_day_model.dart';
 import '../../models/user_choice_model.dart';
 import '../../models/user_model.dart';
 import '../network/api_client.dart';
@@ -79,6 +80,7 @@ class UserPrefService {
   static const String _keyCachedAdvisoryCategories = 'CACHED_ADVISORY_CATEGORIES';
   static const String _keyCachedWeather = 'CACHED_CURRENT_WEATHER';
   static const String _keyCachedMyChoices = 'CACHED_MY_CHOICES';
+  static const String _keyCachedTodayChart = 'CACHED_TODAY_CHART';
   static const String _kAccessTokenExpiresAt = 'ACCESS_TOKEN_EXPIRES_AT';
 
   // ===== Utility =====
@@ -439,6 +441,45 @@ class UserPrefService {
     await _prefs?.setString(
       _keyCachedMyChoices,
       jsonEncode(list.map((c) => c.toJson()).toList()),
+    );
+  }
+
+  // ── Today's chart cache (home dashboard preview only) ───────────────────
+  // Keyed to whatever location was active when last fetched — on a location
+  // switch the controller reloads immediately, then persists the fresh
+  // result here so the next cold start shows it right away too.
+
+  ({List<ForecastChartPoint> points, String rainUnit, String tempUnit})?
+      get cachedTodayChart {
+    final raw = _prefs?.getString(_keyCachedTodayChart);
+    if (raw == null) return null;
+    try {
+      final decoded = jsonDecode(raw) as Map<String, dynamic>;
+      final points = (decoded['points'] as List)
+          .map((e) => ForecastChartPoint.fromJson(e as Map<String, dynamic>))
+          .toList();
+      return (
+        points: points,
+        rainUnit: decoded['rainUnit']?.toString() ?? 'mm',
+        tempUnit: decoded['tempUnit']?.toString() ?? 'C',
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> setCachedTodayChart({
+    required List<ForecastChartPoint> points,
+    required String rainUnit,
+    required String tempUnit,
+  }) async {
+    await _prefs?.setString(
+      _keyCachedTodayChart,
+      jsonEncode({
+        'points': points.map((p) => p.toJson()).toList(),
+        'rainUnit': rainUnit,
+        'tempUnit': tempUnit,
+      }),
     );
   }
 

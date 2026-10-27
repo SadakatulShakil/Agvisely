@@ -56,7 +56,7 @@ class AdvisoryCard extends StatelessWidget {
         width: double.infinity,
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: AppColors.cardLight,
+          color: FigmaColors.neutralWhite,
           borderRadius: BorderRadius.circular(16.r),
         ),
         child: Column(
@@ -74,7 +74,7 @@ class AdvisoryCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 16.h),
             Text(
               title,
               maxLines: 1,
@@ -82,7 +82,7 @@ class AdvisoryCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
-                color: AppColors.primaryDark,
+                color: FigmaColors.primaryDark,
               ),
             ),
             SizedBox(height: 6.h),
@@ -91,9 +91,8 @@ class AdvisoryCard extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 13.sp,
-                height: 1.3,
-                color: AppColors.textSecondaryLight,
+                fontSize: 12.sp,
+                color: FigmaColors.neutralBody,
               ),
             ),
           ],

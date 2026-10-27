@@ -19,8 +19,6 @@ class ApiClient {
   final http.Client _client = http.Client();
   final Duration _timeout = const Duration(seconds: 8);
 
-  // Shared across concurrent 401s so five requests failing at once trigger
-  // one refresh call, not five.
   Future<String?>? _refreshFuture;
 
   // Guards against N concurrent 401s (all sharing one failed _refreshFuture)
@@ -28,8 +26,6 @@ class ApiClient {
   bool _loggingOut = false;
 
   // Checked before every request so a genuine "no internet" is reported
-  // accurately — otherwise a connected-but-dead network (or airplane mode)
-  // just hangs until [_timeout] and gets misreported as a slow server.
   bool get _isOffline =>
       Get.isRegistered<NetworkController>() && Get.find<NetworkController>().isOffline;
 

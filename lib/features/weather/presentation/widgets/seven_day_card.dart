@@ -9,9 +9,6 @@ import '../../../../core/utils/weather_icon_assets.dart';
 import '../../../../models/seven_day_model.dart';
 import 'today_forecast_chart.dart';
 
-/// One day of the 7-day list — header stats always visible, the
-/// rainfall/temperature/humidity graph ([TodayForecastChart]) expands
-/// below on tap.
 class SevenDayCard extends StatelessWidget {
   const SevenDayCard({
     super.key,
@@ -26,100 +23,118 @@ class SevenDayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16.r),
-      child: Container(
-        color: AppColors.cardMint,
-        child: Column(
-          children: [
-            _Header(day: day),
-            Container(
-              width: double.infinity,
-              color: AppColors.cardLight,
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 14.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      _Stat(label: 'home.feels_like'.tr, value: day.feelsLikeText),
-                      _Stat(label: 'weather.rainfall'.tr, value: day.rainfallText),
-                      _Stat(label: 'weather.cloud_coverage'.tr, value: day.cloudCoverText),
-                      _Stat(label: 'weather.humidity'.tr, value: day.humidityText),
-                    ],
-                  ),
-                  SizedBox(height: 16.h),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _Stat(label: 'weather.soil_moisture'.tr, value: day.soilMoistureText),
-                      _Stat(label: 'weather.sunshine'.tr, value: day.sunshineText),
-                      _Stat(
-                        label: 'home.wind'.tr,
-                        value: day.windText,
-                        trailing: Transform.rotate(
-                          angle: day.windDirDeg * 3.1415926535 / 180,
-                          child: Icon(Icons.navigation, size: 12.sp, color: AppColors.primary),
-                        ),
+    return Container(
+      decoration: BoxDecoration(
+        color: FigmaColors.neutralBorder,
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: FigmaColors.neutralBlack.withValues(alpha: 0.08),
+            offset: Offset(0, 2.h),
+            blurRadius: 8.r,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          _Header(day: day),
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: FigmaColors.neutralWhite,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(16.r),
+                bottomRight: Radius.circular(16.r),
+              ),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 14.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    _Stat(label: 'home.feels_like'.tr, value: day.feelsLikeText),
+                    _Stat(label: 'weather.rainfall'.tr, value: day.rainfallText),
+                    _Stat(label: 'weather.cloud_coverage'.tr, value: day.cloudCoverText),
+                    _Stat(label: 'weather.humidity'.tr, value: day.humidityText),
+                  ],
+                ),
+                SizedBox(height: 16.h),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _Stat(label: 'weather.soil_moisture'.tr, value: day.soilMoistureText),
+                    _Stat(label: 'weather.sunshine'.tr, value: day.sunshineText),
+                    _Stat(
+                      label: 'home.wind'.tr,
+                      value: day.windText,
+                      trailing: Transform.rotate(
+                        angle: day.windDirDeg * 3.1415926535 / 180,
+                        child: SvgPicture.asset(
+                          'assets/icons/svg/navigation.svg',
+                          width: 12.w,
+                          height: 12.h,
+                        )
                       ),
-                      _Stat(label: 'weather.thi'.tr, value: day.thiText),
-                    ],
-                  ),
-                  SizedBox(height: 14.h),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                    child: GestureDetector(
-                      onTap: onToggleGraph,
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
-                        decoration: BoxDecoration(
-                          color: AppColors.cardMint,
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                expanded ? 'weather.hide_graph'.tr : 'weather.view_graph'.tr,
-                                style: TextStyle(
-                                  fontSize: 13.sp,
-                                  color: AppColors.textPrimaryLight,
-                                ),
+                    ),
+                    _Stat(label: 'weather.thi'.tr, value: day.thiText),
+                  ],
+                ),
+                SizedBox(height: 14.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                  child: GestureDetector(
+                    onTap: onToggleGraph,
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+                      decoration: BoxDecoration(
+                        color: FigmaColors.neutralBackground,
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              expanded ? 'weather.hide_graph'.tr : 'weather.view_graph'.tr,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: FigmaColors.neutralBody,
                               ),
                             ),
-                            SvgPicture.asset(
-                              expanded
-                                  ? 'assets/icons/svg/arrow_up.svg'
-                                  : 'assets/icons/svg/arrow_down.svg',
-                              width: 20.w,
-                              height: 20.h,
-                            ),
-                          ],
-                        ),
+                          ),
+                          SvgPicture.asset(
+                            expanded
+                                ? 'assets/icons/svg/arrow_up.svg'
+                                : 'assets/icons/svg/arrow_down.svg',
+                            width: 20.w,
+                            height: 20.h,
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeInOut,
-                    alignment: Alignment.topCenter,
-                    child: expanded
-                        ? Padding(
-                            padding: EdgeInsets.only(top: 10.h, left: 8.w),
-                            child: TodayForecastChart(
-                              points: day.chart,
-                              rainfallUnit: day.units.rf,
-                              tempUnit: day.units.temp,
-                            ),
-                          )
-                        : const SizedBox(width: double.infinity),
-                  ),
-                ],
-              ),
+                ),
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeInOut,
+                  alignment: Alignment.topCenter,
+                  child: expanded
+                      ? Padding(
+                          padding: EdgeInsets.only(top: 10.h, left: 8.w),
+                          child: TodayForecastChart(
+                            points: day.chart,
+                            rainfallUnit: day.units.rf,
+                            tempUnit: day.units.temp,
+                          ),
+                        )
+                      : const SizedBox(width: double.infinity),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -148,13 +163,13 @@ class _Header extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primaryDark,
+                    color: FigmaColors.primaryDark,
                   ),
                 ),
                 SizedBox(height: 2.h),
                 Text(
                   day.date,
-                  style: TextStyle(fontSize: 12.sp, color: AppColors.textSecondaryLight),
+                  style: TextStyle(fontSize: 12.sp, color: FigmaColors.neutralBody, fontWeight: FontWeight.w400),
                 ),
               ],
             ),
@@ -193,7 +208,7 @@ class _Header extends StatelessWidget {
   }
 
   static TextStyle get _labelStyle =>
-      TextStyle(fontSize: 13.sp, color: AppColors.textPrimaryLight);
+      TextStyle(fontSize: 13.sp, color: FigmaColors.neutralBody, fontWeight: FontWeight.w500);
 }
 
 class _ConditionIcon extends StatelessWidget {
@@ -257,7 +272,7 @@ class _Stat extends StatelessWidget {
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 11.sp, color: AppColors.textSecondaryLight),
+            style: TextStyle(fontSize: 11.sp, color: FigmaColors.primaryDark),
           ),
           SizedBox(height: 4.h),
           Row(
@@ -270,8 +285,8 @@ class _Stat extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimaryLight,
+                    fontWeight: FontWeight.w500,
+                    color: FigmaColors.neutralBody,
                   ),
                 ),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
@@ -20,12 +21,7 @@ class WeatherCard extends StatelessWidget {
 
   final CurrentWeatherModel? weather;
   final bool isLoading;
-
-  /// Nearest-station condition text — overrides [weather]'s condition when
-  /// non-empty. '' means "no live override, show the forecast's".
   final String liveType;
-
-  /// Nearest-station icon key — overrides [weather]'s icon when non-empty.
   final String liveIcon;
   final Widget? topRight;
   final VoidCallback? onRetry;
@@ -35,17 +31,17 @@ class WeatherCard extends StatelessWidget {
     final w = weather;
     return Container(
       width: double.infinity,
-      height: w == null ? 120.h : null,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+      height: w == null ? 160.h : 180.h,
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       decoration: BoxDecoration(
-        color: AppColors.cardLight,
+        color: FigmaColors.neutralWhite,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Stack(
         children: [
           if (w == null)
             SizedBox(
-              height: 120.h,
+              height: 160.h,
               child: Center(
                 child: isLoading
                     ? SizedBox(
@@ -53,7 +49,7 @@ class WeatherCard extends StatelessWidget {
                   height: 22.w,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: AppColors.primary,
+                    color: FigmaColors.primaryDefault,
                   ),
                 )
                     : Column(
@@ -106,37 +102,37 @@ class WeatherCard extends StatelessWidget {
                             text: w.tempNowValue,
                             style: TextStyle(
                               fontSize: 56.sp,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primaryDark,
+                              fontWeight: FontWeight.w600,
+                              color: FigmaColors.primaryDark,
                             ),
                           ),
                           TextSpan(
                             text: '°',
                             style: TextStyle(
                               fontSize: 40.sp,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.primaryDark,
+                              fontWeight: FontWeight.w600,
+                              color: FigmaColors.primaryDark,
                             ),
                           ),
                           TextSpan(
                             text: w.tempNowUnit,
                             style: TextStyle(
                               fontSize: 32.sp,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primaryDark,
+                              fontWeight: FontWeight.w600,
+                              color: FigmaColors.primaryDark,
                             ),
                           ),
                         ],
                       ),
                     ),
                     SizedBox(width: 24.w),
-
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+
                           Padding(
-                            padding: EdgeInsets.only(left: 16.w),
+                            padding: EdgeInsets.only(left: 8.w),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -148,7 +144,7 @@ class WeatherCard extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text('${'home.high'.tr} ${w.tempHighText}', style: _labelStyle),
-                                      SizedBox(height: 4.h),
+                                      SizedBox(height: 2.h),
                                       Text('${'home.low'.tr} ${w.tempLowText}', style: _labelStyle),
                                     ],
                                   ),
@@ -159,7 +155,7 @@ class WeatherCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: 8.h),
+                          SizedBox(height: 2.h),
                           // condition / type — live overrides forecast
                           Align(
                             alignment: Alignment.bottomRight,
@@ -174,18 +170,18 @@ class WeatherCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          SizedBox(height: 4.h),
+                          SizedBox(height: 12.h),
                         ],
                       ),
                     ),
                   ],
                 ),
-                Divider(height: 1, color: AppColors.dividerLight),
+                Divider(height: 1, color: FigmaColors.neutralBackground),
                 SizedBox(height: 12.h),
 
                 // ─ BOTTOM ROW: Feels / Rain / Pressure / Wind ─
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
@@ -199,18 +195,18 @@ class WeatherCard extends StatelessWidget {
                             SizedBox(width: 32.w),
                             _Stat(label: 'home.precipitation'.tr, value: w.precipText),
                             SizedBox(width: 32.w),
-                            _Stat(label: 'home.pressure'.tr, value: w.pressureText),
+                            _Stat(label: 'weather.sunshine'.tr, value: w.sunshineText),
                             SizedBox(width: 32.w),
                             _Stat(
                               label: 'home.wind'.tr,
                               value: w.windText,
                               trailing: Transform.rotate(
                                 angle: w.windDirDeg * 3.1415926535 / 180,
-                                child: Icon(
-                                  Icons.navigation,
-                                  size: 14.sp,
-                                  color: AppColors.primary,
-                                ),
+                                child: SvgPicture.asset(
+                                  'assets/icons/svg/navigation.svg',
+                                  width: 12.w,
+                                  height: 12.h,
+                                )
                               ),
                             ),
                           ],
@@ -228,13 +224,13 @@ class WeatherCard extends StatelessWidget {
   }
 
   static TextStyle get _labelStyle =>
-      TextStyle(fontSize: 14.sp, color: AppColors.textPrimaryLight);
+      TextStyle(fontSize: 14.sp, color: FigmaColors.neutralBody, fontWeight: FontWeight.w500);
 
   /// Live icon overrides the forecast's; BMD's own condition icon when
 
   Widget _conditionImage(CurrentWeatherModel w) {
     final resolvedCondition = liveType.isNotEmpty ? liveType : w.condition;
-    final fallback = Icon(_conditionIcon(resolvedCondition), color: AppColors.primary, size: 26.sp);
+    final fallback = Icon(_conditionIcon(resolvedCondition), color: AppColors.primary, size: 48.sp);
 
     final key = liveIcon.isNotEmpty ? liveIcon : w.icon;
     if (key.isEmpty) return fallback;
@@ -243,8 +239,8 @@ class WeatherCard extends StatelessWidget {
     if (assetPath != null) {
       return Image.asset(
         assetPath,
-        width: 56.w,
-        height: 56.w,
+        width: 48.w,
+        height: 48.w,
         fit: BoxFit.contain,
         errorBuilder: (context, error, stackTrace) => fallback,
       );
@@ -264,7 +260,7 @@ class WeatherCard extends StatelessWidget {
             child: SizedBox(
               width: 18.w,
               height: 18.w,
-              child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+              child: CircularProgressIndicator(strokeWidth: 2, color: FigmaColors.primaryDark),
             ),
           ),
         );
@@ -304,10 +300,10 @@ class _Stat extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: 12.sp,
-            color: AppColors.textPrimaryLight,
+            color: FigmaColors.primaryDark,
           ),
         ),
-        SizedBox(height: 4.h),
+        SizedBox(height: 3.h),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -315,8 +311,8 @@ class _Stat extends StatelessWidget {
               value,
               style: TextStyle(
                 fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColors.primaryDark,
+                fontWeight: FontWeight.w500,
+                color: FigmaColors.neutralBody,
               ),
             ),
             if (trailing != null) ...[SizedBox(width: 2.w), trailing!],

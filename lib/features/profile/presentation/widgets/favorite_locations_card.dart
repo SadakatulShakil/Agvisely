@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/services/user_pref_service.dart';
@@ -11,12 +12,6 @@ import '../../../location/domen/binding/select_location_binding.dart';
 import '../../../location/presentation/pages/select_location_page.dart';
 
 /// "Favorite Locations" card on the Profile page — reads/writes the exact
-/// same saved-locations list as the home page's [SavedLocationsSheet]
-/// (via [UserPrefService]), so switching/adding/removing here stays in
-/// sync with the home weather card. Matches that same deletion rule: the
-/// GPS "current location" entry is never deletable, and whichever entry is
-/// currently active (isCurrent) is never deletable either — only custom,
-/// non-active entries can be removed via their "x" badge.
 class FavoriteLocationsCard extends StatefulWidget {
   const FavoriteLocationsCard({super.key});
 
@@ -82,19 +77,42 @@ class _FavoriteLocationsCardState extends State<FavoriteLocationsCard> {
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.cardLight,
+        color: FigmaColors.neutralBackground,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'profile.favorite_locations'.tr,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.navy,
-            ),
+
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'profile.favorite_locations'.tr,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    color: FigmaColors.neutralBody,
+                  ),
+                ),
+              ),
+              Tooltip(
+                triggerMode: TooltipTriggerMode.tap,
+                showDuration: const Duration(seconds: 4),
+                margin: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 2.h),
+                preferBelow: false,
+                decoration: BoxDecoration(
+                  color: FigmaColors.neutralBody,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                message: 'profile.location_info'.tr,
+                child: Icon(
+                  Icons.info_outline,
+                  size: 20.sp,
+                  color: FigmaColors.neutralPlaceholder,
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 14.h),
           if (_loading)
@@ -109,6 +127,7 @@ class _FavoriteLocationsCardState extends State<FavoriteLocationsCard> {
               children: _locations
                   .map(
                     (loc) => _LocationChip(
+                      isGps: loc.isGps,
                       label: loc.displayName(isBangla),
                       isCurrent: loc.isCurrent,
                       deletable: !loc.isGps && !loc.isCurrent,
@@ -145,6 +164,7 @@ class _FavoriteLocationsCardState extends State<FavoriteLocationsCard> {
 
 class _LocationChip extends StatelessWidget {
   const _LocationChip({
+    required this.isGps,
     required this.label,
     required this.isCurrent,
     required this.deletable,
@@ -152,6 +172,7 @@ class _LocationChip extends StatelessWidget {
     this.onDelete,
   });
 
+  final bool isGps;
   final String label;
   final bool isCurrent;
   final bool deletable;
@@ -171,25 +192,29 @@ class _LocationChip extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
               decoration: BoxDecoration(
-                color: isCurrent ? AppColors.cardMint : Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(30.r),
+                color: isCurrent ? FigmaColors.neutralBorder : Colors.grey.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(8.r),
                 border: isCurrent ? Border.all(color: AppColors.primary) : null,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (isCurrent) ...[
-                    Icon(Icons.check_circle, size: 14.sp, color: AppColors.primary),
+                    Icon(Icons.check_circle, size: 14.sp, color: FigmaColors.primaryDefault),
                     SizedBox(width: 6.w),
                   ],
                   Text(
                     label,
                     style: TextStyle(
-                      fontSize: 13.sp,
-                      fontWeight: isCurrent ? FontWeight.w600 : FontWeight.normal,
-                      color: isCurrent ? AppColors.primaryDark : AppColors.navy,
+                      fontSize: 12.sp,
+                      fontWeight: isCurrent ? FontWeight.w600 : FontWeight.w400,
+                      color: isCurrent ? FigmaColors.primaryDefault : FigmaColors.neutralBody,
                     ),
                   ),
+                  if (isGps) ...[
+                    SizedBox(width: 6.w),
+                    Icon(Icons.gps_fixed, size: 18.sp, color: FigmaColors.chartHumidity),
+                  ],
                 ],
               ),
             ),
@@ -199,13 +224,10 @@ class _LocationChip extends StatelessWidget {
                 right: -6.w,
                 child: GestureDetector(
                   onTap: onDelete,
-                  child: Container(
-                    padding: EdgeInsets.all(3.w),
-                    decoration: const BoxDecoration(
-                      color: Colors.grey,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.close, size: 11.sp, color: Colors.white),
+                  child: SvgPicture.asset(
+                    'assets/icons/svg/cancel_icon.svg',
+                    width: 16.w,
+                    height: 16.h,
                   ),
                 ),
               ),

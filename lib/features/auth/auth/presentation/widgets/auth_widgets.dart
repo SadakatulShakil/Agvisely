@@ -59,10 +59,10 @@ class AgButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: loading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryDark,
+          backgroundColor: FigmaColors.primaryDefault,
           foregroundColor: Colors.white,
           elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
         ),
         child: loading
             ? const SizedBox(
@@ -95,12 +95,12 @@ class FieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: 8, top: 8),
+        padding: EdgeInsets.only(bottom: 8.h),
         child: Text(text,
             style: TextStyle(
-                color: AppColors.primaryDark,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500)),
+                color: FigmaColors.neutralSecondary,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400)),
       );
 }
 
@@ -110,11 +110,11 @@ InputDecoration agFieldDecoration(String hint) => InputDecoration(
       fillColor: const Color(0xFFF3F6F1),
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(10.r),
         borderSide: const BorderSide(color: AppColors.dividerLight),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: AppColors.primary, width: 1.6),
+        borderRadius: BorderRadius.circular(10.r),
+        borderSide: BorderSide(color: FigmaColors.neutralPlaceholder, width: 1),
       ),
     );

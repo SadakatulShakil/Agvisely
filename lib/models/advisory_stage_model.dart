@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 /// One row of an advisory item's "select a stage for advisory" list, from
 /// `GET /advisory/categories/{categoryId}/items/{itemId}/stages`.
 class AdvisoryStageModel {
@@ -69,4 +71,17 @@ class AdvisoryStageModel {
       isBn && (descriptionBn != null && descriptionBn!.isNotEmpty)
           ? descriptionBn!
           : (description ?? '');
+
+  /// "1 November - 5 December" style range for the stage list — both dates are
+  String dateRangeLabel(bool isBn) {
+    final start = startDate;
+    final end = endDate;
+    if (start == null && end == null) return '';
+
+    final fmt = DateFormat('d MMMM', isBn ? 'bn' : 'en');
+    if (start != null && end != null) {
+      return '${fmt.format(start)} - ${fmt.format(end)}';
+    }
+    return start != null ? fmt.format(start) : fmt.format(end!);
+  }
 }
