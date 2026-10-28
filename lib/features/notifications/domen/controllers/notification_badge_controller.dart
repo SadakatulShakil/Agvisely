@@ -15,9 +15,10 @@ class NotificationBadgeController extends GetxController {
     refreshUnreadCount();
   }
 
-  /// `limit: 1` — only `unreadCount` is needed, not the items.
+  /// The server's `unreadCount` covers only the fetched page, so this needs
+  /// a page large enough to catch realistic unread totals.
   Future<void> refreshUnreadCount() async {
-    final result = await NotificationsService().fetch(page: 1, limit: 1);
+    final result = await NotificationsService().fetch(page: 1, limit: 50);
     if (result.unreadCount != null) {
       unreadCount.value = result.unreadCount!;
     }

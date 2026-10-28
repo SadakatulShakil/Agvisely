@@ -31,7 +31,7 @@ class NotificationsService {
         headers: {'Authorization': 'Bearer $token'},
       );
       final data = resp is Map ? resp['data'] : null;
-      if (data is! Map) {
+      if (data is! Map && data is! List) {
         return (
           items: null,
           meta: null,
@@ -40,7 +40,9 @@ class NotificationsService {
         );
       }
 
-      final rawItems = data['items'];
+      // The server may return `data` as either the flat array of
+      // notifications, or (older shape) `{items, meta, unreadCount}`.
+      final rawItems = data is List ? data : (data as Map)['items'];
       final items = rawItems is List
           ? rawItems
               .whereType<Map>()
@@ -48,12 +50,23 @@ class NotificationsService {
               .toList()
           : <NotificationModel>[];
 
-      final rawMeta = data['meta'];
+      final rawMeta = data is Map ? data['meta'] : null;
       final meta = rawMeta is Map
           ? NotificationPageMeta.fromJson(rawMeta.cast<String, dynamic>())
-          : NotificationPageMeta(page: page, limit: limit, total: items.length, totalPages: 1);
+          // No pagination meta from the server (flat-array shape) — infer
+          // `hasMore` from whether this page came back full.
+          : NotificationPageMeta(
+              page: page,
+              limit: limit,
+              total: items.length,
+              totalPages: items.length >= limit ? page + 1 : page,
+            );
 
-      final unreadCount = data['unreadCount'] is int ? data['unreadCount'] as int : 0;
+      final rawUnreadCount = data is Map ? data['unreadCount'] : null;
+      // The flat-array shape doesn't send an aggregate `unreadCount` — fall
+      // back to counting unread items on this page.
+      final unreadCount =
+          rawUnreadCount is int ? rawUnreadCount : items.where((n) => !n.isRead).length;
 
       return (items: items, meta: meta, unreadCount: unreadCount, error: null);
     } catch (e) {
@@ -85,28 +98,6 @@ class NotificationsService {
       return (notification: NotificationModel.fromJson(data.cast<String, dynamic>()), error: null);
     } catch (e) {
       return (notification: null, error: NetworkExceptions.getErrorMessage(e));
-    }
-  }
-
-  /// `count` (non-null on success) is how many were newly marked as read.
-  Future<({int? count, String? error})> markAllRead() async {
-    final token = await UserPrefService().getAccessToken();
-    if (token == null || token.isEmpty) {
-      return (count: null, error: 'error.login_again'.tr);
-    }
-
-    try {
-      final resp = await ApiClient().put(
-        ApiEndpoints.notificationMarkAllRead,
-        headers: {'Authorization': 'Bearer $token'},
-      );
-      final data = resp is Map ? resp['data'] : null;
-      if (data is! int) {
-        return (count: null, error: 'error.invalid_response'.tr);
-      }
-      return (count: data, error: null);
-    } catch (e) {
-      return (count: null, error: NetworkExceptions.getErrorMessage(e));
     }
   }
 }

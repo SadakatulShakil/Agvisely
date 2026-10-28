@@ -64,34 +64,6 @@ class _NotificationPageState extends State<NotificationPage> {
                       color: FigmaColors.primaryDefault,
                     ),
                   ),
-                  SizedBox(width: 8.w),
-                  Obx(() {
-                    final count = controller.unreadCount.value;
-                    if (count <= 0) return const SizedBox.shrink();
-                    return Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      child: Text(
-                        '$count',
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    );
-                  }),
-                  const Spacer(),
-                  Obx(() {
-                    if (controller.unreadCount.value <= 0) return const SizedBox.shrink();
-                    return TextButton(
-                      onPressed: controller.markAllAsRead,
-                      child: Text('notifications.mark_all_read'.tr),
-                    );
-                  }),
                 ],
               ),
             ),

@@ -5,14 +5,15 @@ DateTime? _secondsToDate(dynamic value) {
       : DateTime.fromMillisecondsSinceEpoch((seconds * 1000).round());
 }
 
-/// One row of the notification inbox, from `GET /notifications`. `isRead`/
-/// `readAt` are specific to the current user, not the notification itself.
+
 class NotificationModel {
   final int id;
   final String type; // all | user
   final String channel;
   final String title;
   final String body;
+  final String? imageUrl;
+  final String? imageName;
   final bool isRead;
   final DateTime? readAt;
   final DateTime createdAt;
@@ -23,6 +24,8 @@ class NotificationModel {
     required this.channel,
     required this.title,
     required this.body,
+    this.imageUrl,
+    this.imageName,
     required this.isRead,
     this.readAt,
     required this.createdAt,
@@ -34,6 +37,8 @@ class NotificationModel {
         channel: j['channel']?.toString() ?? '',
         title: j['title']?.toString() ?? '',
         body: j['body']?.toString() ?? '',
+        imageUrl: j['imageUrl']?.toString(),
+        imageName: j['imageName']?.toString(),
         isRead: j['isRead'] == true,
         readAt: _secondsToDate(j['readAt']),
         createdAt: _secondsToDate(j['createdAt']) ?? DateTime.now(),
@@ -45,6 +50,8 @@ class NotificationModel {
         channel: channel,
         title: title,
         body: body,
+        imageUrl: imageUrl,
+        imageName: imageName,
         isRead: isRead ?? this.isRead,
         readAt: readAt ?? this.readAt,
         createdAt: createdAt,

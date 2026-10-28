@@ -6,10 +6,6 @@ import 'notification_badge_controller.dart';
 
 const _pageLimit = 20;
 
-/// Notification inbox state — paginated via `GET /notifications`
-/// (newest first); [loadMore] appends the next page, [loadNotifications]
-/// starts over. Mirrors its unread count into [NotificationBadgeController]
-/// (when registered) so the home page badge stays live.
 class NotificationController extends GetxController {
   final isLoading = false.obs;
   final isLoadingMore = false.obs;
@@ -21,9 +17,6 @@ class NotificationController extends GetxController {
   bool _hasMore = true;
   bool get hasMore => _hasMore;
 
-  // Bumped by every loadNotifications() call so a loadMore() in flight when
-  // a fresh reload/refresh starts can tell its page is now stale and drop
-  // its result instead of appending onto the just-reloaded page 1.
   int _generation = 0;
 
   @override
@@ -44,7 +37,7 @@ class NotificationController extends GetxController {
 
     if (result.items != null) {
       notifications.assignAll(result.items!);
-      _setUnreadCount(result.unreadCount ?? 0);
+      if (result.unreadCount != null) _setUnreadCount(result.unreadCount!);
       _hasMore = result.meta?.hasMore ?? false;
     } else {
       notifications.clear();
@@ -68,7 +61,7 @@ class NotificationController extends GetxController {
     if (result.items != null) {
       _page += 1;
       notifications.addAll(result.items!);
-      _setUnreadCount(result.unreadCount ?? unreadCount.value);
+      if (result.unreadCount != null) _setUnreadCount(result.unreadCount!);
       _hasMore = result.meta?.hasMore ?? false;
     }
     // A failed loadMore just leaves _hasMore as-is — the user can retry by
@@ -83,25 +76,9 @@ class NotificationController extends GetxController {
     final result = await NotificationsService().markRead(notification.id);
     if (result.notification == null) return; // leave as unread on failure
 
-    // Looked up after the await (not before) — a concurrent loadNotifications()
-    // reset while this was in flight would otherwise leave a stale/out-of-range
-    // index.
     final index = notifications.indexWhere((n) => n.id == notification.id);
     if (index != -1) notifications[index] = result.notification!;
     _setUnreadCount(unreadCount.value - 1);
-  }
-
-  /// Marks every notification visible to this user as read.
-  Future<void> markAllAsRead() async {
-    if (unreadCount.value == 0) return;
-
-    final result = await NotificationsService().markAllRead();
-    if (result.count == null) return; // leave as-is on failure
-
-    notifications.assignAll(
-      notifications.map((n) => n.isRead ? n : n.copyWith(isRead: true)).toList(),
-    );
-    _setUnreadCount(0);
   }
 
   void _setUnreadCount(int count) {
