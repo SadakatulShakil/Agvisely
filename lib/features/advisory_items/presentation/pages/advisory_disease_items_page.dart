@@ -206,65 +206,72 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                   );
                 }
 
-                return GridView.builder(
-                  padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 8.h),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 15.w,
-                    mainAxisSpacing: 16.h,
-                    childAspectRatio: 1.00,
-                  ),
-                  itemCount: items.length,
-                  itemBuilder: (context, i) {
-                    final item = items[i];
-                    return GestureDetector(
-                      onTap: () {
-                        final category = controller.selectedCategory.value;
-                        if (category == null) return;
-                        Get.to(
-                          () => const AdvisoryStagesPage(),
-                          binding: AdvisoryStagesBinding(
-                            categoryId: category.id,
-                            item: item,
-                            categoryLabel: category.label(isBn),
-                            stageCategory: 'disease',
-                          ),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              AppColors.primaryDark.withValues(alpha: 0.0),
-                              AppColors.primaryDark.withValues(alpha: 0.06),
-                              AppColors.primaryDark.withValues(alpha: 0.30),
-                            ],
-                            stops: const [0.0, 0.46, 1.0],
-                          ),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(16.r),
-                            bottomRight: Radius.circular(16.r),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _ItemIcon(imageUrl: item.imageUrl),
-                            SizedBox(height: 10.h),
-                            Text(
-                              item.label(isBn),
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark, fontWeight: FontWeight.w400),
+                return RefreshIndicator(
+                  onRefresh: controller.reload,
+                  child: GridView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 8.h),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 15.w,
+                      mainAxisSpacing: 16.h,
+                      childAspectRatio: 1.00,
+                    ),
+                    itemCount: items.length,
+                    itemBuilder: (context, i) {
+                      final item = items[i];
+                      return GestureDetector(
+                        onTap: () {
+                          final category = controller.selectedCategory.value;
+                          if (category == null) return;
+                          Get.to(
+                            () => const AdvisoryStagesPage(),
+                            binding: AdvisoryStagesBinding(
+                              categoryId: category.id,
+                              item: item,
+                              // Always "Disease Advisory" here, regardless of
+                              // which underlying category (crop/livestock/
+                              // aquaculture) the item was browsed from.
+                              categoryLabel: 'advisory_items.disease_title'.tr,
+                              stageCategory: 'disease',
                             ),
-                          ],
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                AppColors.primaryDark.withValues(alpha: 0.0),
+                                AppColors.primaryDark.withValues(alpha: 0.06),
+                                AppColors.primaryDark.withValues(alpha: 0.30),
+                              ],
+                              stops: const [0.0, 0.46, 1.0],
+                            ),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(16.r),
+                              bottomRight: Radius.circular(16.r),
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _ItemIcon(imageUrl: item.imageUrl),
+                              SizedBox(height: 10.h),
+                              Text(
+                                item.label(isBn),
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark, fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 );
               }),
             ),

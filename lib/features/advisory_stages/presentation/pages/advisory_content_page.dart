@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -63,7 +64,10 @@ class AdvisoryContentPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: SingleChildScrollView(
+            child: RefreshIndicator(
+              onRefresh: controller.loadContent,
+              child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: [
@@ -148,7 +152,7 @@ class AdvisoryContentPage extends StatelessWidget {
                                     controller.categoryLabel ?? '',
                                     style: TextStyle(
                                       fontSize: 20.sp,
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w600,
                                       color: FigmaColors.primaryDefault,
                                     ),
                                   ),
@@ -164,20 +168,24 @@ class AdvisoryContentPage extends StatelessWidget {
                               _Section(
                                 section: content.sections[i],
                                 isBn: isBn,
+                                useHtml: controller.isDisease,
                               ),
                               if (i < content.sections.length - 1) ...[
                                 SizedBox(height: 20.h),
                                 Divider(
-                                  color: AppColors.dividerLight,
+                                  color: FigmaColors.neutralBackground,
                                   height: 1,
                                 ),
                               ],
                             ],
                             if (content.goodPractice != null) ...[
-                              SizedBox(height: 36.h),
+                              controller.isDisease
+                                  ?SizedBox(height: 8.h)
+                                  :SizedBox(height: 36.h),
                               _GoodPracticeCard(
                                 section: content.goodPractice!,
                                 isBn: isBn,
+                                useHtml: controller.isDisease,
                               ),
                             ],
                           ],
@@ -187,13 +195,14 @@ class AdvisoryContentPage extends StatelessWidget {
                   ),
                 ],
               ),
+              ),
             ),
           ),
           Obx(() {
             final enabled = controller.content.value != null;
             return Container(
-              color: AppColors.cardLight,
-              padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 16.h),
+              color: FigmaColors.neutralWhite,
+              padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 20.h),
               child: Row(
                 children: [
                   OutlinedButton(
@@ -202,7 +211,7 @@ class AdvisoryContentPage extends StatelessWidget {
                       side: BorderSide(color: FigmaColors.primaryDefault),
                       padding: EdgeInsets.symmetric(
                         horizontal: 20.w,
-                        vertical: 14.h,
+                        vertical: 16.h,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16.r),
@@ -236,7 +245,7 @@ class AdvisoryContentPage extends StatelessWidget {
                         backgroundColor: FigmaColors.primaryDefault,
                         disabledBackgroundColor: FigmaColors.primaryDefault
                             .withValues(alpha: 0.4),
-                        padding: EdgeInsets.symmetric(vertical: 14.h),
+                        padding: EdgeInsets.symmetric(vertical: 16.h),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.r),
                           side: BorderSide(color: FigmaColors.primaryLight)
@@ -358,7 +367,7 @@ class _Hero extends StatelessWidget {
                   title,
                   style: TextStyle(
                     fontSize: 24.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     color: FigmaColors.neutralWhite,
                   ),
                 ),
@@ -367,6 +376,7 @@ class _Hero extends StatelessWidget {
                   subtitle,
                   style: TextStyle(
                     fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
                     color: FigmaColors.neutralWhite,
                   ),
                 ),
@@ -397,26 +407,33 @@ class _IconBadge extends StatelessWidget {
 }
 
 class _Section extends StatelessWidget {
-  const _Section({required this.section, required this.isBn});
+  const _Section({required this.section, required this.isBn, required this.useHtml});
 
   final AdvisorySectionModel section;
   final bool isBn;
+  final bool useHtml;
 
   @override
   Widget build(BuildContext context) {
+    final title = section.label(isBn);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          section.label(isBn),
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w500,
-            color: FigmaColors.primaryDark,
+        if (title.isNotEmpty) ...[
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: FigmaColors.primaryDark,
+            ),
           ),
-        ),
-        SizedBox(height: 12.h),
-        for (final bullet in section.bullets) _Bullet(text: bullet.label(isBn)),
+          SizedBox(height: 12.h),
+        ],
+        if (useHtml)
+          _AdvisoryHtmlBody(html: section.content(isBn))
+        else
+          for (final bullet in section.bullets) _Bullet(text: bullet.label(isBn)),
       ],
     );
   }
@@ -437,8 +454,8 @@ class _Bullet extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 6.h),
             child: Container(
-              width: 4.w,
-              height: 4.w,
+              width: 6.w,
+              height: 6.w,
               decoration: BoxDecoration(
                 color: FigmaColors.primaryDefault,
                 shape: BoxShape.circle,
@@ -450,7 +467,7 @@ class _Bullet extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 color: FigmaColors.neutralBody,
                 height: 1.4,
               ),
@@ -461,25 +478,56 @@ class _Bullet extends StatelessWidget {
     );
   }
 }
+/// used only for the Disease flow, see [_Section.useHtml].
+class _AdvisoryHtmlBody extends StatelessWidget {
+  const _AdvisoryHtmlBody({required this.html});
+
+  final String html;
+
+  @override
+  Widget build(BuildContext context) {
+    if (html.trim().isEmpty) return const SizedBox.shrink();
+    return Html(
+      data: html,
+      style: {
+        'body': Style(
+          margin: Margins.zero,
+          padding: HtmlPaddings.zero,
+          fontSize: FontSize(16.sp),
+          color: FigmaColors.neutralBody,
+          lineHeight: LineHeight.number(1.4),
+        ),
+        'p': Style(margin: Margins.only(bottom: 8.h)),
+        'ul': Style(margin: Margins.zero, padding: HtmlPaddings.only(left: 20.w)),
+        'li': Style(margin: Margins.only(bottom: 8.h)),
+      },
+    );
+  }
+}
 
 class _GoodPracticeCard extends StatelessWidget {
-  const _GoodPracticeCard({required this.section, required this.isBn});
+  const _GoodPracticeCard({required this.section, required this.isBn, required this.useHtml});
 
   final AdvisorySectionModel section;
   final bool isBn;
+  final bool useHtml;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 16.h),
-      decoration: BoxDecoration(
+      padding: useHtml
+          ?EdgeInsets.fromLTRB(16.w, 0.h, 16.w, 16.h)
+          :EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 16.h),
+      decoration: useHtml
+          ? null
+          : BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            FigmaColors.primaryDefault.withValues(alpha: 0.30),
-            FigmaColors.primaryDefault.withValues(alpha: 0.08),
+            FigmaColors.primaryDefault.withValues(alpha: 0.15),
+            FigmaColors.primaryDefault.withValues(alpha: 0.06),
             FigmaColors.primaryDefault.withValues(alpha: 0.0),
           ],
           stops: const [0.0, 0.50, 1.0],
@@ -492,7 +540,9 @@ class _GoodPracticeCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          useHtml
+              ?SizedBox.shrink()
+              :Row(
             children: [
               _IconBadge(color: AppColors.cardLight),
               SizedBox(width: 10.w),
@@ -509,8 +559,10 @@ class _GoodPracticeCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: 12.h),
-          for (final bullet in section.bullets)
-            _Bullet(text: bullet.label(isBn)),
+          if (useHtml)
+            _AdvisoryHtmlBody(html: section.content(isBn))
+          else
+            for (final bullet in section.bullets) _Bullet(text: bullet.label(isBn)),
         ],
       ),
     );

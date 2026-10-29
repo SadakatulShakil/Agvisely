@@ -100,11 +100,11 @@ class FigmaColors {
 
   // ── Chart ────────────────────────────────────────────────────────────────
   /// Chart/Rainfall — rainfall bars.
-  static const Color chartRainfall = Color(0xFFB6EBBC);
+  static const Color chartRainfall = Color(0xFFB5DBFF);
   /// Chart/Temperature — temperature line.
-  static const Color chartTemperature = Color(0xFF3D7488);
+  static const Color chartTemperature = Color(0xFFFF4141);
   /// Chart/Humidity — humidity line.
-  static const Color chartHumidity = Color(0xFFC2701C);
+  static const Color chartHumidity = Color(0xFF67AE48);
   /// Status error — e.g. "No data" or "Failed to load".
   static const Color statusError = Color(0xFFEA0C0C);
 }

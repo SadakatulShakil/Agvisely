@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// Central font registry — AnekBangla (bn) and Outfit (en, the Google Font)
-/// are both bundled in assets/fonts/ and declared in pubspec.yaml, so text
-/// renders with the correct typeface on the very first frame (no async
-/// google_fonts load → no size-flash on cold start, works fully offline).
 class AppFonts {
   AppFonts._();
 
@@ -14,9 +11,6 @@ class AppFonts {
   static String familyFor(String? languageCode) =>
       languageCode == 'en' ? englishFamily : banglaFamily;
 
-  /// The family for the current locale — Bangla is the app's default/
-  /// fallback, matching [LocalizationString] and the rest of the app's
-  /// `Get.locale?.languageCode == 'bn'` checks.
   static String get family => familyFor(Get.locale?.languageCode);
 
   static TextStyle style({

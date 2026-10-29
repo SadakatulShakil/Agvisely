@@ -117,60 +117,64 @@ class AdvisoryItemsPage extends StatelessWidget {
                   );
                 }
 
-                return GridView.builder(
-                  padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 8.h),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 15.w,
-                    mainAxisSpacing: 16.h,
-                    childAspectRatio: 1.00,
-                  ),
-                  itemCount: items.length,
-                  itemBuilder: (context, i) {
-                    final item = items[i];
-                    return GestureDetector(
-                      onTap: () => Get.to(
-                        () => const AdvisoryStagesPage(),
-                        binding: AdvisoryStagesBinding(
-                          categoryId: controller.categoryId,
-                          item: item,
-                          categoryLabel: controller.categoryLabel,
-                        ),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              FigmaColors.primaryDefault.withValues(alpha: 0.0),
-                              FigmaColors.primaryDefault.withValues(alpha: 0.06),
-                              FigmaColors.primaryDefault.withValues(alpha: 0.30),
-                            ],
-                            stops: const [0.0, 0.46, 1.0],
-                          ),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(16.r),
-                            bottomRight: Radius.circular(16.r),
+                return RefreshIndicator(
+                  onRefresh: controller.loadItems,
+                  child: GridView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 8.h),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 15.w,
+                      mainAxisSpacing: 16.h,
+                      childAspectRatio: 1.00,
+                    ),
+                    itemCount: items.length,
+                    itemBuilder: (context, i) {
+                      final item = items[i];
+                      return GestureDetector(
+                        onTap: () => Get.to(
+                          () => const AdvisoryStagesPage(),
+                          binding: AdvisoryStagesBinding(
+                            categoryId: controller.categoryId,
+                            item: item,
+                            categoryLabel: controller.categoryLabel,
                           ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _ItemIcon(imageUrl: item.imageUrl),
-                            SizedBox(height: 6.h),
-                            Text(
-                              item.label(isBn),
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark, fontWeight: FontWeight.w400),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                FigmaColors.primaryDefault.withValues(alpha: 0.0),
+                                FigmaColors.primaryDefault.withValues(alpha: 0.06),
+                                FigmaColors.primaryDefault.withValues(alpha: 0.30),
+                              ],
+                              stops: const [0.0, 0.46, 1.0],
                             ),
-                          ],
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(16.r),
+                              bottomRight: Radius.circular(16.r),
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _ItemIcon(imageUrl: item.imageUrl),
+                              SizedBox(height: 6.h),
+                              Text(
+                                item.label(isBn),
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark, fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 );
               }),
             ),

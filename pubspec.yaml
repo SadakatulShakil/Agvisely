@@ -55,6 +55,7 @@ dependencies:
   flutter_image_compress: ^2.5.1
   mime: ^2.1.0
   http_parser: ^4.1.2
+  flutter_html: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,13 @@ dev_dependencies:
   floor_generator: ^1.5.0
   build_runner: ^2.4.6
   rename: ^3.1.0
+
+# flutter_html 3.0.0 calls an internal `html` package function
+# (package:html/src/query_selector.dart's top-level `matches()`) that was
+# removed in html 0.15.7 — pin back to the last version that still has it
+# until flutter_html ships a fix.
+dependency_overrides:
+  html: 0.15.6
 
 flutter:
   uses-material-design: true
@@ -74,10 +82,6 @@ flutter:
     - assets/icons/weather_icons/
     - assets/json/
 
-  # AnekBangla (bn) and Outfit (en) are both bundled locally — same system as
-  # BMD: renders on the first frame, fully offline, no google_fonts runtime
-  # fetch/flash. Outfit is a variable font; each weight entry below points at
-  # the same file (Flutter resolves the right instance from its weight axis).
   fonts:
     - family: AnekBangla
       fonts:
@@ -96,4 +100,13 @@ flutter:
         - asset: assets/fonts/Outfit-SemiBold.ttf
           weight: 600
         - asset: assets/fonts/Outfit-Bold.ttf
+          weight: 700
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+        - asset: assets/fonts/OpenSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/OpenSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/OpenSans-Bold.ttf
           weight: 700

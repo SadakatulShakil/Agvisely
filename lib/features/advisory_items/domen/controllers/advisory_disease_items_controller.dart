@@ -59,6 +59,14 @@ class AdvisoryDiseaseItemsController extends GetxController {
     }
   }
 
+  /// Pull-to-refresh: reloads the category dropdown and the currently
+  /// selected category's items.
+  Future<void> reload() async {
+    await loadCategories();
+    final current = selectedCategory.value;
+    if (current != null) await onCategoryChanged(current);
+  }
+
   Future<void> onCategoryChanged(AdvisoryCategoryModel? category) async {
     selectedCategory.value = category;
     items.clear();

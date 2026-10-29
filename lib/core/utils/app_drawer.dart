@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../theme/app_theme_colors.dart';
+import '../services/advisory_categories_service.dart';
 import '../../features/advisory_items/domen/binding/advisory_disease_items_binding.dart';
 import '../../features/advisory_items/domen/binding/advisory_items_binding.dart';
 import '../../features/advisory_items/presentation/pages/advisory_disease_items_page.dart';
@@ -42,12 +43,13 @@ class AppDrawer extends StatelessWidget {
             // The drawer has no live AdvisoryCategoryModel in scope (unlike
             // the home grid, which passes the real tapped category through)
             // — these fallback ids mirror the backend's known category
-            // ordering: 1=crop, 2=livestock, 3=aquaculture, 4=disease.
+            // ordering: 1=crop, 2=livestock, 3=aquaculture. Disease is
+            // resolved from the cached catalog's `isDisease` flag instead
+            // of a fixed id (see `_openDiseaseAdvisoryShortcut`).
             _item(Icons.grass_outlined, 'advisory.crop'.tr,
                 () => _openAdvisoryShortcut(categoryId: 1, categoryLabel: 'advisory.crop'.tr)),
             _item(Icons.coronavirus_outlined, 'advisory.disease'.tr,
-                () => _openDiseaseAdvisoryShortcut(
-                    categoryId: 4, categoryLabel: 'advisory.disease'.tr)),
+                () => _openDiseaseAdvisoryShortcut()),
             _item(Icons.pets_outlined, 'advisory.livestock'.tr,
                 () => _openAdvisoryShortcut(categoryId: 2, categoryLabel: 'advisory.livestock'.tr)),
             _item(Icons.set_meal_outlined, 'advisory.aquaculture'.tr,
@@ -79,10 +81,16 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  void _openDiseaseAdvisoryShortcut({required int categoryId, required String categoryLabel}) {
+  void _openDiseaseAdvisoryShortcut() {
+    final isBn = Get.locale?.languageCode == 'bn';
+    final disease = AdvisoryCategoriesService().cached?.firstWhereOrNull((c) => c.isDisease);
     Get.to(
       () => const AdvisoryDiseaseItemsPage(),
-      binding: AdvisoryDiseaseItemsBinding(categoryId: categoryId, categoryLabel: categoryLabel),
+      binding: AdvisoryDiseaseItemsBinding(
+        // Falls back to the legacy id only if the catalog hasn't loaded yet.
+        categoryId: disease?.id ?? 4,
+        categoryLabel: disease != null ? disease.label(isBn) : 'advisory.disease'.tr,
+      ),
     );
   }
 }

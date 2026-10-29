@@ -5,13 +5,18 @@ import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/network/network_controller.dart';
+import '../../../../core/services/advisory_categories_service.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../models/advisory_item_model.dart';
 import '../../../../models/user_choice_model.dart';
 import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
 import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
 
-const _diseaseCategoryId = 4;
+/// [UserChoiceModel] only carries a bare `categoryId`, not the category's
+/// `isDisease` flag — resolve it against the cached catalog.
+bool _isDiseaseCategory(int categoryId) =>
+    AdvisoryCategoriesService().cached?.firstWhereOrNull((c) => c.id == categoryId)?.isDisease ??
+    false;
 
 class MyChoiceCarousel extends StatelessWidget {
   const MyChoiceCarousel({super.key, required this.items, this.onSeeAll});
@@ -37,7 +42,7 @@ class MyChoiceCarousel extends StatelessWidget {
               Text(
                 'home.my_choice'.tr,
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                   color: FigmaColors.primaryDefault,
                 ),
@@ -45,8 +50,9 @@ class MyChoiceCarousel extends StatelessWidget {
               GestureDetector(
                 onTap: onSeeAll,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
                   decoration: BoxDecoration(
+                    color: FigmaColors.neutralBackground,
                     border: Border.all(color: FigmaColors.primaryDefault),
                     borderRadius: BorderRadius.circular(20.r),
                   ),
@@ -55,7 +61,7 @@ class MyChoiceCarousel extends StatelessWidget {
                     children: [
                       Text(
                         'home.see_all'.tr,
-                        style: TextStyle(fontSize: 12.sp, color: FigmaColors.primaryDefault),
+                        style: TextStyle(fontSize: 14.sp, color: FigmaColors.primaryDefault),
                       ),
                       SizedBox(width: 4.w),
                       SvgPicture.asset(
@@ -141,7 +147,7 @@ class _MyChoiceTile extends StatelessWidget {
         categoryId: choice.categoryId,
         item: item,
         categoryLabel: choice.categoryLabel(isBn),
-        stageCategory: choice.categoryId == _diseaseCategoryId ? 'disease' : null,
+        stageCategory: _isDiseaseCategory(choice.categoryId) ? 'disease' : null,
       ),
     );
   }

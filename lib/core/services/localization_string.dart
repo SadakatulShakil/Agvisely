@@ -30,9 +30,9 @@ class LocalizationString extends Translations {
     'home.feels_like': 'Feels Like',
     'home.precipitation': 'Precipitation',
     'home.pressure': 'Pressure',
-    'home.wind': 'Wind',
-    'home.high': 'H:',
-    'home.low': 'L:',
+    'home.wind': 'Wind Speed',
+    'home.high': 'High:',
+    'home.low': 'Low:',
     'home.weather_unavailable': 'Weather unavailable',
     'home.next_7_days': 'Next 7 days',
     'home.my_choice': 'My Choice',
@@ -54,7 +54,7 @@ class LocalizationString extends Translations {
     'weather.cloud_coverage': 'Cloud coverage',
     'weather.humidity': 'Humidity',
     'weather.soil_moisture': 'Soil Moisture',
-    'weather.sunshine': 'Sunshine',
+    'weather.sunshine': 'Sunshine Duration',
     'weather.thi': 'THI',
     'weather.view_graph': 'View Rainfall, temperature, humidity graph',
     'weather.hide_graph': 'Hide graph',
@@ -218,6 +218,7 @@ class LocalizationString extends Translations {
     'common.save': 'Save',
     'common.cancel': 'Cancel',
     'common.error': 'Error',
+    'common.ok': 'OK',
 
     // ── Errors (network/API — NetworkExceptions, ApiClient, services) ──────
     'error.no_internet': 'No internet connection. Please check your network.',
@@ -231,6 +232,9 @@ class LocalizationString extends Translations {
     'error.select_location_first': 'Please select a location first.',
     'error.no_advisory_yet': 'No advisory available for this stage yet.',
     'error.could_not_save_location': 'Could not save location',
+    'error.account_inactive_title': 'Account Inactive',
+    'error.account_inactive_message':
+        'Your role has been set to inactive from the admin panel. To activate your account again, please communicate with the admin.',
 
     // ── Settings ─────────────────────────────────────────────────────────
     'settings.dark_mode': 'Dark mode',
@@ -255,7 +259,7 @@ class LocalizationString extends Translations {
     'home.feels_like': 'অনুভূত',
     'home.precipitation': 'বৃষ্টিপাত',
     'home.pressure': 'চাপ',
-    'home.wind': 'বাতাস',
+    'home.wind': 'বাতাসের গতিবেগ',
     'home.high': 'উচ্চ:',
     'home.low': 'নিম্ন:',
     'home.weather_unavailable': 'আবহাওয়ার তথ্য পাওয়া যায়নি',
@@ -279,7 +283,7 @@ class LocalizationString extends Translations {
     'weather.cloud_coverage': 'মেঘের আচ্ছাদন',
     'weather.humidity': 'আর্দ্রতা',
     'weather.soil_moisture': 'মাটির আর্দ্রতা',
-    'weather.sunshine': 'রোদ',
+    'weather.sunshine': 'রোদের সময়কাল',
     'weather.thi': 'তাপ-আর্দ্রতা সূচক',
     'weather.view_graph': 'বৃষ্টিপাত, তাপমাত্রা, আর্দ্রতার গ্রাফ দেখুন',
     'weather.hide_graph': 'গ্রাফ লুকান',
@@ -443,6 +447,7 @@ class LocalizationString extends Translations {
     'common.save': 'সংরক্ষণ করুন',
     'common.cancel': 'বাতিল',
     'common.error': 'ত্রুটি',
+    'common.ok': 'ঠিক আছে',
 
     // ── Errors (network/API — NetworkExceptions, ApiClient, services) ──────
     'error.no_internet': 'ইন্টারনেট সংযোগ নেই। অনুগ্রহ করে আপনার নেটওয়ার্ক পরীক্ষা করুন।',
@@ -456,6 +461,9 @@ class LocalizationString extends Translations {
     'error.select_location_first': 'অনুগ্রহ করে প্রথমে একটি অবস্থান নির্বাচন করুন।',
     'error.no_advisory_yet': 'এই ধাপের জন্য এখনো কোনো পরামর্শ পাওয়া যায়নি।',
     'error.could_not_save_location': 'লোকেশন সংরক্ষণ করা যায়নি',
+    'error.account_inactive_title': 'অ্যাকাউন্ট নিষ্ক্রিয়',
+    'error.account_inactive_message':
+        'অ্যাডমিন প্যানেল থেকে আপনার ভূমিকা নিষ্ক্রিয় করা হয়েছে। আপনার অ্যাকাউন্ট পুনরায় সক্রিয় করতে, অনুগ্রহ করে অ্যাডমিনের সাথে যোগাযোগ করুন।',
 
     // ── Settings ─────────────────────────────────────────────────────────
     'settings.dark_mode': 'ডার্ক মোড',

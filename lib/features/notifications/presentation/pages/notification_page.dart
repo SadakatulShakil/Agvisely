@@ -182,7 +182,7 @@ class _NotificationCard extends StatelessWidget {
               Expanded(
                 child: RichText(
                   text: TextSpan(
-                    style: TextStyle(fontSize: 14.sp, color: FigmaColors.neutralBody, height: 1.4),
+                    style: TextStyle(fontSize: 16.sp, color: FigmaColors.neutralBody, height: 1.4),
                     children: [
                       TextSpan(
                         text: '${notification.title}: ',
@@ -198,7 +198,7 @@ class _NotificationCard extends StatelessWidget {
           SizedBox(height: 4.h),
           Text(
             _time(notification.createdAt),
-            style: TextStyle(fontSize: 12.sp, color: FigmaColors.neutralPlaceholder, fontWeight: FontWeight.w400),
+            style: TextStyle(fontSize: 14.sp, color: FigmaColors.neutralPlaceholder, fontWeight: FontWeight.w400),
           ),
         ],
       ),

@@ -41,20 +41,24 @@ class SevenDayPage extends StatelessWidget {
               child: Obx(
                 () => controller.isLoading.value
                     ? const Center(child: CircularProgressIndicator())
-                    : ListView.separated(
-                        padding: EdgeInsets.all(16.r),
-                        itemCount: controller.days.length,
-                        separatorBuilder: (_, __) => SizedBox(height: 12.h),
-                        itemBuilder: (context, index) {
-                          final day = controller.days[index];
-                          return Obx(
-                            () => SevenDayCard(
-                              day: day,
-                              expanded: controller.isExpanded(day.dayStart),
-                              onToggleGraph: () => controller.toggleExpanded(day.dayStart),
-                            ),
-                          );
-                        },
+                    : RefreshIndicator(
+                        onRefresh: controller.load,
+                        child: ListView.separated(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: EdgeInsets.all(16.r),
+                          itemCount: controller.days.length,
+                          separatorBuilder: (_, __) => SizedBox(height: 12.h),
+                          itemBuilder: (context, index) {
+                            final day = controller.days[index];
+                            return Obx(
+                              () => SevenDayCard(
+                                day: day,
+                                expanded: controller.isExpanded(day.dayStart),
+                                onToggleGraph: () => controller.toggleExpanded(day.dayStart),
+                              ),
+                            );
+                          },
+                        ),
                       ),
               ),
             ),

@@ -74,7 +74,7 @@ class AdvisoryPdfBuilder {
           ],
           if (content.goodPractice != null) ...[
             pw.SizedBox(height: 18),
-            _goodPracticeCard(content.goodPractice!, isBn),
+            ..._goodPracticeWidgets(content.goodPractice!, isBn),
           ],
         ],
       ),
@@ -138,53 +138,49 @@ class AdvisoryPdfBuilder {
   }
 
   static List<pw.Widget> _sectionWidgets(AdvisorySectionModel section, bool isBn) {
+    final title = section.label(isBn);
     return [
-      Text(section.label(isBn), fontSize: 13, banglaFont: _boldFont, color: _navy),
-      pw.SizedBox(height: 6),
+      if (title.isNotEmpty) ...[
+        Text(title, fontSize: 13, banglaFont: _boldFont, color: _navy),
+        pw.SizedBox(height: 6),
+      ],
       for (final bullet in section.bullets) _bulletRow(bullet.label(isBn)),
     ];
   }
 
-  static pw.Widget _goodPracticeCard(AdvisorySectionModel section, bool isBn) {
-    // A gradient fade (like the on-screen card's 30%->8%->0% scrim) isn't
-    // achievable here — `pw.LinearGradient` drops alpha entirely (see
-    // `_header`) — so this uses a flat, real translucent tint via
-    // `pw.Opacity` behind the fully-opaque text instead.
-    return pw.Stack(
-      children: [
-        pw.Positioned.fill(
-          child: pw.ClipRRect(
-            horizontalRadius: 12,
-            verticalRadius: 12,
-            child: pw.Opacity(opacity: 0.14, child: pw.Container(color: _primaryDark)),
-          ),
+  /// Flat list (like [_sectionWidgets]), not one composite boxed widget —
+  /// `MultiPage` can only break *between* top-level items it's given, not
+  /// inside one; a single Stack/Container holding the title + every bullet
+  /// can't be split, so a good-practice section with enough bullets to
+  /// exceed one page's height on its own used to crash pagination outright.
+  /// The tinted background is now just the header row's own decoration
+  /// (small, bounded height) instead of washing the whole card.
+  static List<pw.Widget> _goodPracticeWidgets(AdvisorySectionModel section, bool isBn) {
+    return [
+      pw.Container(
+        width: _contentWidth,
+        padding: const pw.EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: pw.BoxDecoration(
+          color: _tintOnWhite(_primaryDark, 0.14),
+          borderRadius: const pw.BorderRadius.all(pw.Radius.circular(12)),
         ),
-        pw.Container(
-          width: _contentWidth,
-          padding: const pw.EdgeInsets.all(14),
-          child: pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.Row(
-                children: [
-                  pw.Container(
-                    width: 22,
-                    height: 22,
-                    decoration: const pw.BoxDecoration(color: PdfColors.white, shape: pw.BoxShape.circle),
-                  ),
-                  pw.SizedBox(width: 8),
-                  pw.Expanded(
-                    child: Text(section.label(isBn), fontSize: 14, banglaFont: _boldFont, color: _primaryDark),
-                  ),
-                ],
-              ),
-              pw.SizedBox(height: 10),
-              for (final bullet in section.bullets) _bulletRow(bullet.label(isBn)),
-            ],
-          ),
+        child: pw.Row(
+          children: [
+            pw.Container(
+              width: 22,
+              height: 22,
+              decoration: const pw.BoxDecoration(color: PdfColors.white, shape: pw.BoxShape.circle),
+            ),
+            pw.SizedBox(width: 8),
+            pw.Expanded(
+              child: Text(section.label(isBn), fontSize: 14, banglaFont: _boldFont, color: _primaryDark),
+            ),
+          ],
         ),
-      ],
-    );
+      ),
+      pw.SizedBox(height: 10),
+      for (final bullet in section.bullets) _bulletRow(bullet.label(isBn)),
+    ];
   }
 
   /// `PdfColor`'s alpha channel is dropped for solid fills in this `pdf`

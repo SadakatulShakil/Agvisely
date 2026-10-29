@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:get/get.dart';
@@ -24,6 +26,9 @@ class ApiClient {
   // Guards against N concurrent 401s (all sharing one failed _refreshFuture)
   // each independently clearing the session and pushing LoginPage.
   bool _loggingOut = false;
+
+  // Guards against N concurrent 403s each popping their own dialog.
+  bool _showingInactiveDialog = false;
 
   // Checked before every request so a genuine "no internet" is reported
   bool get _isOffline =>
@@ -107,6 +112,13 @@ class ApiClient {
         await _forceLogout();
       }
 
+      // Admin deactivated this account — same for every endpoint, not just
+      // one. Must be acknowledged before the forced logout, not just
+      // surfaced as a generic error string.
+      if (response.statusCode == 403 && request.headers.containsKey('Authorization')) {
+        await _handleAccountInactive();
+      }
+
       return await _processResponse(response);
     } catch (e) {
       _logError(url, e);
@@ -161,6 +173,13 @@ class ApiClient {
         await _forceLogout();
       }
 
+      // Admin deactivated this account — same for every endpoint, not just
+      // one. Must be acknowledged before the forced logout, not just
+      // surfaced as a generic error string.
+      if (response.statusCode == 403 && finalHeaders.containsKey('Authorization')) {
+        await _handleAccountInactive();
+      }
+
       // Must await (not just return the Future) — _processResponse is
       // now async (JSON decode can hop to compute()); an un-awaited
       // return here would let its exceptions bypass this catch block.
@@ -209,15 +228,48 @@ class ApiClient {
     }
   }
 
-  Future<void> _forceLogout() async {
+  Future<void> _forceLogout({bool announce = true}) async {
     if (_loggingOut) return;
     _loggingOut = true;
     try {
       await UserPrefService().clearSession();
       Get.offAll(() => const LoginPage());
-      Get.snackbar('common.error'.tr, 'error.session_expired'.tr);
+      if (announce) {
+        Get.snackbar('common.error'.tr, 'error.session_expired'.tr);
+      }
     } finally {
       _loggingOut = false;
+    }
+  }
+
+  /// Blocking, non-dismissible "your account was deactivated" dialog,
+  /// acknowledged with a single OK button, then a silent forced logout
+  /// (the dialog already explained why — no need for the generic
+  /// session-expired snackbar on top of it).
+  Future<void> _handleAccountInactive() async {
+    if (_showingInactiveDialog || _loggingOut) return;
+    _showingInactiveDialog = true;
+    try {
+      await Get.dialog(
+        PopScope(
+          canPop: false,
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+            title: Text('error.account_inactive_title'.tr),
+            content: Text('error.account_inactive_message'.tr),
+            actions: [
+              ElevatedButton(
+                onPressed: () => Get.back(),
+                child: Text('common.ok'.tr),
+              ),
+            ],
+          ),
+        ),
+        barrierDismissible: false,
+      );
+      await _forceLogout(announce: false);
+    } finally {
+      _showingInactiveDialog = false;
     }
   }
 

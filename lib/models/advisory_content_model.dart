@@ -21,9 +21,21 @@ class AdvisoryBulletModel {
 class AdvisorySectionModel {
   final String title;
   final String? titleBn;
+
+  /// Plain-text bullets, parsed out of [html]/[htmlBn] — used by the PDF
   final List<AdvisoryBulletModel> bullets;
 
-  const AdvisorySectionModel({required this.title, this.titleBn, this.bullets = const []});
+  /// Raw advisory HTML (as the backend sent it, concatenated across every
+  final String html;
+  final String? htmlBn;
+
+  const AdvisorySectionModel({
+    required this.title,
+    this.titleBn,
+    this.bullets = const [],
+    this.html = '',
+    this.htmlBn,
+  });
 
   factory AdvisorySectionModel.fromJson(Map<String, dynamic> j) => AdvisorySectionModel(
         title: j['title']?.toString() ?? '',
@@ -35,11 +47,12 @@ class AdvisorySectionModel {
       );
 
   String label(bool isBn) => isBn && (titleBn != null && titleBn!.isNotEmpty) ? titleBn! : title;
+
+  /// The raw HTML to render for the current locale, falling back to English
+  /// when there's no Bangla HTML.
+  String content(bool isBn) => isBn && (htmlBn != null && htmlBn!.isNotEmpty) ? htmlBn! : html;
 }
 
-/// The full advisory body for a stage, built from `POST /advisory/categories/
-/// {categoryId}/items/{itemId}/stages/{stageId}/rules/match` — see
-/// `AdvisoryContentService` and [AdvisoryContentModel.fromRules].
 class AdvisoryContentModel {
   final int stageId;
   final String? titleBn;
@@ -55,19 +68,15 @@ class AdvisoryContentModel {
 
   /// Groups the stage's active rules into display sections: rules with a
   /// `category` (`"temperature"`, `"rainfall"`, ...) become ordinary
-  /// sections (one per category, in first-seen order, bullets concatenated
-  /// across every rule sharing that category). Rules with no `category` and
-  /// `stageAdvisory == "IPM"` become an ordinary "IPM Advisory" section
-  /// appended after those — so the order is always temperature/rainfall/...,
-  /// then IPM. Any other no-`category` rules (the general "Good Agriculture
-  /// Practice" advice) are pooled into the highlighted "good practice" card,
-  /// which always renders last. Each rule's `advisory`/`advisoryBn` HTML list
-  /// is parsed into plain-text bullets and paired up by position.
-  ///
-  /// `ipmOnly` — the Pest Advisory flow only cares about pest-management
-  /// advice, so it drops every other rule (temperature/rainfall/good
-  /// practice) and keeps just the IPM ones, leaving a single "IPM Advisory"
-  /// section (and no good-practice card).
+  /// per-category sections (one per category, rules sharing one merged
+  /// together). Rules with no `category` are split three ways:
+  /// `stageAdvisory == "IPM"` → one shared "IPM Advisory" section;
+  /// `stageAdvisory == "GAP"` → the one highlighted "good practice" card;
+  /// anything else → **its own section, keyed by its own `stageAdvisory`**
+  /// — e.g. multiple diseases, or multiple named aspects (symptoms/
+  /// prevention/...) for one stage, each gets its own titled section
+  /// instead of only the first one's name surviving with every other
+  /// rule's content silently merged in underneath it unlabeled.
   factory AdvisoryContentModel.fromRules(
     int stageId,
     List<AdvisoryRuleModel> rules, {
@@ -75,9 +84,13 @@ class AdvisoryContentModel {
   }) {
     final sections = <AdvisorySectionModel>[];
     final sectionIndexByCategory = <String, int>{};
+    final sectionIndexByStageAdvisory = <String, int>{};
     final ipmBullets = <AdvisoryBulletModel>[];
     final goodPracticeBullets = <AdvisoryBulletModel>[];
-    String? goodPracticeKey;
+    var ipmHtml = '';
+    var ipmHtmlBn = '';
+    var goodPracticeHtml = '';
+    var goodPracticeHtmlBn = '';
 
     final effectiveRules = ipmOnly
         ? rules.where((r) => _isIpmRule(r)).toList()
@@ -89,11 +102,46 @@ class AdvisoryContentModel {
 
       final category = rule.category;
       if (category == null || category.isEmpty) {
-        if (rule.stageAdvisory?.toLowerCase() == 'ipm') {
+        final stageAdvisory = rule.stageAdvisory;
+        final lower = stageAdvisory?.toLowerCase();
+        if (lower == 'ipm') {
           ipmBullets.addAll(bullets);
-        } else {
-          goodPracticeKey ??= rule.stageAdvisory;
+          ipmHtml += rule.advisory;
+          ipmHtmlBn += rule.advisoryBn;
+        } else if (lower == 'gap') {
           goodPracticeBullets.addAll(bullets);
+          goodPracticeHtml += rule.advisory;
+          goodPracticeHtmlBn += rule.advisoryBn;
+        } else {
+          // Real stage-rule payloads often leave `stageAdvisory` null on
+          // every rule, even when each one is a fully separate advisory
+          // document (confirmed against a live response: two rules, both
+          // `stageAdvisory: null`, completely different `advisory` HTML).
+          // Grouping those by the (identical, empty) `stageAdvisory` value
+          // would merge them right back into one block — so only rules
+          // that *explicitly* share a real, non-empty name are merged;
+          // every null/empty-named rule gets its own section, keyed by its
+          // own id so it can never collide with another rule's.
+          final key = (lower != null && lower.isNotEmpty) ? lower : 'id:${rule.id}';
+          final existingIndex = sectionIndexByStageAdvisory[key];
+          if (existingIndex == null) {
+            sectionIndexByStageAdvisory[key] = sections.length;
+            sections.add(AdvisorySectionModel(
+              title: _namedSectionTitle(stageAdvisory),
+              bullets: bullets,
+              html: rule.advisory,
+              htmlBn: rule.advisoryBn,
+            ));
+          } else {
+            final existing = sections[existingIndex];
+            sections[existingIndex] = AdvisorySectionModel(
+              title: existing.title,
+              titleBn: existing.titleBn,
+              bullets: [...existing.bullets, ...bullets],
+              html: existing.html + rule.advisory,
+              htmlBn: (existing.htmlBn ?? '') + rule.advisoryBn,
+            );
+          }
         }
         continue;
       }
@@ -103,27 +151,46 @@ class AdvisoryContentModel {
       if (existingIndex == null) {
         sectionIndexByCategory[key] = sections.length;
         final (title, titleBn) = _categorySectionTitle(category);
-        sections.add(AdvisorySectionModel(title: title, titleBn: titleBn, bullets: bullets));
+        sections.add(AdvisorySectionModel(
+          title: title,
+          titleBn: titleBn,
+          bullets: bullets,
+          html: rule.advisory,
+          htmlBn: rule.advisoryBn,
+        ));
       } else {
         final existing = sections[existingIndex];
         sections[existingIndex] = AdvisorySectionModel(
           title: existing.title,
           titleBn: existing.titleBn,
           bullets: [...existing.bullets, ...bullets],
+          html: existing.html + rule.advisory,
+          htmlBn: (existing.htmlBn ?? '') + rule.advisoryBn,
         );
       }
     }
 
     if (ipmBullets.isNotEmpty) {
       sections.add(
-        AdvisorySectionModel(title: 'IPM Advisory', titleBn: 'আইপিএম পরামর্শ', bullets: ipmBullets),
+        AdvisorySectionModel(
+          title: 'IPM Advisory',
+          titleBn: 'আইপিএম পরামর্শ',
+          bullets: ipmBullets,
+          html: ipmHtml,
+          htmlBn: ipmHtmlBn,
+        ),
       );
     }
 
     AdvisorySectionModel? goodPractice;
     if (goodPracticeBullets.isNotEmpty) {
-      final (title, titleBn) = _goodPracticeSectionTitle(goodPracticeKey);
-      goodPractice = AdvisorySectionModel(title: title, titleBn: titleBn, bullets: goodPracticeBullets);
+      goodPractice = AdvisorySectionModel(
+        title: 'Good Agriculture Practice',
+        titleBn: 'উত্তম কৃষি চর্চা',
+        bullets: goodPracticeBullets,
+        html: goodPracticeHtml,
+        htmlBn: goodPracticeHtmlBn,
+      );
     }
 
     return AdvisoryContentModel(stageId: stageId, sections: sections, goodPractice: goodPractice);
@@ -157,11 +224,13 @@ class AdvisoryContentModel {
     }
   }
 
-  static (String, String?) _goodPracticeSectionTitle(String? stageAdvisory) {
-    if (stageAdvisory == null || stageAdvisory.isEmpty) return ('General Advisory', null);
-    if (stageAdvisory.toLowerCase() == 'gap') {
-      return ('Good Agriculture Practice', 'উত্তম কৃষি চর্চা');
-    }
-    return ('$stageAdvisory Advisory', null);
-  }
+  /// Title for a no-`category`, non-IPM, non-GAP rule's own section — e.g.
+  /// a disease name, or a named advisory aspect. No Bangla variant exists
+  /// for this field on [AdvisoryRuleModel], so it renders as-is in both
+  /// languages. Empty when the rule has no `stageAdvisory` at all — these
+  /// payloads' only real title (if any) is embedded in the HTML itself
+  /// (e.g. an `<h1>`), so callers should skip rendering an external title
+  /// row entirely rather than show a placeholder like "General Advisory".
+  static String _namedSectionTitle(String? stageAdvisory) =>
+      (stageAdvisory == null || stageAdvisory.isEmpty) ? '' : '$stageAdvisory Advisory';
 }

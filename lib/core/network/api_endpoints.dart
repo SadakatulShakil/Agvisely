@@ -63,10 +63,6 @@ class ApiEndpoints {
       '$baseUrlUser/advisory/categories/$categoryId/items';
 
   /// `GET /advisory/categories/{categoryId}/items/{itemId}/stages` — the
-  /// stage list (sowing, sprouting, ...) shown after an item is picked.
-  /// `stageCategory` picks between the item's advisory stages (default,
-  /// also used when left out) and its disease stages — pass `'disease'`
-  /// for the Crop Disease Early Warning flow.
   static String advisoryItemStages(int categoryId, int itemId, {String? stageCategory}) {
     final base = '$baseUrlUser/advisory/categories/$categoryId/items/$itemId/stages';
     return stageCategory == null || stageCategory.isEmpty
@@ -75,16 +71,10 @@ class ApiEndpoints {
   }
 
   /// `POST /advisory/categories/{categoryId}/items/{itemId}/stages/{stageId}/rules/match`
-  /// with `{lat, lon}` body — the advisory rules already matched against
-  /// that location's current weather (IPM rules always included), rendered
-  /// as the body of [AdvisoryContentPage].
   static String advisoryStageRulesMatch(int categoryId, int itemId, int stageId) =>
       '$baseUrlUser/advisory/categories/$categoryId/items/$itemId/stages/$stageId/rules/match';
 
   /// `GET /user-choices` — the logged-in user's saved "My Choice" picks.
-  /// `POST /user-choices` with `{categoryId, itemId}` — add one (confirmed
-  /// live: the backend upserts by categoryId+itemId, so re-adding the same
-  /// pair is safe, not an error).
   static const String userChoices = '$baseUrlUser/user-choices';
 
   /// `DELETE /user-choices/{id}` — removes one by the choice's own `id`
@@ -95,14 +85,10 @@ class ApiEndpoints {
   // Notifications
   // ===================================
   /// `GET /notifications?page=&limit=&order=` — the current user's
-  /// notification inbox: ones sent to everyone plus ones sent to them by
-  /// id, newest first. `limit` is capped at 100 by the backend; `order` is
-  /// `asc`/`desc` by id (`desc` is the backend default).
   static String notifications({int page = 1, int limit = 20, String order = 'desc'}) =>
       '$baseUrlUser/notifications?page=$page&limit=$limit&order=$order';
 
   /// `PUT /notifications/{id}/read` — marks one notification read for the
-  /// current user (idempotent: re-marking keeps the first `readAt`).
   static String notificationMarkRead(int id) => '$baseUrlUser/notifications/$id/read';
 
   // ===================================

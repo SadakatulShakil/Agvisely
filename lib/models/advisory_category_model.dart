@@ -9,6 +9,7 @@ class AdvisoryCategoryModel {
   final String? descriptionBn;
   final int sortOrder;
   final bool isActive;
+  final bool isDisease;
 
   const AdvisoryCategoryModel({
     required this.id,
@@ -19,6 +20,7 @@ class AdvisoryCategoryModel {
     this.descriptionBn,
     this.sortOrder = 0,
     this.isActive = true,
+    this.isDisease = false,
   });
 
   factory AdvisoryCategoryModel.fromJson(Map<String, dynamic> j) =>
@@ -31,6 +33,7 @@ class AdvisoryCategoryModel {
         descriptionBn: j['descriptionBn']?.toString(),
         sortOrder: j['sortOrder'] is int ? j['sortOrder'] as int : 0,
         isActive: j['isActive'] != false,
+        isDisease: j['isDisease'] == true,
       );
 
   Map<String, dynamic> toJson() => {
@@ -42,6 +45,7 @@ class AdvisoryCategoryModel {
         'descriptionBn': descriptionBn,
         'sortOrder': sortOrder,
         'isActive': isActive,
+        'isDisease': isDisease,
       };
 
   String label(bool isBn) =>

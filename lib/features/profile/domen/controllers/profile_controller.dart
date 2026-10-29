@@ -21,6 +21,9 @@ class ProfileController extends GetxController {
     _refresh();
   }
 
+  /// Pull-to-refresh.
+  Future<void> reload() => _refresh();
+
   Future<void> _refresh() async {
     final fresh = await UserPrefService().refreshCurrentUser();
     if (fresh != null) user.value = fresh;

@@ -29,7 +29,10 @@ class ProfilePage extends StatelessWidget {
 
     return SageBackground(
       child: SafeArea(
-        child: ListView(
+        child: RefreshIndicator(
+          onRefresh: c.reload,
+          child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
           padding: EdgeInsets.fromLTRB(20.w, 32.h, 20.w, 10.h),
           children: [
             Obx(
@@ -110,6 +113,7 @@ class ProfilePage extends StatelessWidget {
               onTap: () => _logout(context),
             ),
           ],
+          ),
         ),
       ),
     );

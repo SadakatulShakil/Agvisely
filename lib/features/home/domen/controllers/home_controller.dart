@@ -78,7 +78,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     final cachedChart = UserPrefService().cachedTodayChart;
     if (cachedChart != null) {
       todayChart.assignAll(cachedChart.points);
-      todayChartRainUnit.value = cachedChart.rainUnit;
+      todayChartRainUnit.value = cachedChart.rainUnit.replaceAll(":", "");
       todayChartTempUnit.value = cachedChart.tempUnit;
     }
     refreshLocationName();
@@ -169,7 +169,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     final rainUnit = today?.units.rf ?? 'mm';
     final tempUnit = today?.units.temp ?? 'C';
     todayChart.assignAll(chart);
-    todayChartRainUnit.value = rainUnit;
+    todayChartRainUnit.value = rainUnit.replaceAll(':', '');
     todayChartTempUnit.value = tempUnit;
     if (chart.isNotEmpty) {
       unawaited(UserPrefService().setCachedTodayChart(

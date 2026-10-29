@@ -70,26 +70,30 @@ class MyChoicePage extends StatelessWidget {
                 }
 
                 final choices = controller.choices;
-                return GridView.builder(
-                  padding: EdgeInsets.all(16.w),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 15.w,
-                    mainAxisSpacing: 16.h,
-                    childAspectRatio: 1.00,
+                return RefreshIndicator(
+                  onRefresh: controller.loadChoices,
+                  child: GridView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.all(16.w),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 15.w,
+                      mainAxisSpacing: 16.h,
+                      childAspectRatio: 1.00,
+                    ),
+                    itemCount: choices.length + 1, // + the "Add new" tile, always last
+                    itemBuilder: (context, index) {
+                      if (index == choices.length) {
+                        return _AddNewTile(onTap: () => _openAddSheet(controller));
+                      }
+                      final choice = choices[index];
+                      return _ChoiceTile(
+                        choice: choice,
+                        isBn: isBn,
+                        onRemove: () => _confirmAndRemove(controller, choice, isBn),
+                      );
+                    },
                   ),
-                  itemCount: choices.length + 1, // + the "Add new" tile, always last
-                  itemBuilder: (context, index) {
-                    if (index == choices.length) {
-                      return _AddNewTile(onTap: () => _openAddSheet(controller));
-                    }
-                    final choice = choices[index];
-                    return _ChoiceTile(
-                      choice: choice,
-                      isBn: isBn,
-                      onRemove: () => _confirmAndRemove(controller, choice, isBn),
-                    );
-                  },
                 );
               }),
             ),

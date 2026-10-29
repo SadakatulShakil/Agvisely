@@ -45,11 +45,11 @@ class HomePage extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark, // Android icons
-        statusBarBrightness: Brightness.light, // iOS text
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
       ),
       child: Obx(
-        () => Scaffold(
+            () => Scaffold(
           drawer: const AppDrawer(),
           body: SafeArea(
             child: tabs[c.navIndex.value.clamp(0, tabs.length - 1)],
@@ -57,63 +57,112 @@ class HomePage extends StatelessWidget {
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: c.navIndex.value,
             onTap: c.changeTab,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            type: BottomNavigationBarType.fixed,
             items: [
+              // Home
               BottomNavigationBarItem(
-                icon: SvgPicture.asset(
+                icon: _buildNavItem(
+                  iconPath:
                   'assets/icons/nav_bar/home_unselected.svg',
-                  width: 24.w,
-                  height: 24.h,
+                  label: 'nav.home'.tr,
+                  isSelected: false,
                 ),
-                activeIcon: SvgPicture.asset(
+                activeIcon: _buildNavItem(
+                  iconPath:
                   'assets/icons/nav_bar/home_selected.svg',
-                  width: 24.w,
-                  height: 24.h,
+                  label: 'nav.home'.tr,
+                  isSelected: true,
                 ),
-                label: 'nav.home'.tr,
+                label: '',
               ),
+
+              // Pest Advisory
               BottomNavigationBarItem(
-                icon: SvgPicture.asset(
+                icon: _buildNavItem(
+                  iconPath:
                   'assets/icons/nav_bar/pest_advisory_unselected.svg',
-                  width: 24.w,
-                  height: 24.h,
+                  label: 'nav.pest'.tr,
+                  isSelected: false,
                 ),
-                activeIcon: SvgPicture.asset(
+                activeIcon: _buildNavItem(
+                  iconPath:
                   'assets/icons/nav_bar/pest_advisory_selected.svg',
-                  width: 24.w,
-                  height: 24.h,
+                  label: 'nav.pest'.tr,
+                  isSelected: true,
                 ),
-                label: 'nav.pest'.tr,
+                label: '',
               ),
+
+              // Profile
               BottomNavigationBarItem(
-                icon: SvgPicture.asset(
+                icon: _buildNavItem(
+                  iconPath:
                   'assets/icons/nav_bar/profile_unselected.svg',
-                  width: 24.w,
-                  height: 24.h,
+                  label: 'nav.profile'.tr,
+                  isSelected: false,
                 ),
-                activeIcon: SvgPicture.asset(
+                activeIcon: _buildNavItem(
+                  iconPath:
                   'assets/icons/nav_bar/profile_selected.svg',
-                  width: 24.w,
-                  height: 24.h,
+                  label: 'nav.profile'.tr,
+                  isSelected: true,
                 ),
-                label: 'nav.profile'.tr,
+                label: '',
               ),
+
+              // Menu
               BottomNavigationBarItem(
-                icon: SvgPicture.asset(
+                icon: _buildNavItem(
+                  iconPath:
                   'assets/icons/nav_bar/menu_unselected.svg',
-                  width: 24.w,
-                  height: 24.h,
+                  label: 'nav.menu'.tr,
+                  isSelected: false,
                 ),
-                activeIcon: SvgPicture.asset(
+                activeIcon: _buildNavItem(
+                  iconPath:
                   'assets/icons/nav_bar/menu_selected.svg',
-                  width: 24.w,
-                  height: 24.h,
+                  label: 'nav.menu'.tr,
+                  isSelected: true,
                 ),
-                label: 'nav.menu'.tr,
+                label: '',
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildNavItem({
+    required String iconPath,
+    required String label,
+    required bool isSelected,
+  }) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SvgPicture.asset(
+          iconPath,
+          width: 24.w,
+          height: 24.h,
+        ),
+        SizedBox(height: 8.h),
+        Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: 16.sp,
+            fontWeight:
+            isSelected ? FontWeight.w600 : FontWeight.w400,
+            color: isSelected
+                ? FigmaColors.primaryActive
+                : Colors.grey,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -304,14 +353,15 @@ class _HomeDashboard extends StatelessWidget {
                           Text(
                             'home.weather_forecast'.tr,
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w600,
                               color: FigmaColors.primaryDefault,
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
                             decoration: BoxDecoration(
+                              color: FigmaColors.neutralBackground,
                               border: Border.all(color: FigmaColors.primaryDefault),
                               borderRadius: BorderRadius.circular(20.r),
                             ),
@@ -320,7 +370,7 @@ class _HomeDashboard extends StatelessWidget {
                               children: [
                                 Text(
                                   'home.view7days'.tr,
-                                  style: TextStyle(fontSize: 12.sp, color: FigmaColors.primaryDefault),
+                                  style: TextStyle(fontSize: 14.sp, color: FigmaColors.primaryDefault),
                                 ),
                                 SizedBox(width: 4.w),
                                 SvgPicture.asset(
@@ -364,10 +414,8 @@ class _HomeDashboard extends StatelessWidget {
 }
 
 
-const _diseaseCategoryId = 4;
-
 void _openAdvisoryCategory(AdvisoryCategoryModel category, bool isBn) {
-  if (category.id == _diseaseCategoryId) {
+  if (category.isDisease) {
     Get.to(
       () => const AdvisoryDiseaseItemsPage(),
       binding: AdvisoryDiseaseItemsBinding(

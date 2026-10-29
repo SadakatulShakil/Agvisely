@@ -24,6 +24,8 @@ class AdvisoryStagesController extends GetxController {
   /// the item's advisory stages.
   final String? stageCategory;
 
+  bool get isDisease => stageCategory == 'disease';
+
   /// `true` for the Pest Advisory flow — carried through to
   /// [AdvisoryContentBinding] so the content page shows IPM advice only.
   final bool ipmOnly;

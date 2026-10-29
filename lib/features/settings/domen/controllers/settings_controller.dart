@@ -21,6 +21,14 @@ class SettingsController extends GetxController {
     Get.updateLocale(Locale(code));
     if (Get.isRegistered<HomeController>()) {
       final home = Get.find<HomeController>();
+      // The live condition/icon override (HomeController.fetchLiveWeather)
+      // was fetched under the OLD language and silently keeps its previous
+      // value if the refetch below fails or times out — clear it now so a
+      // flaky retry can't leave stale-language text on screen; loadWeather()
+      // falls back to the forecast's own (already correctly re-localized)
+      // condition until a fresh live result lands.
+      home.liveType.value = '';
+      home.liveIcon.value = '';
       // Condition text/units are server-localized, not client-convertible —
       // refetch so they match the new Accept-Language.
       home.loadWeather();

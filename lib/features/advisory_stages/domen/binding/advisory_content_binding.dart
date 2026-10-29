@@ -13,6 +13,7 @@ class AdvisoryContentBinding extends Bindings {
     required this.item,
     required this.stage,
     this.ipmOnly = false,
+    this.stageCategory,
   });
 
   final int categoryId;
@@ -24,6 +25,11 @@ class AdvisoryContentBinding extends Bindings {
   /// shown, see [AdvisoryContentModel.fromRules].
   final bool ipmOnly;
 
+  /// `'disease'` for the Crop Disease Early Warning flow — the content page
+  /// renders the backend's HTML as-is only for this flow; every other flow
+  /// keeps the plain-text bullet rendering.
+  final String? stageCategory;
+
   @override
   void dependencies() {
     Get.lazyPut<AdvisoryContentController>(
@@ -33,6 +39,7 @@ class AdvisoryContentBinding extends Bindings {
         item: item,
         stage: stage,
         ipmOnly: ipmOnly,
+        stageCategory: stageCategory,
       ),
     );
   }

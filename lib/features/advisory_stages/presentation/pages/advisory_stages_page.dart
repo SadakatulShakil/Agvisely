@@ -48,7 +48,7 @@ class AdvisoryStagesPage extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(4.w, 20.h, 16.w, 8.h),
+              padding: EdgeInsets.fromLTRB(4.w, 20.h, 16.w, 0.h),
               child: Row(
                 children: [
                   IconButton(
@@ -68,49 +68,50 @@ class AdvisoryStagesPage extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 8.h),
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(16.w),
-                decoration: BoxDecoration(
-                  color: FigmaColors.neutralWhite,
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-                child: Row(
-                  children: [
-                    _Thumbnail(imageUrl: controller.item.imageUrl, size: 50.w),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(8.w, 10.h, 0.w, 8.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              controller.item.label(isBn),
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w400,
-                                color: FigmaColors.primaryDark,
+            if (!controller.isDisease)
+              Padding(
+                padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 8.h),
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(16.w),
+                  decoration: BoxDecoration(
+                    color: FigmaColors.neutralWhite,
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  child: Row(
+                    children: [
+                      _Thumbnail(imageUrl: controller.item.imageUrl, size: 50.w),
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(8.w, 10.h, 0.w, 8.h),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                controller.item.label(isBn),
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: FigmaColors.primaryDark,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              'advisory_stages.card_subtitle'.tr,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: FigmaColors.neutralSecondary,
+                              SizedBox(height: 4.h),
+                              Text(
+                                'advisory_stages.card_subtitle'.tr,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: FigmaColors.neutralSecondary,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
@@ -164,69 +165,118 @@ class AdvisoryStagesPage extends StatelessWidget {
                   );
                 }
 
-                return ListView.separated(
-                  padding: EdgeInsets.fromLTRB(20.w, 32.h, 20.w, 8.h),
-                  itemCount: stages.length,
-                  separatorBuilder: (_, __) => SizedBox(height: 22.h),
-                  itemBuilder: (context, i) {
-                    final stage = stages[i];
-                    final dateRange = stage.dateRangeLabel(isBn);
-                    return GestureDetector(
-                      onTap: () => Get.to(
-                        () => const AdvisoryContentPage(),
-                        binding: AdvisoryContentBinding(
-                          categoryId: controller.categoryId,
-                          categoryLabel: controller.categoryLabel,
-                          item: controller.item,
-                          stage: stage,
-                          ipmOnly: controller.ipmOnly,
+                return RefreshIndicator(
+                  onRefresh: controller.loadStages,
+                  child: ListView.separated(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 8.h),
+                    itemCount: stages.length,
+                    separatorBuilder: (_, __) => SizedBox(height: 22.h),
+                    itemBuilder: (context, i) {
+                      final stage = stages[i];
+                      final dateRange = stage.dateRangeLabel(isBn);
+                      return GestureDetector(
+                        onTap: () => Get.to(
+                          () => const AdvisoryContentPage(),
+                          binding: AdvisoryContentBinding(
+                            categoryId: controller.categoryId,
+                            categoryLabel: controller.categoryLabel,
+                            item: controller.item,
+                            stage: stage,
+                            ipmOnly: controller.ipmOnly,
+                            stageCategory: controller.stageCategory,
+                          ),
                         ),
-                      ),
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        child: Row(
-                          children: [
-                            _Thumbnail(imageUrl: stage.icon, size: 70.w),
-                            SizedBox(width: 12.w),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    stage.label(isBn),
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: FigmaColors.neutralBody,
-                                    ),
-                                  ),
-                                  if (dateRange.isNotEmpty) ...[
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      dateRange,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: FigmaColors.neutralSecondary,
+                        child: controller.isDisease
+                            ? _DiseaseStageRow(label: stage.label(isBn), imageUrl: stage.icon)
+                            : Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                child: Row(
+                                  children: [
+                                    _Thumbnail(imageUrl: stage.icon, size: 70.w),
+                                    SizedBox(width: 12.w),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            stage.label(isBn),
+                                            style: TextStyle(
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600,
+                                              color: FigmaColors.neutralBody,
+                                            ),
+                                          ),
+                                          if (dateRange.isNotEmpty) ...[
+                                            SizedBox(height: 4.h),
+                                            Text(
+                                              dateRange,
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w500,
+                                                color: FigmaColors.neutralSecondary,
+                                              ),
+                                            ),
+                                          ],
+                                        ],
                                       ),
                                     ),
                                   ],
-                                ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 );
               }),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Compact row design for the Crop Disease Early Warning stage list — a
+class _DiseaseStageRow extends StatelessWidget {
+  const _DiseaseStageRow({required this.label, required this.imageUrl});
+
+  final String label;
+  final String? imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(18.w, 18.h, 24.w, 18.h),
+      decoration: BoxDecoration(
+        color: FigmaColors.neutralWhite,
+        borderRadius: BorderRadius.circular(12.r),
+      ),
+      child: Row(
+        children: [
+          _Thumbnail(imageUrl: imageUrl, size: 50.w),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
+                color: FigmaColors.neutralBody,
+              ),
+            ),
+          ),
+          SvgPicture.asset(
+            'assets/icons/svg/arrow_right.svg',
+            width: 20.w,
+            height: 20.h,
+            color: FigmaColors.neutralSecondary,
+          ),
+        ],
       ),
     );
   }

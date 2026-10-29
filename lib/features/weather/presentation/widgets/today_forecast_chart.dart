@@ -28,10 +28,6 @@ class TodayForecastChart extends StatelessWidget {
   static const _bottomReserved = 22.0;
   static const _topReserved = 30.0;
 
-  static const _tempAxisMin = 0.0;
-  static const _tempAxisMax = 50.0;
-  static const _tempAxisInterval = 10.0;
-
   static Widget _blank(double value, TitleMeta meta) => const SizedBox.shrink();
 
   @override
@@ -67,21 +63,66 @@ class TodayForecastChart extends StatelessWidget {
 
     final barStub = barMaxY * 0.03;
 
+    // fl_chart draws the left (temp) and right (humidity) tick labels off
+    // the same shared y-domain, so they always land on the same grid rows —
+    // each axis is built independently (own min - 5 / own max + 5, split
+    // into exactly `_gridLines` evenly-spaced labels), which keeps both
+    // axes' row counts identical (so they render aligned) while each still
+    // shows its own natural range.
+    const gridLines = 8;
+    const gridIntervals = gridLines - 1;
+
     final humidities = points.map((p) => p.humidity).toList();
     final humMinRaw = humidities.reduce((a, b) => a < b ? a : b);
     final humMaxRaw = humidities.reduce((a, b) => a > b ? a : b);
-    final humMin = (humMinRaw - 3).clamp(0, 100).toDouble();
-    final humMax = (humMaxRaw + 3).clamp(0, 100).toDouble();
-    final humSpan = (humMax - humMin) <= 0 ? 1.0 : (humMax - humMin);
+    final humMin = (humMinRaw - 5).clamp(0, 100).toDouble();
+    final humMax = (humMaxRaw + 5).clamp(0, 100).toDouble();
+    final humSpan = humMax - humMin;
+
+    final temps = points.map((p) => p.temp).toList();
+    final tempMinRaw = temps.reduce((a, b) => a < b ? a : b);
+    final tempMaxRaw = temps.reduce((a, b) => a > b ? a : b);
+    final tempAxisMin = tempMinRaw - 5;
+    final tempAxisMax = tempMaxRaw + 5;
+    final tempAxisInterval = (tempAxisMax - tempAxisMin) / gridIntervals;
 
     double humidityToTempScale(double humidity) =>
-        _tempAxisMin +
+        tempAxisMin +
         ((humidity.clamp(humMin, humMax) - humMin) / humSpan) *
-            (_tempAxisMax - _tempAxisMin);
+            (tempAxisMax - tempAxisMin);
 
     double tempScaleToHumidity(double tempScaleValue) =>
         humMin +
-        ((tempScaleValue - _tempAxisMin) / (_tempAxisMax - _tempAxisMin)) * humSpan;
+        ((tempScaleValue - tempAxisMin) / (tempAxisMax - tempAxisMin)) * humSpan;
+
+    // fl_chart's own tick generator (AxisChartHelper.iterateThroughAxis)
+    // special-cases the axis min/max:
+    // - MIN: it compares `(baseline - min) % interval` to 0 to decide
+    //   whether `min` needs a forced extra tick — `baselineY: tempAxisMin`
+    //   below makes that always exactly 0 (self-subtraction is exact in
+    //   float arithmetic), so the forced tick always coincides with the
+    //   regular one and fl_chart skips it. No duplicate possible.
+    // - MAX: it compares the regular stepping's last computed value to
+    //   `maxY` with exact `==` — when `tempAxisInterval` doesn't round-trip
+    //   back to the true max bit-for-bit (near-guaranteed whenever the
+    //   interval isn't a "clean" value, e.g. a range/7 like ours), that
+    //   check fails and it emits BOTH the regular tick and a forced one at
+    //   the true max, a pixel apart — the ghosted label at the very top.
+    //   There's no float-exactness fix for that side (no baseline-style
+    //   parameter controls it), so instead: the forced tick is always the
+    //   untouched `tempAxisMax` value, bit-identical — anything merely
+    //   close to it but NOT exactly equal is fl_chart's other, regularly
+    //   stepped call for that same row, and gets suppressed.
+    //
+    // Both checks are pure functions of the incoming value — no mutable
+    // "already shown" state, which would otherwise go stale (and hide every
+    // label) the moment fl_chart repaints the chart on its own, e.g. for
+    // the touch tooltip, without our widget rebuilding.
+    bool isDuplicateMaxTick(double value) =>
+        value != tempAxisMax && (value - tempAxisMax).abs() < tempAxisInterval / 1000;
+
+    int nearestRow(double value) =>
+        ((value - tempAxisMin) / tempAxisInterval).round().clamp(0, gridIntervals);
 
     return SizedBox(
       height: height.h,
@@ -99,24 +140,19 @@ class TodayForecastChart extends StatelessWidget {
 
                 return Stack(
                   children: [
-                    // Grid-only layer, drawn first (bottom of the stack) so
-                    // the horizontal lines sit behind the bars/curves instead
-                    // of slicing over them. Uses the temp-scale domain (same
-                    // as the real LineChart below) so lines land exactly on
-                    // the left-axis tick values; BarChart's own y-domain
-                    // (0..barMaxY) is unrelated and can't share a grid with
-                    // it directly. Same reservedSize padding on every side
-                    // keeps its plot area pixel-aligned with the other two.
                     LineChart(
                       LineChartData(
                         minX: -0.5,
                         maxX: n - 0.5,
-                        minY: _tempAxisMin,
-                        maxY: _tempAxisMax,
+                        minY: tempAxisMin,
+                        maxY: tempAxisMax,
+                        // Makes fl_chart's own min-tick-alignment check exact
+                        // (see the comment above `isDuplicateMaxTick`).
+                        baselineY: tempAxisMin,
                         gridData: FlGridData(
                           show: true,
                           drawVerticalLine: false,
-                          horizontalInterval: _tempAxisInterval,
+                          horizontalInterval: tempAxisInterval,
                           getDrawingHorizontalLine: (value) => FlLine(
                             color: FigmaColors.neutralBackground,
                             strokeWidth: 1,
@@ -224,8 +260,9 @@ class TodayForecastChart extends StatelessWidget {
 
                         minX: -0.5,
                         maxX: n - 0.5,
-                        minY: _tempAxisMin,
-                        maxY: _tempAxisMax,
+                        minY: tempAxisMin,
+                        maxY: tempAxisMax,
+                        baselineY: tempAxisMin,
 
                         // Grid now lives in the bottom-most layer above (so
                         // it renders behind the bars) — disabled here to
@@ -277,28 +314,33 @@ class TodayForecastChart extends StatelessWidget {
                             sideTitles: SideTitles(
                               showTitles: true,
                               reservedSize: _leftReserved,
-                              interval: _tempAxisInterval,
-                              getTitlesWidget: (value, meta) => Padding(
-                                padding: EdgeInsets.only(right: 4.w),
-                                child: Text('${fmtNum(value)} $tempUnit', style: axisStyle),
-                              ),
+                              interval: tempAxisInterval,
+                              getTitlesWidget: (value, meta) {
+                                if (isDuplicateMaxTick(value)) return const SizedBox.shrink();
+                                final rowValue = tempAxisMin + nearestRow(value) * tempAxisInterval;
+                                return Padding(
+                                  padding: EdgeInsets.only(right: 4.w),
+                                  child: Text(fmtNum(rowValue), style: axisStyle),
+                                );
+                              },
                             ),
                           ),
                           rightTitles: AxisTitles(
                             sideTitles: SideTitles(
                               showTitles: true,
                               reservedSize: _rightReserved,
-                              // Same tick positions as the left axis (shared
-                              // y-domain) — but labeled in humidity's own %
-                              // scale via the inverse mapping.
-                              interval: _tempAxisInterval,
-                              getTitlesWidget: (value, meta) => Padding(
-                                padding: EdgeInsets.only(left: 4.w),
-                                child: Text(
-                                  fmtNum(tempScaleToHumidity(value), dp: 0),
-                                  style: axisStyle,
-                                ),
-                              ),
+                              interval: tempAxisInterval,
+                              getTitlesWidget: (value, meta) {
+                                if (isDuplicateMaxTick(value)) return const SizedBox.shrink();
+                                final rowValue = tempAxisMin + nearestRow(value) * tempAxisInterval;
+                                return Padding(
+                                  padding: EdgeInsets.only(left: 4.w),
+                                  child: Text(
+                                    fmtNum(tempScaleToHumidity(rowValue), dp: 0),
+                                    style: axisStyle,
+                                  ),
+                                );
+                              },
                             ),
                           ),
                           bottomTitles: AxisTitles(
@@ -378,19 +420,40 @@ class TodayForecastChart extends StatelessWidget {
                       Positioned(
                         left: _leftReserved + slot * i,
                         width: slot,
-                        top: 0,
-                        height: _topReserved.h,
+                        // Pinned to this bar's own top (not a shared fixed
+                        // row) — tracks `toY` below so it floats right above
+                        // whatever height this specific bar renders at.
+                        bottom: _bottomReserved.h +
+                            ((points[i].rain <= 0 ? barStub : points[i].rain) / barMaxY) *
+                                (constraints.maxHeight - _bottomReserved.h - _topReserved.h) +
+                            6.h,
                         child: Center(
-                          child: Text(
-                            '${rainLabel(points[i].rain)} \n$rainfallUnit',
-                            maxLines: 2,
-                            overflow: TextOverflow.visible,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 9.sp,
-                              fontWeight: FontWeight.w700,
-                              color: FigmaColors.primaryDark,
-                            ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // White stroke so the temp/humidity line (drawn)
+                              Text(
+                                rainLabel(points[i].rain),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w700,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 2
+                                    ..color = Colors.white.withOpacity(0.8),
+                                ),
+                              ),
+                              Text(
+                                rainLabel(points[i].rain),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: FigmaColors.primaryDark,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -400,7 +463,7 @@ class TodayForecastChart extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8.h),
-          _Legend(isBn: isBn),
+          _Legend(isBn: isBn, rfUnit: rainfallUnit, tempUnit: tempUnit),
         ],
       ),
     );
@@ -408,9 +471,15 @@ class TodayForecastChart extends StatelessWidget {
 }
 
 class _Legend extends StatelessWidget {
-  const _Legend({required this.isBn});
+  const _Legend({
+    required this.isBn,
+    required this.rfUnit,
+    required this.tempUnit,
+  });
 
   final bool isBn;
+  final String rfUnit;
+  final String tempUnit;
 
   @override
   Widget build(BuildContext context) {
@@ -423,7 +492,7 @@ class _Legend extends StatelessWidget {
           children: [
             _swatch(color: FigmaColors.chartRainfall, dashed: false, isBar: true),
             SizedBox(width: 4.w),
-            Text('weather.rainfall'.tr, style: style),
+            Text('${'weather.rainfall'.tr} - $rfUnit', style: style),
           ],
         ),
         Row(
@@ -431,7 +500,7 @@ class _Legend extends StatelessWidget {
           children: [
             _swatch(color: FigmaColors.chartTemperature, dashed: false, isBar: false),
             SizedBox(width: 4.w),
-            Text('weather.temperature'.tr, style: style),
+            Text('${'weather.temperature'.tr} - $tempUnit', style: style),
           ],
         ),
         Row(
@@ -439,7 +508,7 @@ class _Legend extends StatelessWidget {
           children: [
             _swatch(color: FigmaColors.chartHumidity, dashed: true, isBar: false),
             SizedBox(width: 4.w),
-            Text('weather.humidity'.tr, style: style),
+            Text('${'weather.humidity'.tr} - %', style: style),
           ],
         ),
       ],

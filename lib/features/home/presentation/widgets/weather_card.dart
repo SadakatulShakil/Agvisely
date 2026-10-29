@@ -31,7 +31,7 @@ class WeatherCard extends StatelessWidget {
     final w = weather;
     return Container(
       width: double.infinity,
-      height: w == null ? 160.h : 180.h,
+      height: w == null ? 160.h : 190.h,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       decoration: BoxDecoration(
         color: FigmaColors.neutralWhite,
@@ -102,7 +102,7 @@ class WeatherCard extends StatelessWidget {
                             text: w.tempNowValue,
                             style: TextStyle(
                               fontSize: 56.sp,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                               color: FigmaColors.primaryDark,
                             ),
                           ),
@@ -125,7 +125,7 @@ class WeatherCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(width: 24.w),
+                    SizedBox(width: 30.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,24 +294,24 @@ class _Stat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
           style: TextStyle(
-            fontSize: 12.sp,
+            fontSize: 14.sp,
             color: FigmaColors.primaryDark,
           ),
         ),
-        SizedBox(height: 3.h),
+        SizedBox(height: 4.h),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               value,
               style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w600,
                 color: FigmaColors.neutralBody,
               ),
             ),
