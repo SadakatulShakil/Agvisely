@@ -50,7 +50,7 @@ class SevenDayCard extends StatelessWidget {
             ),
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 14.h),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14.0),
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -86,37 +86,34 @@ class SevenDayCard extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 14.h),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                    child: GestureDetector(
-                      onTap: onToggleGraph,
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
-                        decoration: BoxDecoration(
-                          color: FigmaColors.neutralBackground,
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                expanded ? 'weather.hide_graph'.tr : 'weather.view_graph'.tr,
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: FigmaColors.neutralBody,
-                                ),
+                  GestureDetector(
+                    onTap: onToggleGraph,
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+                      decoration: BoxDecoration(
+                        color: FigmaColors.neutralBackground,
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              expanded ? 'weather.hide_graph'.tr : 'weather.view_graph'.tr,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: FigmaColors.neutralBody,
                               ),
                             ),
-                            SvgPicture.asset(
-                              expanded
-                                  ? 'assets/icons/svg/arrow_up.svg'
-                                  : 'assets/icons/svg/arrow_down.svg',
-                              width: 20.w,
-                              height: 20.h,
-                            ),
-                          ],
-                        ),
+                          ),
+                          SvgPicture.asset(
+                            expanded
+                                ? 'assets/icons/svg/arrow_up.svg'
+                                : 'assets/icons/svg/arrow_down.svg',
+                            width: 20.w,
+                            height: 20.h,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -270,7 +267,7 @@ class _Stat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
