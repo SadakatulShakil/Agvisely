@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/empty_state_widget.dart';
 import '../../domen/binding/advisory_content_binding.dart';
 import '../../domen/controllers/advisory_stages_controller.dart';
 import 'advisory_content_page.dart';
@@ -149,19 +150,9 @@ class AdvisoryStagesPage extends StatelessWidget {
 
                 final stages = controller.stages;
                 if (stages.isEmpty) {
-                  return Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
-                      child: Text(
-                        'advisory_stages.empty_for'
-                            .trParams({'item': controller.item.label(isBn)}),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textSecondaryLight,
-                        ),
-                      ),
-                    ),
+                  return EmptyStateWidget(
+                    message: 'advisory_stages.empty_for'
+                        .trParams({'item': controller.item.label(isBn)}),
                   );
                 }
 

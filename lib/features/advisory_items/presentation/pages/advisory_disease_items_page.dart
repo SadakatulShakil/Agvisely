@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/empty_state_widget.dart';
 import '../../../auth/auth/presentation/widgets/auth_widgets.dart';
 import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
 import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
@@ -189,20 +190,10 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                 final items = controller.items;
                 if (items.isEmpty) {
                   final label = controller.selectedCategory.value?.label(isBn);
-                  return Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
-                      child: Text(
-                        label == null
-                            ? 'advisory_items.empty'.tr
-                            : 'advisory_items.empty_for'.trParams({'category': label}),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textSecondaryLight,
-                        ),
-                      ),
-                    ),
+                  return EmptyStateWidget(
+                    message: label == null
+                        ? 'advisory_items.empty'.tr
+                        : 'advisory_items.empty_for'.trParams({'category': label}),
                   );
                 }
 

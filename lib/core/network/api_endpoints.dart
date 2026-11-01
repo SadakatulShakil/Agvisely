@@ -35,7 +35,7 @@ class ApiEndpoints {
   //   physical device  → http://<machine-LAN-IP>:3000/api/v1
   //   Run this on CMD "ipconfig getifaddr en0" for your LAN IP on macOS, or ipconfig on Windows.
   // ===================================
-  static const String baseUrlUser = 'http://192.168.68.52:3000/api/v1';
+  static const String baseUrlUser = 'http://192.168.68.53:3000/api/v1';
   static const String professions = '$baseUrlUser/professions';
   static const String signupUrl = '$baseUrlUser/users/signup';
   static const String loginUrl = '$baseUrlUser/users/login';
@@ -90,6 +90,14 @@ class ApiEndpoints {
 
   /// `PUT /notifications/{id}/read` — marks one notification read for the
   static String notificationMarkRead(int id) => '$baseUrlUser/notifications/$id/read';
+
+  /// `POST /user-locations` — syncs the user's active location (added or
+  /// switched) to the backend.
+  static const String userLocations = '$baseUrlUser/user-locations';
+
+  /// `DELETE /user-locations/{id}` — removes a previously-synced location
+  /// (the id returned by the `POST` above) from the backend.
+  static String userLocation(String id) => '$baseUrlUser/user-locations/$id';
 
   // ===================================
   // Advisory modules (fill in as backend lands)

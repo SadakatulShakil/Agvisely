@@ -17,6 +17,12 @@ class SavedLocation {
   /// True for whichever entry is the active location.
   final bool isCurrent;
 
+  /// The backend's own id for this location, returned by `POST
+  /// /user-locations` — null until that sync succeeds at least once (e.g.
+  /// added while offline), in which case there's nothing to delete
+  /// server-side either.
+  final String? remoteId;
+
   SavedLocation({
     required this.name,
     required this.nameBn,
@@ -31,6 +37,7 @@ class SavedLocation {
     required this.divisionBn,
     this.isGps = false,
     this.isCurrent = false,
+    this.remoteId,
   });
 
   SavedLocation copyWith({
@@ -47,6 +54,7 @@ class SavedLocation {
     String? divisionBn,
     bool? isGps,
     bool? isCurrent,
+    String? remoteId,
   }) {
     return SavedLocation(
       name: name ?? this.name,
@@ -62,6 +70,7 @@ class SavedLocation {
       divisionBn: divisionBn ?? this.divisionBn,
       isGps: isGps ?? this.isGps,
       isCurrent: isCurrent ?? this.isCurrent,
+      remoteId: remoteId ?? this.remoteId,
     );
   }
 
@@ -79,6 +88,7 @@ class SavedLocation {
     'divisionBn': divisionBn,
     'isGps': isGps,
     'isCurrent': isCurrent,
+    'remoteId': remoteId,
   };
 
   factory SavedLocation.fromJson(Map<String, dynamic> json) => SavedLocation(
@@ -96,6 +106,9 @@ class SavedLocation {
     // Old stored entries predate these fields — default to false.
     isGps: json['isGps'] == true,
     isCurrent: json['isCurrent'] == true,
+    // Old stored entries predate this field too — null is the correct
+    // "never synced" state for them, not an empty string.
+    remoteId: json['remoteId']?.toString(),
   );
 
   /// Display name, matching the language.

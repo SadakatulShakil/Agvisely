@@ -49,89 +49,94 @@ class SevenDayCard extends StatelessWidget {
               ),
             ),
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 14.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    _Stat(label: 'home.feels_like'.tr, value: day.feelsLikeText),
-                    _Stat(label: 'weather.rainfall'.tr, value: day.rainfallText),
-                    _Stat(label: 'weather.cloud_coverage'.tr, value: day.cloudCoverText),
-                    _Stat(label: 'weather.humidity'.tr, value: day.humidityText),
-                  ],
-                ),
-                SizedBox(height: 16.h),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _Stat(label: 'weather.soil_moisture'.tr, value: day.soilMoistureText),
-                    _Stat(label: 'weather.sunshine'.tr, value: day.sunshineText),
-                    _Stat(
-                      label: 'home.wind'.tr,
-                      value: day.windText,
-                      trailing: Transform.rotate(
-                        angle: day.windDirDeg * 3.1415926535 / 180,
-                        child: SvgPicture.asset(
-                          'assets/icons/svg/navigation.svg',
-                          width: 12.w,
-                          height: 12.h,
-                        )
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _Stat(label: 'weather.feels_like'.tr, value: day.feelsLikeText),
+                      _Stat(label: 'weather.sunshine'.tr, value: day.sunshineText),
+                      _Stat(label: 'weather.rainfall'.tr, value: day.rainfallText),
+                      //_Stat(label: 'weather.humidity'.tr, value: day.humidityText),
+                    ],
+                  ),
+                  SizedBox(height: 16.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      //_Stat(label: 'weather.soil_moisture'.tr, value: day.soilMoistureText),
+                      _Stat(label: 'weather.cloud_coverage'.tr, value: day.cloudCoverText),
+                      _Stat(
+                        label: 'home.wind'.tr,
+                        value: day.windText,
+                        trailing: Transform.rotate(
+                          angle: day.windDirDeg * 3.1415926535 / 180,
+                          child: SvgPicture.asset(
+                            'assets/icons/svg/navigation.svg',
+                            width: 12.w,
+                            height: 12.h,
+                          )
+                        ),
                       ),
-                    ),
-                    _Stat(label: 'weather.thi'.tr, value: day.thiText),
-                  ],
-                ),
-                SizedBox(height: 14.h),
-                Padding(
-                  padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                  child: GestureDetector(
-                    onTap: onToggleGraph,
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
-                      decoration: BoxDecoration(
-                        color: FigmaColors.neutralBackground,
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              expanded ? 'weather.hide_graph'.tr : 'weather.view_graph'.tr,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: FigmaColors.neutralBody,
+                      _Stat(label: 'weather.humidity'.tr, value: day.humidityText),
+                      //_Stat(label: 'weather.thi'.tr, value: day.thiText),
+                    ],
+                  ),
+                  SizedBox(height: 14.h),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                    child: GestureDetector(
+                      onTap: onToggleGraph,
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+                        decoration: BoxDecoration(
+                          color: FigmaColors.neutralBackground,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                expanded ? 'weather.hide_graph'.tr : 'weather.view_graph'.tr,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: FigmaColors.neutralBody,
+                                ),
                               ),
                             ),
-                          ),
-                          SvgPicture.asset(
-                            expanded
-                                ? 'assets/icons/svg/arrow_up.svg'
-                                : 'assets/icons/svg/arrow_down.svg',
-                            width: 20.w,
-                            height: 20.h,
-                          ),
-                        ],
+                            SvgPicture.asset(
+                              expanded
+                                  ? 'assets/icons/svg/arrow_up.svg'
+                                  : 'assets/icons/svg/arrow_down.svg',
+                              width: 20.w,
+                              height: 20.h,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                AnimatedSize(
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeInOut,
-                  alignment: Alignment.topCenter,
-                  child: expanded
-                      ? Padding(
-                          padding: EdgeInsets.only(top: 10.h, left: 8.w),
-                          child: TodayForecastChart(
-                            points: day.chart,
-                            rainfallUnit: day.units.rf,
-                            tempUnit: day.units.temp,
-                          ),
-                        )
-                      : const SizedBox(width: double.infinity),
-                ),
-              ],
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeInOut,
+                    alignment: Alignment.topCenter,
+                    child: expanded
+                        ? Padding(
+                            padding: EdgeInsets.only(top: 10.h, left: 8.w),
+                            child: TodayForecastChart(
+                              points: day.chart,
+                              rainfallUnit: day.units.rf,
+                              tempUnit: day.units.temp,
+                            ),
+                          )
+                        : const SizedBox(width: double.infinity),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -264,37 +269,33 @@ class _Stat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 11.sp, color: FigmaColors.primaryDark),
-          ),
-          SizedBox(height: 4.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Text(
-                  value,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: FigmaColors.neutralBody,
-                  ),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 12.sp, color: FigmaColors.primaryDark),
+        ),
+        SizedBox(height: 4.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: FigmaColors.neutralBody,
               ),
-              if (trailing != null) ...[SizedBox(width: 2.w), trailing!],
-            ],
-          ),
-        ],
-      ),
+            ),
+            if (trailing != null) ...[SizedBox(width: 2.w), trailing!],
+          ],
+        ),
+      ],
     );
   }
 }

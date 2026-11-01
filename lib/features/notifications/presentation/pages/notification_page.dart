@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/empty_state_widget.dart';
 import '../../../../models/notification_model.dart';
 import '../../domen/controllers/notification_controller.dart';
 
@@ -101,12 +102,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
                 final items = controller.notifications;
                 if (items.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'notifications.empty'.tr,
-                      style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondaryLight),
-                    ),
-                  );
+                  return EmptyStateWidget(message: 'notifications.empty'.tr);
                 }
 
                 return RefreshIndicator(

@@ -111,22 +111,30 @@ class AdvisoryContentPage extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.wifi_off_rounded,
-                                  size: 36.sp,
+                                  size: 40.sp,
                                   color: AppColors.textSecondaryLight,
                                 ),
-                                SizedBox(height: 12.h),
+                                SizedBox(height: 20.h),
                                 Text(
                                   error,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 14.sp,
+                                    fontSize: 18.sp,
                                     color: AppColors.textSecondaryLight,
                                   ),
                                 ),
-                                SizedBox(height: 12.h),
+                                SizedBox(height: 10.h),
                                 TextButton(
                                   onPressed: controller.loadContent,
-                                  child: Text('advisory_content.retry'.tr),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: FigmaColors.primaryDefault),
+                                        borderRadius: BorderRadius.circular(20.r),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 8.h, bottom: 8.h),
+                                        child: Text('advisory_content.retry'.tr, style: TextStyle(color: FigmaColors.primaryDefault)),
+                                      )),
                                 ),
                               ],
                             ),

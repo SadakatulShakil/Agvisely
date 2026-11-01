@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 
 /// GetX translations for Agvisely. Every entry has both an 'en' and a 'bn'
-/// value; the active language follows [UserPrefService.appLanguage] via
-/// GetMaterialApp's `locale`. Usage in a widget: `Text('home.greeting'.tr)`.
 class LocalizationString extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
@@ -52,7 +50,8 @@ class LocalizationString extends Translations {
     'weather.title': '7 Days Weather Forecast',
     'weather.rainfall': 'Rainfall',
     'weather.cloud_coverage': 'Cloud coverage',
-    'weather.humidity': 'Humidity',
+    'weather.humidity': 'Relative Humidity',
+    'home.humidity': 'Humidity',
     'weather.soil_moisture': 'Soil Moisture',
     'weather.sunshine': 'Sunshine Duration',
     'weather.thi': 'THI',
@@ -257,6 +256,7 @@ class LocalizationString extends Translations {
     // ── Home ─────────────────────────────────────────────────────────────
     'home.greeting': 'হ্যালো',
     'home.feels_like': 'অনুভূত',
+    'weather.feels_like': 'অনুভূত তাপমাত্রা',
     'home.precipitation': 'বৃষ্টিপাত',
     'home.pressure': 'চাপ',
     'home.wind': 'বাতাসের গতিবেগ',
@@ -279,9 +279,11 @@ class LocalizationString extends Translations {
 
     // ── Weather forecast (7-day detail) ────────────────────────────────────
     'weather.title': '৭ দিনের আবহাওয়ার পূর্বাভাস',
-    'weather.rainfall': 'বৃষ্টিপাত',
+    'weather.rainfall': 'বৃষ্টিপাতের পরিমাণ',
+    'home.rainfall': 'বৃষ্টিপাত',
     'weather.cloud_coverage': 'মেঘের আচ্ছাদন',
-    'weather.humidity': 'আর্দ্রতা',
+    'weather.humidity': 'বাতাসের আর্দ্রতা',
+    'home.humidity': 'আর্দ্রতা',
     'weather.soil_moisture': 'মাটির আর্দ্রতা',
     'weather.sunshine': 'রোদের সময়কাল',
     'weather.thi': 'তাপ-আর্দ্রতা সূচক',

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/empty_state_widget.dart';
 import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
 import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
 import '../../domen/controllers/pest_advisory_controller.dart';
@@ -81,18 +82,8 @@ class PestAdvisoryPage extends StatelessWidget {
 
                 final items = controller.items;
                 if (items.isEmpty) {
-                  return Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
-                      child: Text(
-                        'advisory_items.empty_for'.trParams({'category': 'advisory.crop'.tr}),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textSecondaryLight,
-                        ),
-                      ),
-                    ),
+                  return EmptyStateWidget(
+                    message: 'advisory_items.empty_for'.trParams({'category': 'advisory.crop'.tr}),
                   );
                 }
 

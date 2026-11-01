@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -656,6 +657,49 @@ class UserPrefService {
     await _setStringIfChanged(_keyLocationDistrictBn, current.districtBn);
     await _setStringIfChanged(_keyLocationUpazila, current.upazila);
     await _setStringIfChanged(_keyLocationUpazilaBn, current.upazilaBn);
+    unawaited(_syncLocationToBackend(current));
+  }
+
+  /// Best-effort background sync of the active location to the backend —
+  /// fire-and-forget, same shape as [FcmSyncService.syncFcmToken]. Runs
+  /// every time a location is added or switched (any [_syncMirrorFromList]
+  /// caller); a failure here must never block saving/switching the
+  /// location locally, so nothing retries it specifically — the next
+  /// add/switch just tries again.
+  Future<void> _syncLocationToBackend(SavedLocation loc) async {
+    if (!isLoggedIn) return;
+    final token = await getAccessToken();
+    if (token == null || token.isEmpty) return;
+
+    try {
+      final resp = await ApiClient().post(
+        ApiEndpoints.userLocations,
+        body: {
+          'latitude': loc.lat,
+          'longitude': loc.lng,
+          'district': loc.district,
+          'upazila': loc.upazila,
+          'address': loc.displayName(false),
+        },
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      // Stash the backend's own id for this location so a later delete
+      // (see [removeLocation]) can remove the matching row server-side.
+      final data = resp is Map ? resp['data'] : null;
+      final remoteId = (data is Map ? data['id'] : null)?.toString();
+      if (remoteId == null || remoteId.isEmpty) return;
+
+      final list = await _readSavedLocations();
+      final idx = loc.isGps
+          ? list.indexWhere((l) => l.isGps)
+          : list.indexWhere((l) => !l.isGps && l.pcode == loc.pcode);
+      if (idx == -1 || list[idx].remoteId == remoteId) return;
+      list[idx] = list[idx].copyWith(remoteId: remoteId);
+      await _writeSavedLocations(list);
+    } catch (_) {
+      // Fails silently — see doc comment above.
+    }
   }
 
   /// GPS first, then the rest alphabetically. isCurrent is preserved as data
@@ -737,6 +781,27 @@ class UserPrefService {
     list.removeWhere((l) => !l.isGps && l.pcode == pcode);
     await _writeSavedLocations(list);
     await _syncMirrorFromList(list);
+    unawaited(_deleteLocationFromBackend(removed.remoteId));
+  }
+
+  /// Best-effort backend delete for a location removed locally — mirrors
+  /// [_syncLocationToBackend]'s fire-and-forget resilience. A no-op if this
+  /// location was never successfully synced (no [SavedLocation.remoteId]
+  /// yet, e.g. added while offline) — nothing exists server-side to delete.
+  Future<void> _deleteLocationFromBackend(String? remoteId) async {
+    if (remoteId == null || remoteId.isEmpty) return;
+    if (!isLoggedIn) return;
+    final token = await getAccessToken();
+    if (token == null || token.isEmpty) return;
+
+    try {
+      await ApiClient().delete(
+        ApiEndpoints.userLocation(remoteId),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+    } catch (_) {
+      // Fails silently — see _syncLocationToBackend's doc comment.
+    }
   }
 
   /// Renames a custom entry's locale-specific display name (matches BMD's

@@ -63,12 +63,6 @@ class TodayForecastChart extends StatelessWidget {
 
     final barStub = barMaxY * 0.03;
 
-    // fl_chart draws the left (temp) and right (humidity) tick labels off
-    // the same shared y-domain, so they always land on the same grid rows —
-    // each axis is built independently (own min - 5 / own max + 5, split
-    // into exactly `_gridLines` evenly-spaced labels), which keeps both
-    // axes' row counts identical (so they render aligned) while each still
-    // shows its own natural range.
     const gridLines = 8;
     const gridIntervals = gridLines - 1;
 
@@ -95,29 +89,6 @@ class TodayForecastChart extends StatelessWidget {
         humMin +
         ((tempScaleValue - tempAxisMin) / (tempAxisMax - tempAxisMin)) * humSpan;
 
-    // fl_chart's own tick generator (AxisChartHelper.iterateThroughAxis)
-    // special-cases the axis min/max:
-    // - MIN: it compares `(baseline - min) % interval` to 0 to decide
-    //   whether `min` needs a forced extra tick — `baselineY: tempAxisMin`
-    //   below makes that always exactly 0 (self-subtraction is exact in
-    //   float arithmetic), so the forced tick always coincides with the
-    //   regular one and fl_chart skips it. No duplicate possible.
-    // - MAX: it compares the regular stepping's last computed value to
-    //   `maxY` with exact `==` — when `tempAxisInterval` doesn't round-trip
-    //   back to the true max bit-for-bit (near-guaranteed whenever the
-    //   interval isn't a "clean" value, e.g. a range/7 like ours), that
-    //   check fails and it emits BOTH the regular tick and a forced one at
-    //   the true max, a pixel apart — the ghosted label at the very top.
-    //   There's no float-exactness fix for that side (no baseline-style
-    //   parameter controls it), so instead: the forced tick is always the
-    //   untouched `tempAxisMax` value, bit-identical — anything merely
-    //   close to it but NOT exactly equal is fl_chart's other, regularly
-    //   stepped call for that same row, and gets suppressed.
-    //
-    // Both checks are pure functions of the incoming value — no mutable
-    // "already shown" state, which would otherwise go stale (and hide every
-    // label) the moment fl_chart repaints the chart on its own, e.g. for
-    // the touch tooltip, without our widget rebuilding.
     bool isDuplicateMaxTick(double value) =>
         value != tempAxisMax && (value - tempAxisMax).abs() < tempAxisInterval / 1000;
 
@@ -146,8 +117,6 @@ class TodayForecastChart extends StatelessWidget {
                         maxX: n - 0.5,
                         minY: tempAxisMin,
                         maxY: tempAxisMax,
-                        // Makes fl_chart's own min-tick-alignment check exact
-                        // (see the comment above `isDuplicateMaxTick`).
                         baselineY: tempAxisMin,
                         gridData: FlGridData(
                           show: true,
@@ -264,13 +233,10 @@ class TodayForecastChart extends StatelessWidget {
                         maxY: tempAxisMax,
                         baselineY: tempAxisMin,
 
-                        // Grid now lives in the bottom-most layer above (so
-                        // it renders behind the bars) — disabled here to
-                        // avoid drawing it twice.
                         gridData: const FlGridData(show: false),
                         borderData: FlBorderData(show: false),
                         lineTouchData: LineTouchData(
-                          enabled: true,
+                          enabled: false,//enable or disable tool tip
                           handleBuiltInTouches: true,
                           touchTooltipData: LineTouchTooltipData(
                             getTooltipColor: (_) => AppColors.navy,
@@ -278,8 +244,6 @@ class TodayForecastChart extends StatelessWidget {
                             fitInsideHorizontally: true,
                             fitInsideVertically: true,
                             getTooltipItems: (touchedSpots) => touchedSpots.map((spot) {
-                              // real points — shift by 1 and let the range
-                              // check below drop them.
                               final i = spot.spotIndex - 1;
                               if (i < 0 || i >= n) return null;
                               final isHumidityLine = spot.barIndex == 1;
@@ -361,56 +325,41 @@ class TodayForecastChart extends StatelessWidget {
                         ),
                         lineBarsData: [
                           // barIndex 0 — temperature (real values, real axis).
-                          // A flat spot at -0.5 and n-0.5 (matching minX/maxX)
-                          // extends the line a little past the first/last
-                          // real point, instead of stopping dead at it — the
-                          // dot painter below hides the dot on those two.
                           LineChartBarData(
                             spots: [
-                              FlSpot(-0.35, points.first.temp),
                               for (var i = 0; i < n; i++) FlSpot(i.toDouble(), points[i].temp),
-                              FlSpot(n - 0.6, points.last.temp),
                             ],
                             isCurved: true,
                             color: FigmaColors.chartTemperature,
                             barWidth: 2,
                             dotData: FlDotData(
                               show: true,
-                              getDotPainter: (spot, percent, bar, index) =>
-                                  (index == 0 || index == n + 1)
-                                      ? FlDotCirclePainter(radius: 0, color: Colors.transparent)
-                                      : FlDotCirclePainter(
-                                          radius: 3.r,
-                                          color: FigmaColors.chartTemperature,
-                                          strokeWidth: 1.5,
-                                          strokeColor: Colors.white,
-                                        ),
+                              getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
+                                radius: 3.r,
+                                color: FigmaColors.chartTemperature,
+                                strokeWidth: 1.5,
+                                strokeColor: Colors.white,
+                              ),
                             ),
                           ),
                           // barIndex 1 — humidity (mapped position, real % in tooltip/axis).
-                          // Same flat start/end extension as the temperature line.
                           LineChartBarData(
                             spots: [
-                              FlSpot(-0.35, humidityToTempScale(points.first.humidity)),
                               for (var i = 0; i < n; i++)
                                 FlSpot(i.toDouble(), humidityToTempScale(points[i].humidity)),
-                              FlSpot(n - 0.6, humidityToTempScale(points.last.humidity)),
                             ],
                             isCurved: true,
                             color: FigmaColors.chartHumidity,
                             barWidth: 2,
-                            dashArray: const [4, 2],
+                            dashArray: const [6, 4],
                             dotData: FlDotData(
                               show: true,
-                              getDotPainter: (spot, percent, bar, index) =>
-                                  (index == 0 || index == n + 1)
-                                      ? FlDotCirclePainter(radius: 0, color: Colors.transparent)
-                                      : FlDotCirclePainter(
-                                          radius: 3.r,
-                                          color: FigmaColors.chartHumidity,
-                                          strokeWidth: 1.5,
-                                          strokeColor: Colors.white,
-                                        ),
+                              getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
+                                radius: 3.r,
+                                color: FigmaColors.chartHumidity,
+                                strokeWidth: 1.5,
+                                strokeColor: Colors.white,
+                              ),
                             ),
                           ),
                         ],
@@ -420,9 +369,6 @@ class TodayForecastChart extends StatelessWidget {
                       Positioned(
                         left: _leftReserved + slot * i,
                         width: slot,
-                        // Pinned to this bar's own top (not a shared fixed
-                        // row) — tracks `toY` below so it floats right above
-                        // whatever height this specific bar renders at.
                         bottom: _bottomReserved.h +
                             ((points[i].rain <= 0 ? barStub : points[i].rain) / barMaxY) *
                                 (constraints.maxHeight - _bottomReserved.h - _topReserved.h) +
@@ -492,7 +438,7 @@ class _Legend extends StatelessWidget {
           children: [
             _swatch(color: FigmaColors.chartRainfall, dashed: false, isBar: true),
             SizedBox(width: 4.w),
-            Text('${'weather.rainfall'.tr} - $rfUnit', style: style),
+            Text('${'home.rainfall'.tr} - $rfUnit', style: style),
           ],
         ),
         Row(
@@ -508,7 +454,7 @@ class _Legend extends StatelessWidget {
           children: [
             _swatch(color: FigmaColors.chartHumidity, dashed: true, isBar: false),
             SizedBox(width: 4.w),
-            Text('${'weather.humidity'.tr} - %', style: style),
+            Text('${'home.humidity'.tr} - %', style: style),
           ],
         ),
       ],
