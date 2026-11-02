@@ -5,6 +5,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:printing/printing.dart';
 
 import '../../../../core/network/api_endpoints.dart';
@@ -20,11 +21,21 @@ class AdvisoryContentPage extends StatelessWidget {
   static const double _heroHeight = 340;
   static const double _sheetOverlap = 24;
 
-  Future<Uint8List> _buildPdf(
+  /// The bytes to hand to Share/Download: the stage's own hosted PDF
+  /// as-is when it has one, else our generated composite document — never
+  /// both, since a generated doc can't splice in someone else's raw PDF.
+  Future<Uint8List> _resolvePdfBytes(
     AdvisoryContentController controller,
     AdvisoryContentModel content,
     bool isBn,
-  ) {
+  ) async {
+    final pdfUrl = content.pdfUrl;
+    if (pdfUrl != null) {
+      final resolvedUrl = pdfUrl.startsWith('http') ? pdfUrl : '${ApiEndpoints.baseUrlUserHost}$pdfUrl';
+      final resp = await http.get(Uri.parse(resolvedUrl));
+      if (resp.statusCode == 200) return resp.bodyBytes;
+    }
+
     return AdvisoryPdfBuilder.build(
       item: controller.item,
       stage: controller.stage,
@@ -40,14 +51,14 @@ class AdvisoryContentPage extends StatelessWidget {
   Future<void> _onShare(AdvisoryContentController controller, bool isBn) async {
     final content = controller.content.value;
     if (content == null) return;
-    final bytes = await _buildPdf(controller, content, isBn);
+    final bytes = await _resolvePdfBytes(controller, content, isBn);
     await Printing.sharePdf(bytes: bytes, filename: _pdfFileName(controller));
   }
 
   Future<void> _onDownload(AdvisoryContentController controller, bool isBn) async {
     final content = controller.content.value;
     if (content == null) return;
-    final bytes = await _buildPdf(controller, content, isBn);
+    final bytes = await _resolvePdfBytes(controller, content, isBn);
     await Printing.layoutPdf(
       onLayout: (_) async => bytes,
       name: _pdfFileName(controller),
@@ -438,7 +449,9 @@ class _Section extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
         ],
-        if (useHtml)
+        if (section.isPdf)
+          _InlinePdfView(url: section.pdfUrl!)
+        else if (useHtml)
           _AdvisoryHtmlBody(html: section.content(isBn))
         else
           for (final bullet in section.bullets) _Bullet(text: bullet.label(isBn)),
@@ -482,6 +495,42 @@ class _Bullet extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Renders a `'pdf'`-showType section's [AdvisorySectionModel.pdfUrl] right
+/// on the page — same fetch-and-render approach as the Menu tab's
+/// `PdfViewerPage`, just embedded instead of pushed as its own route.
+class _InlinePdfView extends StatelessWidget {
+  const _InlinePdfView({required this.url});
+
+  final String url;
+
+  @override
+  Widget build(BuildContext context) {
+    final resolvedUrl = url.startsWith('http') ? url : '${ApiEndpoints.baseUrlUserHost}$url';
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12.r),
+      child: SizedBox(
+        height: 480.h,
+        child: PdfPreview(
+          build: (format) async {
+            final resp = await http.get(Uri.parse(resolvedUrl));
+            if (resp.statusCode != 200) {
+              throw Exception('menu.pdf_load_failed'.tr);
+            }
+            return resp.bodyBytes;
+          },
+          // The page already has its own Share/Download buttons below —
+          // don't duplicate them with PdfPreview's built-in action bar.
+          allowPrinting: false,
+          allowSharing: false,
+          canChangePageFormat: false,
+          canChangeOrientation: false,
+          canDebug: false,
+        ),
       ),
     );
   }
@@ -567,7 +616,9 @@ class _GoodPracticeCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: 12.h),
-          if (useHtml)
+          if (section.isPdf)
+            _InlinePdfView(url: section.pdfUrl!)
+          else if (useHtml)
             _AdvisoryHtmlBody(html: section.content(isBn))
           else
             for (final bullet in section.bullets) _Bullet(text: bullet.label(isBn)),

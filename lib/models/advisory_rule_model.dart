@@ -17,6 +17,12 @@ class AdvisoryRuleModel {
   final int sortOrder;
   final bool isActive;
 
+  /// `'html'` (render [advisory]/[advisoryBn] inline, the long-standing
+  /// behavior) or `'pdf'` (ignore the advisory text and let the user open
+  /// [pdfUrl] instead) — see [AdvisoryContentModel.fromRules].
+  final String showType;
+  final String? pdfUrl;
+
   const AdvisoryRuleModel({
     required this.id,
     required this.stageId,
@@ -29,6 +35,8 @@ class AdvisoryRuleModel {
     this.maxThreshold,
     this.sortOrder = 0,
     this.isActive = true,
+    this.showType = 'html',
+    this.pdfUrl,
   });
 
   factory AdvisoryRuleModel.fromJson(Map<String, dynamic> j) => AdvisoryRuleModel(
@@ -43,5 +51,9 @@ class AdvisoryRuleModel {
         maxThreshold: j['maxThreshold'] as num?,
         sortOrder: j['sortOrder'] is int ? j['sortOrder'] as int : 0,
         isActive: j['isActive'] != false,
+        showType: j['showType']?.toString() ?? 'html',
+        pdfUrl: j['pdfUrl']?.toString(),
       );
+
+  bool get isPdf => showType == 'pdf' && pdfUrl != null && pdfUrl!.isNotEmpty;
 }

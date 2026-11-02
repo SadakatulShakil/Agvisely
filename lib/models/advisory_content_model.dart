@@ -29,12 +29,20 @@ class AdvisorySectionModel {
   final String html;
   final String? htmlBn;
 
+  /// `'pdf'` when the rule(s) behind this section say to open [pdfUrl]
+  /// instead of rendering [bullets]/[html] — see
+  /// [AdvisoryContentModel.fromRules].
+  final String showType;
+  final String? pdfUrl;
+
   const AdvisorySectionModel({
     required this.title,
     this.titleBn,
     this.bullets = const [],
     this.html = '',
     this.htmlBn,
+    this.showType = 'html',
+    this.pdfUrl,
   });
 
   factory AdvisorySectionModel.fromJson(Map<String, dynamic> j) => AdvisorySectionModel(
@@ -45,6 +53,8 @@ class AdvisorySectionModel {
             .map((e) => AdvisoryBulletModel.fromJson(e.cast<String, dynamic>()))
             .toList(),
       );
+
+  bool get isPdf => showType == 'pdf' && pdfUrl != null && pdfUrl!.isNotEmpty;
 
   String label(bool isBn) => isBn && (titleBn != null && titleBn!.isNotEmpty) ? titleBn! : title;
 
@@ -65,6 +75,19 @@ class AdvisoryContentModel {
     this.sections = const [],
     this.goodPractice,
   });
+
+  /// The first `'pdf'`-showType section's URL, if any. In practice a
+  /// stage's rules are either all HTML or all PDF, so treating "any section
+  /// is PDF" as "this whole stage is a PDF" is enough for Download/Share to
+  /// know whether to fetch and hand out that raw file instead of generating
+  /// our own composed document — see `AdvisoryContentPage._resolvePdfBytes`.
+  String? get pdfUrl {
+    for (final section in sections) {
+      if (section.isPdf) return section.pdfUrl;
+    }
+    final gp = goodPractice;
+    return (gp != null && gp.isPdf) ? gp.pdfUrl : null;
+  }
 
   /// Groups the stage's active rules into display sections: rules with a
   /// `category` (`"temperature"`, `"rainfall"`, ...) become ordinary
@@ -91,14 +114,21 @@ class AdvisoryContentModel {
     var ipmHtmlBn = '';
     var goodPracticeHtml = '';
     var goodPracticeHtmlBn = '';
+    var ipmIsPdf = false;
+    String? ipmPdfUrl;
+    var goodPracticeIsPdf = false;
+    String? goodPracticePdfUrl;
 
     final effectiveRules = ipmOnly
         ? rules.where((r) => _isIpmRule(r)).toList()
         : rules;
 
     for (final rule in effectiveRules) {
-      final bullets = _pairBullets(rule.advisory, rule.advisoryBn);
-      if (bullets.isEmpty) continue;
+      // A 'pdf' rule's real content lives at pdfUrl, not in advisory/
+      // advisoryBn (often left empty) — don't drop it for having no bullets.
+      final isPdfRule = rule.isPdf;
+      final bullets = isPdfRule ? const <AdvisoryBulletModel>[] : _pairBullets(rule.advisory, rule.advisoryBn);
+      if (!isPdfRule && bullets.isEmpty) continue;
 
       final category = rule.category;
       if (category == null || category.isEmpty) {
@@ -108,10 +138,18 @@ class AdvisoryContentModel {
           ipmBullets.addAll(bullets);
           ipmHtml += rule.advisory;
           ipmHtmlBn += rule.advisoryBn;
+          if (isPdfRule && !ipmIsPdf) {
+            ipmIsPdf = true;
+            ipmPdfUrl = rule.pdfUrl;
+          }
         } else if (lower == 'gap') {
           goodPracticeBullets.addAll(bullets);
           goodPracticeHtml += rule.advisory;
           goodPracticeHtmlBn += rule.advisoryBn;
+          if (isPdfRule && !goodPracticeIsPdf) {
+            goodPracticeIsPdf = true;
+            goodPracticePdfUrl = rule.pdfUrl;
+          }
         } else {
           // Real stage-rule payloads often leave `stageAdvisory` null on
           // every rule, even when each one is a fully separate advisory
@@ -131,6 +169,8 @@ class AdvisoryContentModel {
               bullets: bullets,
               html: rule.advisory,
               htmlBn: rule.advisoryBn,
+              showType: isPdfRule ? 'pdf' : 'html',
+              pdfUrl: isPdfRule ? rule.pdfUrl : null,
             ));
           } else {
             final existing = sections[existingIndex];
@@ -140,6 +180,8 @@ class AdvisoryContentModel {
               bullets: [...existing.bullets, ...bullets],
               html: existing.html + rule.advisory,
               htmlBn: (existing.htmlBn ?? '') + rule.advisoryBn,
+              showType: existing.isPdf || isPdfRule ? 'pdf' : 'html',
+              pdfUrl: existing.pdfUrl ?? (isPdfRule ? rule.pdfUrl : null),
             );
           }
         }
@@ -157,6 +199,8 @@ class AdvisoryContentModel {
           bullets: bullets,
           html: rule.advisory,
           htmlBn: rule.advisoryBn,
+          showType: isPdfRule ? 'pdf' : 'html',
+          pdfUrl: isPdfRule ? rule.pdfUrl : null,
         ));
       } else {
         final existing = sections[existingIndex];
@@ -166,11 +210,13 @@ class AdvisoryContentModel {
           bullets: [...existing.bullets, ...bullets],
           html: existing.html + rule.advisory,
           htmlBn: (existing.htmlBn ?? '') + rule.advisoryBn,
+          showType: existing.isPdf || isPdfRule ? 'pdf' : 'html',
+          pdfUrl: existing.pdfUrl ?? (isPdfRule ? rule.pdfUrl : null),
         );
       }
     }
 
-    if (ipmBullets.isNotEmpty) {
+    if (ipmBullets.isNotEmpty || ipmIsPdf) {
       sections.add(
         AdvisorySectionModel(
           title: 'IPM Advisory',
@@ -178,15 +224,19 @@ class AdvisoryContentModel {
           bullets: ipmBullets,
           html: ipmHtml,
           htmlBn: ipmHtmlBn,
+          showType: ipmIsPdf ? 'pdf' : 'html',
+          pdfUrl: ipmPdfUrl,
         ),
       );
     }
 
     AdvisorySectionModel? goodPractice;
-    if (goodPracticeBullets.isNotEmpty) {
+    if (goodPracticeBullets.isNotEmpty || goodPracticeIsPdf) {
       goodPractice = AdvisorySectionModel(
         title: 'Good Agriculture Practice',
         titleBn: 'উত্তম কৃষি চর্চা',
+        showType: goodPracticeIsPdf ? 'pdf' : 'html',
+        pdfUrl: goodPracticePdfUrl,
         bullets: goodPracticeBullets,
         html: goodPracticeHtml,
         htmlBn: goodPracticeHtmlBn,

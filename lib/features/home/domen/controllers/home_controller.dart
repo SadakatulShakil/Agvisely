@@ -17,6 +17,7 @@ import '../../../../models/current_weather_model.dart';
 import '../../../../models/seven_day_model.dart';
 import '../../../../models/user_choice_model.dart';
 import '../../../location/data/location_repository.dart';
+import '../../../menu/domen/controllers/menu_tree_controller.dart';
 import '../../../weather/data/seven_day_repository.dart';
 import '../../../weather/data/weather_repository.dart';
 import '../../presentation/widgets/saved_locations_sheet.dart';
@@ -24,6 +25,10 @@ import '../../presentation/widgets/saved_locations_sheet.dart';
 /// Drives the home shell: bottom-nav selection + top-bar identity.
 class HomeController extends GetxController with WidgetsBindingObserver {
   final navIndex = 0.obs;
+
+  /// Index of the Menu tab in [HomePage]'s `tabs` list — used so leaving it
+  /// for another tab can reset its drill-down state back to the root.
+  static const _menuTabIndex = 3;
   final locationName = 'Mirpur DOHS, Dhaka'.obs; // TODO: from location service
 
   /// True while a newly-picked custom location is being resolved via the
@@ -63,7 +68,12 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   /// time window.
   static const double _gpsRefreshDistanceMeters = 5000;
 
-  void changeTab(int i) => navIndex.value = i;
+  void changeTab(int i) {
+    if (navIndex.value == _menuTabIndex && i != _menuTabIndex && Get.isRegistered<MenuTreeController>()) {
+      Get.find<MenuTreeController>().resetToRoot();
+    }
+    navIndex.value = i;
+  }
 
   @override
   void onInit() {

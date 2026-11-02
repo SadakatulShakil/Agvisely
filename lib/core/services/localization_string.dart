@@ -101,10 +101,15 @@ class LocalizationString extends Translations {
 
     // ── Menu ─────────────────────────────────────────────────────────────
     'menu.title': 'Menu items',
-    'menu.barc_fertilizer': 'BARC Fertilizer Recommendation',
-    'menu.ipm_booklist': 'IPM booklist',
-    'menu.user_feedback': 'User Feedback',
-    'menu.other_apps': 'Others Apps',
+    'menu.empty': 'No items available right now.',
+    'menu.load_failed_retry': 'Retry',
+    'menu.feedback_title': 'Send Feedback',
+    'menu.feedback_hint': 'Write your feedback here...',
+    'menu.feedback_message_required': 'Please enter your feedback message.',
+    'menu.feedback_send': 'Send',
+    'menu.feedback_success': 'Thank you for your feedback!',
+    'menu.feedback_failed': 'Could not send feedback',
+    'menu.pdf_load_failed': 'Could not load this document.',
 
     // ── Pest advisory (crop-select demo) ──────────────────────────────────
     'pest_advisory.select_crop_title': 'Select a crop for advisory',
@@ -333,10 +338,15 @@ class LocalizationString extends Translations {
 
     // ── Menu ─────────────────────────────────────────────────────────────
     'menu.title': 'মেনু আইটেম',
-    'menu.barc_fertilizer': 'বার্ক সার সুপারিশ',
-    'menu.ipm_booklist': 'আইপিএম বুকলিস্ট',
-    'menu.user_feedback': 'ব্যবহারকারীর মতামত',
-    'menu.other_apps': 'অন্যান্য অ্যাপ',
+    'menu.empty': 'এই মুহূর্তে কোনো আইটেম পাওয়া যায়নি।',
+    'menu.load_failed_retry': 'আবার চেষ্টা করুন',
+    'menu.feedback_title': 'মতামত পাঠান',
+    'menu.feedback_hint': 'এখানে আপনার মতামত লিখুন...',
+    'menu.feedback_message_required': 'অনুগ্রহ করে আপনার মতামত লিখুন।',
+    'menu.feedback_send': 'পাঠান',
+    'menu.feedback_success': 'আপনার মতামতের জন্য ধন্যবাদ!',
+    'menu.feedback_failed': 'মতামত পাঠানো যায়নি',
+    'menu.pdf_load_failed': 'এই ডকুমেন্টটি লোড করা যায়নি।',
 
     // ── Pest advisory (crop-select demo) ──────────────────────────────────
     'pest_advisory.select_crop_title': 'পরামর্শের জন্য একটি ফসল নির্বাচন করুন',
