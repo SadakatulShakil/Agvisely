@@ -48,7 +48,15 @@ class _SplashScreenState extends State<SplashScreen> {
       onTimeout: () => UpdateResult.none(),
     ).catchError((_) => UpdateResult.none());
 
-    final firebaseFuture = FirebaseService().init();
+    // First-time users haven't seen onboarding's notifications-rationale
+    // slide yet — calling FirebaseService.init() here would surface the OS
+    // permission dialog on the bare splash screen with zero context, which
+    // tanks the grant rate. Defer it to OnboardingController.finish(),
+    // right after that slide. Returning users already went through
+    // onboarding, so it's safe (and needed) to init now.
+    final firebaseFuture = UserPrefService().hasOnboarded
+        ? FirebaseService().init()
+        : Future<void>.value();
 
     final result = await updateFuture;
 

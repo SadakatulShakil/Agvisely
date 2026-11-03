@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/services/firebase_service.dart';
 import '../../../../core/services/user_pref_service.dart';
 import '../../../location/models/location_gate_destination.dart';
 import '../../../location/presentation/pages/location_gate_page.dart';
@@ -43,6 +44,10 @@ class OnboardingController extends GetxController {
 
   Future<void> finish() async {
     await UserPrefService().setOnboarded(true);
+    // Ask for notification permission now — right after the user has seen
+    // slide 3's rationale, instead of on the bare splash screen with no
+    // context (see SplashScreen._runUpdateCheckThenInit).
+    await FirebaseService().init();
     // Resolve location (GPS permission, falling back to manual search)
     // right after onboarding — before Login/Signup — so district/upazila
     // are already known by the time the user signs up.

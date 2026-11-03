@@ -109,7 +109,13 @@ class NotificationService {
 
     await android.createNotificationChannel(alertChannel);
     await android.createNotificationChannel(generalChannel);
-    await android.requestNotificationsPermission();
+    // Permission is NOT requested here — channel creation doesn't need it,
+    // and this runs from main.dart's _deferredInit() right after the first
+    // frame (before onboarding is even shown). Asking here would duplicate
+    // and race with FirebaseService's request, which is deliberately
+    // deferred to after onboarding's notifications-rationale slide (see
+    // OnboardingController.finish()) — that's the single place permission
+    // should be requested.
   }
 
   // ─────────────────────────────────────────────────────────

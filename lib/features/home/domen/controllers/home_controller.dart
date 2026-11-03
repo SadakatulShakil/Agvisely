@@ -335,6 +335,12 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   /// current if the user switches back, without touching the active weather.
   Future<void> _onResume() async {
     unawaited(ApiClient().ensureValidToken()); // proactive session refresh
+    // Covers the user who denied notification permission once, then later
+    // enabled it from system Settings — that doesn't re-trigger
+    // FirebaseService's permission/token flow on its own, so retry here on
+    // every resume (e.g. returning from Settings) and push it to the
+    // backend if we got one.
+    unawaited(_resyncFcmToken());
     if (UserPrefService().isFollowingGPS) {
       await _refreshIfNeeded();
     } else {
@@ -343,6 +349,11 @@ class HomeController extends GetxController with WidgetsBindingObserver {
         isSilent: true,
       );
     }
+  }
+
+  Future<void> _resyncFcmToken() async {
+    await FirebaseService().retryTokenIfMissing();
+    await FcmSyncService().syncFcmToken();
   }
 
   /// Only ever called while GPS is the active location. Refreshes when

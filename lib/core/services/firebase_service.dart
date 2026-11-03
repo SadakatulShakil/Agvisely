@@ -32,6 +32,13 @@ class FirebaseService {
   Future<void> init() => _initFuture ??= _doInit();
 
   Future<void> _doInit() async {
+    // Channels must exist before any FCM push can land — otherwise a
+    // background/terminated push arrives before NotificationService has
+    // created 'agvisely_general_channel', and FCM silently falls back to a
+    // generic system "Miscellaneous" channel for that ID *permanently*
+    // (Android channel properties can't be fixed up after first creation).
+    await _notif.init();
+
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     // ── Step 2: Request permission ───────────────────────────────

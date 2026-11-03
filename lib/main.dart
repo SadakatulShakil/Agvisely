@@ -34,14 +34,6 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    await FirebaseAppCheck.instance.activate(
-      providerAndroid: kReleaseMode
-          ? const AndroidPlayIntegrityProvider()
-          : const AndroidDebugProvider(),
-      providerApple: kReleaseMode
-          ? const AppleAppAttestProvider()
-          : const AppleDebugProvider(),
-    );
   } catch (e, stack) {
     debugPrint('🔥 FATAL FIREBASE ERROR: $e');
     debugPrint(stack.toString());
