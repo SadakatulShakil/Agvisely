@@ -37,11 +37,49 @@ class ProfilePage extends StatelessWidget {
           children: [
             Obx(
               () => Center(
-                child: UserAvatar(
-                  profileUrl: c.user.value?.profileUrl,
-                  size: 140.w,
-                  iconSize: 120.sp,
-                  border: Border.all(color: Colors.white, width: 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 40.w),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: FigmaColors.neutralWhite, width: 5.w),
+                          ),
+                          child: UserAvatar(
+                            profileUrl: c.user.value?.profileUrl,
+                            size: 160.w,
+                            iconSize: 120.sp,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: FigmaColors.primaryDark.withValues(alpha: 0.2),
+                            blurRadius: 4.r,
+                            offset: Offset(0, 2.h),
+                          ),
+                        ],
+                      ),
+                      child: CircleAvatar(
+                        backgroundColor: FigmaColors.neutralWhite,
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            'assets/icons/svg/logout_btn.svg',
+                            width: 24.w,
+                            height: 24.h,
+                          ),
+                          onPressed: () => _logout(context),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -69,14 +107,7 @@ class ProfilePage extends StatelessWidget {
             ),
             SizedBox(height: 32.h),
             const FavoriteLocationsCard(),
-            SizedBox(height: 20.h),
-            _MenuRow(label: 'profile.edit_profile'.tr, onTap: () => Get.to(() => const EditProfilePage())),
-            Divider(color: AppColors.dividerLight),
-            _MenuRow(
-              label: 'home.my_choice'.tr,
-              onTap: () => Get.to(() => const MyChoicePage(), binding: MyChoiceBinding()),
-            ),
-            Divider(color: AppColors.dividerLight),
+            SizedBox(height: 16.h),
             InkWell(
               // Whole row toggles the language — not just the small pill —
               onTap: () {
@@ -99,19 +130,26 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     Obx(
-                      () => _LanguageToggle(isBangla: settings.language.value == 'bn'),
+                          () => _LanguageToggle(isBangla: settings.language.value == 'bn'),
                     ),
                   ],
                 ),
               ),
             ),
-            Divider(color: AppColors.dividerLight),
+            Divider(color: FigmaColors.neutralPlaceholder),
+            _MenuRow(label: 'profile.edit_profile'.tr, onTap: () => Get.to(() => const EditProfilePage())),
+            Divider(color: FigmaColors.neutralPlaceholder),
             _MenuRow(
-              label: 'profile.logout'.tr,
-              color: FigmaColors.statusError,
-              icon: 'assets/icons/svg/logout_btn.svg',
-              onTap: () => _logout(context),
+              label: 'home.my_choice'.tr,
+              onTap: () => Get.to(() => const MyChoicePage(), binding: MyChoiceBinding()),
             ),
+            Divider(color: FigmaColors.neutralPlaceholder),
+            // _MenuRow(
+            //   label: 'profile.logout'.tr,
+            //   color: FigmaColors.statusError,
+            //   icon: 'assets/icons/svg/logout_btn.svg',
+            //   onTap: () => _logout(context),
+            // ),
           ],
           ),
         ),

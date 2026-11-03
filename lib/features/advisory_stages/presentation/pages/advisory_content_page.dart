@@ -11,6 +11,7 @@ import 'package:printing/printing.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/advisory_pdf_builder.dart';
+import '../../../../core/utils/empty_state_widget.dart';
 import '../../../../core/utils/pinch_pdf_view.dart';
 import '../../../../models/advisory_content_model.dart';
 import '../../../home/presentation/pages/home_page.dart';
@@ -132,53 +133,10 @@ class AdvisoryContentPage extends StatelessWidget {
                             final error = controller.errorMessage.value;
                             if (error != null) {
                               return Padding(
-                                padding: EdgeInsets.symmetric(vertical: 24.h),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.wifi_off_rounded,
-                                      size: 40.sp,
-                                      color: AppColors.textSecondaryLight,
-                                    ),
-                                    SizedBox(height: 20.h),
-                                    Text(
-                                      error,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 18.sp,
-                                        color: AppColors.textSecondaryLight,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    TextButton(
-                                      onPressed: controller.loadContent,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: FigmaColors.primaryDefault,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            20.r,
-                                          ),
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                            left: 16.w,
-                                            right: 16.w,
-                                            top: 8.h,
-                                            bottom: 8.h,
-                                          ),
-                                          child: Text(
-                                            'advisory_content.retry'.tr,
-                                            style: TextStyle(
-                                              color: FigmaColors.primaryDefault,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                padding: EdgeInsets.only(top: 100.h),
+                                child: EmptyStateWidget(
+                                  message: 'advisory_stages.empty_for'
+                                      .trParams({'item': controller.item.label(isBn)}),
                                 ),
                               );
                             }

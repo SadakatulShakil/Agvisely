@@ -62,16 +62,23 @@ class MyChoiceController extends GetxController {
     categoriesLoadFailed.value = false;
 
     final cached = AdvisoryCategoriesService().cached;
-    if (cached != null) categories.assignAll(cached);
+    if (cached != null) categories.assignAll(_pickable(cached));
 
     final fresh = await AdvisoryCategoriesService().fetch();
     if (fresh != null) {
-      categories.assignAll(fresh);
+      categories.assignAll(_pickable(fresh));
     } else if (cached == null) {
       categoriesLoadFailed.value = true;
     }
     categoriesLoading.value = false;
   }
+
+  /// "Crop Disease Early Warning" has its own dedicated advisory flow (see
+  /// `_openAdvisoryCategory` on the Home dashboard) — it was never meant to
+  /// be picked as a My Choice category/item pair, so it's left out of this
+  /// dropdown.
+  List<AdvisoryCategoryModel> _pickable(List<AdvisoryCategoryModel> all) =>
+      all.where((c) => !c.isDisease).toList();
 
   Future<void> onCategoryChanged(AdvisoryCategoryModel? category) async {
     selectedCategory.value = category;

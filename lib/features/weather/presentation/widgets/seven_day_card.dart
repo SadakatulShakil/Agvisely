@@ -57,7 +57,7 @@ class SevenDayCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _Stat(label: 'weather.feels_like'.tr, value: day.feelsLikeText),
+                      _Stat(label: 'weather.feels_like'.tr, value: day.tempAvgText),
                       _Stat(label: 'weather.sunshine'.tr, value: day.sunshineText),
                       _Stat(label: 'weather.rainfall'.tr, value: day.rainfallText),
                       //_Stat(label: 'weather.humidity'.tr, value: day.humidityText),
@@ -289,7 +289,7 @@ class _Stat extends StatelessWidget {
                 color: FigmaColors.neutralBody,
               ),
             ),
-            if (trailing != null) ...[SizedBox(width: 2.w), trailing!],
+            if (trailing != null) ...[SizedBox(width: 5.w), trailing!],
           ],
         ),
       ],

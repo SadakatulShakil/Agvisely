@@ -122,6 +122,7 @@ class DayForecast {
   final String icon;
   final String? typenewIcon;
   final String condition;
+  final double temp;
   final double tempHigh;
   final double tempLow;
   final double feels;
@@ -148,6 +149,7 @@ class DayForecast {
     required this.tempLow,
     required this.feels,
     required this.rf,
+    required this.temp,
     required this.rh,
     required this.cldcvr,
     required this.windspd,
@@ -168,10 +170,6 @@ class DayForecast {
     final bn = isBn ?? (Get.locale?.languageCode == 'bn');
     final typenew = j['typenew'] as Map<String, dynamic>?;
     final temp = j['temp'] as Map<String, dynamic>?;
-    // The live API always sends bn condition text in `type` (and the en one
-    // in `typen`) regardless of locale — pick whichever matches, falling
-    // back to the other if one's missing. A no-op for forecast_demo_*.json,
-    // where `type` already matches the file's own language.
     final bnCondition = j['type']?.toString();
     final enCondition = j['typen']?.toString();
     final condition = bn
@@ -188,6 +186,7 @@ class DayForecast {
       tempLow: numOf(temp?['val_min']),
       feels: numOf(j['feels']),
       rf: NumericRange.fromJson(j['rf'] as Map<String, dynamic>?),
+      temp: numOf(temp?['val_avg']),
       rh: NumericRange.fromJson(j['rh'] as Map<String, dynamic>?),
       cldcvr: NumericRange.fromJson(j['cldcvr'] as Map<String, dynamic>?),
       windspd: NumericRange.fromJson(j['windspd'] as Map<String, dynamic>?),
@@ -225,6 +224,7 @@ class DayForecast {
 
   String get tempHighText => '${_num(tempHigh)}${units.temp}';
   String get tempLowText => '${_num(tempLow)}${units.temp}';
+  String get tempAvgText => '${_num(temp)}${units.temp}';
   String get feelsLikeText => '${_num(feels)}${units.temp}';
   String get rainfallText => '${_num(rf.valMin)}-${_num(rf.valMax)} ${units.rf}';
   String get cloudCoverText => '${_num(cldcvr.valAvg)} ${units.cldcvr}'.trim();

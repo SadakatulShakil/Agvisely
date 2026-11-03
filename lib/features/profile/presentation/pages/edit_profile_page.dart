@@ -57,26 +57,31 @@ class EditProfilePage extends StatelessWidget {
                               final pickedPath = c.pickedImagePath.value;
                               if (pickedPath != null) {
                                 return Container(
-                                  width: 160.w,
-                                  height: 160.w,
+                                  width: 170.w,
+                                  height: 170.w,
                                   clipBehavior: Clip.antiAlias,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.white, width: 0),
+                                    border: Border.all(color: FigmaColors.neutralWhite, width: 5.w),
                                   ),
                                   child: Image.file(
                                     File(pickedPath),
-                                    width: 160.w,
-                                    height: 160.w,
+                                    width: 170.w,
+                                    height: 170.w,
                                     fit: BoxFit.cover,
                                   ),
                                 );
                               }
-                              return UserAvatar(
-                                profileUrl: Get.find<ProfileController>().user.value?.profileUrl,
-                                size: 160.w,
-                                iconSize: 115.sp,
-                                border: Border.all(color: Colors.white, width: 0),
+                              return Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: FigmaColors.neutralWhite, width: 4.w),
+                                ),
+                                child: UserAvatar(
+                                  profileUrl: Get.find<ProfileController>().user.value?.profileUrl,
+                                  size: 170.w,
+                                  iconSize: 115.sp,
+                                ),
                               );
                             }),
                             Obx(
@@ -92,7 +97,7 @@ class EditProfilePage extends StatelessWidget {
                                             width: 24,
                                             height: 24,
                                             child: CircularProgressIndicator(
-                                                strokeWidth: 2, color: Colors.white),
+                                                strokeWidth: 2, color: FigmaColors.neutralWhite),
                                           ),
                                         ),
                                       ),
@@ -109,7 +114,7 @@ class EditProfilePage extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   border: Border.all(color: FigmaColors.neutralWhite, width: 2),
                                 ),
-                                child: Icon(Icons.camera_alt, size: 20.sp, color: Colors.white),
+                                child: Icon(Icons.camera_alt, size: 20.sp, color: FigmaColors.neutralWhite),
                               ),
                             ),
                           ],

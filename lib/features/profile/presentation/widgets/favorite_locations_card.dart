@@ -140,19 +140,30 @@ class _FavoriteLocationsCardState extends State<FavoriteLocationsCard> {
           SizedBox(height: 14.h),
           GestureDetector(
             onTap: _busy ? null : _addLocation,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.add, size: 18.sp, color: AppColors.primary),
-                SizedBox(width: 6.w),
-                Text(
-                  'profile.add_new_location'.tr,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
-                  ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.add, size: 18.sp, color: FigmaColors.primaryActive),
+                    SizedBox(width: 6.w),
+                    Text(
+                      'profile.add_new_location'.tr,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: FigmaColors.primaryActive,
+                      ),
+                    ),
+                  ],
                 ),
+                SizedBox(height: 2.h),
+                Container(
+                  height: 1.h,
+                  width: isBangla? 180.w: 150.w,
+                  color: FigmaColors.primaryActive,
+                )
               ],
             ),
           ),
