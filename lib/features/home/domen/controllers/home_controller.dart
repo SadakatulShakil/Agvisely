@@ -44,8 +44,6 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   final myChoices = <UserChoiceModel>[].obs;
 
   final todayChart = <ForecastChartPoint>[].obs;
-  final todayChartRainUnit = 'mm'.obs;
-  final todayChartTempUnit = 'C'.obs;
   final _sevenDayRepository = SevenDayRepository();
 
   // ── Live weather (condition/icon only — see LiveWeatherModel) ─────────────
@@ -69,7 +67,9 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   static const double _gpsRefreshDistanceMeters = 5000;
 
   void changeTab(int i) {
-    if (navIndex.value == _menuTabIndex && i != _menuTabIndex && Get.isRegistered<MenuTreeController>()) {
+    if (navIndex.value == _menuTabIndex &&
+        i != _menuTabIndex &&
+        Get.isRegistered<MenuTreeController>()) {
       Get.find<MenuTreeController>().resetToRoot();
     }
     navIndex.value = i;
@@ -88,8 +88,6 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     final cachedChart = UserPrefService().cachedTodayChart;
     if (cachedChart != null) {
       todayChart.assignAll(cachedChart.points);
-      todayChartRainUnit.value = cachedChart.rainUnit.replaceAll(":", "");
-      todayChartTempUnit.value = cachedChart.tempUnit;
     }
     refreshLocationName();
     loadWeather();
@@ -131,11 +129,17 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   /// (not the flat cached pref string, which is baked in whatever language
   /// was active when it was written) so it reflects the language that's
   /// active right now — including right after a language toggle.
+  ///
+  /// Uses [SavedLocation.originalDisplayName], not [SavedLocation.displayName]
+  /// — Home always shows the real resolved place, even if the user gave this
+  /// entry a nickname in the saved-locations list.
   Future<void> refreshLocationName() async {
     final list = await UserPrefService().getSavedLocations();
     final current = list.firstWhereOrNull((l) => l.isCurrent);
     if (current != null) {
-      locationName.value = current.displayName(Get.locale?.languageCode == 'bn');
+      locationName.value = current.originalDisplayName(
+        Get.locale?.languageCode == 'bn',
+      );
       return;
     }
     final saved = UserPrefService().locationName;
@@ -169,24 +173,26 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   /// [SevenDayRepository]/demo JSON the 7-day page uses, just today's slice.
   /// Re-called on every location change (see [onLocationChanged] etc.) and
   /// by SettingsController on a language switch — [SevenDayRepository]'s own
-  /// cache is keyed by lat/lon so this always reflects the active location.
-  /// Persists so the next cold start has it too.
+  /// cache is keyed by (language, lat, lon) so this always reflects the
+  /// active location/language. Persists so the next cold start has it too.
+  /// [TodayForecastChart]'s legend no longer depends on this finishing,
+  /// though — it computes its own unit labels live from the current locale
+  /// instead of trusting whatever language the chart data was fetched in.
   Future<void> loadTodayChart() async {
     final days = await _sevenDayRepository.load();
-    final today = days.firstWhereOrNull((d) => d.isToday) ??
+    final today =
+        days.firstWhereOrNull((d) => d.isToday) ??
         (days.isNotEmpty ? days.first : null);
     final chart = today?.chart ?? const <ForecastChartPoint>[];
-    final rainUnit = today?.units.rf ?? 'mm';
-    final tempUnit = today?.units.temp ?? 'C';
     todayChart.assignAll(chart);
-    todayChartRainUnit.value = rainUnit.replaceAll(':', '');
-    todayChartTempUnit.value = tempUnit;
     if (chart.isNotEmpty) {
-      unawaited(UserPrefService().setCachedTodayChart(
-        points: chart,
-        rainUnit: rainUnit,
-        tempUnit: tempUnit,
-      ));
+      unawaited(
+        UserPrefService().setCachedTodayChart(
+          points: chart,
+          rainUnit: today?.units.rf ?? 'mm',
+          tempUnit: today?.units.temp ?? 'C',
+        ),
+      );
     }
   }
 
@@ -332,7 +338,10 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     if (UserPrefService().isFollowingGPS) {
       await _refreshIfNeeded();
     } else {
-      await LocationService().getLocation(onSettingsOpened: () {}, isSilent: true);
+      await LocationService().getLocation(
+        onSettingsOpened: () {},
+        isSilent: true,
+      );
     }
   }
 
@@ -350,7 +359,9 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     if (_lastLat != null && _lastLon != null) {
       try {
         final position = await Geolocator.getCurrentPosition(
-          locationSettings: const LocationSettings(accuracy: LocationAccuracy.low),
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.low,
+          ),
         ).timeout(const Duration(seconds: 5));
 
         final distanceMoved = Geolocator.distanceBetween(

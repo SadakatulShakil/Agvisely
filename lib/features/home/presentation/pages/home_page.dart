@@ -49,7 +49,7 @@ class HomePage extends StatelessWidget {
         statusBarBrightness: Brightness.light,
       ),
       child: Obx(
-            () => Scaffold(
+        () => Scaffold(
           drawer: const AppDrawer(),
           body: SafeArea(
             child: tabs[c.navIndex.value.clamp(0, tabs.length - 1)],
@@ -64,14 +64,12 @@ class HomePage extends StatelessWidget {
               // Home
               BottomNavigationBarItem(
                 icon: _buildNavItem(
-                  iconPath:
-                  'assets/icons/nav_bar/home_unselected.svg',
+                  iconPath: 'assets/icons/nav_bar/home_unselected.svg',
                   label: 'nav.home'.tr,
                   isSelected: false,
                 ),
                 activeIcon: _buildNavItem(
-                  iconPath:
-                  'assets/icons/nav_bar/home_selected.svg',
+                  iconPath: 'assets/icons/nav_bar/home_selected.svg',
                   label: 'nav.home'.tr,
                   isSelected: true,
                 ),
@@ -81,14 +79,12 @@ class HomePage extends StatelessWidget {
               // Pest Advisory
               BottomNavigationBarItem(
                 icon: _buildNavItem(
-                  iconPath:
-                  'assets/icons/nav_bar/pest_advisory_unselected.svg',
+                  iconPath: 'assets/icons/nav_bar/pest_advisory_unselected.svg',
                   label: 'nav.pest'.tr,
                   isSelected: false,
                 ),
                 activeIcon: _buildNavItem(
-                  iconPath:
-                  'assets/icons/nav_bar/pest_advisory_selected.svg',
+                  iconPath: 'assets/icons/nav_bar/pest_advisory_selected.svg',
                   label: 'nav.pest'.tr,
                   isSelected: true,
                 ),
@@ -98,14 +94,12 @@ class HomePage extends StatelessWidget {
               // Profile
               BottomNavigationBarItem(
                 icon: _buildNavItem(
-                  iconPath:
-                  'assets/icons/nav_bar/profile_unselected.svg',
+                  iconPath: 'assets/icons/nav_bar/profile_unselected.svg',
                   label: 'nav.profile'.tr,
                   isSelected: false,
                 ),
                 activeIcon: _buildNavItem(
-                  iconPath:
-                  'assets/icons/nav_bar/profile_selected.svg',
+                  iconPath: 'assets/icons/nav_bar/profile_selected.svg',
                   label: 'nav.profile'.tr,
                   isSelected: true,
                 ),
@@ -115,14 +109,12 @@ class HomePage extends StatelessWidget {
               // Menu
               BottomNavigationBarItem(
                 icon: _buildNavItem(
-                  iconPath:
-                  'assets/icons/nav_bar/menu_unselected.svg',
+                  iconPath: 'assets/icons/nav_bar/menu_unselected.svg',
                   label: 'nav.menu'.tr,
                   isSelected: false,
                 ),
                 activeIcon: _buildNavItem(
-                  iconPath:
-                  'assets/icons/nav_bar/menu_selected.svg',
+                  iconPath: 'assets/icons/nav_bar/menu_selected.svg',
                   label: 'nav.menu'.tr,
                   isSelected: true,
                 ),
@@ -143,11 +135,7 @@ class HomePage extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SvgPicture.asset(
-          iconPath,
-          width: 24.w,
-          height: 24.h,
-        ),
+        SvgPicture.asset(iconPath, width: 24.w, height: 24.h),
         SizedBox(height: 8.h),
         Text(
           label,
@@ -155,11 +143,8 @@ class HomePage extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontSize: 16.sp,
-            fontWeight:
-            isSelected ? FontWeight.w600 : FontWeight.w400,
-            color: isSelected
-                ? FigmaColors.primaryActive
-                : Colors.grey,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+            color: isSelected ? FigmaColors.primaryActive : Colors.grey,
           ),
         ),
       ],
@@ -174,12 +159,14 @@ class _HomeDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = Get.find<HomeController>();
-    final profileC = Get.isRegistered<ProfileController>()
-        ? Get.find<ProfileController>()
-        : Get.put(ProfileController(), permanent: true);
-    final notificationBadgeC = Get.isRegistered<NotificationBadgeController>()
-        ? Get.find<NotificationBadgeController>()
-        : Get.put(NotificationBadgeController(), permanent: true);
+    final profileC =
+        Get.isRegistered<ProfileController>()
+            ? Get.find<ProfileController>()
+            : Get.put(ProfileController(), permanent: true);
+    final notificationBadgeC =
+        Get.isRegistered<NotificationBadgeController>()
+            ? Get.find<NotificationBadgeController>()
+            : Get.put(NotificationBadgeController(), permanent: true);
     return RefreshIndicator(
       onRefresh: c.refreshAll,
       child: ListView(
@@ -209,7 +196,10 @@ class _HomeDashboard extends StatelessWidget {
                       Obx(
                         () => Text(
                           '${'home.greeting'.tr}, ${profileC.user.value?.name ?? ''}',
-                          style: TextStyle(fontSize: 14.sp, color: FigmaColors.neutralBody),
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: FigmaColors.neutralBody,
+                          ),
                         ),
                       ),
                       Obx(
@@ -257,12 +247,18 @@ class _HomeDashboard extends StatelessWidget {
                         right: -2,
                         top: -2,
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 5.w,
+                            vertical: 1.h,
+                          ),
                           constraints: BoxConstraints(minWidth: 16.w),
                           decoration: BoxDecoration(
                             color: Colors.red,
                             borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: AppColors.scaffoldLight, width: 1.5),
+                            border: Border.all(
+                              color: AppColors.scaffoldLight,
+                              width: 1.5,
+                            ),
                           ),
                           child: Text(
                             count > 99 ? '99+' : '$count',
@@ -314,7 +310,7 @@ class _HomeDashboard extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: categories.length,
-              gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 12.w,
                 mainAxisSpacing: 12.h,
@@ -344,7 +340,11 @@ class _HomeDashboard extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
                   child: GestureDetector(
-                    onTap: () => Get.to(() => const SevenDayPage(), binding: SevenDayBinding()),
+                    onTap:
+                        () => Get.to(
+                          () => const SevenDayPage(),
+                          binding: SevenDayBinding(),
+                        ),
                     child: Container(
                       color: Colors.transparent,
                       child: Row(
@@ -359,10 +359,15 @@ class _HomeDashboard extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 6.h,
+                            ),
                             decoration: BoxDecoration(
                               color: FigmaColors.neutralBackground,
-                              border: Border.all(color: FigmaColors.primaryDefault),
+                              border: Border.all(
+                                color: FigmaColors.primaryDefault,
+                              ),
                               borderRadius: BorderRadius.circular(20.r),
                             ),
                             child: Row(
@@ -370,7 +375,10 @@ class _HomeDashboard extends StatelessWidget {
                               children: [
                                 Text(
                                   'home.view7days'.tr,
-                                  style: TextStyle(fontSize: 14.sp, color: FigmaColors.primaryDefault),
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: FigmaColors.primaryDefault,
+                                  ),
                                 ),
                                 SizedBox(width: 4.w),
                                 SvgPicture.asset(
@@ -391,9 +399,7 @@ class _HomeDashboard extends StatelessWidget {
                   child: Obx(
                     () => TodayForecastChart(
                       points: c.todayChart.toList(),
-                      rainfallUnit: c.todayChartRainUnit.value,
                       height: 280.h,
-                      tempUnit: c.todayChartTempUnit.value,
                     ),
                   ),
                 ),
@@ -404,7 +410,11 @@ class _HomeDashboard extends StatelessWidget {
           Obx(
             () => MyChoiceCarousel(
               items: c.myChoices.toList(),
-              onSeeAll: () => Get.to(() => const MyChoicePage(), binding: MyChoiceBinding()),
+              onSeeAll:
+                  () => Get.to(
+                    () => const MyChoicePage(),
+                    binding: MyChoiceBinding(),
+                  ),
             ),
           ),
         ],
@@ -412,7 +422,6 @@ class _HomeDashboard extends StatelessWidget {
     );
   }
 }
-
 
 void _openAdvisoryCategory(AdvisoryCategoryModel category, bool isBn) {
   if (category.isDisease) {

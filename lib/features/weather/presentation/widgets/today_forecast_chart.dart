@@ -12,16 +12,10 @@ class TodayForecastChart extends StatelessWidget {
     super.key,
     required this.points,
     this.height = 260,
-    this.rainfallUnit = 'mm',
-    this.tempUnit = '°C',
   });
 
   final List<ForecastChartPoint> points;
   final double height;
-
-  /// Appended to each bar's value label, e.g. "5 mm".
-  final String rainfallUnit;
-  final String tempUnit;
 
   static const _leftReserved = 30.0;
   static const _rightReserved = 34.0;
@@ -37,6 +31,13 @@ class TodayForecastChart extends StatelessWidget {
     }
 
     final isBn = Get.locale?.languageCode == 'bn';
+    // Hardcoded, like CurrentWeatherModel's unit getters — these are
+    // universal/standard units, not server-localized prose, so computing
+    // them live off the current locale (instead of a value baked in at the
+    // point the chart data was fetched) makes the legend switch instantly
+    // on language change instead of waiting on a re-fetch.
+    final rainUnit = isBn ? 'মি:মি:' : 'mm';
+    final tempUnit = isBn ? '°সে' : '°C';
     String fmtNum(num v, {int dp = 0}) {
       final ascii = v.toStringAsFixed(dp);
       return isBn ? toBanglaDigits(ascii) : ascii;
@@ -54,7 +55,11 @@ class TodayForecastChart extends StatelessWidget {
     }
 
     final n = points.length;
-    final axisStyle = TextStyle(fontSize: 10.sp, color: FigmaColors.neutralBody, fontWeight: FontWeight.w600);
+    final axisStyle = TextStyle(
+      fontSize: 10.sp,
+      color: FigmaColors.neutralBody,
+      fontWeight: FontWeight.w600,
+    );
 
     final rains = points.map((p) => p.rain).toList();
     final maxRain = rains.reduce((a, b) => a > b ? a : b);
@@ -87,13 +92,16 @@ class TodayForecastChart extends StatelessWidget {
 
     double tempScaleToHumidity(double tempScaleValue) =>
         humMin +
-        ((tempScaleValue - tempAxisMin) / (tempAxisMax - tempAxisMin)) * humSpan;
+        ((tempScaleValue - tempAxisMin) / (tempAxisMax - tempAxisMin)) *
+            humSpan;
 
     bool isDuplicateMaxTick(double value) =>
-        value != tempAxisMax && (value - tempAxisMax).abs() < tempAxisInterval / 1000;
+        value != tempAxisMax &&
+        (value - tempAxisMax).abs() < tempAxisInterval / 1000;
 
-    int nearestRow(double value) =>
-        ((value - tempAxisMin) / tempAxisInterval).round().clamp(0, gridIntervals);
+    int nearestRow(double value) => ((value - tempAxisMin) / tempAxisInterval)
+        .round()
+        .clamp(0, gridIntervals);
 
     return SizedBox(
       height: height.h,
@@ -103,9 +111,10 @@ class TodayForecastChart extends StatelessWidget {
           Expanded(
             child: LayoutBuilder(
               builder: (context, constraints) {
-                final plotWidth =
-                    (constraints.maxWidth - _leftReserved - _rightReserved)
-                        .clamp(0.0, double.infinity);
+                final plotWidth = (constraints.maxWidth -
+                        _leftReserved -
+                        _rightReserved)
+                    .clamp(0.0, double.infinity);
                 final slot = n == 0 ? 0.0 : plotWidth / n;
                 final barWidth = (slot * 0.85).clamp(10.0, 56.0);
 
@@ -122,10 +131,11 @@ class TodayForecastChart extends StatelessWidget {
                           show: true,
                           drawVerticalLine: false,
                           horizontalInterval: tempAxisInterval,
-                          getDrawingHorizontalLine: (value) => FlLine(
-                            color: FigmaColors.neutralBackground,
-                            strokeWidth: 1,
-                          ),
+                          getDrawingHorizontalLine:
+                              (value) => FlLine(
+                                color: FigmaColors.neutralBackground,
+                                strokeWidth: 1,
+                              ),
                         ),
                         borderData: FlBorderData(show: false),
                         lineTouchData: const LineTouchData(enabled: false),
@@ -209,14 +219,20 @@ class TodayForecastChart extends StatelessWidget {
                               x: i,
                               barRods: [
                                 BarChartRodData(
-                                  toY: points[i].rain <= 0 ? barStub : points[i].rain,
+                                  toY:
+                                      points[i].rain <= 0
+                                          ? barStub
+                                          : points[i].rain,
                                   color: FigmaColors.chartRainfall,
                                   width: barWidth,
-                                  borderRadius: BorderRadius.circular(barWidth / 4),
+                                  borderRadius: BorderRadius.circular(
+                                    barWidth / 4,
+                                  ),
                                   backDrawRodData: BackgroundBarChartRodData(
                                     show: true,
                                     toY: barMaxY,
-                                    color: FigmaColors.neutralBackground.withAlpha(150),
+                                    color: FigmaColors.neutralBackground
+                                        .withAlpha(150),
                                   ),
                                 ),
                               ],
@@ -226,7 +242,6 @@ class TodayForecastChart extends StatelessWidget {
                     ),
                     LineChart(
                       LineChartData(
-
                         minX: -0.5,
                         maxX: n - 0.5,
                         minY: tempAxisMin,
@@ -236,29 +251,35 @@ class TodayForecastChart extends StatelessWidget {
                         gridData: const FlGridData(show: false),
                         borderData: FlBorderData(show: false),
                         lineTouchData: LineTouchData(
-                          enabled: false,//enable or disable tool tip
+                          enabled: false, //enable or disable tool tip
                           handleBuiltInTouches: true,
                           touchTooltipData: LineTouchTooltipData(
                             getTooltipColor: (_) => AppColors.navy,
-                            tooltipPadding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                            tooltipPadding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 4.h,
+                            ),
                             fitInsideHorizontally: true,
                             fitInsideVertically: true,
-                            getTooltipItems: (touchedSpots) => touchedSpots.map((spot) {
-                              final i = spot.spotIndex - 1;
-                              if (i < 0 || i >= n) return null;
-                              final isHumidityLine = spot.barIndex == 1;
-                              final text = isHumidityLine
-                                  ? '${fmtNum(points[i].humidity, dp: 0)}%'
-                                  : '${fmtNum(points[i].temp, dp: 1)}°';
-                              return LineTooltipItem(
-                                text,
-                                TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              );
-                            }).toList(),
+                            getTooltipItems:
+                                (touchedSpots) =>
+                                    touchedSpots.map((spot) {
+                                      final i = spot.spotIndex - 1;
+                                      if (i < 0 || i >= n) return null;
+                                      final isHumidityLine = spot.barIndex == 1;
+                                      final text =
+                                          isHumidityLine
+                                              ? '${fmtNum(points[i].humidity, dp: 0)}%'
+                                              : '${fmtNum(points[i].temp, dp: 1)}°';
+                                      return LineTooltipItem(
+                                        text,
+                                        TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      );
+                                    }).toList(),
                           ),
                         ),
                         titlesData: FlTitlesData(
@@ -280,11 +301,17 @@ class TodayForecastChart extends StatelessWidget {
                               reservedSize: _leftReserved,
                               interval: tempAxisInterval,
                               getTitlesWidget: (value, meta) {
-                                if (isDuplicateMaxTick(value)) return const SizedBox.shrink();
-                                final rowValue = tempAxisMin + nearestRow(value) * tempAxisInterval;
+                                if (isDuplicateMaxTick(value))
+                                  return const SizedBox.shrink();
+                                final rowValue =
+                                    tempAxisMin +
+                                    nearestRow(value) * tempAxisInterval;
                                 return Padding(
                                   padding: EdgeInsets.only(right: 4.w),
-                                  child: Text(fmtNum(rowValue), style: axisStyle),
+                                  child: Text(
+                                    fmtNum(rowValue),
+                                    style: axisStyle,
+                                  ),
                                 );
                               },
                             ),
@@ -295,12 +322,18 @@ class TodayForecastChart extends StatelessWidget {
                               reservedSize: _rightReserved,
                               interval: tempAxisInterval,
                               getTitlesWidget: (value, meta) {
-                                if (isDuplicateMaxTick(value)) return const SizedBox.shrink();
-                                final rowValue = tempAxisMin + nearestRow(value) * tempAxisInterval;
+                                if (isDuplicateMaxTick(value))
+                                  return const SizedBox.shrink();
+                                final rowValue =
+                                    tempAxisMin +
+                                    nearestRow(value) * tempAxisInterval;
                                 return Padding(
                                   padding: EdgeInsets.only(left: 4.w),
                                   child: Text(
-                                    fmtNum(tempScaleToHumidity(rowValue), dp: 0),
+                                    fmtNum(
+                                      tempScaleToHumidity(rowValue),
+                                      dp: 0,
+                                    ),
                                     style: axisStyle,
                                   ),
                                 );
@@ -314,10 +347,14 @@ class TodayForecastChart extends StatelessWidget {
                               interval: 1,
                               getTitlesWidget: (value, meta) {
                                 final i = value.round();
-                                if (i < 0 || i >= n) return const SizedBox.shrink();
+                                if (i < 0 || i >= n)
+                                  return const SizedBox.shrink();
                                 return Padding(
                                   padding: EdgeInsets.only(top: 4.h),
-                                  child: Text(timeLabel(points[i].time), style: axisStyle),
+                                  child: Text(
+                                    timeLabel(points[i].time),
+                                    style: axisStyle,
+                                  ),
                                 );
                               },
                             ),
@@ -327,26 +364,32 @@ class TodayForecastChart extends StatelessWidget {
                           // barIndex 0 — temperature (real values, real axis).
                           LineChartBarData(
                             spots: [
-                              for (var i = 0; i < n; i++) FlSpot(i.toDouble(), points[i].temp),
+                              for (var i = 0; i < n; i++)
+                                FlSpot(i.toDouble(), points[i].temp),
                             ],
                             isCurved: true,
                             color: FigmaColors.chartTemperature,
                             barWidth: 2,
                             dotData: FlDotData(
                               show: true,
-                              getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
-                                radius: 3.r,
-                                color: FigmaColors.chartTemperature,
-                                strokeWidth: 1.5,
-                                strokeColor: Colors.white,
-                              ),
+                              getDotPainter:
+                                  (spot, percent, bar, index) =>
+                                      FlDotCirclePainter(
+                                        radius: 3.r,
+                                        color: FigmaColors.chartTemperature,
+                                        strokeWidth: 1.5,
+                                        strokeColor: Colors.white,
+                                      ),
                             ),
                           ),
                           // barIndex 1 — humidity (mapped position, real % in tooltip/axis).
                           LineChartBarData(
                             spots: [
                               for (var i = 0; i < n; i++)
-                                FlSpot(i.toDouble(), humidityToTempScale(points[i].humidity)),
+                                FlSpot(
+                                  i.toDouble(),
+                                  humidityToTempScale(points[i].humidity),
+                                ),
                             ],
                             isCurved: true,
                             color: FigmaColors.chartHumidity,
@@ -354,12 +397,14 @@ class TodayForecastChart extends StatelessWidget {
                             dashArray: const [6, 4],
                             dotData: FlDotData(
                               show: true,
-                              getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
-                                radius: 3.r,
-                                color: FigmaColors.chartHumidity,
-                                strokeWidth: 1.5,
-                                strokeColor: Colors.white,
-                              ),
+                              getDotPainter:
+                                  (spot, percent, bar, index) =>
+                                      FlDotCirclePainter(
+                                        radius: 3.r,
+                                        color: FigmaColors.chartHumidity,
+                                        strokeWidth: 1.5,
+                                        strokeColor: Colors.white,
+                                      ),
                             ),
                           ),
                         ],
@@ -369,9 +414,13 @@ class TodayForecastChart extends StatelessWidget {
                       Positioned(
                         left: _leftReserved + slot * i,
                         width: slot,
-                        bottom: _bottomReserved.h +
-                            ((points[i].rain <= 0 ? barStub : points[i].rain) / barMaxY) *
-                                (constraints.maxHeight - _bottomReserved.h - _topReserved.h) +
+                        bottom:
+                            _bottomReserved.h +
+                            ((points[i].rain <= 0 ? barStub : points[i].rain) /
+                                    barMaxY) *
+                                (constraints.maxHeight -
+                                    _bottomReserved.h -
+                                    _topReserved.h) +
                             6.h,
                         child: Center(
                           child: Stack(
@@ -384,10 +433,11 @@ class TodayForecastChart extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.w700,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 2
-                                    ..color = Colors.white.withOpacity(0.8),
+                                  foreground:
+                                      Paint()
+                                        ..style = PaintingStyle.stroke
+                                        ..strokeWidth = 2
+                                        ..color = Colors.white.withOpacity(0.8),
                                 ),
                               ),
                               Text(
@@ -409,7 +459,7 @@ class TodayForecastChart extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8.h),
-          _Legend(isBn: isBn, rfUnit: rainfallUnit, tempUnit: tempUnit),
+          _Legend(isBn: isBn, rfUnit: rainUnit, tempUnit: tempUnit),
         ],
       ),
     );
@@ -429,14 +479,22 @@ class _Legend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = TextStyle(fontSize: 12.sp, color: FigmaColors.neutralSecondary, fontWeight: FontWeight.w500);
+    final style = TextStyle(
+      fontSize: 12.sp,
+      color: FigmaColors.neutralSecondary,
+      fontWeight: FontWeight.w500,
+    );
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _swatch(color: FigmaColors.chartRainfall, dashed: false, isBar: true),
+            _swatch(
+              color: FigmaColors.chartRainfall,
+              dashed: false,
+              isBar: true,
+            ),
             SizedBox(width: 4.w),
             Text('${'home.rainfall'.tr} - $rfUnit', style: style),
           ],
@@ -444,7 +502,11 @@ class _Legend extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _swatch(color: FigmaColors.chartTemperature, dashed: false, isBar: false),
+            _swatch(
+              color: FigmaColors.chartTemperature,
+              dashed: false,
+              isBar: false,
+            ),
             SizedBox(width: 4.w),
             Text('${'weather.temperature'.tr} - $tempUnit', style: style),
           ],
@@ -452,7 +514,11 @@ class _Legend extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _swatch(color: FigmaColors.chartHumidity, dashed: true, isBar: false),
+            _swatch(
+              color: FigmaColors.chartHumidity,
+              dashed: true,
+              isBar: false,
+            ),
             SizedBox(width: 4.w),
             Text('${'home.humidity'.tr} - %', style: style),
           ],
@@ -461,7 +527,11 @@ class _Legend extends StatelessWidget {
     );
   }
 
-  Widget _swatch({required Color color, required bool dashed, required bool isBar}) {
+  Widget _swatch({
+    required Color color,
+    required bool dashed,
+    required bool isBar,
+  }) {
     if (isBar) {
       return Container(
         width: 10.w,
@@ -487,11 +557,16 @@ class _LineSwatchPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = 2;
+    final paint =
+        Paint()
+          ..color = color
+          ..strokeWidth = 2;
     if (!dashed) {
-      canvas.drawLine(Offset(0, size.height / 2), Offset(size.width, size.height / 2), paint);
+      canvas.drawLine(
+        Offset(0, size.height / 2),
+        Offset(size.width, size.height / 2),
+        paint,
+      );
       return;
     }
     const dashWidth = 3.0;

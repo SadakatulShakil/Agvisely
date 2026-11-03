@@ -61,8 +61,38 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
     if (mounted) Navigator.of(context).pop();
   }
 
-  Future<void> _removeLocation(SavedLocation loc) async {
+  Future<void> _removeLocation(SavedLocation loc, bool isBangla) async {
     if (loc.isCurrent) return; // never remove the active location
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        title: Text(
+          isBangla ? 'অবস্থান মুছে ফেলুন' : 'Delete location',
+          style: AppFonts.style(fontWeight: FontWeight.bold, fontSize: 16.sp),
+        ),
+        content: Text(
+          isBangla
+              ? '"${loc.displayName(isBangla)}" মুছে ফেলতে চান?'
+              : 'Delete "${loc.displayName(isBangla)}"?',
+          style: AppFonts.style(fontSize: 14.sp),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(isBangla ? 'বাতিল' : 'Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red.shade600),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(isBangla ? 'ডিলিট করুন' : 'Delete'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
     setState(() => _busy = true);
     await UserPrefService().removeLocation(loc.pcode);
     Get.find<HomeController>().refreshLocationName();
@@ -71,41 +101,25 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
   }
 
   Future<void> _editLocation(SavedLocation loc, bool isBangla) async {
-    final controller = TextEditingController(
-      text: isBangla ? loc.nameBn : loc.name,
-    );
-    final newName = await Get.dialog<String>(
-      AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        title: Text(
-          isBangla ? 'নাম পরিবর্তন করুন' : 'Rename location',
-          style: AppFonts.style(fontWeight: FontWeight.bold, fontSize: 16.sp),
-        ),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          decoration: InputDecoration(
-            hintText: isBangla ? 'নতুন নাম লিখুন' : 'Enter new name',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: Text(isBangla ? 'বাতিল' : 'Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Get.back(result: controller.text),
-            child: Text(isBangla ? 'সংরক্ষণ' : 'Save'),
-          ),
-        ],
+    // showDialog (not Get.dialog) — same reasoning as _selectLocation's
+    // Navigator.pop: this sheet is a plain Flutter route (showModalBottomSheet),
+    // so popping its rename dialog through GetX's separate overlay/navigator
+    // instead of this route's own `context` raced the sheet's own Navigator
+    // and threw a framework assertion ('_dependents.isEmpty') on save.
+    //
+    // The dialog's TextEditingController lives in _RenameDialog's own State
+    // (not a local variable here, manually disposed right after awaiting
+    // showDialog) — a dialog's exit transition keeps rebuilding its content
+    // for ~150ms after being popped, and disposing the controller the
+    // instant the awaited Future resolves raced that animation, handing a
+    // rebuilding TextField an already-disposed controller.
+    final newName = await showDialog<String>(
+      context: context,
+      builder: (_) => _RenameDialog(
+        initialText: isBangla ? loc.nameBn : loc.name,
+        isBangla: isBangla,
       ),
     );
-    controller.dispose();
     if (newName == null || newName.trim().isEmpty) return;
 
     setState(() => _busy = true);
@@ -307,7 +321,7 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
                       ),
                       onSelected: (value) {
                         if (value == 'edit') _editLocation(loc, isBangla);
-                        if (value == 'delete') _removeLocation(loc);
+                        if (value == 'delete') _removeLocation(loc, isBangla);
                       },
                       itemBuilder:
                           (context) => [
@@ -328,6 +342,61 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// The "Rename location" dialog's content — its own widget so the
+/// [TextEditingController] is created/disposed by the framework alongside
+/// this State's own lifecycle, instead of a caller manually disposing it
+/// right after `showDialog` returns (which races the dialog's exit
+/// transition — see [_SavedLocationsSheetState._editLocation]).
+class _RenameDialog extends StatefulWidget {
+  const _RenameDialog({required this.initialText, required this.isBangla});
+
+  final String initialText;
+  final bool isBangla;
+
+  @override
+  State<_RenameDialog> createState() => _RenameDialogState();
+}
+
+class _RenameDialogState extends State<_RenameDialog> {
+  late final _controller = TextEditingController(text: widget.initialText);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isBangla = widget.isBangla;
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+      title: Text(
+        isBangla ? 'নাম পরিবর্তন করুন' : 'Rename location',
+        style: AppFonts.style(fontWeight: FontWeight.bold, fontSize: 16.sp),
+      ),
+      content: TextField(
+        controller: _controller,
+        autofocus: true,
+        decoration: InputDecoration(
+          hintText: isBangla ? 'নতুন নাম লিখুন' : 'Enter new name',
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(isBangla ? 'বাতিল' : 'Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: () => Navigator.of(context).pop(_controller.text),
+          child: Text(isBangla ? 'সংরক্ষণ' : 'Save'),
+        ),
+      ],
     );
   }
 }

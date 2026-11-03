@@ -1,6 +1,17 @@
 class SavedLocation {
   final String name;
   final String nameBn;
+
+  /// [name]/[nameBn] as originally resolved (geocoded/picked), before any
+  /// user rename — [renameCustomLocation] only ever touches [name]/[nameBn],
+  /// never these. The Home dashboard header shows this (via
+  /// [originalDisplayName]) so renaming an entry in the saved-locations list
+  /// doesn't change what Home shows for the active location; the
+  /// saved-locations list itself shows [displayName] (the current, possibly
+  /// renamed, label).
+  final String originalName;
+  final String originalNameBn;
+
   final double lat;
   final double lng;
   final String pcode;
@@ -26,6 +37,8 @@ class SavedLocation {
   SavedLocation({
     required this.name,
     required this.nameBn,
+    String? originalName,
+    String? originalNameBn,
     required this.lat,
     required this.lng,
     required this.pcode,
@@ -38,11 +51,14 @@ class SavedLocation {
     this.isGps = false,
     this.isCurrent = false,
     this.remoteId,
-  });
+  }) : originalName = originalName ?? name,
+       originalNameBn = originalNameBn ?? nameBn;
 
   SavedLocation copyWith({
     String? name,
     String? nameBn,
+    String? originalName,
+    String? originalNameBn,
     double? lat,
     double? lng,
     String? pcode,
@@ -59,6 +75,8 @@ class SavedLocation {
     return SavedLocation(
       name: name ?? this.name,
       nameBn: nameBn ?? this.nameBn,
+      originalName: originalName ?? this.originalName,
+      originalNameBn: originalNameBn ?? this.originalNameBn,
       lat: lat ?? this.lat,
       lng: lng ?? this.lng,
       pcode: pcode ?? this.pcode,
@@ -77,6 +95,8 @@ class SavedLocation {
   Map<String, dynamic> toJson() => {
     'name': name,
     'nameBn': nameBn,
+    'originalName': originalName,
+    'originalNameBn': originalNameBn,
     'lat': lat,
     'lng': lng,
     'pcode': pcode,
@@ -94,6 +114,11 @@ class SavedLocation {
   factory SavedLocation.fromJson(Map<String, dynamic> json) => SavedLocation(
     name: json['name'] ?? '',
     nameBn: json['nameBn'] ?? '',
+    // Old stored entries predate these fields — the current name was also
+    // the original name back then, so falling back to it is exact, not a
+    // guess.
+    originalName: json['originalName']?.toString() ?? json['name']?.toString(),
+    originalNameBn: json['originalNameBn']?.toString() ?? json['nameBn']?.toString(),
     lat: (json['lat'] as num?)?.toDouble() ?? 0.0,
     lng: (json['lng'] as num?)?.toDouble() ?? 0.0,
     pcode: json['pcode'] ?? '',
@@ -111,17 +136,26 @@ class SavedLocation {
     remoteId: json['remoteId']?.toString(),
   );
 
-  /// Display name, matching the language.
+  /// Display name, matching the language — reflects [name]/[nameBn], so a
+  /// user rename shows up here. Used by the saved-locations list/sheet.
   ///
   /// GPS entries: [name]/[nameBn] already come straight from BMD's API as a
   /// pre-combined "place, upazila, district" string — appending district
   /// again here would duplicate it (e.g. "...তুরাগ, ঢাকা, ঢাকা").
   /// Custom (union-picked) entries: [name]/[nameBn] are just "Union,
   /// Upazila" — district is appended to complete the picture.
-  String displayName(bool isBangla) {
-    final n = isBangla ? nameBn : name;
-    if (isGps) return n;
+  String displayName(bool isBangla) => _display(isBangla, name, nameBn);
+
+  /// Same as [displayName], but off [originalName]/[originalNameBn] — never
+  /// affected by a rename. Used by the Home dashboard header, which should
+  /// keep showing the real resolved place regardless of any nickname given
+  /// to it in the saved-locations list.
+  String originalDisplayName(bool isBangla) => _display(isBangla, originalName, originalNameBn);
+
+  String _display(bool isBangla, String n, String nBn) {
+    final label = isBangla ? nBn : n;
+    if (isGps) return label;
     final d = isBangla ? districtBn : district;
-    return d.isEmpty ? n : '$n, $d';
+    return d.isEmpty ? label : '$label, $d';
   }
 }

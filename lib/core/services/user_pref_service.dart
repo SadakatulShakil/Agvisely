@@ -651,7 +651,11 @@ class UserPrefService {
     if (current == null) return;
     final isBangla = Get.locale?.languageCode == 'bn';
     await saveLatLonData(current.lat.toString(), current.lng.toString());
-    await setLocationName(current.displayName(isBangla));
+    // originalDisplayName (not displayName) — this flat pref is Home's
+    // last-resort fallback name, which should stay the real resolved place
+    // regardless of any nickname given to this entry in the saved-locations
+    // list.
+    await setLocationName(current.originalDisplayName(isBangla));
     await setFollowGPS(current.isGps);
     await _setStringIfChanged(_keyLocationDistrict, current.district);
     await _setStringIfChanged(_keyLocationDistrictBn, current.districtBn);
@@ -679,7 +683,7 @@ class UserPrefService {
           'longitude': loc.lng,
           'district': loc.district,
           'upazila': loc.upazila,
-          'address': loc.displayName(false),
+          'address': loc.originalDisplayName(false),
         },
         headers: {'Authorization': 'Bearer $token'},
       );

@@ -57,9 +57,18 @@ class SevenDayCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _Stat(label: 'weather.feels_like'.tr, value: day.tempAvgText),
-                      _Stat(label: 'weather.sunshine'.tr, value: day.sunshineText),
-                      _Stat(label: 'weather.rainfall'.tr, value: day.rainfallText),
+                      _Stat(
+                        label: 'weather.feels_like'.tr,
+                        value: day.tempAvgText,
+                      ),
+                      _Stat(
+                        label: 'weather.sunshine'.tr,
+                        value: day.sunshineText,
+                      ),
+                      _Stat(
+                        label: 'weather.rainfall'.tr,
+                        value: day.rainfallText,
+                      ),
                       //_Stat(label: 'weather.humidity'.tr, value: day.humidityText),
                     ],
                   ),
@@ -68,7 +77,10 @@ class SevenDayCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       //_Stat(label: 'weather.soil_moisture'.tr, value: day.soilMoistureText),
-                      _Stat(label: 'weather.cloud_coverage'.tr, value: day.cloudCoverText),
+                      _Stat(
+                        label: 'weather.cloud_coverage'.tr,
+                        value: day.cloudCoverText,
+                      ),
                       _Stat(
                         label: 'home.wind'.tr,
                         value: day.windText,
@@ -78,10 +90,13 @@ class SevenDayCard extends StatelessWidget {
                             'assets/icons/svg/navigation.svg',
                             width: 12.w,
                             height: 12.h,
-                          )
+                          ),
                         ),
                       ),
-                      _Stat(label: 'weather.humidity'.tr, value: day.humidityText),
+                      _Stat(
+                        label: 'weather.humidity'.tr,
+                        value: day.humidityText,
+                      ),
                       //_Stat(label: 'weather.thi'.tr, value: day.thiText),
                     ],
                   ),
@@ -90,7 +105,10 @@ class SevenDayCard extends StatelessWidget {
                     onTap: onToggleGraph,
                     child: Container(
                       width: double.infinity,
-                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 12.h,
+                      ),
                       decoration: BoxDecoration(
                         color: FigmaColors.neutralBackground,
                         borderRadius: BorderRadius.circular(10.r),
@@ -99,7 +117,9 @@ class SevenDayCard extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              expanded ? 'weather.hide_graph'.tr : 'weather.view_graph'.tr,
+                              expanded
+                                  ? 'weather.hide_graph'.tr
+                                  : 'weather.view_graph'.tr,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: FigmaColors.neutralBody,
@@ -121,16 +141,13 @@ class SevenDayCard extends StatelessWidget {
                     duration: const Duration(milliseconds: 200),
                     curve: Curves.easeInOut,
                     alignment: Alignment.topCenter,
-                    child: expanded
-                        ? Padding(
-                            padding: EdgeInsets.only(top: 10.h, left: 8.w),
-                            child: TodayForecastChart(
-                              points: day.chart,
-                              rainfallUnit: day.units.rf,
-                              tempUnit: day.units.temp,
-                            ),
-                          )
-                        : const SizedBox(width: double.infinity),
+                    child:
+                        expanded
+                            ? Padding(
+                              padding: EdgeInsets.only(top: 10.h, left: 8.w),
+                              child: TodayForecastChart(points: day.chart),
+                            )
+                            : const SizedBox(width: double.infinity),
                   ),
                 ],
               ),
@@ -171,7 +188,11 @@ class _Header extends StatelessWidget {
                 SizedBox(height: 2.h),
                 Text(
                   day.date,
-                  style: TextStyle(fontSize: 12.sp, color: FigmaColors.neutralBody, fontWeight: FontWeight.w400),
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    color: FigmaColors.neutralBody,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ],
             ),
@@ -181,7 +202,10 @@ class _Header extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${'home.high'.tr} ${day.tempHighText}', style: _labelStyle),
+                Text(
+                  '${'home.high'.tr} ${day.tempHighText}',
+                  style: _labelStyle,
+                ),
                 SizedBox(height: 4.h),
                 Text('${'home.low'.tr} ${day.tempLowText}', style: _labelStyle),
               ],
@@ -209,8 +233,11 @@ class _Header extends StatelessWidget {
     );
   }
 
-  static TextStyle get _labelStyle =>
-      TextStyle(fontSize: 13.sp, color: FigmaColors.neutralBody, fontWeight: FontWeight.w500);
+  static TextStyle get _labelStyle => TextStyle(
+    fontSize: 13.sp,
+    color: FigmaColors.neutralBody,
+    fontWeight: FontWeight.w500,
+  );
 }
 
 class _ConditionIcon extends StatelessWidget {
@@ -247,7 +274,10 @@ class _ConditionIcon extends StatelessWidget {
             child: SizedBox(
               width: 35.w,
               height: 35.w,
-              child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: AppColors.primary,
+              ),
             ),
           ),
         );

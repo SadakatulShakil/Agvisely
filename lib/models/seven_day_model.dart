@@ -222,16 +222,26 @@ class DayForecast {
     return _bn ? toBanglaDigits(ascii) : ascii;
   }
 
-  String get tempHighText => '${_num(tempHigh)}${units.temp}';
-  String get tempLowText => '${_num(tempLow)}${units.temp}';
-  String get tempAvgText => '${_num(temp)}${units.temp}';
-  String get feelsLikeText => '${_num(feels)}${units.temp}';
-  String get rainfallText => '${_num(rf.valMin)}-${_num(rf.valMax)} ${units.rf}';
-  String get cloudCoverText => '${_num(cldcvr.valAvg)} ${units.cldcvr}'.trim();
+  // Hardcoded per-locale rather than reading [units] (frozen in whatever
+  // language was active when this day was parsed) — same fix as
+  // CurrentWeatherModel's _liveTempUnit/etc., so these switch instantly on
+  // language change instead of waiting on a re-fetch.
+  String get _liveTempUnit => _bn ? '°সে' : '°C';
+  String get _liveRfUnit => _bn ? 'মি:মি:' : 'mm';
+  String get _liveWindUnit => _bn ? 'কিমি/ঘণ্টা' : 'km/h';
+  String get _liveCldcvrUnit => _bn ? 'অক্টা' : '';
+  String get _liveSunshineUnit => _bn ? 'ঘণ্টা' : 'hrs';
+
+  String get tempHighText => '${_num(tempHigh)}$_liveTempUnit';
+  String get tempLowText => '${_num(tempLow)}$_liveTempUnit';
+  String get tempAvgText => '${_num(temp)}$_liveTempUnit';
+  String get feelsLikeText => '${_num(feels)}$_liveTempUnit';
+  String get rainfallText => '${_num(rf.valMin)}-${_num(rf.valMax)} $_liveRfUnit';
+  String get cloudCoverText => '${_num(cldcvr.valAvg)} $_liveCldcvrUnit'.trim();
   String get humidityText => '${_num(rh.valAvg)}%';
-  String get windGustText => '${_num(windgust.valAvg, dp: 1)} ${units.windgust}';
-  String get soilMoistureText => '${_num(soilMoisture, dp: 1)}${units.soilmoist}';
-  String get sunshineText => '${_num(sunshineHours)} ${units.sunshine}';
-  String get windText => '${_num(windspd.valAvg, dp: 1)} ${units.windspd}';
+  String get windGustText => '${_num(windgust.valAvg, dp: 1)} $_liveWindUnit';
+  String get soilMoistureText => '${_num(soilMoisture, dp: 1)}%';
+  String get sunshineText => '${_num(sunshineHours)} $_liveSunshineUnit';
+  String get windText => '${_num(windspd.valAvg, dp: 1)} $_liveWindUnit';
   String get thiText => _num(thi, dp: 1);
 }
