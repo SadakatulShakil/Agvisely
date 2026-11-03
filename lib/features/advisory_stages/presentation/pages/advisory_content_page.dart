@@ -11,6 +11,7 @@ import 'package:printing/printing.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/advisory_pdf_builder.dart';
+import '../../../../core/utils/pinch_pdf_view.dart';
 import '../../../../models/advisory_content_model.dart';
 import '../../../home/presentation/pages/home_page.dart';
 import '../../domen/controllers/advisory_content_controller.dart';
@@ -20,10 +21,9 @@ class AdvisoryContentPage extends StatelessWidget {
 
   static const double _heroHeight = 340;
   static const double _sheetOverlap = 24;
+  static const double _pdfSheetOverlap = 45;
 
-  /// The bytes to hand to Share/Download: the stage's own hosted PDF
-  /// as-is when it has one, else our generated composite document — never
-  /// both, since a generated doc can't splice in someone else's raw PDF.
+
   Future<Uint8List> _resolvePdfBytes(
     AdvisoryContentController controller,
     AdvisoryContentModel content,
@@ -31,7 +31,10 @@ class AdvisoryContentPage extends StatelessWidget {
   ) async {
     final pdfUrl = content.pdfUrl;
     if (pdfUrl != null) {
-      final resolvedUrl = pdfUrl.startsWith('http') ? pdfUrl : '${ApiEndpoints.baseUrlUserHost}$pdfUrl';
+      final resolvedUrl =
+          pdfUrl.startsWith('http')
+              ? pdfUrl
+              : '${ApiEndpoints.baseUrlUserHost}$pdfUrl';
       final resp = await http.get(Uri.parse(resolvedUrl));
       if (resp.statusCode == 200) return resp.bodyBytes;
     }
@@ -55,7 +58,10 @@ class AdvisoryContentPage extends StatelessWidget {
     await Printing.sharePdf(bytes: bytes, filename: _pdfFileName(controller));
   }
 
-  Future<void> _onDownload(AdvisoryContentController controller, bool isBn) async {
+  Future<void> _onDownload(
+    AdvisoryContentController controller,
+    bool isBn,
+  ) async {
     final content = controller.content.value;
     if (content == null) return;
     final bytes = await _resolvePdfBytes(controller, content, isBn);
@@ -75,147 +81,173 @@ class AdvisoryContentPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: RefreshIndicator(
-              onRefresh: controller.loadContent,
-              child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  _Hero(
-                    imageUrl:
-                        controller.stage.icon ?? controller.item.imageUrl,
-                    title: controller.item.label(isBn),
-                    subtitle: controller.stage.label(isBn),
-                    height: _heroHeight.h,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: (_heroHeight - _sheetOverlap).h,
-                    ),
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 20.h),
-                      decoration: BoxDecoration(
-                        color: AppColors.cardLight,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(24.r),
-                          topRight: Radius.circular(24.r),
+            child: Obx(() {
+              final content = controller.content.value;
+              if (content != null && content.pdfUrl != null) {
+                return _PdfStageBody(
+                  controller: controller,
+                  content: content,
+                  isBn: isBn,
+                );
+              }
+
+              return RefreshIndicator(
+                onRefresh: controller.loadContent,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      _Hero(
+                        imageUrl:
+                            controller.stage.icon ?? controller.item.imageUrl,
+                        title: controller.item.label(isBn),
+                        subtitle: controller.stage.label(isBn),
+                        height: _heroHeight.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: (_heroHeight - _sheetOverlap).h,
+                        ),
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 20.h),
+                          decoration: BoxDecoration(
+                            color: AppColors.cardLight,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(24.r),
+                              topRight: Radius.circular(24.r),
+                            ),
+                          ),
+                          child: Obx(() {
+                            if (controller.isLoading.value) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 40.h),
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }
+
+                            final error = controller.errorMessage.value;
+                            if (error != null) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 24.h),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.wifi_off_rounded,
+                                      size: 40.sp,
+                                      color: AppColors.textSecondaryLight,
+                                    ),
+                                    SizedBox(height: 20.h),
+                                    Text(
+                                      error,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 18.sp,
+                                        color: AppColors.textSecondaryLight,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10.h),
+                                    TextButton(
+                                      onPressed: controller.loadContent,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: FigmaColors.primaryDefault,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            20.r,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                            left: 16.w,
+                                            right: 16.w,
+                                            top: 8.h,
+                                            bottom: 8.h,
+                                          ),
+                                          child: Text(
+                                            'advisory_content.retry'.tr,
+                                            style: TextStyle(
+                                              color: FigmaColors.primaryDefault,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+
+                            final content = controller.content.value;
+                            if (content == null) return const SizedBox.shrink();
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    _IconBadge(
+                                      color: AppColors.primary.withValues(
+                                        alpha: 0.12,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Expanded(
+                                      child: Text(
+                                        controller.categoryLabel ?? '',
+                                        style: TextStyle(
+                                          fontSize: 20.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: FigmaColors.primaryDefault,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                for (
+                                  var i = 0;
+                                  i < content.sections.length;
+                                  i++
+                                ) ...[
+                                  SizedBox(height: 18.h),
+                                  _Section(
+                                    section: content.sections[i],
+                                    isBn: isBn,
+                                    useHtml: controller.isDisease,
+                                  ),
+                                  if (i < content.sections.length - 1) ...[
+                                    SizedBox(height: 20.h),
+                                    Divider(
+                                      color: FigmaColors.neutralBackground,
+                                      height: 1,
+                                    ),
+                                  ],
+                                ],
+                                if (content.goodPractice != null) ...[
+                                  controller.isDisease
+                                      ? SizedBox(height: 8.h)
+                                      : SizedBox(height: 36.h),
+                                  _GoodPracticeCard(
+                                    section: content.goodPractice!,
+                                    isBn: isBn,
+                                    useHtml: controller.isDisease,
+                                  ),
+                                ],
+                              ],
+                            );
+                          }),
                         ),
                       ),
-                      child: Obx(() {
-                        if (controller.isLoading.value) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(vertical: 40.h),
-                            child: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-
-                        final error = controller.errorMessage.value;
-                        if (error != null) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(vertical: 24.h),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.wifi_off_rounded,
-                                  size: 40.sp,
-                                  color: AppColors.textSecondaryLight,
-                                ),
-                                SizedBox(height: 20.h),
-                                Text(
-                                  error,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    color: AppColors.textSecondaryLight,
-                                  ),
-                                ),
-                                SizedBox(height: 10.h),
-                                TextButton(
-                                  onPressed: controller.loadContent,
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: FigmaColors.primaryDefault),
-                                        borderRadius: BorderRadius.circular(20.r),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 8.h, bottom: 8.h),
-                                        child: Text('advisory_content.retry'.tr, style: TextStyle(color: FigmaColors.primaryDefault)),
-                                      )),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-
-                        final content = controller.content.value;
-                        if (content == null) return const SizedBox.shrink();
-
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                _IconBadge(
-                                  color: AppColors.primary.withValues(
-                                    alpha: 0.12,
-                                  ),
-                                ),
-                                SizedBox(width: 10.w),
-                                Expanded(
-                                  child: Text(
-                                    controller.categoryLabel ?? '',
-                                    style: TextStyle(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: FigmaColors.primaryDefault,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            for (
-                              var i = 0;
-                              i < content.sections.length;
-                              i++
-                            ) ...[
-                              SizedBox(height: 18.h),
-                              _Section(
-                                section: content.sections[i],
-                                isBn: isBn,
-                                useHtml: controller.isDisease,
-                              ),
-                              if (i < content.sections.length - 1) ...[
-                                SizedBox(height: 20.h),
-                                Divider(
-                                  color: FigmaColors.neutralBackground,
-                                  height: 1,
-                                ),
-                              ],
-                            ],
-                            if (content.goodPractice != null) ...[
-                              controller.isDisease
-                                  ?SizedBox(height: 8.h)
-                                  :SizedBox(height: 36.h),
-                              _GoodPracticeCard(
-                                section: content.goodPractice!,
-                                isBn: isBn,
-                                useHtml: controller.isDisease,
-                              ),
-                            ],
-                          ],
-                        );
-                      }),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              ),
-            ),
+                ),
+              );
+            }),
           ),
           Obx(() {
             final enabled = controller.content.value != null;
@@ -225,7 +257,8 @@ class AdvisoryContentPage extends StatelessWidget {
               child: Row(
                 children: [
                   OutlinedButton(
-                    onPressed: enabled ? () => _onShare(controller, isBn) : null,
+                    onPressed:
+                        enabled ? () => _onShare(controller, isBn) : null,
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: FigmaColors.primaryDefault),
                       padding: EdgeInsets.symmetric(
@@ -259,7 +292,8 @@ class AdvisoryContentPage extends StatelessWidget {
                   SizedBox(width: 12.w),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: enabled ? () => _onDownload(controller, isBn) : null,
+                      onPressed:
+                          enabled ? () => _onDownload(controller, isBn) : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: FigmaColors.primaryDefault,
                         disabledBackgroundColor: FigmaColors.primaryDefault
@@ -267,7 +301,7 @@ class AdvisoryContentPage extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 16.h),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.r),
-                          side: BorderSide(color: FigmaColors.primaryLight)
+                          side: BorderSide(color: FigmaColors.primaryLight),
                         ),
                       ),
                       child: Row(
@@ -355,7 +389,11 @@ class _Hero extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: FigmaColors.primaryTint,
                 child: IconButton(
-                  icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
+                  icon: SvgPicture.asset(
+                    'assets/icons/svg/arrow_back.svg',
+                    width: 24.w,
+                    height: 24.h,
+                  ),
                   onPressed: () => Get.back(),
                 ),
               ),
@@ -369,7 +407,11 @@ class _Hero extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: FigmaColors.primaryTint,
                 child: IconButton(
-                  icon: SvgPicture.asset('assets/icons/svg/back_home_btn.svg', width: 24.w, height: 24.h),
+                  icon: SvgPicture.asset(
+                    'assets/icons/svg/back_home_btn.svg',
+                    width: 24.w,
+                    height: 24.h,
+                  ),
                   onPressed: () => Get.offAll(() => const HomePage()),
                 ),
               ),
@@ -425,8 +467,83 @@ class _IconBadge extends StatelessWidget {
   }
 }
 
+/// Full-page layout for a stage whose advisory is a hosted PDF (see
+class _PdfStageBody extends StatelessWidget {
+  const _PdfStageBody({
+    required this.controller,
+    required this.content,
+    required this.isBn,
+  });
+
+  final AdvisoryContentController controller;
+  final AdvisoryContentModel content;
+  final bool isBn;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        _Hero(
+          imageUrl: controller.stage.icon ?? controller.item.imageUrl,
+          title: controller.item.label(isBn),
+          subtitle: controller.stage.label(isBn),
+          height: AdvisoryContentPage._heroHeight.h,
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: (AdvisoryContentPage._heroHeight -
+                AdvisoryContentPage._pdfSheetOverlap).h,
+          ),
+          child: Container(
+            margin: EdgeInsets.only(top: AdvisoryContentPage._sheetOverlap.h),
+            width: double.infinity,
+            padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 20.h),
+            decoration: BoxDecoration(
+              color: AppColors.cardLight,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24.r),
+                topRight: Radius.circular(24.r),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    _IconBadge(
+                      color: AppColors.primary.withValues(alpha: 0.12),
+                    ),
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: Text(
+                        controller.categoryLabel ?? '',
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w600,
+                          color: FigmaColors.primaryDefault,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 18.h),
+                Expanded(child: _InlinePdfView(url: content.pdfUrl!)),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _Section extends StatelessWidget {
-  const _Section({required this.section, required this.isBn, required this.useHtml});
+  const _Section({
+    required this.section,
+    required this.isBn,
+    required this.useHtml,
+  });
 
   final AdvisorySectionModel section;
   final bool isBn;
@@ -449,12 +566,11 @@ class _Section extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
         ],
-        if (section.isPdf)
-          _InlinePdfView(url: section.pdfUrl!)
-        else if (useHtml)
+        if (useHtml)
           _AdvisoryHtmlBody(html: section.content(isBn))
         else
-          for (final bullet in section.bullets) _Bullet(text: bullet.label(isBn)),
+          for (final bullet in section.bullets)
+            _Bullet(text: bullet.label(isBn)),
       ],
     );
   }
@@ -500,9 +616,6 @@ class _Bullet extends StatelessWidget {
   }
 }
 
-/// Renders a `'pdf'`-showType section's [AdvisorySectionModel.pdfUrl] right
-/// on the page — same fetch-and-render approach as the Menu tab's
-/// `PdfViewerPage`, just embedded instead of pushed as its own route.
 class _InlinePdfView extends StatelessWidget {
   const _InlinePdfView({required this.url});
 
@@ -510,31 +623,23 @@ class _InlinePdfView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final resolvedUrl = url.startsWith('http') ? url : '${ApiEndpoints.baseUrlUserHost}$url';
+    final resolvedUrl =
+        url.startsWith('http') ? url : '${ApiEndpoints.baseUrlUserHost}$url';
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.r),
-      child: SizedBox(
-        height: 480.h,
-        child: PdfPreview(
-          build: (format) async {
-            final resp = await http.get(Uri.parse(resolvedUrl));
-            if (resp.statusCode != 200) {
-              throw Exception('menu.pdf_load_failed'.tr);
-            }
-            return resp.bodyBytes;
-          },
-          // The page already has its own Share/Download buttons below —
-          // don't duplicate them with PdfPreview's built-in action bar.
-          allowPrinting: false,
-          allowSharing: false,
-          canChangePageFormat: false,
-          canChangeOrientation: false,
-          canDebug: false,
-        ),
+      child: PinchPdfView(
+        fetchBytes: () async {
+          final resp = await http.get(Uri.parse(resolvedUrl));
+          if (resp.statusCode != 200) {
+            throw Exception('menu.pdf_load_failed'.tr);
+          }
+          return resp.bodyBytes;
+        },
       ),
     );
   }
 }
+
 /// used only for the Disease flow, see [_Section.useHtml].
 class _AdvisoryHtmlBody extends StatelessWidget {
   const _AdvisoryHtmlBody({required this.html});
@@ -555,7 +660,10 @@ class _AdvisoryHtmlBody extends StatelessWidget {
           lineHeight: LineHeight.number(1.4),
         ),
         'p': Style(margin: Margins.only(bottom: 8.h)),
-        'ul': Style(margin: Margins.zero, padding: HtmlPaddings.only(left: 20.w)),
+        'ul': Style(
+          margin: Margins.zero,
+          padding: HtmlPaddings.only(left: 20.w),
+        ),
         'li': Style(margin: Margins.only(bottom: 8.h)),
       },
     );
@@ -563,7 +671,11 @@ class _AdvisoryHtmlBody extends StatelessWidget {
 }
 
 class _GoodPracticeCard extends StatelessWidget {
-  const _GoodPracticeCard({required this.section, required this.isBn, required this.useHtml});
+  const _GoodPracticeCard({
+    required this.section,
+    required this.isBn,
+    required this.useHtml,
+  });
 
   final AdvisorySectionModel section;
   final bool isBn;
@@ -573,55 +685,56 @@ class _GoodPracticeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: useHtml
-          ?EdgeInsets.fromLTRB(16.w, 0.h, 16.w, 16.h)
-          :EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 16.h),
-      decoration: useHtml
-          ? null
-          : BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            FigmaColors.primaryDefault.withValues(alpha: 0.15),
-            FigmaColors.primaryDefault.withValues(alpha: 0.06),
-            FigmaColors.primaryDefault.withValues(alpha: 0.0),
-          ],
-          stops: const [0.0, 0.50, 1.0],
-        ),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16.r),
-          topRight: Radius.circular(16.r),
-        ),
-      ),
+      padding:
+          useHtml
+              ? EdgeInsets.fromLTRB(16.w, 0.h, 16.w, 16.h)
+              : EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 16.h),
+      decoration:
+          useHtml
+              ? null
+              : BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    FigmaColors.primaryDefault.withValues(alpha: 0.15),
+                    FigmaColors.primaryDefault.withValues(alpha: 0.06),
+                    FigmaColors.primaryDefault.withValues(alpha: 0.0),
+                  ],
+                  stops: const [0.0, 0.50, 1.0],
+                ),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16.r),
+                  topRight: Radius.circular(16.r),
+                ),
+              ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           useHtml
-              ?SizedBox.shrink()
-              :Row(
-            children: [
-              _IconBadge(color: AppColors.cardLight),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: Text(
-                  section.label(isBn),
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w500,
-                    color: FigmaColors.primaryDefault,
+              ? SizedBox.shrink()
+              : Row(
+                children: [
+                  _IconBadge(color: AppColors.cardLight),
+                  SizedBox(width: 10.w),
+                  Expanded(
+                    child: Text(
+                      section.label(isBn),
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w500,
+                        color: FigmaColors.primaryDefault,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
           SizedBox(height: 12.h),
-          if (section.isPdf)
-            _InlinePdfView(url: section.pdfUrl!)
-          else if (useHtml)
+          if (useHtml)
             _AdvisoryHtmlBody(html: section.content(isBn))
           else
-            for (final bullet in section.bullets) _Bullet(text: bullet.label(isBn)),
+            for (final bullet in section.bullets)
+              _Bullet(text: bullet.label(isBn)),
         ],
       ),
     );

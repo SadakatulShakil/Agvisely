@@ -15,9 +15,12 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.isRegistered<MenuTreeController>()
-        ? Get.find<MenuTreeController>()
-        : Get.put(MenuTreeController(), permanent: true);
+    final controller =
+        Get.isRegistered<MenuTreeController>()
+            ? Get.find<MenuTreeController>()
+            : Get.put(MenuTreeController(), permanent: true);
+
+    final isBn = Get.locale?.languageCode == 'bn';
 
     return SafeArea(
       child: Obx(() {
@@ -51,11 +54,17 @@ class MenuPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButton(
-                        icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
+                        icon: SvgPicture.asset(
+                          'assets/icons/svg/arrow_back.svg',
+                          width: 24.w,
+                          height: 24.h,
+                        ),
                         onPressed: controller.goBack,
                       ),
                       Text(
-                        node.parentId == null ? 'menu.title'.tr : node.displayTitle,
+                        node.parentId == null
+                            ? 'menu.title'.tr
+                            : node.displayTitle(isBn),
                         style: TextStyle(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.w400,
@@ -66,9 +75,13 @@ class MenuPage extends StatelessWidget {
                   ),
                 ),
               Expanded(
-                child: node == null
-                    ? Obx(() => _buildRootBody(controller))
-                    : _MenuList(rows: flattenCustomCodes(node.children), controller: controller),
+                child:
+                    node == null
+                        ? Obx(() => _buildRootBody(controller, isBn))
+                        : _MenuList(
+                          rows: flattenCustomCodes(node.children, isBn),
+                          controller: controller,
+                        ),
               ),
             ],
           ),
@@ -78,7 +91,7 @@ class MenuPage extends StatelessWidget {
   }
 }
 
-Widget _buildRootBody(MenuTreeController controller) {
+Widget _buildRootBody(MenuTreeController controller, bool isBn) {
   if (controller.isLoading.value) {
     return const Center(child: CircularProgressIndicator());
   }
@@ -91,12 +104,19 @@ Widget _buildRootBody(MenuTreeController controller) {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.wifi_off_rounded, size: 36.sp, color: AppColors.textSecondaryLight),
+            Icon(
+              Icons.wifi_off_rounded,
+              size: 36.sp,
+              color: AppColors.textSecondaryLight,
+            ),
             SizedBox(height: 12.h),
             Text(
               error,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondaryLight),
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.textSecondaryLight,
+              ),
             ),
             SizedBox(height: 12.h),
             TextButton(
@@ -109,7 +129,7 @@ Widget _buildRootBody(MenuTreeController controller) {
     );
   }
 
-  final rows = flattenCustomCodes(controller.items);
+  final rows = flattenCustomCodes(controller.items, isBn);
   if (rows.isEmpty) {
     return EmptyStateWidget(message: 'menu.empty'.tr);
   }
@@ -137,7 +157,12 @@ class _MenuList extends StatelessWidget {
 
     return ListView.separated(
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: EdgeInsets.fromLTRB(20.w, padTop ?? 8.h, 20.w, padTop == null ? 16.h : 10.h),
+      padding: EdgeInsets.fromLTRB(
+        20.w,
+        padTop ?? 8.h,
+        20.w,
+        padTop == null ? 16.h : 10.h,
+      ),
       itemCount: rows.length,
       separatorBuilder: (_, __) => SizedBox(height: 12.h),
       itemBuilder: (context, i) {

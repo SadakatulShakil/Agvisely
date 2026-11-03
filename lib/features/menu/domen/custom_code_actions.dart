@@ -44,7 +44,10 @@ Future<void> _openList(
   CustomCodeModel node, {
   required void Function(CustomCodeModel node) onOpenList,
 }) async {
-  Get.dialog(const Center(child: CircularProgressIndicator()), barrierDismissible: false);
+  Get.dialog(
+    const Center(child: CircularProgressIndicator()),
+    barrierDismissible: false,
+  );
   final result = await CustomCodesService().fetchNode(node.id);
   Get.back(); // close the loading indicator
 
@@ -61,7 +64,10 @@ Future<void> _openPdf(CustomCodeModel node) async {
   final rawUrl = node.url;
   if (rawUrl == null || rawUrl.isEmpty) return;
 
-  final url = rawUrl.startsWith('http') ? rawUrl : '${ApiEndpoints.baseUrlUserHost}$rawUrl';
+  final url =
+      rawUrl.startsWith('http')
+          ? rawUrl
+          : '${ApiEndpoints.baseUrlUserHost}$rawUrl';
 
   if (node.isExternal) {
     final uri = Uri.tryParse(url);
@@ -71,5 +77,6 @@ Future<void> _openPdf(CustomCodeModel node) async {
     return;
   }
 
-  Get.to(() => PdfViewerPage(title: node.name, url: url));
+  final isBn = Get.locale?.languageCode == 'bn';
+  Get.to(() => PdfViewerPage(title: node.label(isBn), url: url));
 }

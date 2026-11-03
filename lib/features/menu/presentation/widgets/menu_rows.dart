@@ -17,12 +17,12 @@ class MenuRowItem extends MenuRow {
 }
 
 /// `GET /custom-codes/{id}` fetch (see `handleCustomCodeTap`), not this
-List<MenuRow> flattenCustomCodes(List<CustomCodeModel> nodes) {
+List<MenuRow> flattenCustomCodes(List<CustomCodeModel> nodes, bool isBn) {
   final rows = <MenuRow>[];
   for (final node in nodes) {
     if (node.children.isNotEmpty) {
-      rows.add(MenuRowHeader(node.displayTitle));
-      rows.addAll(flattenCustomCodes(node.children));
+      rows.add(MenuRowHeader(node.displayTitle(isBn)));
+      rows.addAll(flattenCustomCodes(node.children, isBn));
     } else {
       rows.add(MenuRowItem(node));
     }

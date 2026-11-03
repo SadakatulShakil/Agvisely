@@ -76,13 +76,17 @@ class _FeedbackDialogState extends State<FeedbackDialog> {
         ElevatedButton(
           onPressed: (_submitting || !_hasText) ? null : _submit,
           style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
-          child: _submitting
-              ? SizedBox(
-                  width: 16.w,
-                  height: 16.w,
-                  child: const CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                )
-              : Text('menu.feedback_send'.tr),
+          child:
+              _submitting
+                  ? SizedBox(
+                    width: 16.w,
+                    height: 16.w,
+                    child: const CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                  : Text('menu.feedback_send'.tr),
         ),
       ],
     );
