@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/empty_state_widget.dart';
+import '../../../../core/utils/fade_network_image.dart';
 import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
 import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
 import '../../domen/controllers/pest_advisory_controller.dart';
@@ -18,9 +19,10 @@ class PestAdvisoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.isRegistered<PestAdvisoryController>()
-        ? Get.find<PestAdvisoryController>()
-        : Get.put(PestAdvisoryController(), permanent: true);
+    final controller =
+        Get.isRegistered<PestAdvisoryController>()
+            ? Get.find<PestAdvisoryController>()
+            : Get.put(PestAdvisoryController(), permanent: true);
     final isBn = Get.locale?.languageCode == 'bn';
 
     return Scaffold(
@@ -59,7 +61,11 @@ class PestAdvisoryPage extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.wifi_off_rounded, size: 36.sp, color: AppColors.textSecondaryLight),
+                          Icon(
+                            Icons.wifi_off_rounded,
+                            size: 36.sp,
+                            color: AppColors.textSecondaryLight,
+                          ),
                           SizedBox(height: 12.h),
                           Text(
                             error,
@@ -83,7 +89,9 @@ class PestAdvisoryPage extends StatelessWidget {
                 final items = controller.items;
                 if (items.isEmpty) {
                   return EmptyStateWidget(
-                    message: 'advisory_items.empty_for'.trParams({'category': 'advisory.crop'.tr}),
+                    message: 'advisory_items.empty_for'.trParams({
+                      'category': 'advisory.crop'.tr,
+                    }),
                   );
                 }
 
@@ -102,15 +110,17 @@ class PestAdvisoryPage extends StatelessWidget {
                     itemBuilder: (context, i) {
                       final item = items[i];
                       return GestureDetector(
-                        onTap: () => Get.to(
-                          () => const AdvisoryStagesPage(),
-                          binding: AdvisoryStagesBinding(
-                            categoryId: PestAdvisoryController.cropCategoryId,
-                            item: item,
-                            categoryLabel: 'advisory.crop'.tr,
-                            ipmOnly: true,
-                          ),
-                        ),
+                        onTap:
+                            () => Get.to(
+                              () => const AdvisoryStagesPage(),
+                              binding: AdvisoryStagesBinding(
+                                categoryId:
+                                    PestAdvisoryController.cropCategoryId,
+                                item: item,
+                                categoryLabel: 'advisory.crop'.tr,
+                                ipmOnly: true,
+                              ),
+                            ),
                         child: Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -138,7 +148,11 @@ class PestAdvisoryPage extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark, fontWeight: FontWeight.w400),
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: FigmaColors.primaryDark,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             ],
                           ),
@@ -166,13 +180,15 @@ class _ItemIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final fallback = Icon(Icons.eco, size: 36.sp, color: AppColors.primary);
     final url = imageUrl;
-    if (url == null || url.isEmpty) return fallback;
-    return Image.network(
-      '${ApiEndpoints.baseUrlUserHost}$url',
+    return FadeNetworkImage(
+      url:
+          url == null || url.isEmpty
+              ? null
+              : '${ApiEndpoints.baseUrlUserHost}$url',
       width: 55.w,
       height: 55.h,
       fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) => fallback,
+      placeholder: fallback,
     );
   }
 }

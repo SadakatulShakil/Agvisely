@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/network/network_controller.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/fade_network_image.dart';
 
 class AdvisoryCard extends StatelessWidget {
   const AdvisoryCard({
@@ -23,24 +24,30 @@ class AdvisoryCard extends StatelessWidget {
   final String subtitle;
   final VoidCallback? onTap;
 
-  Widget _fallbackIcon() => Icon(Icons.info_outline, size: 40.sp, color: iconColor);
+  Widget _fallbackIcon() =>
+      Icon(Icons.info_outline, size: 40.sp, color: iconColor);
 
   Widget _icon() {
     final url = iconUrl;
     if (url == null || url.isEmpty) return _fallbackIcon();
 
     return Obx(() {
-      final epoch = Get.isRegistered<NetworkController>()
-          ? Get.find<NetworkController>().reconnectedAt.value
-          : 0;
-      return Image.network(
-        '${ApiEndpoints.baseUrlUserHost}$url',
+      final epoch =
+          Get.isRegistered<NetworkController>()
+              ? Get.find<NetworkController>().reconnectedAt.value
+              : 0;
+      return FadeNetworkImage(
         key: ValueKey('advisory_icon_${url}_$epoch'),
+        url: '${ApiEndpoints.baseUrlUserHost}$url',
         width: 56.w,
         height: 56.h,
         fit: BoxFit.contain,
-        errorBuilder: (context, error, stackTrace) =>
-            Icon(Icons.broken_image_outlined, size: 40.sp, color: iconColor),
+        placeholder: _fallbackIcon(),
+        errorWidget: Icon(
+          Icons.broken_image_outlined,
+          size: 40.sp,
+          color: iconColor,
+        ),
       );
     });
   }
@@ -90,10 +97,7 @@ class AdvisoryCard extends StatelessWidget {
               subtitle,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 12.sp,
-                color: FigmaColors.neutralBody,
-              ),
+              style: TextStyle(fontSize: 12.sp, color: FigmaColors.neutralBody),
             ),
           ],
         ),

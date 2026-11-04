@@ -7,6 +7,7 @@ import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/network/network_controller.dart';
 import '../../../../core/services/advisory_categories_service.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/fade_network_image.dart';
 import '../../../../models/advisory_item_model.dart';
 import '../../../../models/user_choice_model.dart';
 import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
@@ -15,7 +16,9 @@ import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
 /// [UserChoiceModel] only carries a bare `categoryId`, not the category's
 /// `isDisease` flag — resolve it against the cached catalog.
 bool _isDiseaseCategory(int categoryId) =>
-    AdvisoryCategoriesService().cached?.firstWhereOrNull((c) => c.id == categoryId)?.isDisease ??
+    AdvisoryCategoriesService().cached
+        ?.firstWhereOrNull((c) => c.id == categoryId)
+        ?.isDisease ??
     false;
 
 class MyChoiceCarousel extends StatelessWidget {
@@ -61,7 +64,10 @@ class MyChoiceCarousel extends StatelessWidget {
                     children: [
                       Text(
                         'home.see_all'.tr,
-                        style: TextStyle(fontSize: 14.sp, color: FigmaColors.primaryDefault),
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: FigmaColors.primaryDefault,
+                        ),
                       ),
                       SizedBox(width: 4.w),
                       SvgPicture.asset(
@@ -85,7 +91,8 @@ class MyChoiceCarousel extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: items.length,
                 separatorBuilder: (_, __) => SizedBox(width: 12.w),
-                itemBuilder: (context, i) => _MyChoiceTile(choice: items[i], isBn: isBn),
+                itemBuilder:
+                    (context, i) => _MyChoiceTile(choice: items[i], isBn: isBn),
               ),
             ),
         ],
@@ -93,7 +100,6 @@ class MyChoiceCarousel extends StatelessWidget {
     );
   }
 }
-
 
 class _EmptyMyChoice extends StatelessWidget {
   const _EmptyMyChoice({this.onTap});
@@ -113,12 +119,19 @@ class _EmptyMyChoice extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Icon(Icons.add_circle_outline, size: 28.sp, color: AppColors.primaryDark),
+            Icon(
+              Icons.add_circle_outline,
+              size: 28.sp,
+              color: AppColors.primaryDark,
+            ),
             SizedBox(height: 8.h),
             Text(
               'my_choice.empty_home'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13.sp, color: AppColors.textSecondaryLight),
+              style: TextStyle(
+                fontSize: 13.sp,
+                color: AppColors.textSecondaryLight,
+              ),
             ),
           ],
         ),
@@ -193,24 +206,27 @@ class _MyChoiceIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final url = imageUrl;
-    if (url == null || url.isEmpty) {
-      return Icon(Icons.eco, size: 36.sp, color: AppColors.primary);
-    }
+    final fallback = Icon(Icons.eco, size: 36.sp, color: AppColors.primary);
+    if (url == null || url.isEmpty) return fallback;
 
     return Obx(() {
-      final epoch = Get.isRegistered<NetworkController>()
-          ? Get.find<NetworkController>().reconnectedAt.value
-          : 0;
-      return Image.network(
-        '${ApiEndpoints.baseUrlUserHost}$url',
+      final epoch =
+          Get.isRegistered<NetworkController>()
+              ? Get.find<NetworkController>().reconnectedAt.value
+              : 0;
+      return FadeNetworkImage(
         key: ValueKey('my_choice_icon_${url}_$epoch'),
+        url: '${ApiEndpoints.baseUrlUserHost}$url',
         width: 48.w,
         height: 48.h,
         fit: BoxFit.contain,
-        errorBuilder: (context, error, stackTrace) =>
-            Icon(Icons.broken_image_outlined, size: 36.sp, color: AppColors.primary),
+        placeholder: fallback,
+        errorWidget: Icon(
+          Icons.broken_image_outlined,
+          size: 36.sp,
+          color: AppColors.primary,
+        ),
       );
     });
   }

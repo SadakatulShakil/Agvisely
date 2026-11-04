@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/empty_state_widget.dart';
+import '../../../../core/utils/fade_network_image.dart';
 import '../../../auth/auth/presentation/widgets/auth_widgets.dart';
 import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
 import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
@@ -30,7 +31,11 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
+                    icon: SvgPicture.asset(
+                      'assets/icons/svg/arrow_back.svg',
+                      width: 24.w,
+                      height: 24.h,
+                    ),
                     onPressed: () => Get.back(),
                   ),
                   Expanded(
@@ -53,7 +58,8 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                 children: [
                   FieldLabel('advisory_items.select_category_label'.tr),
                   Obx(() {
-                    if (controller.categoriesLoading.value && controller.categories.isEmpty) {
+                    if (controller.categoriesLoading.value &&
+                        controller.categories.isEmpty) {
                       return const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12),
                         child: SizedBox(
@@ -96,9 +102,7 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                               vertical: 0,
                             ),
 
-                            constraints: BoxConstraints(
-                              minHeight: 48.h,
-                            ),
+                            constraints: BoxConstraints(minHeight: 48.h),
 
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14.r),
@@ -116,27 +120,28 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                             ),
                           ),
 
-                          items: controller.categories.map((c) {
-                            return DropdownMenuItem<int>(
-                              value: c.id,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  c.label(isBn),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    color: FigmaColors.neutralPlaceholder,
+                          items:
+                              controller.categories.map((c) {
+                                return DropdownMenuItem<int>(
+                                  value: c.id,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      c.label(isBn),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        color: FigmaColors.neutralPlaceholder,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                                );
+                              }).toList(),
 
                           onChanged: (id) {
-                            final category =
-                            controller.categories.firstWhereOrNull((c) => c.id == id);
+                            final category = controller.categories
+                                .firstWhereOrNull((c) => c.id == id);
                             controller.onCategoryChanged(category);
                           },
                         ),
@@ -166,7 +171,11 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.wifi_off_rounded, size: 36.sp, color: AppColors.textSecondaryLight),
+                          Icon(
+                            Icons.wifi_off_rounded,
+                            size: 36.sp,
+                            color: AppColors.textSecondaryLight,
+                          ),
                           SizedBox(height: 12.h),
                           Text(
                             error,
@@ -178,7 +187,10 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                           ),
                           SizedBox(height: 12.h),
                           TextButton(
-                            onPressed: () => controller.onCategoryChanged(controller.selectedCategory.value),
+                            onPressed:
+                                () => controller.onCategoryChanged(
+                                  controller.selectedCategory.value,
+                                ),
                             child: Text('advisory_items.retry'.tr),
                           ),
                         ],
@@ -191,9 +203,12 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                 if (items.isEmpty) {
                   final label = controller.selectedCategory.value?.label(isBn);
                   return EmptyStateWidget(
-                    message: label == null
-                        ? 'advisory_items.empty'.tr
-                        : 'advisory_items.empty_for'.trParams({'category': label}),
+                    message:
+                        label == null
+                            ? 'advisory_items.empty'.tr
+                            : 'advisory_items.empty_for'.trParams({
+                              'category': label,
+                            }),
                   );
                 }
 
@@ -255,7 +270,11 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark, fontWeight: FontWeight.w400),
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: FigmaColors.primaryDark,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             ],
                           ),
@@ -283,13 +302,15 @@ class _ItemIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final fallback = Icon(Icons.eco, size: 36.sp, color: AppColors.primary);
     final url = imageUrl;
-    if (url == null || url.isEmpty) return fallback;
-    return Image.network(
-      '${ApiEndpoints.baseUrlUserHost}$url',
+    return FadeNetworkImage(
+      url:
+          url == null || url.isEmpty
+              ? null
+              : '${ApiEndpoints.baseUrlUserHost}$url',
       width: 55.w,
       height: 55.h,
       fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) => fallback,
+      placeholder: fallback,
     );
   }
 }

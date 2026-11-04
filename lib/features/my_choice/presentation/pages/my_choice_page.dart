@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/fade_network_image.dart';
 import '../../../../models/user_choice_model.dart';
 import '../../../auth/auth/presentation/widgets/auth_widgets.dart';
 import '../../domen/controllers/my_choice_controller.dart';
@@ -28,7 +29,11 @@ class MyChoicePage extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () => Get.back(),
-                  icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
+                  icon: SvgPicture.asset(
+                    'assets/icons/svg/arrow_back.svg',
+                    width: 24.w,
+                    height: 24.h,
+                  ),
                 ),
                 Text(
                   'home.my_choice'.tr,
@@ -54,15 +59,25 @@ class MyChoicePage extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.wifi_off_rounded, size: 36.sp, color: AppColors.textSecondaryLight),
+                          Icon(
+                            Icons.wifi_off_rounded,
+                            size: 36.sp,
+                            color: AppColors.textSecondaryLight,
+                          ),
                           SizedBox(height: 12.h),
                           Text(
                             error,
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondaryLight),
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textSecondaryLight,
+                            ),
                           ),
                           SizedBox(height: 12.h),
-                          TextButton(onPressed: controller.loadChoices, child: Text('common.retry'.tr)),
+                          TextButton(
+                            onPressed: controller.loadChoices,
+                            child: Text('common.retry'.tr),
+                          ),
                         ],
                       ),
                     ),
@@ -81,16 +96,20 @@ class MyChoicePage extends StatelessWidget {
                       mainAxisSpacing: 16.h,
                       childAspectRatio: 1.00,
                     ),
-                    itemCount: choices.length + 1, // + the "Add new" tile, always last
+                    itemCount:
+                        choices.length + 1, // + the "Add new" tile, always last
                     itemBuilder: (context, index) {
                       if (index == choices.length) {
-                        return _AddNewTile(onTap: () => _openAddSheet(controller));
+                        return _AddNewTile(
+                          onTap: () => _openAddSheet(controller),
+                        );
                       }
                       final choice = choices[index];
                       return _ChoiceTile(
                         choice: choice,
                         isBn: isBn,
-                        onRemove: () => _confirmAndRemove(controller, choice, isBn),
+                        onRemove:
+                            () => _confirmAndRemove(controller, choice, isBn),
                       );
                     },
                   ),
@@ -110,7 +129,9 @@ class MyChoicePage extends StatelessWidget {
   ) async {
     final confirmed = await Get.dialog<bool>(
       AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
         title: Text('my_choice.remove'.tr),
         content: Text(
           'my_choice.remove_confirm'.trParams({'item': choice.itemLabel(isBn)}),
@@ -152,7 +173,11 @@ class MyChoicePage extends StatelessWidget {
 }
 
 class _ChoiceTile extends StatelessWidget {
-  const _ChoiceTile({required this.choice, required this.isBn, required this.onRemove});
+  const _ChoiceTile({
+    required this.choice,
+    required this.isBn,
+    required this.onRemove,
+  });
 
   final UserChoiceModel choice;
   final bool isBn;
@@ -192,7 +217,10 @@ class _ChoiceTile extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark),
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: FigmaColors.primaryDark,
+                ),
               ),
             ],
           ),
@@ -223,13 +251,15 @@ class _ChoiceIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final fallback = Icon(Icons.eco, size: 36.sp, color: AppColors.primary);
     final url = imageUrl;
-    if (url == null || url.isEmpty) return fallback;
-    return Image.network(
-      '${ApiEndpoints.baseUrlUserHost}$url',
+    return FadeNetworkImage(
+      url:
+          url == null || url.isEmpty
+              ? null
+              : '${ApiEndpoints.baseUrlUserHost}$url',
       width: 55.w,
       height: 55.h,
       fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) => fallback,
+      placeholder: fallback,
     );
   }
 }
@@ -305,13 +335,17 @@ class _AddChoiceSheet extends StatelessWidget {
               SizedBox(height: 4.h),
               Text(
                 'my_choice.add_new_subtitle'.tr,
-                style: TextStyle(fontSize: 13.sp, color: AppColors.textSecondaryLight),
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: AppColors.textSecondaryLight,
+                ),
               ),
               SizedBox(height: 16.h),
 
               FieldLabel('my_choice.category'.tr),
               Obx(() {
-                if (controller.categoriesLoading.value && controller.categories.isEmpty) {
+                if (controller.categoriesLoading.value &&
+                    controller.categories.isEmpty) {
                   return const Padding(
                     padding: EdgeInsets.symmetric(vertical: 12),
                     child: SizedBox(
@@ -329,25 +363,37 @@ class _AddChoiceSheet extends StatelessWidget {
                       isExpanded: true,
                       hint: Text(
                         'my_choice.select_category'.tr,
-                        style: TextStyle(fontSize: 16.sp, color: AppColors.textSecondaryLight),
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: AppColors.textSecondaryLight,
+                        ),
                       ),
                       decoration: agFieldDecoration('').copyWith(
                         isDense: true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 12,
+                        ),
                       ),
-                      items: controller.categories
-                          .map((c) => DropdownMenuItem(
-                                value: c.id,
-                                child: Text(
-                                  c.label(isBn),
-                                  style: TextStyle(
-                                      fontSize: 16.sp, color: AppColors.textSecondaryLight),
+                      items:
+                          controller.categories
+                              .map(
+                                (c) => DropdownMenuItem(
+                                  value: c.id,
+                                  child: Text(
+                                    c.label(isBn),
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      color: AppColors.textSecondaryLight,
+                                    ),
+                                  ),
                                 ),
-                              ))
-                          .toList(),
+                              )
+                              .toList(),
                       onChanged: (id) {
-                        final category =
-                            controller.categories.firstWhereOrNull((c) => c.id == id);
+                        final category = controller.categories.firstWhereOrNull(
+                          (c) => c.id == id,
+                        );
                         controller.onCategoryChanged(category);
                       },
                     ),
@@ -369,7 +415,10 @@ class _AddChoiceSheet extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     child: Text(
                       'my_choice.select_category_first'.tr,
-                      style: TextStyle(fontSize: 13.sp, color: AppColors.textSecondaryLight),
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        color: AppColors.textSecondaryLight,
+                      ),
                     ),
                   );
                 }
@@ -391,24 +440,37 @@ class _AddChoiceSheet extends StatelessWidget {
                       isExpanded: true,
                       hint: Text(
                         'my_choice.select_item'.tr,
-                        style: TextStyle(fontSize: 16.sp, color: AppColors.textSecondaryLight),
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: AppColors.textSecondaryLight,
+                        ),
                       ),
                       decoration: agFieldDecoration('').copyWith(
                         isDense: true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 12,
+                        ),
                       ),
-                      items: controller.items
-                          .map((i) => DropdownMenuItem(
-                                value: i.id,
-                                child: Text(
-                                  i.label(isBn),
-                                  style: TextStyle(
-                                      fontSize: 16.sp, color: AppColors.textSecondaryLight),
+                      items:
+                          controller.items
+                              .map(
+                                (i) => DropdownMenuItem(
+                                  value: i.id,
+                                  child: Text(
+                                    i.label(isBn),
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      color: AppColors.textSecondaryLight,
+                                    ),
+                                  ),
                                 ),
-                              ))
-                          .toList(),
-                      onChanged: (id) => controller.selectedItem.value =
-                          controller.items.firstWhereOrNull((i) => i.id == id),
+                              )
+                              .toList(),
+                      onChanged:
+                          (id) =>
+                              controller.selectedItem.value = controller.items
+                                  .firstWhereOrNull((i) => i.id == id),
                     ),
                     if (controller.itemsLoadFailed.value)
                       TextButton(
@@ -420,22 +482,27 @@ class _AddChoiceSheet extends StatelessWidget {
               }),
 
               SizedBox(height: 28.h),
-              Obx(() => AgButton(
-                    label: 'my_choice.add_button'.tr,
-                    loading: controller.isSubmitting.value,
-                    showArrow: false,
-                    onPressed: () async {
-                      final result = await controller.submitAddChoice();
-                      if (result.duplicate) {
-                        Get.snackbar('my_choice.already_added_title'.tr, 'my_choice.already_added'.tr);
-                      } else if (result.error == null) {
-                        Get.back();
-                        Get.snackbar('', 'my_choice.add_success'.tr);
-                      } else {
-                        Get.snackbar('my_choice.add_failed'.tr, result.error!);
-                      }
-                    },
-                  )),
+              Obx(
+                () => AgButton(
+                  label: 'my_choice.add_button'.tr,
+                  loading: controller.isSubmitting.value,
+                  showArrow: false,
+                  onPressed: () async {
+                    final result = await controller.submitAddChoice();
+                    if (result.duplicate) {
+                      Get.snackbar(
+                        'my_choice.already_added_title'.tr,
+                        'my_choice.already_added'.tr,
+                      );
+                    } else if (result.error == null) {
+                      Get.back();
+                      Get.snackbar('', 'my_choice.add_success'.tr);
+                    } else {
+                      Get.snackbar('my_choice.add_failed'.tr, result.error!);
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),

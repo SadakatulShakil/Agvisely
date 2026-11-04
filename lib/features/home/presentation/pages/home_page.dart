@@ -169,252 +169,266 @@ class _HomeDashboard extends StatelessWidget {
             : Get.put(NotificationBadgeController(), permanent: true);
     return RefreshIndicator(
       onRefresh: c.refreshAll,
-      child: ListView(
-        padding: EdgeInsets.all(20.r),
+      child: Column(
         children: [
-          //Top bar: profile icon + greeting + location + notification icon
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () => c.changeTab(2),
-                child: Obx(
-                  () => UserAvatar(
-                    profileUrl: profileC.user.value?.profileUrl,
-                    size: 42.w,
-                    iconSize: 34.sp,
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: GestureDetector(
-                  onTap: c.openSavedLocationsSheet,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Obx(
-                        () => Text(
-                          '${'home.greeting'.tr}, ${profileC.user.value?.name ?? ''}',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: FigmaColors.neutralBody,
-                          ),
-                        ),
-                      ),
-                      Obx(
-                        () => Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                c.locationName.value,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: FigmaColors.primaryDefault,
-                                  fontSize: 16.sp,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 2.w),
-                            Icon(
-                              Icons.keyboard_arrow_down,
-                              size: 16.sp,
-                              color: FigmaColors.primaryDefault,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () => Get.to(() => const NotificationPage()),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/svg/notification.svg',
-                      width: 44.w,
-                      height: 44.h,
-                    ),
-                    Obx(() {
-                      final count = notificationBadgeC.unreadCount.value;
-                      if (count <= 0) return const SizedBox.shrink();
-                      return Positioned(
-                        right: -2,
-                        top: -2,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 5.w,
-                            vertical: 1.h,
-                          ),
-                          constraints: BoxConstraints(minWidth: 16.w),
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(
-                              color: AppColors.scaffoldLight,
-                              width: 1.5,
-                            ),
-                          ),
-                          child: Text(
-                            count > 99 ? '99+' : '$count',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 9.sp,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          // Weather card: current conditions + temp + feels like + type + icon
-          Obx(
-            () => WeatherCard(
-              weather: c.currentWeather.value,
-              isLoading: c.isLoadingWeather.value,
-              liveType: c.liveType.value,
-              liveIcon: c.liveIcon.value,
-              onRetry: c.loadWeather,
-              topRight:
-                  (c.isResolvingLocation.value || c.isLoadingWeather.value)
-                      ? SizedBox(
-                        width: 16.w,
-                        height: 16.w,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: FigmaColors.primaryDefault,
-                        ),
-                      )
-                      : null,
-            ),
-          ),
-          SizedBox(height: 12.h),
-          // Advisory grid: 2x2 of crop, livestock, aquaculture, disease
-          Obx(() {
-            final categories = c.advisoryCategories;
-            if (categories.isEmpty) return const SizedBox.shrink();
-
-            final isBn = Get.locale?.languageCode == 'bn';
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: categories.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12.w,
-                mainAxisSpacing: 12.h,
-                childAspectRatio: 1.12,
-              ),
-              itemBuilder: (context, i) {
-                final category = categories[i];
-                return AdvisoryCard(
-                  iconUrl: category.icon,
-                  iconColor: FigmaColors.primaryDefault,
-                  title: category.label(isBn),
-                  subtitle: category.subtitle(isBn),
-                  onTap: () => _openAdvisoryCategory(category, isBn),
-                );
-              },
-            );
-          }),
-          SizedBox(height: 12.h),
-          // Today's 3-hourly forecast preview; tap through to the full 7-day page.
-          Container(
-            decoration: BoxDecoration(
-              color: FigmaColors.neutralWhite,
-              borderRadius: BorderRadius.circular(16.r),
-            ),
-            child: Column(
+          //Top bar: profile icon + greeting + location + notification icon —
+          // fixed in place; everything else below scrolls independently.
+          Padding(
+            padding: EdgeInsets.fromLTRB(20.r, 20.r, 20.r, 16),
+            child: Row(
               children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
+                GestureDetector(
+                  onTap: () => c.changeTab(2),
+                  child: Obx(
+                    () => UserAvatar(
+                      profileUrl: profileC.user.value?.profileUrl,
+                      size: 42.w,
+                      iconSize: 34.sp,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
                   child: GestureDetector(
-                    onTap:
-                        () => Get.to(
-                          () => const SevenDayPage(),
-                          binding: SevenDayBinding(),
-                        ),
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'home.weather_forecast'.tr,
+                    onTap: c.openSavedLocationsSheet,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Obx(
+                          () => Text(
+                            '${'home.greeting'.tr}, ${profileC.user.value?.name ?? ''}',
                             style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w600,
-                              color: FigmaColors.primaryDefault,
+                              fontSize: 14.sp,
+                              color: FigmaColors.neutralBody,
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8.w,
-                              vertical: 6.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: FigmaColors.neutralBackground,
-                              border: Border.all(
-                                color: FigmaColors.primaryDefault,
-                              ),
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'home.view7days'.tr,
+                        ),
+                        Obx(
+                          () => Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  c.locationName.value,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.bold,
                                     color: FigmaColors.primaryDefault,
+                                    fontSize: 16.sp,
                                   ),
                                 ),
-                                SizedBox(width: 4.w),
-                                SvgPicture.asset(
-                                  'assets/icons/svg/arrow_double.svg',
-                                  width: 14.w,
-                                  height: 14.h,
-                                ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(width: 2.w),
+                              Icon(
+                                Icons.keyboard_arrow_down,
+                                size: 16.sp,
+                                color: FigmaColors.primaryDefault,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(16.w, 12.h, 4.w, 16.h),
-                  child: Obx(
-                    () => TodayForecastChart(
-                      points: c.todayChart.toList(),
-                      height: 280.h,
-                    ),
+                GestureDetector(
+                  onTap: () => Get.to(() => const NotificationPage()),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/svg/notification.svg',
+                        width: 44.w,
+                        height: 44.h,
+                      ),
+                      Obx(() {
+                        final count = notificationBadgeC.unreadCount.value;
+                        if (count <= 0) return const SizedBox.shrink();
+                        return Positioned(
+                          right: -2,
+                          top: -2,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 5.w,
+                              vertical: 1.h,
+                            ),
+                            constraints: BoxConstraints(minWidth: 16.w),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(10.r),
+                              border: Border.all(
+                                color: AppColors.scaffoldLight,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Text(
+                              count > 99 ? '99+' : '$count',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 9.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 12.h),
-          Obx(
-            () => MyChoiceCarousel(
-              items: c.myChoices.toList(),
-              onSeeAll:
-                  () => Get.to(
-                    () => const MyChoicePage(),
-                    binding: MyChoiceBinding(),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.fromLTRB(20.r, 0, 20.r, 20.r),
+              children: [
+                // Weather card: current conditions + temp + feels like + type + icon
+                Obx(
+                  () => WeatherCard(
+                    weather: c.currentWeather.value,
+                    isLoading: c.isLoadingWeather.value,
+                    liveType: c.liveType.value,
+                    liveIcon: c.liveIcon.value,
+                    onRetry: c.loadWeather,
+                    topRight:
+                        (c.isResolvingLocation.value ||
+                                c.isLoadingWeather.value)
+                            ? SizedBox(
+                              width: 16.w,
+                              height: 16.w,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: FigmaColors.primaryDefault,
+                              ),
+                            )
+                            : null,
                   ),
+                ),
+                SizedBox(height: 12.h),
+                // Advisory grid: 2x2 of crop, livestock, aquaculture, disease
+                Obx(() {
+                  final categories = c.advisoryCategories;
+                  if (categories.isEmpty) return const SizedBox.shrink();
+
+                  final isBn = Get.locale?.languageCode == 'bn';
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: categories.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12.w,
+                      mainAxisSpacing: 12.h,
+                      childAspectRatio: 1.12,
+                    ),
+                    itemBuilder: (context, i) {
+                      final category = categories[i];
+                      return AdvisoryCard(
+                        iconUrl: category.icon,
+                        iconColor: FigmaColors.primaryDefault,
+                        title: category.label(isBn),
+                        subtitle: category.subtitle(isBn),
+                        onTap: () => _openAdvisoryCategory(category, isBn),
+                      );
+                    },
+                  );
+                }),
+                SizedBox(height: 12.h),
+                // Today's 3-hourly forecast preview; tap through to the full 7-day page.
+                Container(
+                  decoration: BoxDecoration(
+                    color: FigmaColors.neutralWhite,
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 16.w,
+                          right: 16.w,
+                          top: 16.h,
+                        ),
+                        child: GestureDetector(
+                          onTap:
+                              () => Get.to(
+                                () => const SevenDayPage(),
+                                binding: SevenDayBinding(),
+                              ),
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'home.weather_forecast'.tr,
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: FigmaColors.primaryDefault,
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w,
+                                    vertical: 6.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: FigmaColors.neutralBackground,
+                                    border: Border.all(
+                                      color: FigmaColors.primaryDefault,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'home.view7days'.tr,
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: FigmaColors.primaryDefault,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      SvgPicture.asset(
+                                        'assets/icons/svg/arrow_double.svg',
+                                        width: 14.w,
+                                        height: 14.h,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(16.w, 12.h, 4.w, 16.h),
+                        child: Obx(
+                          () => TodayForecastChart(
+                            points: c.todayChart.toList(),
+                            height: 280.h,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                Obx(
+                  () => MyChoiceCarousel(
+                    items: c.myChoices.toList(),
+                    onSeeAll:
+                        () => Get.to(
+                          () => const MyChoicePage(),
+                          binding: MyChoiceBinding(),
+                        ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

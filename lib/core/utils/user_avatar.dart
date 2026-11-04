@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../network/api_endpoints.dart';
 import '../theme/app_theme_colors.dart';
+import 'fade_network_image.dart';
 
 class UserAvatar extends StatelessWidget {
   final String? profileUrl;
@@ -21,7 +22,11 @@ class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fallback = Icon(Icons.person, size: iconSize, color: AppColors.primaryDark);
+    final fallback = Icon(
+      Icons.person,
+      size: iconSize,
+      color: AppColors.primaryDark,
+    );
     final url = profileUrl;
 
     return Container(
@@ -34,15 +39,16 @@ class UserAvatar extends StatelessWidget {
         borderRadius: borderRadius,
         border: border,
       ),
-      child: (url == null || url.isEmpty)
-          ? Center(child: fallback)
-          : Image.network(
-              '${ApiEndpoints.baseUrlUserHost}$url',
-              width: size,
-              height: size,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Center(child: fallback),
-            ),
+      child: FadeNetworkImage(
+        url:
+            url == null || url.isEmpty
+                ? null
+                : '${ApiEndpoints.baseUrlUserHost}$url',
+        width: size,
+        height: size,
+        fit: BoxFit.cover,
+        placeholder: Center(child: fallback),
+      ),
     );
   }
 }

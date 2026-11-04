@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/fade_network_image.dart';
 import '../../../../models/custom_code_model.dart';
 
 /// One row in the Menu tab's root list or a drill-down browser page —
@@ -50,17 +51,13 @@ class CustomCodeRow extends StatelessWidget {
               width: 45.w,
               height: 45.w,
               child: Center(
-                child:
-                    iconUrl == null
-                        ? fallback
-                        : Image.network(
-                          iconUrl,
-                          width: 45.w,
-                          height: 45.w,
-                          fit: BoxFit.contain,
-                          errorBuilder:
-                              (context, error, stackTrace) => fallback,
-                        ),
+                child: FadeNetworkImage(
+                  url: iconUrl,
+                  width: 45.w,
+                  height: 45.w,
+                  fit: BoxFit.contain,
+                  placeholder: fallback,
+                ),
               ),
             ),
             SizedBox(width: 14.w),

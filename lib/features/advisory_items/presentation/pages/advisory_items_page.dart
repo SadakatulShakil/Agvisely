@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/empty_state_widget.dart';
+import '../../../../core/utils/fade_network_image.dart';
 import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
 import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
 import '../../domen/controllers/advisory_items_controller.dart';
@@ -24,7 +25,9 @@ String _itemGridTitle(int categoryId, String? categoryLabel) {
       return 'advisory_items.title_aquaculture'.tr;
     default:
       return categoryLabel != null
-          ? 'advisory_items.select_item_title_for'.trParams({'category': categoryLabel})
+          ? 'advisory_items.select_item_title_for'.trParams({
+            'category': categoryLabel,
+          })
           : 'advisory_items.select_item_title'.tr;
   }
 }
@@ -47,12 +50,19 @@ class AdvisoryItemsPage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
+                    icon: SvgPicture.asset(
+                      'assets/icons/svg/arrow_back.svg',
+                      width: 24.w,
+                      height: 24.h,
+                    ),
                     onPressed: () => Get.back(),
                   ),
                   Expanded(
                     child: Text(
-                      _itemGridTitle(controller.categoryId, controller.categoryLabel),
+                      _itemGridTitle(
+                        controller.categoryId,
+                        controller.categoryLabel,
+                      ),
                       style: TextStyle(
                         fontSize: 22.sp,
                         fontWeight: FontWeight.w400,
@@ -77,7 +87,11 @@ class AdvisoryItemsPage extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.wifi_off_rounded, size: 36.sp, color: AppColors.textSecondaryLight),
+                          Icon(
+                            Icons.wifi_off_rounded,
+                            size: 36.sp,
+                            color: AppColors.textSecondaryLight,
+                          ),
                           SizedBox(height: 12.h),
                           Text(
                             error,
@@ -102,9 +116,12 @@ class AdvisoryItemsPage extends StatelessWidget {
                 if (items.isEmpty) {
                   final label = controller.categoryLabel;
                   return EmptyStateWidget(
-                    message: label == null
-                        ? 'advisory_items.empty'.tr
-                        : 'advisory_items.empty_for'.trParams({'category': label}),
+                    message:
+                        label == null
+                            ? 'advisory_items.empty'.tr
+                            : 'advisory_items.empty_for'.trParams({
+                              'category': label,
+                            }),
                   );
                 }
 
@@ -123,23 +140,30 @@ class AdvisoryItemsPage extends StatelessWidget {
                     itemBuilder: (context, i) {
                       final item = items[i];
                       return GestureDetector(
-                        onTap: () => Get.to(
-                          () => const AdvisoryStagesPage(),
-                          binding: AdvisoryStagesBinding(
-                            categoryId: controller.categoryId,
-                            item: item,
-                            categoryLabel: controller.categoryLabel,
-                          ),
-                        ),
+                        onTap:
+                            () => Get.to(
+                              () => const AdvisoryStagesPage(),
+                              binding: AdvisoryStagesBinding(
+                                categoryId: controller.categoryId,
+                                item: item,
+                                categoryLabel: controller.categoryLabel,
+                              ),
+                            ),
                         child: Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                                FigmaColors.primaryDefault.withValues(alpha: 0.0),
-                                FigmaColors.primaryDefault.withValues(alpha: 0.06),
-                                FigmaColors.primaryDefault.withValues(alpha: 0.30),
+                                FigmaColors.primaryDefault.withValues(
+                                  alpha: 0.0,
+                                ),
+                                FigmaColors.primaryDefault.withValues(
+                                  alpha: 0.06,
+                                ),
+                                FigmaColors.primaryDefault.withValues(
+                                  alpha: 0.30,
+                                ),
                               ],
                               stops: const [0.0, 0.46, 1.0],
                             ),
@@ -158,7 +182,11 @@ class AdvisoryItemsPage extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 16.sp, color: FigmaColors.primaryDark, fontWeight: FontWeight.w400),
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: FigmaColors.primaryDark,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             ],
                           ),
@@ -186,13 +214,15 @@ class _ItemIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final fallback = Icon(Icons.eco, size: 36.sp, color: AppColors.primary);
     final url = imageUrl;
-    if (url == null || url.isEmpty) return fallback;
-    return Image.network(
-      '${ApiEndpoints.baseUrlUserHost}$url',
+    return FadeNetworkImage(
+      url:
+          url == null || url.isEmpty
+              ? null
+              : '${ApiEndpoints.baseUrlUserHost}$url',
       width: 55.w,
       height: 55.h,
       fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) => fallback,
+      placeholder: fallback,
     );
   }
 }

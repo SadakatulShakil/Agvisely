@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/empty_state_widget.dart';
+import '../../../../core/utils/fade_network_image.dart';
 import '../../domen/binding/advisory_content_binding.dart';
 import '../../domen/controllers/advisory_stages_controller.dart';
 import 'advisory_content_page.dart';
@@ -14,11 +15,11 @@ const _cropCategoryId = 1;
 const _livestockCategoryId = 2;
 const _aquacultureCategoryId = 3;
 
-
 String _stageListTitle(AdvisoryStagesController controller, bool isBn) {
   if (controller.stageCategory == 'disease') {
-    return 'advisory_stages.disease_title_for'
-        .trParams({'item': controller.item.label(isBn)});
+    return 'advisory_stages.disease_title_for'.trParams({
+      'item': controller.item.label(isBn),
+    });
   }
   switch (controller.categoryId) {
     case _cropCategoryId:
@@ -29,8 +30,9 @@ String _stageListTitle(AdvisoryStagesController controller, bool isBn) {
       return 'advisory_stages.title_aquaculture'.tr;
     default:
       return controller.categoryLabel != null
-          ? 'advisory_stages.select_stage_title_for'
-              .trParams({'category': controller.categoryLabel!})
+          ? 'advisory_stages.select_stage_title_for'.trParams({
+            'category': controller.categoryLabel!,
+          })
           : 'advisory_stages.select_stage_title'.tr;
   }
 }
@@ -53,7 +55,11 @@ class AdvisoryStagesPage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
+                    icon: SvgPicture.asset(
+                      'assets/icons/svg/arrow_back.svg',
+                      width: 24.w,
+                      height: 24.h,
+                    ),
                     onPressed: () => Get.back(),
                   ),
                   Expanded(
@@ -81,7 +87,10 @@ class AdvisoryStagesPage extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      _Thumbnail(imageUrl: controller.item.imageUrl, size: 50.w),
+                      _Thumbnail(
+                        imageUrl: controller.item.imageUrl,
+                        size: 50.w,
+                      ),
                       SizedBox(width: 12.w),
                       Expanded(
                         child: Padding(
@@ -127,7 +136,11 @@ class AdvisoryStagesPage extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.wifi_off_rounded, size: 36.sp, color: AppColors.textSecondaryLight),
+                          Icon(
+                            Icons.wifi_off_rounded,
+                            size: 36.sp,
+                            color: AppColors.textSecondaryLight,
+                          ),
                           SizedBox(height: 12.h),
                           Text(
                             error,
@@ -151,8 +164,9 @@ class AdvisoryStagesPage extends StatelessWidget {
                 final stages = controller.stages;
                 if (stages.isEmpty) {
                   return EmptyStateWidget(
-                    message: 'advisory_stages.empty_for'
-                        .trParams({'item': controller.item.label(isBn)}),
+                    message: 'advisory_stages.empty_for'.trParams({
+                      'item': controller.item.label(isBn),
+                    }),
                   );
                 }
 
@@ -167,58 +181,69 @@ class AdvisoryStagesPage extends StatelessWidget {
                       final stage = stages[i];
                       final dateRange = stage.dateRangeLabel(isBn);
                       return GestureDetector(
-                        onTap: () => Get.to(
-                          () => const AdvisoryContentPage(),
-                          binding: AdvisoryContentBinding(
-                            categoryId: controller.categoryId,
-                            categoryLabel: controller.categoryLabel,
-                            item: controller.item,
-                            stage: stage,
-                            ipmOnly: controller.ipmOnly,
-                            stageCategory: controller.stageCategory,
-                          ),
-                        ),
-                        child: controller.isDisease
-                            ? _DiseaseStageRow(label: stage.label(isBn), imageUrl: stage.icon)
-                            : Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(12.r),
-                                ),
-                                child: Row(
-                                  children: [
-                                    _Thumbnail(imageUrl: stage.icon, size: 70.w),
-                                    SizedBox(width: 12.w),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            stage.label(isBn),
-                                            style: TextStyle(
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: FigmaColors.neutralBody,
-                                            ),
-                                          ),
-                                          if (dateRange.isNotEmpty) ...[
-                                            SizedBox(height: 4.h),
+                        onTap:
+                            () => Get.to(
+                              () => const AdvisoryContentPage(),
+                              binding: AdvisoryContentBinding(
+                                categoryId: controller.categoryId,
+                                categoryLabel: controller.categoryLabel,
+                                item: controller.item,
+                                stage: stage,
+                                ipmOnly: controller.ipmOnly,
+                                stageCategory: controller.stageCategory,
+                              ),
+                            ),
+                        child:
+                            controller.isDisease
+                                ? _DiseaseStageRow(
+                                  label: stage.label(isBn),
+                                  imageUrl: stage.icon,
+                                )
+                                : Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      _Thumbnail(
+                                        imageUrl: stage.icon,
+                                        size: 70.w,
+                                      ),
+                                      SizedBox(width: 12.w),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
                                             Text(
-                                              dateRange,
+                                              stage.label(isBn),
                                               style: TextStyle(
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w500,
-                                                color: FigmaColors.neutralSecondary,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600,
+                                                color: FigmaColors.neutralBody,
                                               ),
                                             ),
+                                            if (dateRange.isNotEmpty) ...[
+                                              SizedBox(height: 4.h),
+                                              Text(
+                                                dateRange,
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      FigmaColors
+                                                          .neutralSecondary,
+                                                ),
+                                              ),
+                                            ],
                                           ],
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
                       );
                     },
                   ),
@@ -293,15 +318,17 @@ class _Thumbnail extends StatelessWidget {
       child: Icon(Icons.eco, size: size * 0.55, color: AppColors.primary),
     );
     final url = imageUrl;
-    if (url == null || url.isEmpty) return fallback;
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.r),
-      child: Image.network(
-        '${ApiEndpoints.baseUrlUserHost}$url',
+      child: FadeNetworkImage(
+        url:
+            url == null || url.isEmpty
+                ? null
+                : '${ApiEndpoints.baseUrlUserHost}$url',
         width: size,
         height: size,
         fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) => fallback,
+        placeholder: fallback,
       ),
     );
   }
