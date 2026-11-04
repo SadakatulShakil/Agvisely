@@ -29,7 +29,7 @@ class EditProfilePage extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: () => Get.back(),
-                    icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
+                    icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 30.w, height: 30.h),
                   ),
                   Text(
                     'profile.edit_profile'.tr,

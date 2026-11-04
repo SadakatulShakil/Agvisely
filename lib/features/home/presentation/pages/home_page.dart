@@ -172,7 +172,6 @@ class _HomeDashboard extends StatelessWidget {
       child: Column(
         children: [
           //Top bar: profile icon + greeting + location + notification icon —
-          // fixed in place; everything else below scrolls independently.
           Padding(
             padding: EdgeInsets.fromLTRB(20.r, 20.r, 20.r, 16),
             child: Row(

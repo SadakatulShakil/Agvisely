@@ -31,8 +31,8 @@ class MyChoicePage extends StatelessWidget {
                   onPressed: () => Get.back(),
                   icon: SvgPicture.asset(
                     'assets/icons/svg/arrow_back.svg',
-                    width: 24.w,
-                    height: 24.h,
+                    width: 30.w,
+                    height: 30.h,
                   ),
                 ),
                 Text(

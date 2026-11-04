@@ -49,78 +49,75 @@ class AdvisoryStagesPage extends StatelessWidget {
       backgroundColor: AppColors.scaffoldLight,
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(4.w, 20.h, 16.w, 0.h),
+              padding: EdgeInsets.fromLTRB(0.w, 20.h, 16.w, 0.h),
               child: Row(
                 children: [
                   IconButton(
                     icon: SvgPicture.asset(
                       'assets/icons/svg/arrow_back.svg',
-                      width: 24.w,
-                      height: 24.h,
+                      width: 30.w,
+                      height: 30.h,
                     ),
                     onPressed: () => Get.back(),
                   ),
                   Expanded(
-                    child: Text(
-                      _stageListTitle(controller, isBn),
-                      style: TextStyle(
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.w400,
-                        color: FigmaColors.primaryDefault,
-                      ),
-                    ),
+                    child:
+                        controller.isDisease
+                            ? Text(
+                              _stageListTitle(controller, isBn),
+                              style: TextStyle(
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.w400,
+                                color: FigmaColors.primaryDefault,
+                              ),
+                            )
+                            : Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: FigmaColors.neutralPlaceholder,
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                  child: _Thumbnail(
+                                    imageUrl: controller.item.imageUrl,
+                                    size: 45.w,
+                                  ),
+                                ),
+                                SizedBox(width: 12.w),
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      controller.item.label(isBn),
+                                      style: TextStyle(
+                                        fontSize: 22.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: FigmaColors.primaryDark,
+                                      ),
+                                    ),
+                                    Text(
+                                      'advisory_stages.card_subtitle'.tr,
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: FigmaColors.neutralBody,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                   ),
                 ],
               ),
             ),
             if (!controller.isDisease)
               Padding(
-                padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 8.h),
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(16.w),
-                  decoration: BoxDecoration(
-                    color: FigmaColors.neutralWhite,
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  child: Row(
-                    children: [
-                      _Thumbnail(
-                        imageUrl: controller.item.imageUrl,
-                        size: 50.w,
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(8.w, 10.h, 0.w, 8.h),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                controller.item.label(isBn),
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: FigmaColors.primaryDark,
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Text(
-                                'advisory_stages.card_subtitle'.tr,
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: FigmaColors.neutralSecondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                padding: EdgeInsets.fromLTRB(22.w, 20.h, 20.w, 8.h),
+                child: SizedBox()
               ),
             Expanded(
               child: Obx(() {

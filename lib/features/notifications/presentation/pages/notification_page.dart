@@ -50,11 +50,11 @@ class _NotificationPageState extends State<NotificationPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(4.w, 20.h, 16.w, 8.h),
+              padding: EdgeInsets.fromLTRB(0.w, 20.h, 16.w, 8.h),
               child: Row(
                 children: [
                   IconButton(
-                    icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 24.w, height: 24.h),
+                    icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 30.w, height: 30.h),
                     onPressed: () => Get.back(),
                   ),
                   Text(
