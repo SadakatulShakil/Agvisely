@@ -17,10 +17,18 @@ class PinchPdfView extends StatefulWidget {
 class _PinchPdfViewState extends State<PinchPdfView> {
   late final PdfControllerPinch _controller;
 
+  /// Below this zoom ratio, [_snapBackIfNeeded] pulls the view back to an
+  /// exact fit on release — pdfx's own InteractiveViewer just hard-clamps at
+  /// minScale instead of animating back, so pinching out normally leaves it
+  /// a few percent off a clean 1:1 fit.
+  static const double _snapBackThreshold = 1.15;
+
   @override
   void initState() {
     super.initState();
-    _controller = PdfControllerPinch(document: PdfDocument.openData(widget.fetchBytes()));
+    _controller = PdfControllerPinch(
+      document: PdfDocument.openData(widget.fetchBytes()),
+    );
   }
 
   @override
@@ -29,15 +37,22 @@ class _PinchPdfViewState extends State<PinchPdfView> {
     super.dispose();
   }
 
+  void _snapBackIfNeeded(ScaleEndDetails _) {
+    if (_controller.zoomRatio > _snapBackThreshold) return;
+    final fit = _controller.calculatePageFitMatrix(
+      pageNumber: _controller.page,
+    );
+    if (fit != null) {
+      _controller.goTo(
+        destination: fit,
+        duration: const Duration(milliseconds: 220),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // PdfViewPinch wraps its document in its own SafeArea internally. When
-    // this is embedded well below the real status bar (e.g. inside another
-    // page's own layout, with no ancestor SafeArea to already zero out the
-    // device insets), that inner SafeArea re-applies the device's real
-    // top/bottom insets deep inside the viewer, pushing the actual PDF
-    // content down and leaving a blank gap above it. Stripping the ambient
-    // MediaQuery padding here makes that inner SafeArea a no-op.
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -46,11 +61,19 @@ class _PinchPdfViewState extends State<PinchPdfView> {
       removeRight: true,
       child: PdfViewPinch(
         controller: _controller,
+        onInteractionEnd: _snapBackIfNeeded,
+        // Default includes a BoxShadow around every page — flat white reads
+        // cleaner against our own card background and matches the no-shadow
+        // look everywhere else in the app.
+        backgroundDecoration: const BoxDecoration(color: Colors.white),
         builders: PdfViewPinchBuilders<DefaultBuilderOptions>(
           options: const DefaultBuilderOptions(),
-          documentLoaderBuilder: (_) => const Center(child: CircularProgressIndicator()),
-          pageLoaderBuilder: (_) => const Center(child: CircularProgressIndicator()),
-          errorBuilder: (_, __) => Center(child: Text('menu.pdf_load_failed'.tr)),
+          documentLoaderBuilder:
+              (_) => const Center(child: CircularProgressIndicator()),
+          pageLoaderBuilder:
+              (_) => const Center(child: CircularProgressIndicator()),
+          errorBuilder:
+              (_, __) => Center(child: Text('menu.pdf_load_failed'.tr)),
         ),
       ),
     );

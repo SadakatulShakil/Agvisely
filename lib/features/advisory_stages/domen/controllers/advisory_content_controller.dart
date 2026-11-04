@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/services/advisory_content_service.dart';
@@ -37,18 +38,32 @@ class AdvisoryContentController extends GetxController {
   final errorMessage = Rxn<String>();
   final content = Rxn<AdvisoryContentModel>();
 
+  /// Drives the collapsing hero header — shared by the page's scroll view
+  /// and its always-on-top app bar overlay so both react to the same offset.
+  final scrollController = ScrollController();
+
   @override
   void onInit() {
     super.onInit();
     loadContent();
   }
 
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
+
   Future<void> loadContent() async {
     isLoading.value = true;
     errorMessage.value = null;
 
-    final result = await AdvisoryContentService()
-        .fetch(categoryId, item.id, stage.id, ipmOnly: ipmOnly);
+    final result = await AdvisoryContentService().fetch(
+      categoryId,
+      item.id,
+      stage.id,
+      ipmOnly: ipmOnly,
+    );
     if (result.content != null) {
       content.value = result.content;
     } else {
