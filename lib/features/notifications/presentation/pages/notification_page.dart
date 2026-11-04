@@ -10,7 +10,6 @@ import '../../../../models/notification_model.dart';
 import '../../domen/controllers/notification_controller.dart';
 
 /// Notification inbox — `GET /notifications`. NotificationService routes
-/// here on tap-through from a push.
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
 

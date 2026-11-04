@@ -11,8 +11,6 @@ import '../../../location/presentation/pages/select_location_page.dart';
 import '../../domen/controllers/home_controller.dart';
 
 /// Bottom sheet listing the GPS "Current Location" entry + custom saved
-/// locations, with instant switching, edit/delete on custom entries, and an
-/// "Add location" tile that opens the flat SelectLocationPage.
 class SavedLocationsSheet extends StatefulWidget {
   const SavedLocationsSheet({super.key});
 
@@ -57,7 +55,6 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
     await UserPrefService().setCurrent(loc);
     Get.find<HomeController>().onLocationChanged();
     // Navigator.pop (not Get.back) — this closes the specific route this
-    // sheet was pushed as, reliably, regardless of GetX's own routing state.
     if (mounted) Navigator.of(context).pop();
   }
 
@@ -102,17 +99,6 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
 
   Future<void> _editLocation(SavedLocation loc, bool isBangla) async {
     // showDialog (not Get.dialog) — same reasoning as _selectLocation's
-    // Navigator.pop: this sheet is a plain Flutter route (showModalBottomSheet),
-    // so popping its rename dialog through GetX's separate overlay/navigator
-    // instead of this route's own `context` raced the sheet's own Navigator
-    // and threw a framework assertion ('_dependents.isEmpty') on save.
-    //
-    // The dialog's TextEditingController lives in _RenameDialog's own State
-    // (not a local variable here, manually disposed right after awaiting
-    // showDialog) — a dialog's exit transition keeps rebuilding its content
-    // for ~150ms after being popped, and disposing the controller the
-    // instant the awaited Future resolves raced that animation, handing a
-    // rebuilding TextField an already-disposed controller.
     final newName = await showDialog<String>(
       context: context,
       builder: (_) => _RenameDialog(
@@ -141,8 +127,6 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
     if (item == null) return;
 
     // Close immediately — resolving the pick via the API can take a moment,
-    // and the user shouldn't have to wait in this sheet for it. HomeController
-    // resolves + saves it in the background and drives a small loader on the
     // weather card until it's done.
     if (mounted) Navigator.of(context).pop();
     Get.find<HomeController>().addCustomLocation(item);
@@ -245,10 +229,6 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
 
   Widget _row(SavedLocation loc, bool isBangla) {
     // Custom entries already carry "Union, Upazila" as their name (set at
-    // pick time in SelectLocationController/HomeController), so the
-    // district alone is enough for their subtitle without repeating upazila.
-    // The GPS row's title is the fixed "Current Location" label instead, so
-    // its subtitle keeps showing upazila+district for full context.
     final title =
         loc.isGps
             ? 'locations.current_location'.tr
@@ -347,10 +327,6 @@ class _SavedLocationsSheetState extends State<SavedLocationsSheet> {
 }
 
 /// The "Rename location" dialog's content — its own widget so the
-/// [TextEditingController] is created/disposed by the framework alongside
-/// this State's own lifecycle, instead of a caller manually disposing it
-/// right after `showDialog` returns (which races the dialog's exit
-/// transition — see [_SavedLocationsSheetState._editLocation]).
 class _RenameDialog extends StatefulWidget {
   const _RenameDialog({required this.initialText, required this.isBangla});
 

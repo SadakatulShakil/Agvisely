@@ -236,8 +236,6 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                               categoryId: category.id,
                               item: item,
                               // Always "Disease Advisory" here, regardless of
-                              // which underlying category (crop/livestock/
-                              // aquaculture) the item was browsed from.
                               categoryLabel: 'advisory_items.disease_title'.tr,
                               stageCategory: 'disease',
                             ),
