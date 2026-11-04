@@ -147,8 +147,6 @@ class _MenuList extends StatelessWidget {
   final MenuTreeController controller;
 
   /// Top padding override — the root list sits right below the "Menu"
-  /// title with none, while a drill-down level leaves room below its
-  /// back-arrow header. Defaults to the latter.
   final double? padTop;
 
   @override

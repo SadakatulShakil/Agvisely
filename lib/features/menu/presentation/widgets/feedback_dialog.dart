@@ -6,7 +6,6 @@ import '../../../../core/services/user_feedback_service.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 
 /// The popup a `'dialog'`-type custom-code node opens — a free-text
-/// message, trimmed and capped at 1000 characters, `POST /user-feedback`.
 class FeedbackDialog extends StatefulWidget {
   const FeedbackDialog({super.key});
 

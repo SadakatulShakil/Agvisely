@@ -9,9 +9,6 @@ import '../../../../core/utils/fade_network_image.dart';
 import '../../../../models/custom_code_model.dart';
 
 /// One row in the Menu tab's root list or a drill-down browser page —
-/// [CustomCodeModel.iconUrl] (absolute, or relative to the API host) with a
-/// generic fallback, the node's locale-aware [CustomCodeModel.label], and a
-/// trailing chevron.
 class CustomCodeRow extends StatelessWidget {
   const CustomCodeRow({super.key, required this.node, required this.onTap});
 

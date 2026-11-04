@@ -17,12 +17,6 @@ import '../../models/location_gate_destination.dart';
 import 'select_location_page.dart';
 
 /// Reusable location gate — decides whether the user lands on Home/Login
-/// straight away (already has a saved location) or has to go through the
-/// GPS permission flow first, falling back to manual search on any dead end.
-///
-/// Entry points: SplashScreen (app launch) and OnboardingController.finish()
-/// (fresh install, before Login/Signup — so district/upazila are already
-/// known by the time the user reaches the signup form).
 class LocationGatePage extends StatefulWidget {
   final LocationGateDestination destination;
 

@@ -1,9 +1,6 @@
 import '../../../../models/custom_code_model.dart';
 
 /// One rendered row on a custom-codes list page (Menu tab root, or the
-/// drill-down browser page) — either a non-tappable section label (a
-/// node's own title, shown above children the app already has) or an
-/// actual tappable item.
 sealed class MenuRow {}
 
 class MenuRowHeader extends MenuRow {
