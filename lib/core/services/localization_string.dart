@@ -111,6 +111,8 @@ class LocalizationString extends Translations {
     'menu.feedback_success': 'Thank you for your feedback!',
     'menu.feedback_failed': 'Could not send feedback',
     'menu.pdf_load_failed': 'Could not load this document.',
+    'menu.pdf_loading': 'Loading document...',
+    'menu.pdf_loading_percent': 'Loading document... @percent%',
 
     // ── Pest advisory (crop-select demo) ──────────────────────────────────
     'pest_advisory.select_crop_title': 'Select a crop for advisory',
@@ -348,6 +350,8 @@ class LocalizationString extends Translations {
     'menu.feedback_success': 'আপনার মতামতের জন্য ধন্যবাদ!',
     'menu.feedback_failed': 'মতামত পাঠানো যায়নি',
     'menu.pdf_load_failed': 'এই ডকুমেন্টটি লোড করা যায়নি।',
+    'menu.pdf_loading': 'ডকুমেন্ট লোড হচ্ছে...',
+    'menu.pdf_loading_percent': 'ডকুমেন্ট লোড হচ্ছে... @percent%',
 
     // ── Pest advisory (crop-select demo) ──────────────────────────────────
     'pest_advisory.select_crop_title': 'পরামর্শের জন্য একটি ফসল নির্বাচন করুন',

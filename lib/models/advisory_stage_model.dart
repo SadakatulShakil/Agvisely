@@ -21,6 +21,7 @@ class AdvisoryStageModel {
   final String? stageAdvisoryBn;
   final int sortOrder;
   final bool isActive;
+  final bool withInDateRange;
 
   const AdvisoryStageModel({
     required this.id,
@@ -41,6 +42,7 @@ class AdvisoryStageModel {
     this.stageAdvisoryBn,
     this.sortOrder = 0,
     this.isActive = true,
+    this.withInDateRange = true,
   });
 
   factory AdvisoryStageModel.fromJson(Map<String, dynamic> j) => AdvisoryStageModel(
@@ -62,6 +64,7 @@ class AdvisoryStageModel {
         stageAdvisoryBn: j['stageAdvisoryBn']?.toString(),
         sortOrder: j['sortOrder'] is int ? j['sortOrder'] as int : 0,
         isActive: j['isActive'] != false,
+        withInDateRange: j['withInDateRange'] != false,
       );
 
   String label(bool isBn) =>

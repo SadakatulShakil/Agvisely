@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../../core/theme/app_theme_colors.dart';
 import '../../../../../core/utils/app_logo.dart';
+import '../../../../../core/utils/mordern_dropdown.dart';
 import '../../domen/controllers/auth_controller.dart';
 import '../widgets/auth_widgets.dart';
 
@@ -13,7 +14,10 @@ class SignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = Get.isRegistered<AuthController>() ? Get.find<AuthController>() : Get.put(AuthController(), permanent: true);
+    final c =
+        Get.isRegistered<AuthController>()
+            ? Get.find<AuthController>()
+            : Get.put(AuthController(), permanent: true);
     return Scaffold(
       body: SageBackground(
         child: SafeArea(
@@ -27,7 +31,11 @@ class SignupPage extends StatelessWidget {
                 SizedBox(height: 28.h),
                 Text(
                   'signup.intro'.tr,
-                  style: TextStyle(fontSize: 18.sp, color: AppColors.primaryDark, height: 1.3),
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    color: AppColors.primaryDark,
+                    height: 1.3,
+                  ),
                 ),
                 const SizedBox(height: 32),
                 FieldLabel('signup.your_name'.tr),
@@ -36,9 +44,14 @@ class SignupPage extends StatelessWidget {
                   textCapitalization: TextCapitalization.words,
                   decoration: agFieldDecoration('signup.name_hint'.tr).copyWith(
                     isDense: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                    hintStyle: TextStyle(fontSize: 18.sp,
-                        color: AppColors.textSecondaryLight),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 12,
+                    ),
+                    hintStyle: TextStyle(
+                      fontSize: 18.sp,
+                      color: AppColors.textSecondaryLight,
+                    ),
                   ),
                 ),
 
@@ -61,25 +74,63 @@ class SignupPage extends StatelessWidget {
                       DropdownButtonFormField<int>(
                         value: c.selectedProfession.value?.id,
                         isExpanded: true,
-                        hint: Text('signup.select_profession'.tr,
-                            style: TextStyle(
-                                fontSize: 18.sp,
-                                color: AppColors.textSecondaryLight)),
+                        borderRadius: premiumDropdownRadius,
+                        dropdownColor: premiumDropdownColor,
+                        elevation: premiumDropdownElevation,
+                        hint: Text(
+                          'signup.select_profession'.tr,
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: AppColors.textSecondaryLight,
+                          ),
+                        ),
                         decoration: agFieldDecoration('').copyWith(
                           isDense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 12,
+                          ),
                         ),
-                        items: c.professions
-                            .map((p) => DropdownMenuItem(
-                                  value: p.id,
-                                  child: Text(p.label(isBn),
+                        items:
+                            c.professions
+                                .map(
+                                  (p) => DropdownMenuItem(
+                                    value: p.id,
+                                    child: premiumDropdownItemLabel(
+                                      p.label(isBn),
+                                      selected:
+                                          p.id ==
+                                          c.selectedProfession.value?.id,
                                       style: TextStyle(
-                                          fontSize: 18.sp,
-                                          color: AppColors.textSecondaryLight)),
-                                ))
-                            .toList(),
-                        onChanged: (id) => c.selectedProfession.value =
-                            c.professions.firstWhereOrNull((p) => p.id == id),
+                                        fontSize: 18.sp,
+                                        color: AppColors.textSecondaryLight,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                        selectedItemBuilder:
+                            (context) =>
+                                c.professions
+                                    .map(
+                                      (p) => Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          p.label(isBn),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 18.sp,
+                                            color: AppColors.textSecondaryLight,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                        onChanged:
+                            (id) =>
+                                c.selectedProfession.value = c.professions
+                                    .firstWhereOrNull((p) => p.id == id),
                       ),
                       if (c.professionsLoadFailed.value)
                         TextButton(
@@ -99,18 +150,25 @@ class SignupPage extends StatelessWidget {
                   ],
                   decoration: agFieldDecoration('+8801751330394').copyWith(
                     isDense: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                    hintStyle: TextStyle(fontSize: 18.sp,
-                        color: AppColors.textSecondaryLight),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 12,
+                    ),
+                    hintStyle: TextStyle(
+                      fontSize: 18.sp,
+                      color: AppColors.textSecondaryLight,
+                    ),
                   ),
                 ),
 
                 const SizedBox(height: 32),
-                Obx(() => AgButton(
-                      label: 'auth.request_otp'.tr,
-                      loading: c.isSubmitting.value,
-                      onPressed: c.submitSignup,
-                    )),
+                Obx(
+                  () => AgButton(
+                    label: 'auth.request_otp'.tr,
+                    loading: c.isSubmitting.value,
+                    onPressed: c.submitSignup,
+                  ),
+                ),
                 SizedBox(height: 8.h),
                 Center(
                   child: TextButton(
@@ -118,13 +176,16 @@ class SignupPage extends StatelessWidget {
                     child: Text.rich(
                       TextSpan(
                         text: '${'signup.already_have_account'.tr}  ',
-                        style: const TextStyle(color: AppColors.textSecondaryLight),
+                        style: const TextStyle(
+                          color: AppColors.textSecondaryLight,
+                        ),
                         children: [
                           TextSpan(
                             text: 'auth.login'.tr,
                             style: const TextStyle(
-                                color: AppColors.primaryDark,
-                                fontWeight: FontWeight.w600),
+                              color: AppColors.primaryDark,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ),

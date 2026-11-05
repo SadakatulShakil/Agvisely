@@ -177,70 +177,79 @@ class AdvisoryStagesPage extends StatelessWidget {
                     itemBuilder: (context, i) {
                       final stage = stages[i];
                       final dateRange = stage.dateRangeLabel(isBn);
-                      return GestureDetector(
-                        onTap:
-                            () => Get.to(
-                              () => const AdvisoryContentPage(),
-                              binding: AdvisoryContentBinding(
-                                categoryId: controller.categoryId,
-                                categoryLabel: controller.categoryLabel,
-                                item: controller.item,
-                                stage: stage,
-                                ipmOnly: controller.ipmOnly,
-                                stageCategory: controller.stageCategory,
-                              ),
-                            ),
-                        child:
-                            controller.isDisease
-                                ? _DiseaseStageRow(
-                                  label: stage.label(isBn),
-                                  imageUrl: stage.icon,
-                                )
-                                : Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    borderRadius: BorderRadius.circular(12.r),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      _Thumbnail(
-                                        imageUrl: stage.icon,
-                                        size: 70.w,
+                      final enabled = stage.withInDateRange;
+                      return Opacity(
+                        opacity: enabled ? 1.0 : 0.30,
+                        child: GestureDetector(
+                          onTap:
+                              enabled
+                                  ? () => Get.to(
+                                    () => const AdvisoryContentPage(),
+                                    binding: AdvisoryContentBinding(
+                                      categoryId: controller.categoryId,
+                                      categoryLabel: controller.categoryLabel,
+                                      item: controller.item,
+                                      stage: stage,
+                                      ipmOnly: controller.ipmOnly,
+                                      stageCategory: controller.stageCategory,
+                                    ),
+                                  )
+                                  : null,
+                          child:
+                              controller.isDisease
+                                  ? _DiseaseStageRow(
+                                    label: stage.label(isBn),
+                                    imageUrl: stage.icon,
+                                  )
+                                  : Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(
+                                        12.r,
                                       ),
-                                      SizedBox(width: 12.w),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              stage.label(isBn),
-                                              style: TextStyle(
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w600,
-                                                color: FigmaColors.neutralBody,
-                                              ),
-                                            ),
-                                            if (dateRange.isNotEmpty) ...[
-                                              SizedBox(height: 4.h),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        _Thumbnail(
+                                          imageUrl: stage.icon,
+                                          size: 70.w,
+                                        ),
+                                        SizedBox(width: 12.w),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
                                               Text(
-                                                dateRange,
+                                                stage.label(isBn),
                                                 style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w600,
                                                   color:
-                                                      FigmaColors
-                                                          .neutralSecondary,
+                                                      FigmaColors.primaryDark,
                                                 ),
                                               ),
+                                              if (dateRange.isNotEmpty) ...[
+                                                SizedBox(height: 4.h),
+                                                Text(
+                                                  dateRange,
+                                                  style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                    color:
+                                                        FigmaColors
+                                                            .neutralBody,
+                                                  ),
+                                                ),
+                                              ],
                                             ],
-                                          ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
+                        ),
                       );
                     },
                   ),

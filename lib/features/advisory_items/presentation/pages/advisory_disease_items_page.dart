@@ -7,6 +7,7 @@ import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/empty_state_widget.dart';
 import '../../../../core/utils/fade_network_image.dart';
+import '../../../../core/utils/mordern_dropdown.dart';
 import '../../../auth/auth/presentation/widgets/auth_widgets.dart';
 import '../../../advisory_stages/domen/binding/advisory_stages_binding.dart';
 import '../../../advisory_stages/presentation/pages/advisory_stages_page.dart';
@@ -76,6 +77,9 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                         DropdownButtonFormField<int>(
                           value: controller.selectedCategory.value?.id,
                           isExpanded: true,
+                          borderRadius: premiumDropdownRadius,
+                          dropdownColor: premiumDropdownColor,
+                          elevation: premiumDropdownElevation,
 
                           // Control the dropdown icon's layout constraints.
                           icon: SizedBox(
@@ -124,20 +128,35 @@ class AdvisoryDiseaseItemsPage extends StatelessWidget {
                               controller.categories.map((c) {
                                 return DropdownMenuItem<int>(
                                   value: c.id,
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      c.label(isBn),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        color: FigmaColors.neutralPlaceholder,
-                                      ),
+                                  child: premiumDropdownItemLabel(
+                                    c.label(isBn),
+                                    selected:
+                                        c.id ==
+                                        controller.selectedCategory.value?.id,
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      color: FigmaColors.neutralPlaceholder,
                                     ),
                                   ),
                                 );
                               }).toList(),
+
+                          selectedItemBuilder:
+                              (context) =>
+                                  controller.categories.map((c) {
+                                    return Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        c.label(isBn),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          color: FigmaColors.neutralPlaceholder,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
 
                           onChanged: (id) {
                             final category = controller.categories

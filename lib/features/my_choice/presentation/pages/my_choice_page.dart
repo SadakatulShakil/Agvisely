@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_theme_colors.dart';
 import '../../../../core/utils/fade_network_image.dart';
+import '../../../../core/utils/mordern_dropdown.dart';
 import '../../../../models/user_choice_model.dart';
 import '../../../auth/auth/presentation/widgets/auth_widgets.dart';
 import '../../domen/controllers/my_choice_controller.dart';
@@ -320,190 +321,250 @@ class _AddChoiceSheet extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 20.h),
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'my_choice.add_new_title'.tr,
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryDark,
+          // Dropdown popups need comfortable room to open in — a tightly
+          // content-sized sheet feels cramped. Floors the sheet at just
+          // over half the screen even when the form itself is shorter.
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.sizeOf(context).height * 0.55,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'my_choice.add_new_title'.tr,
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryDark,
+                  ),
                 ),
-              ),
-              SizedBox(height: 4.h),
-              Text(
-                'my_choice.add_new_subtitle'.tr,
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: AppColors.textSecondaryLight,
+                SizedBox(height: 4.h),
+                Text(
+                  'my_choice.add_new_subtitle'.tr,
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    color: AppColors.textSecondaryLight,
+                  ),
                 ),
-              ),
-              SizedBox(height: 16.h),
+                SizedBox(height: 16.h),
 
-              FieldLabel('my_choice.category'.tr),
-              Obx(() {
-                if (controller.categoriesLoading.value &&
-                    controller.categories.isEmpty) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
+                FieldLabel('my_choice.category'.tr),
+                Obx(() {
+                  if (controller.categoriesLoading.value &&
+                      controller.categories.isEmpty) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    );
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DropdownButtonFormField<int>(
+                        value: controller.selectedCategory.value?.id,
+                        isExpanded: true,
+                        borderRadius: premiumDropdownRadius,
+                        dropdownColor: premiumDropdownColor,
+                        elevation: premiumDropdownElevation,
+                        hint: Text(
+                          'my_choice.select_category'.tr,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: AppColors.textSecondaryLight,
+                          ),
+                        ),
+                        decoration: agFieldDecoration('').copyWith(
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 12,
+                          ),
+                        ),
+                        items:
+                            controller.categories
+                                .map(
+                                  (c) => DropdownMenuItem(
+                                    value: c.id,
+                                    child: premiumDropdownItemLabel(
+                                      c.label(isBn),
+                                      selected:
+                                          c.id ==
+                                          controller.selectedCategory.value?.id,
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        color: AppColors.textSecondaryLight,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                        // The closed field renders whichever of these lines up
+                        // with the current value — the plain styled items
+                        // above are for the open popup only. Without this, the
+                        // selected value never shows in the closed field.
+                        selectedItemBuilder:
+                            (context) =>
+                                controller.categories
+                                    .map(
+                                      (c) => Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          c.label(isBn),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            color: AppColors.textSecondaryLight,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                        onChanged: (id) {
+                          final category = controller.categories
+                              .firstWhereOrNull((c) => c.id == id);
+                          controller.onCategoryChanged(category);
+                        },
+                      ),
+                      if (controller.categoriesLoadFailed.value)
+                        TextButton(
+                          onPressed: controller.loadCategories,
+                          child: Text('common.retry'.tr),
+                        ),
+                    ],
                   );
-                }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DropdownButtonFormField<int>(
-                      value: controller.selectedCategory.value?.id,
-                      isExpanded: true,
-                      hint: Text(
-                        'my_choice.select_category'.tr,
+                }),
+
+                SizedBox(height: 12.h),
+                FieldLabel('my_choice.item'.tr),
+                Obx(() {
+                  final category = controller.selectedCategory.value;
+                  if (category == null) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                      child: Text(
+                        'my_choice.select_category_first'.tr,
                         style: TextStyle(
-                          fontSize: 16.sp,
+                          fontSize: 13.sp,
                           color: AppColors.textSecondaryLight,
                         ),
                       ),
-                      decoration: agFieldDecoration('').copyWith(
-                        isDense: true,
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 12,
-                        ),
+                    );
+                  }
+                  if (controller.itemsLoading.value) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
                       ),
-                      items:
-                          controller.categories
-                              .map(
-                                (c) => DropdownMenuItem(
-                                  value: c.id,
-                                  child: Text(
-                                    c.label(isBn),
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      color: AppColors.textSecondaryLight,
+                    );
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DropdownButtonFormField<int>(
+                        value: controller.selectedItem.value?.id,
+                        isExpanded: true,
+                        borderRadius: premiumDropdownRadius,
+                        dropdownColor: premiumDropdownColor,
+                        elevation: premiumDropdownElevation,
+                        hint: Text(
+                          'my_choice.select_item'.tr,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: AppColors.textSecondaryLight,
+                          ),
+                        ),
+                        decoration: agFieldDecoration('').copyWith(
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 12,
+                          ),
+                        ),
+                        items:
+                            controller.items
+                                .map(
+                                  (i) => DropdownMenuItem(
+                                    value: i.id,
+                                    child: premiumDropdownItemLabel(
+                                      i.label(isBn),
+                                      selected:
+                                          i.id ==
+                                          controller.selectedItem.value?.id,
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        color: AppColors.textSecondaryLight,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              )
-                              .toList(),
-                      onChanged: (id) {
-                        final category = controller.categories.firstWhereOrNull(
-                          (c) => c.id == id,
+                                )
+                                .toList(),
+                        selectedItemBuilder:
+                            (context) =>
+                                controller.items
+                                    .map(
+                                      (i) => Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          i.label(isBn),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            color: AppColors.textSecondaryLight,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                        onChanged:
+                            (id) =>
+                                controller.selectedItem.value = controller.items
+                                    .firstWhereOrNull((i) => i.id == id),
+                      ),
+                      if (controller.itemsLoadFailed.value)
+                        TextButton(
+                          onPressed:
+                              () => controller.onCategoryChanged(category),
+                          child: Text('common.retry'.tr),
+                        ),
+                    ],
+                  );
+                }),
+
+                SizedBox(height: 28.h),
+                Obx(
+                  () => AgButton(
+                    label: 'my_choice.add_button'.tr,
+                    loading: controller.isSubmitting.value,
+                    showArrow: false,
+                    onPressed: () async {
+                      final result = await controller.submitAddChoice();
+                      if (result.duplicate) {
+                        Get.snackbar(
+                          'my_choice.already_added_title'.tr,
+                          'my_choice.already_added'.tr,
                         );
-                        controller.onCategoryChanged(category);
-                      },
-                    ),
-                    if (controller.categoriesLoadFailed.value)
-                      TextButton(
-                        onPressed: controller.loadCategories,
-                        child: Text('common.retry'.tr),
-                      ),
-                  ],
-                );
-              }),
-
-              SizedBox(height: 12.h),
-              FieldLabel('my_choice.item'.tr),
-              Obx(() {
-                final category = controller.selectedCategory.value;
-                if (category == null) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                    child: Text(
-                      'my_choice.select_category_first'.tr,
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        color: AppColors.textSecondaryLight,
-                      ),
-                    ),
-                  );
-                }
-                if (controller.itemsLoading.value) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                  );
-                }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DropdownButtonFormField<int>(
-                      value: controller.selectedItem.value?.id,
-                      isExpanded: true,
-                      hint: Text(
-                        'my_choice.select_item'.tr,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          color: AppColors.textSecondaryLight,
-                        ),
-                      ),
-                      decoration: agFieldDecoration('').copyWith(
-                        isDense: true,
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 12,
-                        ),
-                      ),
-                      items:
-                          controller.items
-                              .map(
-                                (i) => DropdownMenuItem(
-                                  value: i.id,
-                                  child: Text(
-                                    i.label(isBn),
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      color: AppColors.textSecondaryLight,
-                                    ),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                      onChanged:
-                          (id) =>
-                              controller.selectedItem.value = controller.items
-                                  .firstWhereOrNull((i) => i.id == id),
-                    ),
-                    if (controller.itemsLoadFailed.value)
-                      TextButton(
-                        onPressed: () => controller.onCategoryChanged(category),
-                        child: Text('common.retry'.tr),
-                      ),
-                  ],
-                );
-              }),
-
-              SizedBox(height: 28.h),
-              Obx(
-                () => AgButton(
-                  label: 'my_choice.add_button'.tr,
-                  loading: controller.isSubmitting.value,
-                  showArrow: false,
-                  onPressed: () async {
-                    final result = await controller.submitAddChoice();
-                    if (result.duplicate) {
-                      Get.snackbar(
-                        'my_choice.already_added_title'.tr,
-                        'my_choice.already_added'.tr,
-                      );
-                    } else if (result.error == null) {
-                      Get.back();
-                      Get.snackbar('', 'my_choice.add_success'.tr);
-                    } else {
-                      Get.snackbar('my_choice.add_failed'.tr, result.error!);
-                    }
-                  },
+                      } else if (result.error == null) {
+                        Get.back();
+                        Get.snackbar('', 'my_choice.add_success'.tr);
+                      } else {
+                        Get.snackbar('my_choice.add_failed'.tr, result.error!);
+                      }
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

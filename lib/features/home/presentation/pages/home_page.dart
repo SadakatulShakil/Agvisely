@@ -329,6 +329,7 @@ class _HomeDashboard extends StatelessWidget {
                         iconColor: FigmaColors.primaryDefault,
                         title: category.label(isBn),
                         subtitle: category.subtitle(isBn),
+                        fallbackAsset: _advisoryCategoryFallbackAsset(category),
                         onTap: () => _openAdvisoryCategory(category, isBn),
                       );
                     },
@@ -454,4 +455,23 @@ void _openAdvisoryCategory(AdvisoryCategoryModel category, bool isBn) {
       categoryLabel: category.label(isBn),
     ),
   );
+}
+
+/// Bundled artwork for the 4 known advisory categories — shown instantly
+/// instead of the generic fallback icon while the real network icon loads.
+/// `null` for any category outside this set, which keeps the generic icon.
+String? _advisoryCategoryFallbackAsset(AdvisoryCategoryModel category) {
+  if (category.isDisease) {
+    return 'assets/images/categories/category_disease_warning.png';
+  }
+  switch (category.id) {
+    case 1:
+      return 'assets/images/categories/category_crop_advisory.png';
+    case 2:
+      return 'assets/images/categories/category_livestock.png';
+    case 3:
+      return 'assets/images/categories/category_aquaculture.png';
+    default:
+      return null;
+  }
 }

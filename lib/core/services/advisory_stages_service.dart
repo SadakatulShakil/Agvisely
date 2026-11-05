@@ -16,7 +16,10 @@ class AdvisoryStagesService {
   List<AdvisoryStageModel> _normalize(List<AdvisoryStageModel> list) {
     final active = list.where((s) => s.isActive).toList();
     active.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-    return active;
+    return [
+      ...active.where((s) => s.withInDateRange),
+      ...active.where((s) => !s.withInDateRange),
+    ];
   }
 
   /// `stages` is non-null (possibly empty) on success. `error` is a

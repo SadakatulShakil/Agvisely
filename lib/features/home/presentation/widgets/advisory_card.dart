@@ -15,6 +15,7 @@ class AdvisoryCard extends StatelessWidget {
     required this.iconColor,
     required this.title,
     required this.subtitle,
+    this.fallbackAsset,
     this.onTap,
   });
 
@@ -22,10 +23,21 @@ class AdvisoryCard extends StatelessWidget {
   final Color iconColor;
   final String title;
   final String subtitle;
+
+  /// Bundled asset shown instantly in place of the generic icon while the
+  /// network icon loads (and is cached to disk) in the background — avoids
+  /// the visible lag of waiting on the network for the handful of categories
+  /// we ship artwork for.
+  final String? fallbackAsset;
   final VoidCallback? onTap;
 
-  Widget _fallbackIcon() =>
-      Icon(Icons.info_outline, size: 40.sp, color: iconColor);
+  Widget _fallbackIcon() {
+    final asset = fallbackAsset;
+    if (asset != null) {
+      return Image.asset(asset, width: 56.w, height: 56.h, fit: BoxFit.contain);
+    }
+    return Icon(Icons.info_outline, size: 40.sp, color: iconColor);
+  }
 
   Widget _icon() {
     final url = iconUrl;

@@ -805,15 +805,7 @@ class _InlinePdfView extends StatelessWidget {
         url.startsWith('http') ? url : '${ApiEndpoints.baseUrlUserHost}$url';
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.r),
-      child: PinchPdfView(
-        fetchBytes: () async {
-          final resp = await http.get(Uri.parse(resolvedUrl));
-          if (resp.statusCode != 200) {
-            throw Exception('menu.pdf_load_failed'.tr);
-          }
-          return resp.bodyBytes;
-        },
-      ),
+      child: PinchPdfView(url: resolvedUrl),
     );
   }
 }

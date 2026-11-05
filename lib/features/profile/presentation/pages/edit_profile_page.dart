@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/theme/app_theme_colors.dart';
+import '../../../../core/utils/mordern_dropdown.dart';
 import '../../../../core/utils/user_avatar.dart';
 import '../../../auth/auth/presentation/widgets/auth_widgets.dart';
 import '../../domen/controllers/edit_profile_controller.dart';
@@ -29,7 +30,11 @@ class EditProfilePage extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: () => Get.back(),
-                    icon: SvgPicture.asset('assets/icons/svg/arrow_back.svg', width: 30.w, height: 30.h),
+                    icon: SvgPicture.asset(
+                      'assets/icons/svg/arrow_back.svg',
+                      width: 30.w,
+                      height: 30.h,
+                    ),
                   ),
                   Text(
                     'profile.edit_profile'.tr,
@@ -62,7 +67,10 @@ class EditProfilePage extends StatelessWidget {
                                   clipBehavior: Clip.antiAlias,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: FigmaColors.neutralWhite, width: 5.w),
+                                    border: Border.all(
+                                      color: FigmaColors.neutralWhite,
+                                      width: 5.w,
+                                    ),
                                   ),
                                   child: Image.file(
                                     File(pickedPath),
@@ -75,34 +83,44 @@ class EditProfilePage extends StatelessWidget {
                               return Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: FigmaColors.neutralWhite, width: 4.w),
+                                  border: Border.all(
+                                    color: FigmaColors.neutralWhite,
+                                    width: 4.w,
+                                  ),
                                 ),
                                 child: UserAvatar(
-                                  profileUrl: Get.find<ProfileController>().user.value?.profileUrl,
+                                  profileUrl:
+                                      Get.find<ProfileController>()
+                                          .user
+                                          .value
+                                          ?.profileUrl,
                                   size: 170.w,
                                   iconSize: 115.sp,
                                 ),
                               );
                             }),
                             Obx(
-                              () => c.isUploadingPicture.value
-                                  ? Positioned.fill(
-                                      child: Container(
-                                        decoration: const BoxDecoration(
-                                          color: Colors.black26,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: const Center(
-                                          child: SizedBox(
-                                            width: 24,
-                                            height: 24,
-                                            child: CircularProgressIndicator(
-                                                strokeWidth: 2, color: FigmaColors.neutralWhite),
+                              () =>
+                                  c.isUploadingPicture.value
+                                      ? Positioned.fill(
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            color: Colors.black26,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Center(
+                                            child: SizedBox(
+                                              width: 24,
+                                              height: 24,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                                color: FigmaColors.neutralWhite,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    )
-                                  : const SizedBox.shrink(),
+                                      )
+                                      : const SizedBox.shrink(),
                             ),
                             Positioned(
                               bottom: 2,
@@ -112,9 +130,16 @@ class EditProfilePage extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: FigmaColors.primaryDefault,
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: FigmaColors.neutralWhite, width: 2),
+                                  border: Border.all(
+                                    color: FigmaColors.neutralWhite,
+                                    width: 2,
+                                  ),
                                 ),
-                                child: Icon(Icons.camera_alt, size: 20.sp, color: FigmaColors.neutralWhite),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  size: 20.sp,
+                                  color: FigmaColors.neutralWhite,
+                                ),
                               ),
                             ),
                           ],
@@ -129,7 +154,10 @@ class EditProfilePage extends StatelessWidget {
                       textCapitalization: TextCapitalization.words,
                       decoration: agFieldDecoration('profile.name'.tr).copyWith(
                         isDense: true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 12,
+                        ),
                       ),
                     ),
                     SizedBox(height: 20.h),
@@ -152,13 +180,22 @@ class EditProfilePage extends StatelessWidget {
                           DropdownButtonFormField<int>(
                             value: c.selectedProfession.value?.id,
                             isExpanded: true,
+                            borderRadius: premiumDropdownRadius,
+                            dropdownColor: premiumDropdownColor,
+                            elevation: premiumDropdownElevation,
                             hint: Text(
                               'profile.select_profession'.tr,
-                              style: TextStyle(fontSize: 18.sp, color: AppColors.textSecondaryLight),
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                color: AppColors.textSecondaryLight,
+                              ),
                             ),
                             decoration: agFieldDecoration('').copyWith(
                               isDense: true,
-                              contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 12,
+                                horizontal: 12,
+                              ),
                             ),
                             icon: SizedBox(
                               width: 18.w,
@@ -169,18 +206,48 @@ class EditProfilePage extends StatelessWidget {
                               ),
                             ),
                             iconSize: 18.w,
-                            items: c.professions
-                                .map((p) => DropdownMenuItem(
-                                      value: p.id,
-                                      child: Text(
-                                        p.label(isBn),
-                                        style: TextStyle(
-                                            fontSize: 18.sp, color: AppColors.textSecondaryLight),
+                            items:
+                                c.professions
+                                    .map(
+                                      (p) => DropdownMenuItem(
+                                        value: p.id,
+                                        child: premiumDropdownItemLabel(
+                                          p.label(isBn),
+                                          selected:
+                                              p.id ==
+                                              c.selectedProfession.value?.id,
+                                          style: TextStyle(
+                                            fontSize: 18.sp,
+                                            color: AppColors.textSecondaryLight,
+                                          ),
+                                        ),
                                       ),
-                                    ))
-                                .toList(),
-                            onChanged: (id) => c.selectedProfession.value =
-                                c.professions.firstWhereOrNull((p) => p.id == id),
+                                    )
+                                    .toList(),
+                            selectedItemBuilder:
+                                (context) =>
+                                    c.professions
+                                        .map(
+                                          (p) => Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              p.label(isBn),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 18.sp,
+                                                color:
+                                                    AppColors
+                                                        .textSecondaryLight,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                            onChanged:
+                                (id) =>
+                                    c.selectedProfession.value = c.professions
+                                        .firstWhereOrNull((p) => p.id == id),
                           ),
                           if (c.professionsLoadFailed.value)
                             TextButton(
@@ -192,20 +259,22 @@ class EditProfilePage extends StatelessWidget {
                     }),
 
                     SizedBox(height: 32.h),
-                    Obx(() => AgButton(
-                          label: 'common.save'.tr,
-                          loading: c.isSubmitting.value,
-                          showArrow: false,
-                          onPressed: () async {
-                            final error = await c.save();
-                            if (error == null) {
-                              Get.back();
-                              Get.snackbar('', 'profile.update_success'.tr);
-                            } else {
-                              Get.snackbar('profile.update_failed'.tr, error);
-                            }
-                          },
-                        )),
+                    Obx(
+                      () => AgButton(
+                        label: 'common.save'.tr,
+                        loading: c.isSubmitting.value,
+                        showArrow: false,
+                        onPressed: () async {
+                          final error = await c.save();
+                          if (error == null) {
+                            Get.back();
+                            Get.snackbar('', 'profile.update_success'.tr);
+                          } else {
+                            Get.snackbar('profile.update_failed'.tr, error);
+                          }
+                        },
+                      ),
+                    ),
                     SizedBox(height: 12.h),
                   ],
                 ),

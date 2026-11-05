@@ -39,6 +39,7 @@ dependencies:
   # UI / media / misc
   flutter_svg: ^2.2.0
   lottie: ^3.3.1
+  cached_network_image: ^3.4.1
   fl_chart: ^0.71.0
   image_picker: ^1.1.2
   file_picker: ^10.2.0
@@ -80,6 +81,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/categories/
     - assets/icons/
     - assets/icons/svg/
     - assets/icons/nav_bar/

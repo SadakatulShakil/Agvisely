@@ -1,14 +1,17 @@
-import 'dart:typed_data';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:pdfx/pdfx.dart';
 
-class PinchPdfView extends StatefulWidget {
-  const PinchPdfView({super.key, required this.fetchBytes});
+import '../theme/app_theme_colors.dart';
 
-  /// Fetches the PDF's raw bytes — called once, in [initState].
-  final Future<Uint8List> Function() fetchBytes;
+class PinchPdfView extends StatefulWidget {
+  const PinchPdfView({super.key, required this.url});
+
+  /// Downloaded once, in [initState], tracking progress as it streams in.
+  final String url;
 
   @override
   State<PinchPdfView> createState() => _PinchPdfViewState();
@@ -16,6 +19,10 @@ class PinchPdfView extends StatefulWidget {
 
 class _PinchPdfViewState extends State<PinchPdfView> {
   late final PdfControllerPinch _controller;
+
+  /// 0.0-1.0 download progress, null while the response's total size is
+  /// unknown (no Content-Length header) — the loader then just spins.
+  final ValueNotifier<double?> _downloadProgress = ValueNotifier(null);
 
   /// Below this zoom ratio, [_snapBackIfNeeded] pulls the view back to an
   /// exact fit on release — pdfx's own InteractiveViewer just hard-clamps at
@@ -26,14 +33,37 @@ class _PinchPdfViewState extends State<PinchPdfView> {
   @override
   void initState() {
     super.initState();
-    _controller = PdfControllerPinch(
-      document: PdfDocument.openData(widget.fetchBytes()),
-    );
+    _controller = PdfControllerPinch(document: PdfDocument.openData(_fetchBytes()));
+  }
+
+  Future<Uint8List> _fetchBytes() async {
+    final client = http.Client();
+    try {
+      final response = await client.send(
+        http.Request('GET', Uri.parse(widget.url)),
+      );
+      if (response.statusCode != 200) {
+        throw Exception('menu.pdf_load_failed'.tr);
+      }
+
+      final total = response.contentLength;
+      final bytes = <int>[];
+      await for (final chunk in response.stream) {
+        bytes.addAll(chunk);
+        if (total != null && total > 0) {
+          _downloadProgress.value = bytes.length / total;
+        }
+      }
+      return Uint8List.fromList(bytes);
+    } finally {
+      client.close();
+    }
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _downloadProgress.dispose();
     super.dispose();
   }
 
@@ -69,12 +99,48 @@ class _PinchPdfViewState extends State<PinchPdfView> {
         builders: PdfViewPinchBuilders<DefaultBuilderOptions>(
           options: const DefaultBuilderOptions(),
           documentLoaderBuilder:
-              (_) => const Center(child: CircularProgressIndicator()),
+              (_) => _PdfLoadingIndicator(progress: _downloadProgress),
           pageLoaderBuilder:
               (_) => const Center(child: CircularProgressIndicator()),
           errorBuilder:
               (_, __) => Center(child: Text('menu.pdf_load_failed'.tr)),
         ),
+      ),
+    );
+  }
+}
+
+/// Spinner with the download percentage (once known) just below it.
+class _PdfLoadingIndicator extends StatelessWidget {
+  const _PdfLoadingIndicator({required this.progress});
+
+  final ValueListenable<double?> progress;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ValueListenableBuilder<double?>(
+        valueListenable: progress,
+        builder: (context, value, _) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(value: value),
+              SizedBox(height: 12.h),
+              Text(
+                value == null
+                    ? 'menu.pdf_loading'.tr
+                    : 'menu.pdf_loading_percent'.trParams({
+                      'percent': '${(value * 100).round()}',
+                    }),
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: FigmaColors.neutralSecondary,
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
